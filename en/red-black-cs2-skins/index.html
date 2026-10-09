@@ -284,14 +284,14 @@ html::-webkit-scrollbar-thumb:hover{background:var(--pick)}
 .feed-empty{padding:18px 16px;color:var(--soft);font-size:.86rem}
 .pubwrap{padding:10px 14px;border-top:1px solid var(--line)}
 .pubwrap .hudbtn{width:100%}
-.tabs a[data-route="feed"]{display:none}
+
 .hreflang{display:none}
 @media(max-width:1099px){.tabs a[data-route="feed"]{display:flex}
   body[data-route="feed"] .feed{display:flex;flex-direction:column;position:static;height:auto;min-height:60vh;border-right:0;width:100%;max-width:100%}
   body[data-route="feed"] .feed-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0 14px;padding:0 6px}
   body[data-route="feed"] .fs{animation:none}
   body[data-route="feed"] .main{display:none}body[data-route="feed"] .feed-list{overflow:visible}}
-@media(min-width:1100px){body[data-route="feed"] .main{display:block}}
+
 /* пикер оружия */
 .picker{background:var(--panel);border:1px solid var(--line);padding:14px;margin-bottom:12px;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
 .pk-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;font:600 .85rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase}
@@ -403,6 +403,32 @@ html,body{overflow-x:clip;max-width:100%}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.dlg{position:fixed;inset:0;z-index:60;background:rgba(5,6,8,.72);display:grid;place-items:center;padding:16px}
+.dlg[hidden]{display:none}
+.dlg-in{width:min(420px,100%);background:var(--panel);border:1px solid var(--line2);padding:20px;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.dlg-in b{display:block;font:600 1rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase}
+.dlg-in p{margin:8px 0 12px;color:var(--soft);font-size:.86rem}
+.dlg-in input{width:100%;box-sizing:border-box;height:42px;border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--ink);padding:0 12px;font:500 1rem/1 var(--hud);outline:0}
+.dlg-in input:focus{border-color:var(--pick)}
+.dlg-b{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+.dlg-b .hudbtn{margin:0}
+
+/* страница сетов: сетка на любой ширине */
+body[data-route="feed"] .layout{grid-template-columns:1fr}
+body[data-route="feed"] .main{display:none!important}
+body[data-route="feed"] .feed{display:flex;flex-direction:column;position:static;height:auto;min-height:60vh;border-right:0;width:100%;max-width:100%}
+body[data-route="feed"] .feed-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0 14px;padding:0 6px;overflow:visible;align-content:start;flex:0 0 auto}body[data-route="feed"] .twitch-card{max-width:420px}body[data-route="feed"] .feed>p,body[data-route="feed"] .feed-foot{max-width:420px}
+body[data-route="feed"] .fs{animation:none}
+body[data-route="feed"] .feed-head{flex-wrap:wrap;gap:10px}
+body[data-route="feed"] .pubwrap{max-width:420px}
+.feed-head .sorts{display:none;gap:14px;margin-left:auto}
+body[data-route="feed"] .feed-head .sorts{display:flex}
+.tabs a[data-route="feed"]{display:flex}
+.fs .lk2{display:inline-flex;align-items:center;gap:4px;font:600 .74rem/1 var(--hud);letter-spacing:.04em;color:var(--soft);padding:4px 7px;border:1px solid var(--line2);cursor:pointer;white-space:nowrap}
+.fs .lk2 svg{width:12px;height:12px}
+.fs .lk2:hover{color:var(--ink);border-color:#fff}
+.fs .lk2.on{color:#ff5a7a;border-color:#ff5a7a}
+.fs .lk2.on svg{fill:#ff5a7a}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -451,6 +477,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
   <div class="shade"></div><div class="dust"></div><div class="dust d2"></div><div class="vignette"></div>
 </div>
 
+<div class="dlg" id="nickDlg" hidden><div class="dlg-in"><b>Your nickname</b><p>It will be shown next to your set</p><input id="nickIn" maxlength="24" placeholder="e.g. viv1stop" autocomplete="nickname"><div class="dlg-b"><button class="hudbtn ghost" id="nickCancel">Cancel</button><button class="hudbtn" id="nickOk">Publish</button></div></div></div>
 <div class="app">
 <header class="hud">
   <a class="logo" href="/en/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>
@@ -460,7 +487,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 
 <div class="layout" id="top">
   <aside class="feed" aria-label="Loadout feed">
-    <div class="feed-head"><b id="feedTitle">Player loadouts</b><span id="feedCount"></span></div>
+    <div class="feed-head"><b id="feedTitle">Player loadouts</b><span id="feedCount"></span><span class="sorts" id="feedSort"><button class="tgl on" data-sort="top">Popular</button><button class="tgl" data-sort="new">Newest</button></span></div>
     <div class="feed-list" id="feed"></div>
     <div class="pubwrap"><button class="hudbtn ghost" id="backMine2" style="margin-bottom:8px">← My loadout</button><button class="hudbtn" id="pubBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg><span>Publish my loadout</span></button></div>
     <div class="twitch-card" style="margin:10px 14px 0"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><div><b>Author's stream</b><p>Watch loadouts being built live</p></div><a class="hudbtn" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener">twitch.tv/viv1stop</a></div><div class="feed-note" id="feedNote"></div>
@@ -1253,7 +1280,7 @@ function setCard(doc,{mine=false,name="Player",demo=false,idx=0}={}){
   if(!items.length)return"";
   const thumbs=items.slice(0,4).map(x=>`<div style="--c0:${x.s.colors[0]}">${pic(x.slot,x.s,"t"+(fc++))}</div>`).join("");
   const pal=(doc.colors||[]).map(c=>`<i style="background:${c}"></i>`).join("");
-  return `<button class="fs ${mine?"mine":""}" data-idx="${idx}" style="--c0:${(doc.colors||["#888"])[0]}"><div class="row"><span class="pal">${pal}</span><span class="who">${name}</span><span class="ago">${demo?"demo":ago(doc.createdAt||Date.now())}</span></div><div class="thumbs">${thumbs}</div><div class="nm">${items.map(x=>x.s.skin).join(" · ")}</div></button>`;
+  return `<button class="fs ${mine?"mine":""}" data-idx="${idx}" style="--c0:${(doc.colors||["#888"])[0]}"><div class="row"><span class="pal">${pal}</span><span class="who">${name}</span><span class="ago">${demo?"demo":ago(doc.createdAt||Date.now())}</span>${demo?"":`<span class="lk2 ${LIKED.has(doc._id)?"on":""}" role="button" data-like="${doc._id}" title="Like"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>${doc.likes||0}</span>`}</div><div class="thumbs">${thumbs}</div><div class="nm">${items.map(x=>x.s.skin).join(" · ")}</div></button>`;
 }
 function demoSet(){const p=PRESETS[Math.floor(Math.random()*PRESETS.length)];const T=p.c.map(hexToLab);
   const items=BASE_SLOTS.map(sl=>{const pool=SKINS.filter(s=>s.slot===sl.id).map(s=>({s,d:score(s,T)})).sort((a,b)=>a.d-b.d).slice(0,3);const pick=pool[Math.floor(Math.random()*pool.length)];return pick?{slot:sl.id,i:pick.s.i}:null}).filter(Boolean);
@@ -1262,10 +1289,12 @@ let FEED=[];let dbRef=null,userRef=null,myId=null;
 function demoFeed(){FEED=Array.from({length:10},()=>({...demoSet(),_demo:true,_name:NICK[Math.floor(Math.random()*NICK.length)]}));
   $("#feedTitle").textContent="Example loadouts";$("#feedCount").textContent="demo";$("#feedNote").textContent="These are examples from the database. Publish your loadout and everyone who opens the page will see it here.";drawFeed()}
 async function drawFeed(){
-  let names={};if(userRef){try{names=await userRef.profiles(FEED.map(f=>f.authorId).filter(Boolean))}catch(e){}}
-  feedEl.innerHTML=FEED.map((f,idx)=>setCard(f,{idx,mine:myId&&f.authorId===myId,name:f._demo?f._name:((names[f.authorId]&&names[f.authorId].name)||"Player"),demo:!!f._demo})).join("")||`<div class="feed-empty">Empty for now. Build a loadout and hit “Publish” — it will show up here first.</div>`;
+  feedEl.innerHTML=FEED.map((f,idx)=>setCard(f,{idx,mine:!!(f._id&&MY_IDS.has(f._id)),name:f._demo?f._name:(cleanName(f.name)||"Player"),demo:!!f._demo})).join("");
 }
-feedEl.addEventListener("click",e=>{const b=e.target.closest("[data-idx]");if(!b)return;const f=FEED[+b.dataset.idx];if(!f)return;
+feedEl.addEventListener("click",async e=>{const lk=e.target.closest("[data-like]");if(lk){e.stopPropagation();const id=lk.dataset.like;if(LIKED.has(id)){toast("Already liked");return}
+    LIKED.add(id);try{localStorage.setItem("skinset_liked",JSON.stringify([...LIKED].slice(-500)))}catch(x){}const f=REAL.find(x=>x._id===id);if(f)f.likes=(f.likes||0)+1;lk.classList.add("on");lk.lastChild.textContent=f?f.likes:"";
+    try{await fbLike(id)}catch(x){console.warn(x)}return}
+  const b=e.target.closest("[data-idx]");if(!b)return;const f=FEED[+b.dataset.idx];if(!f)return;
   feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");
   if(VIEWING==null)MINE=JSON.parse(JSON.stringify({colors:state.colors,preset:state.preset,budget:state.budget,budgetRub:state.budgetRub,premium:state.premium,locked:state.locked,extra:state.extra,sel:state.sel,offset:state.offset}));
   VIEWING=f;
@@ -1280,31 +1309,52 @@ document.querySelector(".logo").addEventListener("click",e=>{
   if(VIEWING){e.preventDefault();backToMine();if(document.body.dataset.route!=="home"){const home=document.querySelector(".logo").getAttribute("href");if(home&&home!=="#/")location.href=home;else location.hash="#/"}window.scrollTo({top:0,behavior:"smooth"})}
   else if(document.body.dataset.route==="home"){e.preventDefault();window.scrollTo({top:0,behavior:"smooth"})}
 });
-async function publishSet(){
-  if(!dbRef){toast("Publishing works on the live site");return}
+/* лента сетов: Firebase Firestore (REST) */
+const FB_KEY="AIzaSyBCA4TCgmc4PD_lOarkvOHtf1f27_mSr6E",FB_URL="https://firestore.googleapis.com/v1/projects/skinset-e5ac2/databases/(default)/documents/sets";
+const fv=v=>Array.isArray(v)?{arrayValue:{values:v.map(fv)}}:typeof v==="number"?(Number.isInteger(v)?{integerValue:String(v)}:{doubleValue:v}):typeof v==="string"?{stringValue:v}:typeof v==="boolean"?{booleanValue:v}:{mapValue:{fields:Object.fromEntries(Object.entries(v).map(([k,x])=>[k,fv(x)]))}};
+const fr=v=>!v?null:"stringValue"in v?v.stringValue:"integerValue"in v?+v.integerValue:"doubleValue"in v?v.doubleValue:"booleanValue"in v?v.booleanValue:"arrayValue"in v?(v.arrayValue.values||[]).map(fr):"mapValue"in v?Object.fromEntries(Object.entries(v.mapValue.fields||{}).map(([k,x])=>[k,fr(x)])):null;
+async function fbList(order){const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);const j=await r.json();return (j.documents||[]).map(d=>({...fr({mapValue:{fields:d.fields}}),_id:d.name.split("/").pop()}))}
+async function fbAdd(doc){const r=await fetch(FB_URL+"?key="+FB_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields:fv(doc).mapValue.fields})});if(!r.ok)throw new Error("fb "+r.status);return r.json()}
+async function fbLike(id){const doc=FB_URL.replace(/^https:\/\/firestore\.googleapis\.com\/v1\//,"")+"/"+id;const r=await fetch(FB_URL.replace(/\/documents\/sets$/,"/documents:commit")+"?key="+FB_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({writes:[{transform:{document:doc,fieldTransforms:[{fieldPath:"likes",increment:{integerValue:"1"}}]}}]})});if(!r.ok)throw new Error("fb "+r.status);return r.json()}
+const LIKED=new Set(JSON.parse((()=>{try{return localStorage.getItem("skinset_liked")}catch(e){return null}})()||"[]"));
+let FEED_SORT="top";
+let REAL=[];const MY_IDS=new Set(JSON.parse((()=>{try{return localStorage.getItem("skinset_my")}catch(e){return null}})()||"[]"));
+function cleanName(n){return String(n||"").replace(/[<>]/g,"").trim().slice(0,24)}
+function publishSet(){
   const items=active().map(sl=>{const c=current(sl.id);return c?{slot:sl.id,i:c.s.i}:null}).filter(Boolean);
-  if(!items.length){toast("Build a loadout first");return}
+  if(!items.length){toast("Build a set first");return}
+  let last=0;try{last=+localStorage.getItem("skinset_pub")||0}catch(e){}
+  if(Date.now()-last<60000){toast("Wait a minute before publishing again");return}
+  let nick="";try{nick=localStorage.getItem("skinset_nick")||""}catch(e){}
+  $("#nickIn").value=nick;$("#nickDlg").hidden=false;setTimeout(()=>$("#nickIn").focus(),50);
+}
+async function doPublish(){
+  const name=cleanName($("#nickIn").value)||"Player";try{localStorage.setItem("skinset_nick",name)}catch(e){}
+  $("#nickDlg").hidden=true;
+  const items=active().map(sl=>{const c=current(sl.id);return c?{slot:sl.id,i:c.s.i}:null}).filter(Boolean).slice(0,24);
+  const doc={name,colors:state.colors.slice(0,2),preset:(state.preset>=0?PRESETS[state.preset].name:"custom").slice(0,40),items,createdAt:Date.now(),likes:0};
   const btns=[$("#pubBtn"),$("#pubBtn2")];btns.forEach(b=>b&&(b.disabled=true));
-  try{await dbRef.collection("sets").add({colors:state.colors,preset:state.preset>=0?PRESETS[state.preset].name:"Custom color",items,authorId:myId||"",createdAt:Date.now()});toast("Loadout published")}
-  catch(e){toast(e&&e.code==="invalid_argument"?"No permission to publish":"Could not publish")}
+  try{const r=await fbAdd(doc);const id=(r.name||"").split("/").pop();MY_IDS.add(id);try{localStorage.setItem("skinset_my",JSON.stringify([...MY_IDS].slice(-50)));localStorage.setItem("skinset_pub",String(Date.now()))}catch(e){}
+    REAL.unshift({...doc,_id:id});applyFeed();toast("Set published");feedEl.scrollTop=0}
+  catch(e){console.warn(e);toast("Couldn't publish, try again later")}
   finally{btns.forEach(b=>b&&(b.disabled=false))}
 }
+$("#feedSort").addEventListener("click",e=>{const b=e.target.closest("[data-sort]");if(!b)return;FEED_SORT=b.dataset.sort;document.querySelectorAll("#feedSort .tgl").forEach(x=>x.classList.toggle("on",x===b));applyFeed()});
 $("#pubBtn").addEventListener("click",publishSet);$("#pubBtn2").addEventListener("click",publishSet);
+$("#nickOk").addEventListener("click",doPublish);$("#nickCancel").addEventListener("click",()=>{$("#nickDlg").hidden=true});
+$("#nickIn").addEventListener("keydown",e=>{if(e.key==="Enter")doPublish();if(e.key==="Escape")$("#nickDlg").hidden=true});
+$("#nickDlg").addEventListener("click",e=>{if(e.target.id==="nickDlg")$("#nickDlg").hidden=true});
+function applyFeed(){
+  if(document.body.dataset.route==="feed"&&FEED_SORT==="top")REAL.sort((a,b)=>((b.likes||0)-(a.likes||0))||((b.createdAt||0)-(a.createdAt||0)));else REAL.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const demo=Array.from({length:Math.max(0,8-REAL.length)},()=>({...demoSet(),_demo:true,_name:NICK[Math.floor(Math.random()*NICK.length)]}));
+  FEED=[...REAL,...demo];
+  $("#feedTitle").textContent="Player sets";$("#feedCount").textContent=REAL.length;
+  $("#feedNote").textContent=REAL.length?"Click a set to load it into the builder. Examples below.":"Nobody has published yet — be the first. Examples below.";drawFeed();
+}
 async function initFeed(){
   demoFeed();
-  if(typeof claude==="undefined"||!claude.use)return;
-  try{
-    const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
-    if(!db){return}
-    dbRef=db;userRef=user;try{myId=user?await user.id():null}catch(e){}
-    let canWrite=null;try{canWrite=user?await user.can("data.write"):null}catch(e){}
-    if(canWrite===false){[$("#pubBtn"),$("#pubBtn2")].forEach(b=>b&&(b.style.display="none"))}
-    db.collection("sets").orderBy("createdAt","desc").limit(40).onSnapshot(snap=>{
-      const docs=[];snap.forEach?snap.forEach(d=>docs.push({...d.data(),_id:d.id})):(snap.docs||[]).forEach(d=>docs.push({...d.data(),_id:d.id}));
-      if(docs.length){FEED=docs;$("#feedTitle").textContent="Player loadouts";$("#feedCount").textContent=docs.length;$("#feedNote").textContent="Click a loadout to open it in the builder.";drawFeed()}
-      else{$("#feedTitle").textContent="Player loadouts";$("#feedCount").textContent="0";$("#feedNote").textContent="Nobody has published yet. Be the first.";FEED=[];drawFeed()}
-    },err=>{console.warn("feed",err)});
-  }catch(e){console.warn("db",e)}
+  try{REAL=await fbList();if(document.body.dataset.route==="feed"){try{const top=await fbList("likes");const ids=new Set(REAL.map(x=>x._id));top.forEach(x=>{if(!ids.has(x._id))REAL.push(x)})}catch(e){}}applyFeed()}catch(e){console.warn("feed",e);$("#feedNote").textContent="Feed unavailable, showing examples"}
+  setInterval(async()=>{try{const d=await fbList();const m=new Map(d.map(x=>[x._id,x]));REAL=REAL.map(x=>m.get(x._id)||x);d.forEach(x=>{if(!REAL.find(y=>y._id===x._id))REAL.push(x)});applyFeed()}catch(e){}},90000);
 }
 initFeed();showViewing();
 render();loadImages();

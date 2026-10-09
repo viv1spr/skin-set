@@ -1264,7 +1264,7 @@ async function shotSet(){
   finally{btn.disabled=false}
 }
 $("#shotBtn").addEventListener("click",shotSet);
-const reroll=()=>{for(const s of active()){if(state.locked[s.id]!=null)continue;const n=candidates(s.id).length;if(n>1)state.offset[s.id]=Math.floor(Math.random()*Math.min(4,n))}render()};
+const reroll=()=>{if(active().every(s=>state.locked[s.id]!=null)){state.locked={};VIEWING=null;showViewing();toast("Alle Gegenstände waren fixiert — Fixierungen aufgehoben")}for(const s of active()){if(state.locked[s.id]!=null)continue;const prev=state.offset[s.id]||0;const n=candidates(s.id).length;if(n>1){let o=prev;while(o===prev)o=Math.floor(Math.random()*Math.min(5,n));state.offset[s.id]=o}}render();flashCards()};
 $("#reroll").addEventListener("click",reroll);$("#reroll2").addEventListener("click",reroll);
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
 async function copySet(){const text="Mein farblich abgestimmtes CS2-Loadout:\n"+(state._names||[]).join("\n");

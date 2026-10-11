@@ -161,7 +161,7 @@ body[data-route="how"] .main,body[data-route="shops"] .main{background:linear-gr
 
 .info{background:var(--panel);border:1px solid var(--line);padding:18px;position:relative;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
 .info .slotname{font:500 .78rem/1 var(--hud);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
-.info h1{margin:6px 0 2px;font:600 1.9rem/1.05 var(--hud);letter-spacing:.02em;text-transform:uppercase}
+.info h1,.info .h1{margin:6px 0 2px;font:600 1.9rem/1.05 var(--hud);letter-spacing:.02em;text-transform:uppercase}
 .info .wp{color:var(--soft);font-size:.95rem}
 .bar{height:4px;margin:14px 0;background:linear-gradient(90deg,var(--c0),var(--c1,var(--c0)))}
 .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
@@ -383,7 +383,7 @@ html,body{overflow-x:clip;max-width:100%}
 /* вступление */
 .intro{position:relative;display:grid;grid-template-columns:1fr;gap:14px;padding:22px 20px 18px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,color-mix(in srgb,var(--pick) 22%,rgba(10,11,13,.75)),rgba(10,11,13,.55))}
 @media(min-width:900px){.intro{grid-template-columns:1.1fr 1fr;padding:24px 28px 20px;gap:28px;align-items:center}}
-.intro h1{margin:0 0 6px;padding-right:110px;font:600 clamp(1.3rem,2.4vw,1.9rem)/1.1 var(--hud);letter-spacing:.04em;text-transform:uppercase}
+.intro h1,.intro .hero-h{margin:0 0 6px;padding-right:110px;font:600 clamp(1.3rem,2.4vw,1.9rem)/1.1 var(--hud);letter-spacing:.04em;text-transform:uppercase}
 .intro p{margin:0;color:var(--soft);font-size:.95rem;max-width:56ch}
 .intro-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .intro-steps li{display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--ink);background:rgba(255,255,255,.04);border:1px solid var(--line);padding:8px 10px}
@@ -391,7 +391,7 @@ html,body{overflow-x:clip;max-width:100%}
 .intro-close{position:absolute;top:8px;right:10px;background:transparent;border:0;color:var(--dim);font:500 .72rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:6px 8px}
 .intro-close:hover{color:var(--ink)}
 .intro[hidden]{display:none}
-@media(max-width:700px){.intro h1{padding-right:0}.intro{padding:44px 14px 14px}.intro-close{top:8px;right:8px;background:rgba(255,255,255,.07);color:var(--soft);border:1px solid var(--line)}.intro-steps{grid-template-columns:1fr}.intro-steps li{font-size:.82rem;padding:7px 9px}.intro p{font-size:.88rem}}
+@media(max-width:700px){.intro h1,.intro .hero-h{padding-right:0}.intro{padding:44px 14px 14px}.intro-close{top:8px;right:8px;background:rgba(255,255,255,.07);color:var(--soft);border:1px solid var(--line)}.intro-steps{grid-template-columns:1fr}.intro-steps li{font-size:.82rem;padding:7px 9px}.intro p{font-size:.88rem}}
 /* dock */
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:15;padding:0 12px calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none;display:flex;justify-content:center}
 .dock-in{pointer-events:auto;display:flex;align-items:center;gap:10px;padding:8px 8px 8px 16px;background:rgba(10,11,13,.96);border:1px solid var(--line2);
@@ -497,7 +497,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
     <div class="page" data-page="home">
     <section class="intro" id="intro">
       <div class="intro-text">
-        <h1>Baue ein CS2-Loadout in einer Farbe</h1>
+        <h2>Baue ein CS2-Loadout in einer Farbe</h2>
         <p>Wähle Farbe und Budget — die Seite stellt Messer, Handschuhe und Waffen zusammen, die wie ein Set wirken, und zeigt, wo du sie kaufst.</p>
       </div>
       <ol class="intro-steps">
@@ -590,7 +590,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 
     <div class="page doc" data-page="shops">
       <div class="eyebrow">Seite 03</div>
-      <h1>Wo kaufen</h1>
+      <h2>Wo kaufen</h2>
       <p class="lead">Die Buttons führen zu zwei Marktplätzen. Es sind Affiliate-Links: Kaufst du darüber, erhält Skinset eine Provision — dein Preis bleibt gleich.</p>
       <div class="markets" id="markets"></div>
       <div class="tablewrap"><table class="cmp">
@@ -1107,6 +1107,7 @@ const tierFor=rub=>rub==null||rub===""||isNaN(rub)?5:rub<=0?0:rub<=300?1:rub<=30
 const state={...DEF,offset:{},locked:{},sel:"ak",extra:[],hidden:[]};let MINE=null,VIEWING=null;
 try{const sv=JSON.parse(localStorage.getItem("skinset7")||"null");if(sv){Object.assign(state,sv);state.offset={}}}catch(e){}
 if(typeof window.PAGE_PRESET==="number"){state.preset=window.PAGE_PRESET;state.colors=[...PRESETS[state.preset].c];state.locked={};state.offset={}}
+{const qb=new URLSearchParams(location.search).get("budget");const pb=qb!=null?+qb:(typeof window.PAGE_BUDGET==="number"?window.PAGE_BUDGET:null);if(pb!=null&&!isNaN(pb)){state.budgetRub=pb;state.budget=tierFor(pb);state.locked={};state.offset={}}}
 function save(){try{localStorage.setItem("skinset7",JSON.stringify({colors:state.colors,budget:state.budget,budgetRub:state.budgetRub,premium:state.premium,preset:state.preset,locked:state.locked,sel:state.sel,extra:state.extra,hidden:state.hidden}))}catch(e){}}
 const $=s=>document.querySelector(s);
 const fitText=d=>d<18?"Volltreffer":d<32?"Sehr gut":d<50?"Passend":"Am nächsten";
@@ -1164,13 +1165,13 @@ function render(){
   if(c){const s=c.s,locked=state.locked[slot.id]!=null;
     ha.style.setProperty("--c0",s.colors[0]);
     $("#bigArt").innerHTML=pic(slot,s,"big"+s.i);$("#reflArt").innerHTML=pic(slot,s,"ref"+s.i);
-    $("#info").innerHTML=`<div class="slotname">${slot.label} · Slot ${act.indexOf(slot)+1} von ${act.length}</div><h1>${s.skin}</h1><div class="wp">${s.weapon}</div>
+    $("#info").innerHTML=`<div class="slotname">${slot.label} · Slot ${act.indexOf(slot)+1} von ${act.length}</div><p class="h1">${s.skin}</p><div class="wp">${s.weapon}</div>
       <div class="bar" style="--c0:${s.colors[0]};--c1:${s.colors[1]||s.colors[0]}"></div>
       <div class="kv"><div><small>Preis</small><b>${TIER[s.tier]}</b></div><div><small>Treffer</small><b class="${c.d<32?"good":""}">${fitText(c.d)}</b></div></div>
       <div class="buy">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener sponsored" href="${sh.url(query(s))}">${mark(sh.id,sh.label.slice(0,2).toUpperCase())}<span class="tx"><small>Kaufen bei</small><b>${sh.label}</b></span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>`).join("")}</div>
       <div class="acts"><button id="altBtn" ${locked?"disabled":""}>${ICON.next}Anderer</button><button id="lockBtn" aria-pressed="${locked}">${ICON.lock}${locked?"Fixiert":"Fixieren"}</button></div>`;
   }else{ha.style.setProperty("--c0","#555");$("#bigArt").innerHTML=art(slot.shape,["#666","#444"],"bige",0);$("#reflArt").innerHTML="";
-    $("#info").innerHTML=`<div class="slotname">${slot.label}</div><h1>Keine Optionen</h1><div class="wp">In diesem Budget ${slot.label.toLowerCase()} nicht zu finden. Erhöhe das Limit.</div>`}
+    $("#info").innerHTML=`<div class="slotname">${slot.label}</div><p class="h1">Keine Optionen</p><div class="wp">In diesem Budget ${slot.label.toLowerCase()} nicht zu finden. Erhöhe das Limit.</div>`}
   save();
 }
 /* контролы */
@@ -1394,7 +1395,7 @@ $("#introClose").addEventListener("click",()=>{$("#intro").hidden=true;try{local
 /* ===== маршруты (страницы) ===== */
 function route(){
   const P={"/de/so-funktionierts/": "how", "/de/wo-kaufen/": "shops", "/de/loadouts/": "feed"};const h=P[location.pathname.replace(/index\.html$/,"")]||(window.PAGE_ROUTE||"home");const r=["how","shops","feed"].includes(h)?h:"home";
-  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number")document.title={home:"Skinset — CS2-Skins nach Farbe: passendes Loadout bauen",how:"So funktioniert der Farbabgleich — Skinset",shops:"Wo du die CS2-Skins deines Loadouts kaufst: DMarket & Lis-Skins — Skinset",feed:"Loadouts der Spieler — Skinset"}[r];
+  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number")document.title={home:"Skinset — CS2-Skins nach Farbe: passendes Loadout bauen",how:"So funktioniert der Farbabgleich — Skinset",shops:"Wo du die CS2-Skins deines Loadouts kaufst: DMarket & Lis-Skins — Skinset",feed:"Loadouts der Spieler — Skinset"}[r];
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===r));
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.route===r));
   window.scrollTo({top:0,behavior:"instant"});

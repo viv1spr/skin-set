@@ -1416,7 +1416,7 @@ $("#introClose").addEventListener("click",()=>{$("#intro").hidden=true;try{local
 /* ===== маршруты (страницы) ===== */
 function route(){
   const P={"/de/so-funktionierts/": "how", "/de/wo-kaufen/": "shops", "/de/loadouts/": "feed"};const h=P[location.pathname.replace(/index\.html$/,"")]||(window.PAGE_ROUTE||"home");const r=["how","shops","feed"].includes(h)?h:"home";
-  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number")document.title={home:"Skinset — CS2-Skins nach Farbe: passendes Loadout bauen",how:"So funktioniert der Farbabgleich — Skinset",shops:"Wo du die CS2-Skins deines Loadouts kaufst: DMarket & Lis-Skins — Skinset",feed:"Loadouts der Spieler — Skinset"}[r];
+  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number"&&!window.PAGE_TITLE_LOCK)document.title={home:"Skinset — CS2-Skins nach Farbe: passendes Loadout bauen",how:"So funktioniert der Farbabgleich — Skinset",shops:"Wo du die CS2-Skins deines Loadouts kaufst: DMarket & Lis-Skins — Skinset",feed:"Loadouts der Spieler — Skinset"}[r];
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===r));
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.route===r));
   window.scrollTo({top:0,behavior:"instant"});

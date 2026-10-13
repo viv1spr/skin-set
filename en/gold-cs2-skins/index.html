@@ -584,7 +584,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
         <h3>Where to buy the skins</h3>
         <p>Every item has “Buy on DMarket” and “Buy on Lis-Skins” buttons. The link opens the marketplace search for that skin, with current price, wear and float. Skinset doesn't sell skins and has nothing to do with case sites: only established fixed-price marketplaces.</p>
         <h3>Popular CS2 color loadouts</h3>
-        <ul class="seo-links" id="seoLinks"><li><a href="/en/red-black-cs2-skins/">Red & black CS2 loadout</a></li><li><a href="/en/blue-cs2-skins/">Blue CS2 skins in one loadout</a></li><li><a href="/en/pink-cs2-skins/">Pink CS2 loadout</a></li><li><a href="/en/purple-cs2-skins/">Purple CS2 skins</a></li><li><a href="/en/green-cs2-skins/">Green CS2 loadout</a></li><li><a href="/en/gold-cs2-skins/">Gold CS2 loadout</a></li><li><a href="/en/orange-cs2-skins/">Orange & white Asiimov loadout</a></li><li><a href="/en/teal-cs2-skins/">Teal CS2 skins</a></li><li><a href="/en/black-white-cs2-skins/">Black & white CS2 loadout</a></li></ul>
+        <ul class="seo-links" id="seoLinks"><li><a href="/en/cs2-skin-sets-by-color/"><b>All CS2 skin sets by color</b></a></li><li><a href="/en/red-black-cs2-skins/">Red & black CS2 loadout</a></li><li><a href="/en/blue-cs2-skins/">Blue CS2 skins in one loadout</a></li><li><a href="/en/pink-cs2-skins/">Pink CS2 loadout</a></li><li><a href="/en/purple-cs2-skins/">Purple CS2 skins</a></li><li><a href="/en/green-cs2-skins/">Green CS2 loadout</a></li><li><a href="/en/gold-cs2-skins/">Gold CS2 loadout</a></li><li><a href="/en/orange-cs2-skins/">Orange & white Asiimov loadout</a></li><li><a href="/en/teal-cs2-skins/">Teal CS2 skins</a></li><li><a href="/en/black-white-cs2-skins/">Black & white CS2 loadout</a></li></ul>
       </div>
     </section>
     </div><!-- /home -->
@@ -1416,7 +1416,7 @@ $("#introClose").addEventListener("click",()=>{$("#intro").hidden=true;try{local
 /* ===== маршруты (страницы) ===== */
 function route(){
   const P={"/en/how-it-works/": "how", "/en/where-to-buy/": "shops", "/en/loadouts/": "feed"};const h=P[location.pathname.replace(/index\.html$/,"")]||(window.PAGE_ROUTE||"home");const r=["how","shops","feed"].includes(h)?h:"home";
-  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number")document.title={home:"Skinset — CS2 skins by color: build a matching loadout",how:"How color matching works — Skinset",shops:"Where to buy CS2 skins from your loadout: DMarket & Lis-Skins — Skinset",feed:"Player loadouts — Skinset"}[r];
+  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number"&&!window.PAGE_TITLE_LOCK)document.title={home:"Skinset — CS2 skins by color: build a matching loadout",how:"How color matching works — Skinset",shops:"Where to buy CS2 skins from your loadout: DMarket & Lis-Skins — Skinset",feed:"Player loadouts — Skinset"}[r];
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===r));
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.route===r));
   window.scrollTo({top:0,behavior:"instant"});

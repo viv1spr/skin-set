@@ -564,7 +564,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
         <p>Под каждым предметом есть кнопки «Купить на DMarket» и «Купить на Lis-Skins». Ссылка ведёт на поиск нужного скина на площадке, где видно актуальную цену, износ и float. Skinset не продаёт скины сам и не связан с сайтами кейсов: только проверенные маркетплейсы с фиксированной ценой.</p>
         <h3>Популярные цветовые сеты CS2</h3>
         <p class="seo-budgets"><b>Готовые сеты под бюджет:</b> <a href="/inventar-cs2-za-1000-rubley/">Инвентарь за 1 000 ₽</a> · <a href="/inventar-cs2-za-3000-rubley/">Инвентарь за 3 000 ₽</a> · <a href="/inventar-cs2-za-10000-rubley/">Инвентарь за 10 000 ₽</a> · <a href="/inventar-cs2-za-30000-rubley/">Инвентарь за 30 000 ₽</a></p>
-        <ul class="seo-links" id="seoLinks"><li><a href="/krasnye-skiny-cs2/">Красно-чёрный инвентарь CS2</a></li><li><a href="/sinie-skiny-cs2/">Синие скины CS2 в одном сете</a></li><li><a href="/rozovye-skiny-cs2/">Розовый инвентарь CS2</a></li><li><a href="/fioletovye-skiny-cs2/">Фиолетовые скины CS2</a></li><li><a href="/zelenye-skiny-cs2/">Зелёный инвентарь CS2</a></li><li><a href="/zolotye-skiny-cs2/">Золотой инвентарь CS2</a></li><li><a href="/oranzhevye-skiny-cs2/">Оранжево-белый сет CS2</a></li><li><a href="/biryuzovye-skiny-cs2/">Бирюзовые скины CS2</a></li><li><a href="/cherno-belye-skiny-cs2/">Чёрно-белый инвентарь CS2</a></li></ul>
+        <ul class="seo-links" id="seoLinks"><li><a href="/cvetovye-sety-skinov-cs2/"><b>Все цветовые сеты скинов CS2</b></a></li><li><a href="/krasnye-skiny-cs2/">Красно-чёрный инвентарь CS2</a></li><li><a href="/sinie-skiny-cs2/">Синие скины CS2 в одном сете</a></li><li><a href="/rozovye-skiny-cs2/">Розовый инвентарь CS2</a></li><li><a href="/fioletovye-skiny-cs2/">Фиолетовые скины CS2</a></li><li><a href="/zelenye-skiny-cs2/">Зелёный инвентарь CS2</a></li><li><a href="/zolotye-skiny-cs2/">Золотой инвентарь CS2</a></li><li><a href="/oranzhevye-skiny-cs2/">Оранжево-белый сет CS2</a></li><li><a href="/biryuzovye-skiny-cs2/">Бирюзовые скины CS2</a></li><li><a href="/cherno-belye-skiny-cs2/">Чёрно-белый инвентарь CS2</a></li></ul>
       </div>
     </section>
     </div><!-- /home -->
@@ -1406,7 +1406,7 @@ $("#introClose").addEventListener("click",()=>{$("#intro").hidden=true;try{local
 /* ===== маршруты (страницы) ===== */
 function route(){
   const P={"/kak-rabotaet/": "how", "/gde-kupit/": "shops", "/sety/": "feed"};const h=P[location.pathname.replace(/index\.html$/,"")]||(window.PAGE_ROUTE||"home");const r=["how","shops","feed"].includes(h)?h:"home";
-  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number")document.title={home:"Skinset — подбор скинов CS2 по цвету: собери инвентарь в одной гамме",how:"Как работает подбор скинов по цвету — Skinset",shops:"Где купить скины CS2 из сета: DMarket и Lis-Skins — Skinset",feed:"Сеты игроков — Skinset"}[r];
+  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number"&&!window.PAGE_TITLE_LOCK)document.title={home:"Skinset — подбор скинов CS2 по цвету: собери инвентарь в одной гамме",how:"Как работает подбор скинов по цвету — Skinset",shops:"Где купить скины CS2 из сета: DMarket и Lis-Skins — Skinset",feed:"Сеты игроков — Skinset"}[r];
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===r));
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.route===r));
   window.scrollTo({top:0,behavior:"instant"});

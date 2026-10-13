@@ -1416,7 +1416,7 @@ $("#introClose").addEventListener("click",()=>{$("#intro").hidden=true;try{local
 /* ===== маршруты (страницы) ===== */
 function route(){
   const P={"/pt/como-funciona/": "how", "/pt/onde-comprar/": "shops", "/pt/sets/": "feed"};const h=P[location.pathname.replace(/index\.html$/,"")]||(window.PAGE_ROUTE||"home");const r=["how","shops","feed"].includes(h)?h:"home";
-  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number")document.title={home:"Skinset — skins de CS2 por cor: monte um inventário combinando",how:"Como funciona a combinação de cores — Skinset",shops:"Onde comprar as skins do seu set: DMarket e Lis-Skins — Skinset",feed:"Sets dos jogadores — Skinset"}[r];
+  document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number"&&!window.PAGE_TITLE_LOCK)document.title={home:"Skinset — skins de CS2 por cor: monte um inventário combinando",how:"Como funciona a combinação de cores — Skinset",shops:"Onde comprar as skins do seu set: DMarket e Lis-Skins — Skinset",feed:"Sets dos jogadores — Skinset"}[r];
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===r));
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.route===r));
   window.scrollTo({top:0,behavior:"instant"});

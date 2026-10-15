@@ -1,5 +1,5 @@
 // Node: node admin/build.js  — rebuilds blog pages, index, rss, sitemap from blog/posts.json
-const fs=require("fs"),path=require("path");const E=require("./engine.js");
+const fs=require("fs"),path=require("path");const E=require("./engine.js");E.setSkins(JSON.parse(fs.readFileSync(path.join(__dirname,"skins-min.json"),"utf8")));
 const root=path.join(__dirname,"..");const posts=JSON.parse(fs.readFileSync(path.join(root,"blog/posts.json"),"utf8"));
 const tpl=fs.readFileSync(path.join(root,"blog/_template.html"),"utf8"),itpl=fs.readFileSync(path.join(root,"blog/_index_template.html"),"utf8");
 for(const p of posts){const d=path.join(root,"blog",p.slug);if(p.draft){if(fs.existsSync(d))fs.rmSync(d,{recursive:true});continue}fs.mkdirSync(d,{recursive:true});fs.writeFileSync(path.join(d,"index.html"),E.buildPost(tpl,p,posts))}

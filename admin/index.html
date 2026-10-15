@@ -68,7 +68,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
 <body>
 <header class="top">
   <a class="logo" href="/"><svg viewBox="0 0 32 32"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset · админка</a>
-  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Новый пост</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="help">Справка</button></nav>
+  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="help">Справка</button></nav>
   <div class="st"><span class="dot" id="ghDot"></span><span id="ghSt">GitHub</span><button class="btn ghost" id="tokenBtn" style="padding:6px 10px">Токен</button></div>
 </header>
 <main>
@@ -96,6 +96,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
           <div class="f"><label>Бюджет, ₽ (необязательно)</label><input id="pBudget" type="number" placeholder="10000"></div>
           <div class="f"><label>SEO title (если отличается)</label><input id="pSeoTitle" placeholder="авто: заголовок — Skinset"></div>
         </div>
+        <div class="grid g2"><div class="f"><label>Обложка — название скина (авто: первый скин из текста)</label><input id="pCoverSkin" list="skinList" placeholder="AK-47 | Redline"></div><div class="f"><label>Или свой URL картинки</label><input id="pCover" placeholder="https://..."></div></div>
         <div class="f"><label><input type="checkbox" id="pDraft" style="width:auto;margin-right:6px">Черновик (не показывать на сайте)</label></div>
       </div>
       <div class="card">
@@ -103,8 +104,11 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
         <div class="chips" style="margin-bottom:8px">
           <button data-ins="## ">Заголовок</button><button data-ins="**жирный**">Жирный</button><button data-ins="- ">Список</button><button data-ins="[текст](https://)">Ссылка</button><button data-ins="![описание](https://адрес-картинки.png)">Картинка</button><button data-ins="> ">Цитата</button><button data-ins='[cta color=0 budget=10000 text="Собери красный сет за 10 000 ₽"]'>Кнопка «собрать сет»</button><button data-ins="| Предмет | Цена |\n|---|---|\n| AK-47 Redline | 300–3000 ₽ |">Таблица</button>
         </div>
+        <div class="row" style="margin-bottom:8px"><input id="skinQ" list="skinList" placeholder="Вставить картинку скина: начни печатать название (AK-47 | Redline)…" style="flex:1;min-width:240px"><button class="btn ghost" id="skinOne" type="button">Одна картинка</button><button class="btn ghost" id="skinAdd" type="button">+ в группу</button><button class="btn ghost" id="skinGroup" type="button" hidden>Вставить группу (<span id="skinN">0</span>)</button></div>
+        <div class="row" style="margin-bottom:8px"><input type="file" id="imgFile" accept="image/*" style="flex:1;min-width:240px"><button class="btn ghost" id="imgUp" type="button">Загрузить своё фото и вставить</button><span class="hint" id="imgHint">PNG/JPG до 5 МБ — скриншоты из игры, баннеры</span></div>
+        <datalist id="skinList"></datalist>
         <textarea id="pMd" class="md" placeholder="## Подзаголовок&#10;&#10;Абзац текста. **Жирный**, [ссылка](https://...).&#10;&#10;- пункт&#10;- пункт&#10;&#10;[cta color=0 budget=10000 text=&quot;Собери красный сет за 10 000 ₽&quot;]"></textarea>
-        <div class="hint">Заголовки: ## и ###. Кнопка сета: [cta color=0..8 budget=... text="..."]. Цвета: 0 красный, 1 синий, 2 розовый, 3 фиолетовый, 4 зелёный, 5 золото, 6 оранжевый, 7 бирюза, 8 чёрно-белый.</div>
+        <div class="hint">Заголовки: ## и ###. Кнопка сета: [cta color=0..8 budget=... text="..."]. Картинки скинов: поле выше — найди скин и вставь одну картинку или группу. Цвета: 0 красный, 1 синий, 2 розовый, 3 фиолетовый, 4 зелёный, 5 золото, 6 оранжевый, 7 бирюза, 8 чёрно-белый.</div>
       </div>
       <div class="row"><button class="btn" id="publishBtn">Опубликовать</button><button class="btn ghost" id="previewBtn">Обновить предпросмотр</button><button class="btn ghost danger" id="deleteBtn" hidden>Удалить пост</button><span class="hint" id="editHint"></span></div>
     </div>
@@ -171,7 +175,9 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
 | Предмет | Цена |
 |---|---|
 | AK-47 Redline | 300–3000 ₽ |
-[cta color=3 budget=10000 text="Собери фиолетовый сет за 10 000 ₽" btn="Открыть конструктор"]</pre>
+[cta color=3 budget=10000 text="Собери фиолетовый сет за 10 000 ₽" btn="Открыть конструктор"]
+[skin name="AK-47 | Redline" caption="подпись"]
+[skins names="AK-47 | Redline;M4A4 | Evil Daimyo;AWP | Redline"]</pre>
   </div>
 </section>
 </main>
@@ -218,23 +224,27 @@ async function commitFiles(files,message){
   await gh("/git/refs/heads/"+BRANCH,{method:"PATCH",body:JSON.stringify({sha:c.sha,force:false})});return c.sha}
 /* ---- posts ---- */
 let POSTS=[],TPL=null,ITPL=null,CUR=null;
-async function loadTemplates(){if(!TPL){TPL=await getFile("blog/_template.html");ITPL=await getFile("blog/_index_template.html")}if(!TPL||!ITPL)throw new Error("шаблоны блога не найдены в репозитории")}
-async function loadPosts(){try{const j=await getFile("blog/posts.json");POSTS=j?JSON.parse(j):[];renderPosts();$("#postsHint").textContent=POSTS.length+" постов"}catch(e){$("#postsHint").textContent=e.message;renderPosts()}}
+async function loadTemplates(){if(!TPL){try{TPL=await getFile("blog/_template.html");ITPL=await getFile("blog/_index_template.html")}catch(e){}
+  if(!TPL){try{const a=await fetch("/blog/_template.html",{cache:"no-store"});const b=await fetch("/blog/_index_template.html",{cache:"no-store"});if(a.ok&&b.ok){TPL=await a.text();ITPL=await b.text()}}catch(e){}}}
+  if(!TPL||!ITPL)throw new Error("шаблоны блога не найдены")}
+async function loadPosts(){let j=null;try{j=await getFile("blog/posts.json")}catch(e){}
+  if(j==null){try{const r=await fetch("/blog/posts.json?t="+Date.now(),{cache:"no-store"});if(r.ok)j=await r.text()}catch(e){}}
+  POSTS=j?JSON.parse(j):[];renderPosts();$("#postsHint").textContent=POSTS.length+" постов"+(TOKEN?"":" · чтобы редактировать и публиковать, вставь GitHub-токен (кнопка «Токен» вверху справа)")}
 function renderPosts(){const tb=$("#postsTable tbody");tb.innerHTML=POSTS.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(p=>{const c=p.color!==""&&p.color!==undefined&&Engine.PRESETS[+p.color];
-  return `<tr><td>${p.date}</td><td><b>${Engine.esc(p.title)}</b><br><small style="color:var(--dim)">/blog/${Engine.esc(p.slug)}/</small></td><td>${c?`<span class="thumbs"><i style="background:${c[2]}"></i></span> ${Engine.esc(c[0])}`:"—"}</td><td>${p.draft?'<span class="tag draft">черновик</span>':'<span class="tag">опубликован</span>'}</td><td class="row"><button class="btn ghost" data-edit="${Engine.esc(p.slug)}">Изменить</button><a class="btn ghost" href="/blog/${Engine.esc(p.slug)}/" target="_blank">Открыть</a></td></tr>`}).join("")||'<tr><td colspan="5" style="color:var(--dim)">Постов пока нет — нажми «Новый пост».</td></tr>';
+  return `<tr><td>${p.date}</td><td><b>${Engine.esc(p.title)}</b><br><small style="color:var(--dim)">/blog/${Engine.esc(p.slug)}/</small></td><td>${c?`<span class="thumbs"><i style="background:${c[2]}"></i></span> ${Engine.esc(c[0])}`:"—"}</td><td>${p.draft?'<span class="tag draft">черновик</span>':'<span class="tag">опубликован</span>'}</td><td class="row"><button class="btn" data-edit="${Engine.esc(p.slug)}">✎ Редактировать</button><a class="btn ghost" href="/blog/${Engine.esc(p.slug)}/" target="_blank">Открыть</a></td></tr>`}).join("")||'<tr><td colspan="5" style="color:var(--dim)">Постов пока нет — нажми «Новый пост».</td></tr>';
   tb.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editPost(POSTS.find(p=>p.slug===b.dataset.edit)))}
 $("#reloadPosts").onclick=loadPosts;$("#newPost").onclick=()=>editPost(null);
 Engine.PRESETS.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p[0];$("#pColor").appendChild(o)});
 function editPost(p){CUR=p;$("#editTitle").textContent=p?"Редактирование: "+p.title:"Новый пост";
   $("#pTitle").value=p?p.title:"";$("#pSlug").value=p?p.slug:"";$("#pDate").value=p?p.date.slice(0,10):new Date().toISOString().slice(0,10);
-  $("#pDesc").value=p?p.desc||"":"";$("#pLead").value=p?p.lead||"":"";$("#pColor").value=p&&p.color!==undefined?p.color:"";$("#pBudget").value=p&&p.budget||"";$("#pSeoTitle").value=p&&p.seoTitle||"";$("#pDraft").checked=!!(p&&p.draft);$("#pMd").value=p?p.md||"":"";
+  $("#pDesc").value=p?p.desc||"":"";$("#pLead").value=p?p.lead||"":"";$("#pColor").value=p&&p.color!==undefined?p.color:"";$("#pBudget").value=p&&p.budget||"";$("#pSeoTitle").value=p&&p.seoTitle||"";$("#pCoverSkin").value=p&&p.coverSkin||"";$("#pCover").value=p&&p.cover||"";$("#pDraft").checked=!!(p&&p.draft);$("#pMd").value=p?p.md||"":"";
   $("#deleteBtn").hidden=!p;$("#pSlug").disabled=!!p;syncSlug();show("edit");preview()}
 function syncSlug(){if(!CUR&&!$("#pSlug").dataset.manual)$("#pSlug").value=Engine.translit($("#pTitle").value);$("#slugPrev").textContent=$("#pSlug").value||"…"}
 $("#pTitle").addEventListener("input",syncSlug);$("#pSlug").addEventListener("input",()=>{$("#pSlug").dataset.manual="1";$("#slugPrev").textContent=$("#pSlug").value});
 $("#pDesc").addEventListener("input",()=>$("#descLen").textContent=$("#pDesc").value.length);
 document.querySelectorAll("[data-ins]").forEach(b=>b.onclick=()=>{const t=$("#pMd");const s=t.selectionStart,e=t.selectionEnd;const ins=b.dataset.ins.replace(/\\n/g,"\n");t.value=t.value.slice(0,s)+(s>0&&t.value[s-1]!=="\n"&&/^[#\-\[>|]/.test(ins)?"\n":"")+ins+t.value.slice(e);t.focus();preview()});
 function collect(){const slug=($("#pSlug").value||Engine.translit($("#pTitle").value)).trim();const color=$("#pColor").value;
-  return {slug,title:$("#pTitle").value.trim(),date:$("#pDate").value||new Date().toISOString().slice(0,10),desc:$("#pDesc").value.trim(),lead:$("#pLead").value.trim(),color:color===""?undefined:+color,budget:+$("#pBudget").value||undefined,seoTitle:$("#pSeoTitle").value.trim()||undefined,draft:$("#pDraft").checked,md:$("#pMd").value,updated:new Date().toISOString().slice(0,10)}}
+  return {slug,title:$("#pTitle").value.trim(),date:$("#pDate").value||new Date().toISOString().slice(0,10),desc:$("#pDesc").value.trim(),lead:$("#pLead").value.trim(),color:color===""?undefined:+color,budget:+$("#pBudget").value||undefined,seoTitle:$("#pSeoTitle").value.trim()||undefined,coverSkin:$("#pCoverSkin").value.trim()||undefined,cover:$("#pCover").value.trim()||undefined,draft:$("#pDraft").checked,md:$("#pMd").value,updated:new Date().toISOString().slice(0,10)}}
 let pt;$("#pMd").addEventListener("input",()=>{clearTimeout(pt);pt=setTimeout(preview,600)});$("#previewBtn").onclick=preview;
 async function preview(){try{await loadTemplates()}catch(e){$("#prev").srcdoc="<p style='color:#fff;font-family:sans-serif;padding:20px'>"+e.message+"</p>";return}
   const p=collect();let html=Engine.buildPost(TPL,p,POSTS);html=html.replace("<head>","<head><base href=\"https://skin-set.com/\">");$("#prev").srcdoc=html}
@@ -253,6 +263,22 @@ $("#publishBtn").onclick=async()=>{const p=collect();if(!p.title||!p.md.trim()){
   catch(e){$("#editHint").textContent="";toast("Ошибка: "+e.message,true)}finally{btn.disabled=false}};
 $("#deleteBtn").onclick=async()=>{if(!CUR||!confirm("Удалить пост «"+CUR.title+"»?"))return;try{await loadTemplates();await loadPosts();POSTS=POSTS.filter(x=>x.slug!==CUR.slug);const files=await buildAll(POSTS);files.push({path:"blog/"+CUR.slug+"/index.html",delete:true});await commitFiles(files,"Delete post: "+CUR.title);toast("Удалено");CUR=null;show("posts")}catch(e){toast("Ошибка: "+e.message,true)}};
 $("#rebuildAll").onclick=async()=>{try{TPL=null;await loadTemplates();await loadPosts();const files=await buildAll(POSTS);await commitFiles(files,"Rebuild blog");toast("Блог пересобран")}catch(e){toast("Ошибка: "+e.message,true)}};
+/* ---- skins ---- */
+let SKINMAP={};fetch("/admin/skins-min.json").then(r=>r.json()).then(m=>{SKINMAP=m;Engine.setSkins(m);const dl=$("#skinList");dl.innerHTML=Object.keys(m).map(k=>"<option value=\""+Engine.esc(k)+"\">").join("");if($("#v-edit").classList.contains("on"))preview()}).catch(()=>toast("Не загрузилась база картинок скинов",true));
+let GROUP=[];function insertMd(text){const t=$("#pMd");const s=t.selectionStart;const before=t.value.slice(0,s),after=t.value.slice(t.selectionEnd);t.value=before+(before&&!before.endsWith("\n\n")?(before.endsWith("\n")?"\n":"\n\n"):"")+text+(after.startsWith("\n")?"":"\n")+after;t.focus();preview()}
+function skinName(){const q=$("#skinQ").value.trim();if(!q){toast("Введи название скина",true);return null}if(!Engine.skinImg(q)){toast("Такого скина нет в базе: "+q,true);return null}return q}
+$("#skinOne").onclick=()=>{const n=skinName();if(n){insertMd('[skin name="'+n+'"]');$("#skinQ").value=""}};
+$("#skinAdd").onclick=()=>{const n=skinName();if(n){GROUP.push(n);$("#skinN").textContent=GROUP.length;$("#skinGroup").hidden=false;$("#skinQ").value="";toast("В группе: "+GROUP.length)}};
+$("#skinGroup").onclick=()=>{if(GROUP.length){insertMd('[skins names="'+GROUP.join(";")+'"]');GROUP=[];$("#skinN").textContent="0";$("#skinGroup").hidden=true}};
+/* ---- image upload ---- */
+$("#imgUp").onclick=async()=>{const f=$("#imgFile").files[0];if(!f){toast("Выбери файл",true);return}if(f.size>5*1024*1024){toast("Файл больше 5 МБ",true);return}
+  if(!TOKEN){toast("Нужен GitHub-токен",true);return}
+  const slug=($("#pSlug").value||"post").replace(/[^a-z0-9-]/g,"")||"post";const ext=(f.name.split(".").pop()||"png").toLowerCase().replace(/[^a-z0-9]/g,"");const name=slug+"-"+Date.now().toString(36)+"."+ext;const path="img/blog/"+name;
+  $("#imgHint").textContent="Загружаю…";
+  try{const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(",")[1]);r.onerror=rej;r.readAsDataURL(f)});
+    await gh("/contents/"+path,{method:"PUT",body:JSON.stringify({message:"Upload image "+name,content:b64,branch:BRANCH})});
+    insertMd("![описание картинки](/"+path+")");$("#imgHint").textContent="Загружено: /"+path+" (на сайте через 1–2 мин)";$("#imgFile").value=""}
+  catch(e){$("#imgHint").textContent="";toast("Ошибка загрузки: "+e.message,true)}};
 /* ---- settings ---- */
 async function loadCfg(){try{const j=await getFile("config.json");const c=j?JSON.parse(j):{};$("#cDm").value=(c.refs||{}).dmarket||"";$("#cLs").value=(c.refs||{}).lis||"";$("#cTw").value=c.twitch||"";$("#cTg").value=c.telegram||"";$("#cAnnOn").checked=!!(c.announce&&c.announce.enabled);$("#cAnnText").value=(c.announce||{}).text||"";$("#cAnnUrl").value=(c.announce||{}).url||"";$("#cFeed").checked=c.feedEnabled!==false}catch(e){$("#cfgHint").textContent=e.message}}
 $("#saveCfg").onclick=async()=>{const c={refs:{dmarket:$("#cDm").value.trim(),lis:$("#cLs").value.trim()},twitch:$("#cTw").value.trim(),telegram:$("#cTg").value.trim(),announce:{enabled:$("#cAnnOn").checked,text:$("#cAnnText").value.trim(),url:$("#cAnnUrl").value.trim()},feedEnabled:$("#cFeed").checked};

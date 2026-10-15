@@ -40,9 +40,10 @@
 "cur": "rub",
 "prices": "Актуальные цены на предметы из статьи",
 "item": "Предмет",
-"upd": "Минимальные цены на площадках, обновляются раз в сутки. Партнёрские ссылки: для тебя цена не меняется.",
+"upd": "Минимальная цена (любой износ) и цена в Field-Tested по данным Lis-Skins и Skinport, обновляются раз в сутки. Кнопки — партнёрские ссылки: для тебя цена не меняется.",
 "buy": "Купить",
-"na": "—"
+"na": "—",
+"from": "от"
 },
 "blog": "/blog/"
 },
@@ -87,9 +88,10 @@
 "cur": "usd",
 "prices": "Current prices for the items in this article",
 "item": "Item",
-"upd": "Lowest marketplace prices, refreshed daily. Affiliate links: the price for you doesn't change.",
+"upd": "Lowest price (any wear) and Field-Tested price from Lis-Skins and Skinport, refreshed daily. Buttons are affiliate links: the price for you doesn't change.",
 "buy": "Buy",
-"na": "—"
+"na": "—",
+"from": "From"
 },
 "blog": "/en/blog/"
 },
@@ -134,9 +136,10 @@
 "cur": "eur",
 "prices": "Aktuelle Preise der Items aus dem Artikel",
 "item": "Item",
-"upd": "Niedrigste Marktplatzpreise, täglich aktualisiert. Partnerlinks: der Preis ändert sich für dich nicht.",
+"upd": "Niedrigster Preis (jeder Zustand) und Field-Tested-Preis laut Lis-Skins und Skinport, täglich aktualisiert. Buttons sind Partnerlinks: der Preis ändert sich für dich nicht.",
 "buy": "Kaufen",
-"na": "—"
+"na": "—",
+"from": "Ab"
 },
 "blog": "/de/blog/"
 },
@@ -181,9 +184,10 @@
 "cur": "brl",
 "prices": "Preços atuais dos itens do artigo",
 "item": "Item",
-"upd": "Menores preços nos marketplaces, atualizados diariamente. Links de afiliado: o preço para você não muda.",
+"upd": "Menor preço (qualquer desgaste) e preço Field-Tested segundo Lis-Skins e Skinport, atualizados diariamente. Os botões são links de afiliado: o preço para você não muda.",
 "buy": "Comprar",
-"na": "—"
+"na": "—",
+"from": "A partir de"
 },
 "blog": "/pt/blog/"
 },
@@ -228,9 +232,10 @@
 "cur": "usd",
 "prices": "Yazıdaki eşyaların güncel fiyatları",
 "item": "Eşya",
-"upd": "Pazar yerlerindeki en düşük fiyatlar, günlük güncellenir. Ortaklık bağlantıları: senin için fiyat değişmez.",
+"upd": "En düşük fiyat (her aşınma) ve Field-Tested fiyatı, Lis-Skins ve Skinport verileri, günlük güncellenir. Butonlar ortaklık bağlantısıdır: senin için fiyat değişmez.",
 "buy": "Satın al",
-"na": "—"
+"na": "—",
+"from": "En düşük"
 },
 "blog": "/tr/blog/"
 },
@@ -275,9 +280,10 @@
 "cur": "pln",
 "prices": "Aktualne ceny przedmiotów z artykułu",
 "item": "Przedmiot",
-"upd": "Najniższe ceny na rynkach, odświeżane codziennie. Linki partnerskie: cena dla ciebie się nie zmienia.",
+"upd": "Najniższa cena (dowolne zużycie) i cena Field-Tested według Lis-Skins i Skinport, odświeżane codziennie. Przyciski to linki partnerskie: cena dla ciebie się nie zmienia.",
 "buy": "Kup",
-"na": "—"
+"na": "—",
+"from": "Od"
 },
 "blog": "/pl/blog/"
 }

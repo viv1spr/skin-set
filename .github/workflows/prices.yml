@@ -13,12 +13,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - run: npm install --no-save --no-package-lock sharp@0.33.5
+      - run: node admin/build-extra.js
       - run: node admin/fetch-prices.js
       - run: node admin/build.js
       - name: Commit
         run: |
           git config user.name "price-bot"
           git config user.email "bot@skin-set.com"
-          git add data/prices.json data/prices-meta.json blog en/blog de/blog pt/blog tr/blog pl/blog sitemap.xml
+          git add data blog en/blog de/blog pt/blog tr/blog pl/blog sitemap.xml
           git diff --cached --quiet || git commit -m "Update prices $(date -u +%F)"
           git push

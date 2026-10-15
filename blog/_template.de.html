@@ -1481,7 +1481,7 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
 <script>
 /* живые цены в статье: обновляем спаны из /data/prices.json */
 (()=>{const R={rub:90,usd:1,eur:1,brl:5.5,pln:4};const f=(u,c)=>{const v=u*(R[c]||1);const r=v>=100?Math.round(v):Math.round(v*10)/10;const n=c==="usd"?r.toLocaleString("en-US"):r.toLocaleString("de-DE");return c==="rub"?n.replace(/\./g," ")+" ₽":c==="usd"?"$"+n:c==="eur"?n+" €":c==="brl"?"R$ "+n:n+" zł"};
-fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P=>{if(!P)return;document.querySelectorAll(".lp[data-skin]").forEach(el=>{const rec=P[el.dataset.skin];if(!rec)return;const src=el.dataset.src;const v=src?rec[src]:Math.min(...([rec.dm,rec.ls].filter(x=>x>0).length?[rec.dm,rec.ls]:[rec.sp]).filter(x=>x>0));if(v>0&&isFinite(v))el.textContent=f(v,el.dataset.cur||"rub")})}).catch(()=>{})})();
+fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P=>{if(!P)return;document.querySelectorAll(".lp[data-skin]").forEach(el=>{const rec=P[el.dataset.skin];if(!rec)return;const src=el.dataset.src;const v=src?(src==="FT"?(rec.w||{}).FT:rec[src]):Math.min(...([rec.dm,rec.ls].filter(x=>x>0).length?[rec.dm,rec.ls]:[rec.sp]).filter(x=>x>0));if(v>0&&isFinite(v))el.textContent=f(v,el.dataset.cur||"rub")})}).catch(()=>{})})();
 </script>
 </body>
 </html>

@@ -53,7 +53,8 @@
 },
 "featured": "Главное",
 "read_more": "Читать",
-"min": "мин"
+"min": "мин",
+"gem": "камень — цена в разы выше обычной фазы, смотри на площадке"
 },
 "blog": "/blog/"
 },
@@ -111,7 +112,8 @@
 },
 "featured": "Featured",
 "read_more": "Read",
-"min": "min"
+"min": "min",
+"gem": "gem phase — several times pricier than regular phases, check the marketplace"
 },
 "blog": "/en/blog/"
 },
@@ -169,7 +171,8 @@
 },
 "featured": "Empfohlen",
 "read_more": "Lesen",
-"min": "Min."
+"min": "Min.",
+"gem": "Edelstein-Phase — ein Vielfaches teurer als normale Phasen, Preis auf dem Marktplatz prüfen"
 },
 "blog": "/de/blog/"
 },
@@ -227,7 +230,8 @@
 },
 "featured": "Destaque",
 "read_more": "Ler",
-"min": "min"
+"min": "min",
+"gem": "fase gema — várias vezes mais cara que as fases comuns, confira no marketplace"
 },
 "blog": "/pt/blog/"
 },
@@ -285,7 +289,8 @@
 },
 "featured": "Öne çıkan",
 "read_more": "Oku",
-"min": "dk"
+"min": "dk",
+"gem": "değerli faz — normal fazlardan kat kat pahalı, fiyatı pazarda kontrol et"
 },
 "blog": "/tr/blog/"
 },
@@ -343,7 +348,8 @@
 },
 "featured": "Polecane",
 "read_more": "Czytaj",
-"min": "min"
+"min": "min",
+"gem": "faza „kamień” — kilka razy droższa od zwykłych faz, sprawdź cenę na rynku"
 },
 "blog": "/pl/blog/"
 }

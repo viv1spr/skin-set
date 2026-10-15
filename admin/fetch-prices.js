@@ -14,7 +14,8 @@ async function lis(){const m=new Map();for(const u of["https://lis-skins.com/mar
   try{const r=await fetch(u,{headers:UA});if(!r.ok){META["ls_"+u]=r.status;continue}const list=await r.json();for(const it of list){const p=parseName(it.name);if(p)add(m,p.n,p.w,+it.price)}META.ls={url:u,items:list.length,names:m.size};if(m.size)return m}catch(e){META["ls_err"]=String(e)}}return m}
 async function skinport(){const m=new Map();try{const r=await fetch("https://api.skinport.com/v1/items?app_id=730&currency=USD&tradable=0",{headers:{...UA,"Accept-Encoding":"br"}});if(!r.ok){META.sp_status=r.status;return m}
   const list=await r.json();for(const it of list){const p=parseName(it.market_hash_name);if(p)add(m,p.n,p.w,+it.min_price)}META.sp={items:list.length,names:m.size}}catch(e){META.sp_err=String(e)}return m}
-const stripPhase=n=>n.replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,"");
+// обычные фазы Doppler/Gamma Doppler стоят примерно одинаково — берём общую цену; «камни» (Ruby, Sapphire, Emerald, Black Pearl) стоят в разы дороже, площадки их не различают в выгрузке — цену не подставляем
+const stripPhase=n=>n.replace(/\s*\((Phase \d)\)$/,"");
 (async()=>{
   const [L,S]=await Promise.all([lis(),skinport()]);const now=Date.now();const out={};
   for(const n of names){const a=L.get(n)||L.get(stripPhase(n)),b=S.get(n)||S.get(stripPhase(n));if(!a&&!b)continue;

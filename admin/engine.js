@@ -6,7 +6,7 @@ const PRESETS=[["Красный с чёрным","krasnye-skiny-cs2","#c4161c"],
 let SKINS={};let PRICES={};let CUR_LANG="ru";let USED=[];function setPrices(p){PRICES=p||{}}
 const RATES={rub:90,usd:1,eur:1,brl:5.5,pln:4};
 function fmtPrice(usd,cur){if(!(usd>0))return null;const v=usd*(RATES[cur]||1);const r=v>=100?Math.round(v):Math.round(v*10)/10;const n=cur==="usd"?r.toLocaleString("en-US"):r.toLocaleString("de-DE");return cur==="rub"?n.replace(/\./g," ")+" ₽":cur==="usd"?"$"+n:cur==="eur"?n+" €":cur==="brl"?"R$ "+n:n+" zł"}
-function priceOf(name){const r=PRICES[name]||PRICES[name.replace("★ ","")];if(!r)return null;const v=[r.dm,r.ls].filter(x=>x>0);return v.length?{min:Math.min(...v),dm:r.dm||null,ls:r.ls||null}:null}
+function priceOf(name){const r=PRICES[name]||PRICES[name.replace("★ ","")];if(!r)return null;const v=[r.dm,r.ls].filter(x=>x>0);const w=v.length?v:[r.sp].filter(x=>x>0);return w.length?{min:Math.min(...w),dm:r.dm||null,ls:r.ls||null}:null}
 function curOf(){return ((LANGS||{})[CUR_LANG]||{}).ui&&LANGS[CUR_LANG].ui.cur||"rub"}
 function priceSpan(name){const p=priceOf(name);const cur=curOf();return '<span class="lp" data-skin="'+esc(name)+'" data-cur="'+cur+'">'+(p?esc(fmtPrice(p.min,cur)):"…")+'</span>'}
 function setSkins(m){SKINS=Array.isArray(m)?Object.fromEntries(m.map(r=>[r[0]+(r[5]?" ("+r[5]+")":""),r[1]])):(m||{})}

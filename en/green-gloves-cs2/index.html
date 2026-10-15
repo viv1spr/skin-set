@@ -1139,7 +1139,7 @@ async function loadPrices(){
   try{const r=await fetch("/data/prices.json",{cache:"no-store"});if(!r.ok)return;const P=await r.json();if(!P||typeof P!=="object")return;window.PRICES=P;applyPrices();render();if(typeof drawFeed==="function")drawFeed()}catch(e){}
 }
 function applyPrices(){const P=window.PRICES;if(!P)return;const RATE=90;
-  for(const s of SKINS){const key=s.weapon.replace("★ ","")+" | "+s.skin;const rec=P[key];if(!rec)continue;const usd=Math.min(...[rec.dm,rec.ls].filter(x=>x>0));if(!isFinite(usd)||usd<=0)continue;
+  for(const s of SKINS){const key=s.weapon.replace("★ ","")+" | "+s.skin;const rec=P[key];if(!rec)continue;const usd=Math.min(...([rec.dm,rec.ls].filter(x=>x>0).length?[rec.dm,rec.ls]:[rec.sp]).filter(x=>x>0));if(!isFinite(usd)||usd<=0)continue;
     s.priceUsd=usd;s.priceRub=Math.round(usd*RATE);s.priceDm=rec.dm||null;s.priceLs=rec.ls||null;const t=tierFor(s.priceRub);if(t>=1&&t<=5)s.tier=t}}
 const priceLabel=s=>s&&s.priceRub?fmtMoney(s.priceRub):TIER[s.tier];
 const _art=art;

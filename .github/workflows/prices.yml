@@ -19,6 +19,6 @@ jobs:
         run: |
           git config user.name "price-bot"
           git config user.email "bot@skin-set.com"
-          git add data/prices.json blog en/blog de/blog pt/blog tr/blog pl/blog sitemap.xml
+          git add data/prices.json data/prices-meta.json blog en/blog de/blog pt/blog tr/blog pl/blog sitemap.xml
           git diff --cached --quiet || git commit -m "Update prices $(date -u +%F)"
           git push

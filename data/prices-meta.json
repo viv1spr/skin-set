@@ -1,0 +1,74 @@
+{
+ "started": "2026-10-15T12:12:29.284Z",
+ "dm": {
+  "ok": 0,
+  "fail": 40,
+  "samples": [
+   {
+    "title": "★ Karambit | Fade",
+    "status": 410,
+    "head": "{\n \"code\": \"Gone\",\n \"message\": \"This endpoint is retired. Use /marketplace-api/v2/offers.\"\n}"
+   },
+   {
+    "title": "★ Karambit | Doppler",
+    "status": 410,
+    "head": "{\n \"code\": \"Gone\",\n \"message\": \"This endpoint is retired. Use /marketplace-api/v2/offers.\"\n}"
+   },
+   {
+    "title": "★ Karambit | Doppler",
+    "status": 410,
+    "head": "{\n \"code\": \"Gone\",\n \"message\": \"This endpoint is retired. Use /marketplace-api/v2/offers.\"\n}"
+   }
+  ],
+  "lastError": "dm 410"
+ },
+ "ls": {
+  "url": "https://lis-skins.com/market_export_json/csgo.json",
+  "items": 27364,
+  "names": 13533,
+  "sample": [
+   {
+    "name": "FAMAS | Doomkitty (Minimal Wear)",
+    "price": 5.95,
+    "unlocked_price": 5.95,
+    "url": "https://lis-skins.com/market/csgo/famas-doomkitty-minimal-wear/",
+    "count": 56
+   },
+   {
+    "name": "M4A4 | Faded Zebra (Field-Tested)",
+    "price": 4.51,
+    "unlocked_price": 4.51,
+    "url": "https://lis-skins.com/market/csgo/m4a4-faded-zebra-field-tested/",
+    "count": 137
+   }
+  ]
+ },
+ "sp": {
+  "items": 21796,
+  "names": 3518
+ },
+ "ls_probe": [
+  {
+   "url": "https://lis-skins.com/market_export_json/api_csgo_full.json",
+   "error": "Error: Cannot create a string longer than 0x1fffffe8 characters"
+  },
+  {
+   "url": "https://lis-skins.com/market_export_json/csgo.json",
+   "status": 200,
+   "ctype": "application/json",
+   "len": 5020942,
+   "head": "[{\"name\":\"FAMAS | Doomkitty (Minimal Wear)\",\"price\":5.95,\"unlocked_price\":5.95,\"url\":\"https:\\/\\/lis-skins.com\\/market\\/csgo\\/famas-doomkitty-minimal-wear\\/\",\"count\":56},{\"name\":\"M4A4 | Faded Zebra (Field-Tested)\",\"price\":4.51,\"unlocked_price\":4.51,\"url\":\"https:\\/\\/lis-skins.com\\/market\\/csgo\\/m4a4-faded-zebra-field-tested\\/\",\"count\":137},{\"name\":\"PP-Bizon | Sand Dashed (Field-Tested)\",\"price\":0.13"
+  }
+ ],
+ "sp_probe": [
+  {
+   "url": "https://api.skinport.com/v1/items?app_id=730&currency=USD&tradable=0",
+   "status": 200,
+   "ctype": "application/json; charset=utf-8",
+   "len": 9038891,
+   "head": "[{\"market_hash_name\":\"Sticker | First Lap (Holo)\",\"version\":null,\"currency\":\"USD\",\"suggested_price\":0.2,\"item_page\":\"https://skinport.com/item/sticker-first-lap-holo\",\"market_page\":\"https://skinport.com/market/sticker?item=First%20Lap%20(Holo)\",\"min_price\":null,\"max_price\":null,\"mean_price\":null,\"median_price\":null,\"quantity\":0,\"created_at\":1784160429,\"updated_at\":1792066218},{\"market_hash_name\":\""
+  }
+ ],
+ "finished": "2026-10-15T12:13:26.808Z",
+ "priced": 567
+}

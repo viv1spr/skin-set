@@ -3,14 +3,21 @@
 (function(root,factory){if(typeof module==="object"&&module.exports)module.exports=factory();else root.Engine=factory();})(this,function(){
 const SITE="https://skin-set.com";
 const PRESETS=[["Красный с чёрным","krasnye-skiny-cs2","#c4161c"],["Синий","sinie-skiny-cs2","#1f4fd6"],["Розовый","rozovye-skiny-cs2","#ff5fa8"],["Фиолетовый","fioletovye-skiny-cs2","#8a5cf6"],["Зелёный","zelenye-skiny-cs2","#1fbf5a"],["Золото","zolotye-skiny-cs2","#d4a63a"],["Оранжевый с белым","oranzhevye-skiny-cs2","#ff6a1f"],["Бирюза","biryuzovye-skiny-cs2","#19c3c3"],["Чёрно-белый","cherno-belye-skiny-cs2","#e8e8e8"]];
-let SKINS={};function setSkins(m){SKINS=m||{}}
+let SKINS={};let PRICES={};let CUR_LANG="ru";let USED=[];function setPrices(p){PRICES=p||{}}
+const RATES={rub:90,usd:1,eur:1,brl:5.5,pln:4};
+function fmtPrice(usd,cur){if(!(usd>0))return null;const v=usd*(RATES[cur]||1);const r=v>=100?Math.round(v):Math.round(v*10)/10;const n=cur==="usd"?r.toLocaleString("en-US"):r.toLocaleString("de-DE");return cur==="rub"?n.replace(/\./g," ")+" ₽":cur==="usd"?"$"+n:cur==="eur"?n+" €":cur==="brl"?"R$ "+n:n+" zł"}
+function priceOf(name){const r=PRICES[name]||PRICES[name.replace("★ ","")];if(!r)return null;const v=[r.dm,r.ls].filter(x=>x>0);return v.length?{min:Math.min(...v),dm:r.dm||null,ls:r.ls||null}:null}
+function curOf(){return ((LANGS||{})[CUR_LANG]||{}).ui&&LANGS[CUR_LANG].ui.cur||"rub"}
+function priceSpan(name){const p=priceOf(name);const cur=curOf();return '<span class="lp" data-skin="'+esc(name)+'" data-cur="'+cur+'">'+(p?esc(fmtPrice(p.min,cur)):"…")+'</span>'}
+function setSkins(m){SKINS=Array.isArray(m)?Object.fromEntries(m.map(r=>[r[0]+(r[5]?" ("+r[5]+")":""),r[1]])):(m||{})}
 function skinImg(name){if(!name)return null;const n=name.replace(/★\s*/,"").trim();if(SKINS[n])return SKINS[n];const k=Object.keys(SKINS).find(x=>x.toLowerCase()===n.toLowerCase())||Object.keys(SKINS).find(x=>x.toLowerCase().startsWith(n.toLowerCase()));return k?SKINS[k]:null}
-function skinFig(name,cap,small){const img=skinImg(name);if(!img)return "";return '<figure class="post-skin'+(small?" sm":"")+'"><img src="'+esc(img)+'" alt="'+esc(name)+'" loading="lazy"><figcaption>'+esc(cap||name)+'</figcaption></figure>'}
+function skinFig(name,cap,small){const img=skinImg(name);if(!img)return "";USED.push(name);return '<figure class="post-skin'+(small?" sm":"")+'"><img src="'+esc(img)+'" alt="'+esc(name)+'" loading="lazy"><figcaption>'+esc(cap||name)+' · '+priceSpan(name)+'</figcaption></figure>'}
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 function translit(s){const m={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"c",ч:"ch",ш:"sh",щ:"sch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya"};
   return s.toLowerCase().split("").map(c=>m[c]!==undefined?m[c]:c).join("").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,70)}
 function inline(t){
-  t=esc(t);
+  const ph=[];t=t.replace(/\[price\s+name="([^"]+)"\]/g,(m,n)=>{USED.push(n);ph.push(priceSpan(n));return "\u0000"+(ph.length-1)+"\u0000"});
+  t=esc(t);t=t.replace(/\u0000(\d+)\u0000/g,(m,i)=>ph[+i]);
   t=t.replace(/`([^`]+)`/g,"<code>$1</code>");
   t=t.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,'<img src="$2" alt="$1" loading="lazy">');
   t=t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(m,a,u)=>'<a href="'+u+'"'+(/^https?:\/\//.test(u)&&!u.includes("skin-set.com")?' target="_blank" rel="noopener'+(/dmarket|lis-skins/.test(u)?' sponsored':'')+'"':'')+'>'+a+'</a>');
@@ -51,31 +58,46 @@ function md(src){
   return out.map(o=>{if(typeof o==="string")return o;const rows=o.table.filter(r=>!/^\|\s*-/.test(r)).map(r=>r.replace(/^\||\|$/g,"").split("|").map(c=>c.trim()));
     return "<table>"+rows.map((r,i)=>"<tr>"+r.map(c=>(i?"<td>":"<th>")+inline(c)+(i?"</td>":"</th>")).join("")+"</tr>").join("")+"</table>"}).join("\n")}
 function readMin(src){return Math.max(2,Math.round(src.split(/\s+/).length/180))}
-function dateHuman(iso){const d=new Date(iso);const M=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];return d.getDate()+" "+M[d.getMonth()]+" "+d.getFullYear()}
+let LANGS=null;function setLangs(l){LANGS=l}
+const MONTHS={ru:["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"],en:["January","February","March","April","May","June","July","August","September","October","November","December"],de:["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],pt:["de janeiro","de fevereiro","de março","de abril","de maio","de junho","de julho","de agosto","de setembro","de outubro","de novembro","de dezembro"],tr:["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"],pl:["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"]};
+function dateHuman(iso,lang){lang=lang||"ru";const d=new Date(iso);const M=MONTHS[lang]||MONTHS.en;return lang==="en"?M[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear():d.getDate()+" "+M[d.getMonth()]+" "+d.getFullYear()}
 function fill(tpl,map){return tpl.replace(/\{\{(\w+)\}\}/g,(m,k)=>map[k]!==undefined?map[k]:"")}
-function card(p){const c0=p.color!==undefined&&PRESETS[+p.color]?PRESETS[+p.color][2]:"var(--pick)";
-  const cover=p.cover||skinImg(p.coverSkin||"")||(function(){const mm=(p.md||"").match(/\[skin\s+name="([^"]+)"/);return mm?skinImg(mm[1]):null})();
-  return '<a class="post-card" href="/blog/'+esc(p.slug)+'/" style="--c0:'+c0+'">'+(cover?'<img class="thumb" src="'+esc(cover)+'" alt="" loading="lazy">':"")+'<b>'+esc(p.title)+'</b><p>'+esc(p.desc||"")+'</p><small>'+dateHuman(p.date)+'</small></a>'}
-function buildPost(tpl,p,all){
-  const body=md(p.md||"");const url=SITE+"/blog/"+p.slug+"/";
-  const others=all.filter(x=>x.slug!==p.slug&&!x.draft).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3).map(card).join("")||'<a class="post-card" href="/cvetovye-sety-skinov-cs2/"><b>Цветовые сеты скинов CS2</b><p>9 готовых наборов в одном цвете</p></a>';
-  const ld=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":p.title,"description":p.desc||"","datePublished":p.date,"dateModified":p.updated||p.date,"author":{"@type":"Person","name":"viv1stop","url":"https://www.twitch.tv/viv1stop"},"publisher":{"@type":"Organization","name":"Skinset","url":SITE},"mainEntityOfPage":url});
-  const ctaUrl=p.color!==undefined&&PRESETS[+p.color]?"/"+PRESETS[+p.color][1]+"/"+(p.budget?"?budget="+p.budget:""):"/";
-  // оглавление из h2
+/* поля поста для языка: ru — корень, остальные — p.tr[lang] */
+function loc(p,lang){if(!lang||lang==="ru")return p;const t=(p.tr||{})[lang];if(!t||!t.md)return null;return {...p,title:t.title||p.title,desc:t.desc||p.desc,lead:t.lead||p.lead,seoTitle:t.seoTitle,md:t.md}}
+function hasLang(p,lang){return !!loc(p,lang)}
+function cfg(lang){const L=LANGS||{};return L[lang]||L.ru||{presets:{},blog:"/blog/",home:"/",ui:{}}}
+function coverOf(p){return p.cover||skinImg(p.coverSkin||"")||(function(){const mm=(p.md||"").match(/\[skin\s+name="([^"]+)"/);return mm?skinImg(mm[1]):null})()||""}
+function card(p,lang){lang=lang||"ru";const q=loc(p,lang)||p;const c=cfg(lang);const c0=p.color!==undefined&&PRESETS[+p.color]?PRESETS[+p.color][2]:"var(--pick)";const cover=coverOf(p);
+  return '<a class="post-card" href="'+c.blog+esc(p.slug)+'/" style="--c0:'+c0+'">'+(cover?'<img class="thumb" src="'+esc(cover)+'" alt="" loading="lazy">':"")+'<b>'+esc(q.title)+'</b><p>'+esc(q.desc||"")+'</p><small>'+dateHuman(p.date,lang)+'</small></a>'}
+function ctaUrl(p,lang){const c=cfg(lang);const pres=c.presets||{};if(p.color!==undefined&&pres[String(p.color)])return pres[String(p.color)]+(p.budget?"?budget="+p.budget:"");return c.home||"/"}
+function altsFor(p){const out=[];for(const lang of Object.keys(LANGS||{ru:1})){if(hasLang(p,lang))out.push([lang==="pt"?"pt-BR":lang,SITE+cfg(lang).blog+p.slug+"/"])}
+  const xd=hasLang(p,"en")?SITE+cfg("en").blog+p.slug+"/":SITE+"/blog/"+p.slug+"/";return out.map(([h,u])=>'<link rel="alternate" hreflang="'+h+'" href="'+u+'">').join("\n")+'\n<link rel="alternate" hreflang="x-default" href="'+xd+'">\n'}
+function langSwitch(p,cur){return Object.keys(LANGS||{ru:1}).filter(l=>!p||hasLang(p,l)).map(l=>'<a href="'+cfg(l).blog+(p?p.slug+"/":"")+'" class="'+(l===cur?"on":"")+'" hreflang="'+(l==="pt"?"pt-BR":l)+'">'+l.toUpperCase()+'</a>').join("")}
+function priceTable(names,lang){const c=cfg(lang);const ui=c.ui||{};const cur=ui.cur||"rub";const uniq=[...new Set(names)];if(!uniq.length)return "";
+  const ru=lang==="ru";const qn=n=>encodeURIComponent(n.replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,""));
+  const rows=uniq.map(n=>{const p=priceOf(n);return '<tr><td>'+esc(n)+'</td><td><span class="lp" data-skin="'+esc(n)+'" data-cur="'+cur+'" data-src="dm">'+(p&&p.dm?esc(fmtPrice(p.dm,cur)):"…")+'</span></td><td><span class="lp" data-skin="'+esc(n)+'" data-cur="'+cur+'" data-src="ls">'+(p&&p.ls?esc(fmtPrice(p.ls,cur)):"…")+'</span></td><td class="pb"><a href="https://dmarket.com/'+(ru?"ru/":"")+'ingame-items/item-list/csgo-skins?title='+qn(n)+'&ref=L4QnfHPvxc" target="_blank" rel="nofollow sponsored noopener">DMarket</a><a href="https://lis-skins.com/'+(ru?"ru":"en")+'/market/csgo/?query='+qn(n)+'&rf=477323" target="_blank" rel="nofollow sponsored noopener">Lis-Skins</a></td></tr>'}).join("");
+  return '<div class="post-prices"><h2 id="prices">'+esc(ui.prices||"")+'</h2><table class="pt"><thead><tr><th>'+esc(ui.item||"")+'</th><th>DMarket</th><th>Lis-Skins</th><th></th></tr></thead><tbody>'+rows+'</tbody></table><p class="post-note">'+esc(ui.upd||"")+'</p></div>'}
+function buildPost(tpl,p,all,lang){lang=lang||"ru";const q=loc(p,lang);if(!q)return null;const c=cfg(lang);const ui=c.ui||{};
+  CUR_LANG=lang;USED=[];if(p.coverSkin&&skinImg(p.coverSkin))USED.push(p.coverSkin);const body=md(q.md||"")+priceTable(USED,lang);const url=SITE+c.blog+p.slug+"/";
+  const others=all.filter(x=>x.slug!==p.slug&&!x.draft&&hasLang(x,lang)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3).map(x=>card(x,lang)).join("")||'<a class="post-card" href="'+(c.home||"/")+'"><b>Skinset</b><p>'+esc(ui.ctaDef||"")+'</p></a>';
+  const ld=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":q.title,"description":q.desc||"","datePublished":p.date,"dateModified":p.updated||p.date,"inLanguage":lang,"author":{"@type":"Person","name":"viv1stop","url":"https://www.twitch.tv/viv1stop"},"publisher":{"@type":"Organization","name":"Skinset","url":SITE},"mainEntityOfPage":url});
   let n=0;const toc=[];const body2=body.replace(/<h2>(.*?)<\/h2>/g,(m,t)=>{n++;const id="s"+n;toc.push('<a href="#'+id+'">'+t+'</a>');return '<h2 id="'+id+'">'+t+'</h2>'});
-  const cover=p.cover||skinImg(p.coverSkin||"")||(function(){const mm=(p.md||"").match(/\[skin\s+name="([^"]+)"/);return mm?skinImg(mm[1]):null})()||"";
-  const pc=p.color!==undefined&&PRESETS[+p.color]?PRESETS[+p.color]:null;
-  const side='<div class="side-card"><b>Содержание</b>'+(toc.length?'<nav class="toc">'+toc.join("")+'</nav>':'<p>—</p>')+'</div>'
-    +'<div class="side-card cta" style="--c0:'+(pc?pc[2]:"var(--pick)")+'"><b>Собрать такой сет</b><p>'+(pc?esc(pc[0])+(p.budget?" · бюджет "+Number(p.budget).toLocaleString("ru-RU")+" ₽":""):"Выбери цвет и бюджет")+'</p><a class="hudbtn" href="'+ctaUrl+'">Открыть конструктор</a></div>'
-    +'<div class="side-card"><b>Ещё статьи</b><div class="side-list">'+all.filter(x=>x.slug!==p.slug&&!x.draft).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(x=>'<a href="/blog/'+esc(x.slug)+'/">'+esc(x.title)+'</a>').join("")+'</div></div>'
-    +'<div class="side-card"><b>Разделы сайта</b><div class="side-list"><a href="/cvetovye-sety-skinov-cs2/">Цветовые сеты скинов CS2</a><a href="/inventar-cs2-za-5000-rubley/">Инвентарь за 5 000 ₽</a><a href="/sety/">Сеты игроков</a><a href="/gde-kupit/">Где купить скины</a></div></div>';
-  return fill(tpl,{SIDE:side,COVER:cover?'<figure class="post-cover"><img src="'+esc(cover)+'" alt="'+esc(p.title)+'"></figure>':"",OG_IMAGE:cover||"https://skin-set.com/img/og-ru.png",TITLE:esc(p.seoTitle||(p.title+" — Skinset")),DESC:esc(p.desc||""),URL:url,LD:ld,H1:esc(p.title),LEAD:esc(p.lead||p.desc||""),DATE_HUMAN:dateHuman(p.date),READ:readMin(p.md||""),BODY:body2,CTA_URL:ctaUrl,OTHER:others})}
-function buildIndex(tpl,all){const list=all.filter(p=>!p.draft).sort((a,b)=>b.date.localeCompare(a.date)).map(card).join("")||"<p>Скоро здесь появятся статьи.</p>";return fill(tpl,{LIST:list})}
-function buildRss(all){const items=all.filter(p=>!p.draft).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30).map(p=>"<item><title>"+esc(p.title)+"</title><link>"+SITE+"/blog/"+p.slug+"/</link><guid>"+SITE+"/blog/"+p.slug+"/</guid><pubDate>"+new Date(p.date).toUTCString()+"</pubDate><description>"+esc(p.desc||"")+"</description></item>").join("\n");
-  return '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>Блог Skinset</title><link>'+SITE+'/blog/</link><description>Гайды по скинам CS2</description>\n'+items+'\n</channel></rss>\n'}
+  const cover=coverOf(p);const pc=p.color!==undefined&&PRESETS[+p.color]?PRESETS[+p.color]:null;const cu=ctaUrl(p,lang);
+  const side='<div class="side-card"><b>'+esc(ui.toc||"")+'</b>'+(toc.length?'<nav class="toc">'+toc.join("")+'</nav>':'<p>—</p>')+'</div>'
+    +'<div class="side-card cta" style="--c0:'+(pc?pc[2]:"var(--pick)")+'"><b>'+esc(ui.cta||"")+'</b><p>'+(pc?esc(pc[0])+(p.budget&&lang==="ru"?" · "+(ui.budget||"")+" "+Number(p.budget).toLocaleString("ru-RU")+" ₽":""):esc(ui.ctaDef||""))+'</p><a class="hudbtn" href="'+cu+'">'+esc(ui.open||"")+'</a></div>'
+    +'<div class="side-card"><b>'+esc(ui.others||"")+'</b><div class="side-list">'+all.filter(x=>x.slug!==p.slug&&!x.draft&&hasLang(x,lang)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(x=>'<a href="'+c.blog+esc(x.slug)+'/">'+esc(loc(x,lang).title)+'</a>').join("")+'</div></div>'
+    +'<div class="side-card"><b>'+esc(ui.sections||"")+'</b><div class="side-list"><a href="'+(c.home||"/")+'">'+esc(ui.builder||"")+'</a><a href="'+(c.feed||"/sety/")+'">'+esc(ui.sets||"")+'</a><a href="'+(c.shops||"/gde-kupit/")+'">'+esc(ui.shops||"")+'</a><a href="'+(c.how||"/kak-rabotaet/")+'">'+esc(ui.how||"")+'</a></div></div>';
+  return fill(tpl,{SIDE:side,COVER:cover?'<figure class="post-cover"><img src="'+esc(cover)+'" alt="'+esc(q.title)+'"></figure>':"",OG_IMAGE:cover||"https://skin-set.com/img/og-"+lang+".png",OG_TYPE:"article",ALTS:altsFor(p),LANGS:langSwitch(p,lang),
+    TITLE:esc(q.seoTitle||(q.title+" — Skinset")),DESC:esc(q.desc||""),URL:url,LD:ld,H1:esc(q.title),LEAD:esc(q.lead||q.desc||""),DATE_HUMAN:dateHuman(p.date,lang),READ:readMin(q.md||""),BODY:body2,CTA_URL:cu,OTHER:others})}
+function buildIndex(tpl,all,lang){lang=lang||"ru";const c=cfg(lang);const ui=c.ui||{};const posts=all.filter(p=>!p.draft&&hasLang(p,lang)).sort((a,b)=>b.date.localeCompare(a.date));
+  const list=posts.map(p=>card(p,lang)).join("")||"<p>"+esc(ui.empty||"")+"</p>";
+  const alts=Object.keys(LANGS||{ru:1}).map(l=>'<link rel="alternate" hreflang="'+(l==="pt"?"pt-BR":l)+'" href="'+SITE+cfg(l).blog+'">').join("\n")+'\n<link rel="alternate" hreflang="x-default" href="'+SITE+cfg("en").blog+'">\n';
+  return fill(tpl,{LIST:list,TITLE:esc(ui.blogTitle||"Skinset Blog"),DESC:esc(ui.blogDesc||""),URL:SITE+c.blog,OG_IMAGE:"https://skin-set.com/img/og-"+lang+".png",OG_TYPE:"website",ALTS:alts,LANGS:langSwitch(null,lang),LD:JSON.stringify({"@context":"https://schema.org","@type":"Blog","name":ui.blog||"Skinset Blog","url":SITE+c.blog,"inLanguage":lang})})}
+function buildRss(all,lang){lang=lang||"ru";const c=cfg(lang);const ui=c.ui||{};const items=all.filter(p=>!p.draft&&hasLang(p,lang)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30).map(p=>{const q=loc(p,lang);return "<item><title>"+esc(q.title)+"</title><link>"+SITE+c.blog+p.slug+"/</link><guid>"+SITE+c.blog+p.slug+"/</guid><pubDate>"+new Date(p.date).toUTCString()+"</pubDate><description>"+esc(q.desc||"")+"</description></item>"}).join("\n");
+  return '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>'+esc(ui.blog||"Skinset Blog")+'</title><link>'+SITE+c.blog+'</link><description>'+esc(ui.blogH1||"")+'</description>\n'+items+'\n</channel></rss>\n'}
 function buildSitemap(oldXml,all){const today=new Date().toISOString().slice(0,10);
-  const keep=(oldXml.match(/<url>.*?<\/url>/gs)||[]).filter(u=>!u.includes(SITE+"/blog/"));
-  const blog=['  <url><loc>'+SITE+'/blog/</loc><lastmod>'+today+'</lastmod></url>'].concat(all.filter(p=>!p.draft).map(p=>'  <url><loc>'+SITE+'/blog/'+p.slug+'/</loc><lastmod>'+(p.updated||p.date).slice(0,10)+'</lastmod></url>'));
+  const keep=(oldXml.match(/<url>.*?<\/url>/gs)||[]).filter(u=>!/\/blog\//.test(u));
+  const blog=[];for(const lang of Object.keys(LANGS||{ru:1})){const c=cfg(lang);blog.push('  <url><loc>'+SITE+c.blog+'</loc><lastmod>'+today+'</lastmod></url>');all.filter(p=>!p.draft&&hasLang(p,lang)).forEach(p=>blog.push('  <url><loc>'+SITE+c.blog+p.slug+'/</loc><lastmod>'+(p.updated||p.date).slice(0,10)+'</lastmod></url>'))}
   return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+keep.map(u=>"  "+u).join("\n")+"\n"+blog.join("\n")+"\n</urlset>\n"}
-return {PRESETS,esc,translit,md,buildPost,buildIndex,buildRss,buildSitemap,readMin,dateHuman,setSkins,skinImg};
+return {PRESETS,esc,translit,md,buildPost,buildIndex,buildRss,buildSitemap,readMin,dateHuman,setSkins,skinImg,setLangs,hasLang,loc,coverOf,setPrices,fmtPrice};
 });

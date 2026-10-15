@@ -68,7 +68,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
 <body>
 <header class="top">
   <a class="logo" href="/"><svg viewBox="0 0 32 32"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset · админка</a>
-  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="help">Справка</button></nav>
+  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="skins">База скинов</button><button data-v="help">Справка</button></nav>
   <div class="st"><span class="dot" id="ghDot"></span><span id="ghSt">GitHub</span><button class="btn ghost" id="tokenBtn" style="padding:6px 10px">Токен</button></div>
 </header>
 <main>
@@ -84,6 +84,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
   <div class="editor">
     <div>
       <div class="card">
+        <div class="row" style="margin-bottom:12px"><label style="margin:0">Язык</label><select id="pLang" style="width:auto"><option value="ru">RU — оригинал</option><option value="en">EN</option><option value="de">DE</option><option value="pt">PT</option><option value="tr">TR</option><option value="pl">PL</option></select><span class="hint" id="langSt"></span><button class="btn ghost" id="translateBtn" type="button">Перевести на все языки</button></div>
         <div class="f"><label>Заголовок (H1)</label><input id="pTitle" placeholder="С чем сочетать AK-47 Redline: перчатки, нож, пистолеты"></div>
         <div class="grid g2">
           <div class="f"><label>Адрес (slug)</label><input id="pSlug" placeholder="авто из заголовка"><div class="hint">skin-set.com/blog/<span id="slugPrev">…</span>/</div></div>
@@ -102,7 +103,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
       <div class="card">
         <label>Текст (Markdown)</label>
         <div class="chips" style="margin-bottom:8px">
-          <button data-ins="## ">Заголовок</button><button data-ins="**жирный**">Жирный</button><button data-ins="- ">Список</button><button data-ins="[текст](https://)">Ссылка</button><button data-ins="![описание](https://адрес-картинки.png)">Картинка</button><button data-ins="> ">Цитата</button><button data-ins='[cta color=0 budget=10000 text="Собери красный сет за 10 000 ₽"]'>Кнопка «собрать сет»</button><button data-ins="| Предмет | Цена |\n|---|---|\n| AK-47 Redline | 300–3000 ₽ |">Таблица</button>
+          <button data-ins="## ">Заголовок</button><button data-ins="**жирный**">Жирный</button><button data-ins="- ">Список</button><button data-ins="[текст](https://)">Ссылка</button><button data-ins="![описание](https://адрес-картинки.png)">Картинка</button><button data-ins="> ">Цитата</button><button data-ins='[price name="AK-47 | Redline"]'>Живая цена</button><button data-ins='[cta color=0 budget=10000 text="Собери красный сет за 10 000 ₽"]'>Кнопка «собрать сет»</button><button data-ins="| Предмет | Цена |\n|---|---|\n| AK-47 Redline | 300–3000 ₽ |">Таблица</button>
         </div>
         <div class="row" style="margin-bottom:8px"><input id="skinQ" list="skinList" placeholder="Вставить картинку скина: начни печатать название (AK-47 | Redline)…" style="flex:1;min-width:240px"><button class="btn ghost" id="skinOne" type="button">Одна картинка</button><button class="btn ghost" id="skinAdd" type="button">+ в группу</button><button class="btn ghost" id="skinGroup" type="button" hidden>Вставить группу (<span id="skinN">0</span>)</button></div>
         <div class="row" style="margin-bottom:8px"><input type="file" id="imgFile" accept="image/*" style="flex:1;min-width:240px"><button class="btn ghost" id="imgUp" type="button">Загрузить своё фото и вставить</button><span class="hint" id="imgHint">PNG/JPG до 5 МБ — скриншоты из игры, баннеры</span></div>
@@ -139,6 +140,12 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
     <div class="grid g2"><div class="f"><label>Текст объявления</label><input id="cAnnText" placeholder="Стрим сегодня в 20:00 — собираем сеты в прямом эфире"></div><div class="f"><label>Ссылка (необязательно)</label><input id="cAnnUrl" placeholder="https://www.twitch.tv/viv1stop"></div></div>
     <div class="f"><label><input type="checkbox" id="cFeed" style="width:auto;margin-right:6px" checked>Показывать ленту сетов на сайте</label></div>
   </div>
+  <div class="card">
+    <h2 style="margin-top:0">Автоперевод статей</h2>
+    <div class="grid g2"><div class="f"><label>Anthropic API key (хранится только в этом браузере)</label><input id="llmKey" type="password" placeholder="sk-ant-…"></div><div class="f"><label>Модель</label><input id="llmModel" value="claude-sonnet-5-5"></div></div>
+    <div class="hint">Ключ: console.anthropic.com → API Keys. Перевод одной статьи на 5 языков стоит около $0.10–0.20. Кнопка «Перевести на все языки» в редакторе.</div>
+    <div class="row" style="margin-top:10px"><button class="btn ghost" id="llmSave">Сохранить ключ</button></div>
+  </div>
   <div class="row"><button class="btn" id="saveCfg">Сохранить</button><span class="hint" id="cfgHint"></span></div>
 </section>
 
@@ -153,6 +160,17 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
   </div>
 </section>
 
+<section class="view" id="v-skins">
+  <h1>База скинов</h1>
+  <div class="card">
+    <p style="margin-top:0">В конструктор встроена база из <b id="baseN">—</b> скинов с подобранными вручную цветами. Открытая база CS2 (<span id="apiN">—</span> скинов) обновляется после каждого апдейта игры. Здесь можно добавить в конструктор всё, чего ещё нет: новые кейсы, перчатки, ножи. Цвета определяются автоматически по картинке, цена — по редкости (ориентир по уровням).</p>
+    <div class="kv" style="margin-bottom:12px"><div><b id="extraN">0</b><small>уже добавлено</small></div><div><b id="missN">—</b><small>ещё нет в конструкторе</small></div></div>
+    <div class="row"><button class="btn" id="skinsRun">Добавить недостающие</button><button class="btn ghost" id="skinsAll">Пересчитать всё заново</button><button class="btn ghost" id="skinsStop" hidden>Стоп</button><button class="btn" id="skinsSave" hidden>Сохранить в репозиторий</button><span class="hint" id="skinsHint"></span></div>
+    <div style="height:6px;background:var(--panel2);margin-top:12px"><div id="skinsBar" style="height:100%;width:0;background:var(--pick);transition:width .2s"></div></div>
+  </div>
+  <div class="card"><table id="skinsTable"><thead><tr><th>Скин</th><th>Слот</th><th>Цвета</th><th>Уровень цены</th><th>Откуда</th></tr></thead><tbody></tbody></table></div>
+</section>
+
 <section class="view" id="v-help">
   <h1>Справка</h1>
   <div class="card">
@@ -162,9 +180,9 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
     <p>Firebase Console → Build → <b>Authentication</b> → Get started → Sign-in method → <b>Google</b> → Enable (укажи почту поддержки) → Save. Затем Authentication → Settings → <b>Authorized domains</b> → Add domain → <code>skin-set.com</code>.</p>
     <p>Потом Firestore → <b>Rules</b> → замени на это и Publish (удалять сможет только твоя почта):</p>
 <pre id="rulesPre"></pre>
-    <h2>3. Как публикуются посты</h2>
+    <h2>3. Переводы статей</h2><p>Статья пишется по-русски. В редакторе кнопка «Перевести на все языки» переводит её на EN/DE/PT/TR/PL (нужен Anthropic API key в «Настройках»), после чего переключатель «Язык» показывает и даёт поправить каждую версию. При публикации страницы создаются во всех языках, где есть перевод, с перекрёстными hreflang. Без перевода статья выходит только на русском.</p><h2>3а. Новые скины после апдейтов CS2</h2><p>Вкладка «База скинов» → «Добавить недостающие»: админка возьмёт все скины из открытой базы, которых нет в конструкторе, определит цвета по картинкам (3–6 минут в фоне, вкладку не закрывай) → «Сохранить в репозиторий». Через пару минут новые перчатки, ножи и оружие появятся в подборе. Если база скинов устарела (новый кейс не виден) — напиши Claude, он обновит файл <code>admin/skins-api.json</code>.</p><h2>4. Как публикуются посты</h2>
     <p>Админка записывает файлы прямо в репозиторий GitHub: <code>blog/&lt;slug&gt;/index.html</code>, список <code>blog/index.html</code>, <code>blog/rss.xml</code>, <code>sitemap.xml</code> и базу постов <code>blog/posts.json</code>. GitHub Pages пересобирает сайт за 1–2 минуты. После публикации открой Search Console → Проверка URL → «Запросить индексирование».</p>
-    <h2>4. Markdown-шпаргалка</h2>
+    <h2>5. Markdown-шпаргалка</h2>
     <pre>## Заголовок раздела
 ### Подзаголовок
 Обычный абзац. **Жирный**, *курсив*, [ссылка](https://dmarket.com/...).
@@ -177,7 +195,8 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
 | AK-47 Redline | 300–3000 ₽ |
 [cta color=3 budget=10000 text="Собери фиолетовый сет за 10 000 ₽" btn="Открыть конструктор"]
 [skin name="AK-47 | Redline" caption="подпись"]
-[skins names="AK-47 | Redline;M4A4 | Evil Daimyo;AWP | Redline"]</pre>
+[skins names="AK-47 | Redline;M4A4 | Evil Daimyo;AWP | Redline"]
+AK-47 Redline сейчас стоит [price name="AK-47 | Redline"] — цена подставится и будет обновляться сама.</pre>
   </div>
 </section>
 </main>
@@ -202,7 +221,7 @@ const toast=(t,err)=>{const e=$("#toast");e.textContent=t;e.className="toast sho
 /* ---- nav ---- */
 document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.v)));
 function show(v){document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));
-  if(v==="feed"||v==="stats")loadFeed();if(v==="settings")loadCfg();if(v==="posts")loadPosts()}
+  if(v==="feed"||v==="stats")loadFeed();if(v==="skins")skinsInit();if(v==="settings")loadCfg();if(v==="posts")loadPosts()}
 /* ---- github ---- */
 let TOKEN=localStorage.getItem("ss_admin_gh")||"";
 function ghStatus(){$("#ghDot").className="dot"+(TOKEN?" ok":"");$("#ghSt").textContent=TOKEN?"GitHub: токен есть":"GitHub: нет токена"}
@@ -223,10 +242,12 @@ async function commitFiles(files,message){
   const c=await gh("/git/commits",{method:"POST",body:JSON.stringify({message,tree:t.sha,parents:[baseSha]})});
   await gh("/git/refs/heads/"+BRANCH,{method:"PATCH",body:JSON.stringify({sha:c.sha,force:false})});return c.sha}
 /* ---- posts ---- */
-let POSTS=[],TPL=null,ITPL=null,CUR=null;
-async function loadTemplates(){if(!TPL){try{TPL=await getFile("blog/_template.html");ITPL=await getFile("blog/_index_template.html")}catch(e){}
-  if(!TPL){try{const a=await fetch("/blog/_template.html",{cache:"no-store"});const b=await fetch("/blog/_index_template.html",{cache:"no-store"});if(a.ok&&b.ok){TPL=await a.text();ITPL=await b.text()}}catch(e){}}}
-  if(!TPL||!ITPL)throw new Error("шаблоны блога не найдены")}
+let POSTS=[],TPL=null,ITPL=null,CUR=null,LANGS=null,TPLS={},CUR_TR={},EDIT_LANG="ru";
+const LANG_LIST=["ru","en","de","pt","tr","pl"];
+async function getAny(path){let t=null;try{t=await getFile(path)}catch(e){}if(t==null){try{const r=await fetch("/"+path+"?t="+Date.now(),{cache:"no-store"});if(r.ok)t=await r.text()}catch(e){}}return t}
+async function loadTemplates(){if(!window.__pricesLoaded){window.__pricesLoaded=1;try{const r=await fetch("/data/prices.json",{cache:"no-store"});if(r.ok)Engine.setPrices(await r.json())}catch(e){}}if(!LANGS){const l=await getAny("blog/_langs.json");if(!l)throw new Error("blog/_langs.json не найден");LANGS=JSON.parse(l);Engine.setLangs(LANGS)}
+  for(const lang of Object.keys(LANGS)){if(TPLS[lang])continue;const suf=lang==="ru"?"":"."+lang;const a=await getAny("blog/_template"+suf+".html"),b=await getAny("blog/_index_template"+suf+".html");if(a&&b)TPLS[lang]={tpl:a,itpl:b}}
+  if(!TPLS.ru)throw new Error("шаблоны блога не найдены");TPL=TPLS.ru.tpl;ITPL=TPLS.ru.itpl}
 async function loadPosts(){let j=null;try{j=await getFile("blog/posts.json")}catch(e){}
   if(j==null){try{const r=await fetch("/blog/posts.json?t="+Date.now(),{cache:"no-store"});if(r.ok)j=await r.text()}catch(e){}}
   POSTS=j?JSON.parse(j):[];renderPosts();$("#postsHint").textContent=POSTS.length+" постов"+(TOKEN?"":" · чтобы редактировать и публиковать, вставь GitHub-токен (кнопка «Токен» вверху справа)")}
@@ -235,21 +256,32 @@ function renderPosts(){const tb=$("#postsTable tbody");tb.innerHTML=POSTS.slice(
   tb.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editPost(POSTS.find(p=>p.slug===b.dataset.edit)))}
 $("#reloadPosts").onclick=loadPosts;$("#newPost").onclick=()=>editPost(null);
 Engine.PRESETS.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p[0];$("#pColor").appendChild(o)});
-function editPost(p){CUR=p;$("#editTitle").textContent=p?"Редактирование: "+p.title:"Новый пост";
+function editPost(p){CUR=p;CUR_TR=JSON.parse(JSON.stringify((p&&p.tr)||{}));EDIT_LANG="ru";$("#pLang").value="ru";langStatus();$("#editTitle").textContent=p?"Редактирование: "+p.title:"Новый пост";
   $("#pTitle").value=p?p.title:"";$("#pSlug").value=p?p.slug:"";$("#pDate").value=p?p.date.slice(0,10):new Date().toISOString().slice(0,10);
   $("#pDesc").value=p?p.desc||"":"";$("#pLead").value=p?p.lead||"":"";$("#pColor").value=p&&p.color!==undefined?p.color:"";$("#pBudget").value=p&&p.budget||"";$("#pSeoTitle").value=p&&p.seoTitle||"";$("#pCoverSkin").value=p&&p.coverSkin||"";$("#pCover").value=p&&p.cover||"";$("#pDraft").checked=!!(p&&p.draft);$("#pMd").value=p?p.md||"":"";
-  $("#deleteBtn").hidden=!p;$("#pSlug").disabled=!!p;syncSlug();show("edit");preview()}
+  $("#deleteBtn").hidden=!p;$("#pSlug").disabled=!!p;RU_FIELDS=fieldsNow();syncSlug();show("edit");preview()}
 function syncSlug(){if(!CUR&&!$("#pSlug").dataset.manual)$("#pSlug").value=Engine.translit($("#pTitle").value);$("#slugPrev").textContent=$("#pSlug").value||"…"}
 $("#pTitle").addEventListener("input",syncSlug);$("#pSlug").addEventListener("input",()=>{$("#pSlug").dataset.manual="1";$("#slugPrev").textContent=$("#pSlug").value});
 $("#pDesc").addEventListener("input",()=>$("#descLen").textContent=$("#pDesc").value.length);
 document.querySelectorAll("[data-ins]").forEach(b=>b.onclick=()=>{const t=$("#pMd");const s=t.selectionStart,e=t.selectionEnd;const ins=b.dataset.ins.replace(/\\n/g,"\n");t.value=t.value.slice(0,s)+(s>0&&t.value[s-1]!=="\n"&&/^[#\-\[>|]/.test(ins)?"\n":"")+ins+t.value.slice(e);t.focus();preview()});
-function collect(){const slug=($("#pSlug").value||Engine.translit($("#pTitle").value)).trim();const color=$("#pColor").value;
-  return {slug,title:$("#pTitle").value.trim(),date:$("#pDate").value||new Date().toISOString().slice(0,10),desc:$("#pDesc").value.trim(),lead:$("#pLead").value.trim(),color:color===""?undefined:+color,budget:+$("#pBudget").value||undefined,seoTitle:$("#pSeoTitle").value.trim()||undefined,coverSkin:$("#pCoverSkin").value.trim()||undefined,cover:$("#pCover").value.trim()||undefined,draft:$("#pDraft").checked,md:$("#pMd").value,updated:new Date().toISOString().slice(0,10)}}
+function fieldsNow(){return {title:$("#pTitle").value.trim(),desc:$("#pDesc").value.trim(),lead:$("#pLead").value.trim(),md:$("#pMd").value}}
+function setFields(f){$("#pTitle").value=f.title||"";$("#pDesc").value=f.desc||"";$("#pLead").value=f.lead||"";$("#pMd").value=f.md||"";$("#descLen").textContent=$("#pDesc").value.length}
+let RU_FIELDS=null;
+function langStatus(){$("#langSt").textContent="переводы: "+LANG_LIST.slice(1).map(l=>l.toUpperCase()+(CUR_TR[l]&&CUR_TR[l].md?" ✓":" —")).join("  ")}
+$("#pLang").addEventListener("change",()=>{const to=$("#pLang").value;if(EDIT_LANG==="ru")RU_FIELDS=fieldsNow();else CUR_TR[EDIT_LANG]={...(CUR_TR[EDIT_LANG]||{}),...fieldsNow()};
+  EDIT_LANG=to;if(to==="ru")setFields(RU_FIELDS||{});else setFields(CUR_TR[to]||{title:"",desc:"",lead:"",md:""});
+  $("#pTitle").disabled=false;$("#pSlug").disabled=!!CUR||to!=="ru";langStatus();preview()});
+function collect(){if(EDIT_LANG!=="ru"){CUR_TR[EDIT_LANG]={...(CUR_TR[EDIT_LANG]||{}),...fieldsNow()}}const base=EDIT_LANG==="ru"?fieldsNow():(RU_FIELDS||fieldsNow());
+  const tr={};for(const l of LANG_LIST.slice(1)){const t=CUR_TR[l];if(t&&t.md&&t.title)tr[l]=t}
+  const slug=($("#pSlug").value||Engine.translit(base.title)).trim();const color=$("#pColor").value;
+  return {tr,slug,title:base.title,date:$("#pDate").value||new Date().toISOString().slice(0,10),desc:base.desc,lead:base.lead,color:color===""?undefined:+color,budget:+$("#pBudget").value||undefined,seoTitle:$("#pSeoTitle").value.trim()||undefined,coverSkin:$("#pCoverSkin").value.trim()||undefined,cover:$("#pCover").value.trim()||undefined,draft:$("#pDraft").checked,md:base.md,updated:new Date().toISOString().slice(0,10)}}
 let pt;$("#pMd").addEventListener("input",()=>{clearTimeout(pt);pt=setTimeout(preview,600)});$("#previewBtn").onclick=preview;
 async function preview(){try{await loadTemplates()}catch(e){$("#prev").srcdoc="<p style='color:#fff;font-family:sans-serif;padding:20px'>"+e.message+"</p>";return}
-  const p=collect();let html=Engine.buildPost(TPL,p,POSTS);html=html.replace("<head>","<head><base href=\"https://skin-set.com/\">");$("#prev").srcdoc=html}
-async function buildAll(posts){const files=[];for(const p of posts){if(p.draft)continue;files.push({path:"blog/"+p.slug+"/index.html",content:Engine.buildPost(TPL,p,posts)})}
-  files.push({path:"blog/index.html",content:Engine.buildIndex(ITPL,posts)});files.push({path:"blog/rss.xml",content:Engine.buildRss(posts)});
+  const p=collect();const T=TPLS[EDIT_LANG]||TPLS.ru;let html=Engine.buildPost(T.tpl,p,POSTS,EDIT_LANG);if(!html){$("#prev").srcdoc="<p style='color:#fff;font-family:sans-serif;padding:20px'>Для этого языка ещё нет перевода</p>";return}html=html.replace("<head>","<head><base href=\"https://skin-set.com/\">");$("#prev").srcdoc=html}
+async function buildAll(posts){const files=[];
+  for(const lang of Object.keys(LANGS)){const T=TPLS[lang];if(!T)continue;const dir=LANGS[lang].blog.replace(/^\//,"");
+    for(const p of posts){const html=p.draft?null:Engine.buildPost(T.tpl,p,posts,lang);if(html)files.push({path:dir+p.slug+"/index.html",content:html})}
+    files.push({path:dir+"index.html",content:Engine.buildIndex(T.itpl,posts,lang)});files.push({path:dir+"rss.xml",content:Engine.buildRss(posts,lang)})}
   const sm=await getFile("sitemap.xml");files.push({path:"sitemap.xml",content:Engine.buildSitemap(sm||'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n</urlset>',posts)});
   files.push({path:"blog/posts.json",content:JSON.stringify(posts,null,1)});return files}
 $("#publishBtn").onclick=async()=>{const p=collect();if(!p.title||!p.md.trim()){toast("Нужны заголовок и текст",true);return}
@@ -264,12 +296,25 @@ $("#publishBtn").onclick=async()=>{const p=collect();if(!p.title||!p.md.trim()){
 $("#deleteBtn").onclick=async()=>{if(!CUR||!confirm("Удалить пост «"+CUR.title+"»?"))return;try{await loadTemplates();await loadPosts();POSTS=POSTS.filter(x=>x.slug!==CUR.slug);const files=await buildAll(POSTS);files.push({path:"blog/"+CUR.slug+"/index.html",delete:true});await commitFiles(files,"Delete post: "+CUR.title);toast("Удалено");CUR=null;show("posts")}catch(e){toast("Ошибка: "+e.message,true)}};
 $("#rebuildAll").onclick=async()=>{try{TPL=null;await loadTemplates();await loadPosts();const files=await buildAll(POSTS);await commitFiles(files,"Rebuild blog");toast("Блог пересобран")}catch(e){toast("Ошибка: "+e.message,true)}};
 /* ---- skins ---- */
-let SKINMAP={};fetch("/admin/skins-min.json").then(r=>r.json()).then(m=>{SKINMAP=m;Engine.setSkins(m);const dl=$("#skinList");dl.innerHTML=Object.keys(m).map(k=>"<option value=\""+Engine.esc(k)+"\">").join("");if($("#v-edit").classList.contains("on"))preview()}).catch(()=>toast("Не загрузилась база картинок скинов",true));
+let SKINMAP={};let SKINAPI=[];fetch("/admin/skins-api.json").then(r=>r.json()).then(m=>{SKINAPI=m;Engine.setSkins(m);SKINMAP=Object.fromEntries(m.map(r=>[r[0]+(r[5]?" ("+r[5]+")":""),r[1]]));const dl=$("#skinList");dl.innerHTML=Object.keys(SKINMAP).map(k=>"<option value=\""+Engine.esc(k)+"\">").join("");if($("#v-edit").classList.contains("on"))preview()}).catch(()=>toast("Не загрузилась база картинок скинов",true));
 let GROUP=[];function insertMd(text){const t=$("#pMd");const s=t.selectionStart;const before=t.value.slice(0,s),after=t.value.slice(t.selectionEnd);t.value=before+(before&&!before.endsWith("\n\n")?(before.endsWith("\n")?"\n":"\n\n"):"")+text+(after.startsWith("\n")?"":"\n")+after;t.focus();preview()}
 function skinName(){const q=$("#skinQ").value.trim();if(!q){toast("Введи название скина",true);return null}if(!Engine.skinImg(q)){toast("Такого скина нет в базе: "+q,true);return null}return q}
 $("#skinOne").onclick=()=>{const n=skinName();if(n){insertMd('[skin name="'+n+'"]');$("#skinQ").value=""}};
 $("#skinAdd").onclick=()=>{const n=skinName();if(n){GROUP.push(n);$("#skinN").textContent=GROUP.length;$("#skinGroup").hidden=false;$("#skinQ").value="";toast("В группе: "+GROUP.length)}};
 $("#skinGroup").onclick=()=>{if(GROUP.length){insertMd('[skins names="'+GROUP.join(";")+'"]');GROUP=[];$("#skinN").textContent="0";$("#skinGroup").hidden=true}};
+/* ---- translate ---- */
+$("#llmSave").onclick=()=>{localStorage.setItem("ss_admin_llm",$("#llmKey").value.trim());localStorage.setItem("ss_admin_llm_model",$("#llmModel").value.trim()||"claude-sonnet-5-5");toast("Ключ сохранён")};
+const LANG_NAMES={en:"English (natural, for a gaming audience)",de:"German (du-Form, natural)",pt:"Brazilian Portuguese (você, natural)",tr:"Turkish (sen, natural)",pl:"Polish (ty, natural)"};
+const CUR_RULES={en:"Convert ruble prices to US dollars at 90 ₽ = $1 and round nicely ($4, $35, $350, $1,700); drop ruble parts.",tr:"Convert ruble prices to US dollars at 90 ₽ = $1 (format: 35 $); drop ruble parts.",de:"Convert ruble prices to euro at 90 ₽ = 1 € (format: 35 €, 1.700 €); drop ruble parts.",pt:"Convert ruble prices to reais at 16 ₽ = R$ 1 (format: R$ 180, R$ 1.800); drop ruble parts.",pl:"Convert ruble prices to złoty at 22 ₽ = 1 zł (format: 150 zł, 1500 zł); drop ruble parts."};
+async function translateOne(base,lang){const key=localStorage.getItem("ss_admin_llm")||"";const model=localStorage.getItem("ss_admin_llm_model")||"claude-sonnet-5-5";if(!key)throw new Error("нет API-ключа (Настройки → Автоперевод)");
+  const sys="You translate CS2 (Counter-Strike 2) skin blog posts from Russian into "+LANG_NAMES[lang]+". Keep Markdown structure exactly (headings, lists, tables, bold, blank lines). Lines starting with [cta, [skin or [skins are shortcodes: keep them verbatim except inside [cta ...] translate only the values of text=\"...\" and btn=\"...\". Skin and weapon names, wear names (Field-Tested), float, DMarket, Lis-Skins stay in English. "+CUR_RULES[lang]+" Keep desc under 160 characters. Return ONLY a JSON object {\"title\",\"desc\",\"lead\",\"md\"} with no code fences.";
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model,max_tokens:8000,system:sys,messages:[{role:"user",content:JSON.stringify({title:base.title,desc:base.desc,lead:base.lead,md:base.md})}]})});
+  if(!r.ok){let m=r.status+"";try{m+=" "+((await r.json()).error||{}).message}catch(e){}throw new Error(m)}
+  const j=await r.json();let txt=(j.content||[]).map(c=>c.text||"").join("").trim().replace(/^```json\s*|```$/g,"");const a=txt.indexOf("{");const b=txt.lastIndexOf("}");const o=JSON.parse(txt.slice(a,b+1));if(!o.md||!o.title)throw new Error("пустой ответ");return {title:o.title,desc:o.desc||"",lead:o.lead||"",md:o.md}}
+$("#translateBtn").onclick=async()=>{const base=EDIT_LANG==="ru"?fieldsNow():(RU_FIELDS||fieldsNow());if(!base.title||!base.md){toast("Сначала заполни русскую версию",true);return}
+  const btn=$("#translateBtn");btn.disabled=true;let ok=0;
+  for(const l of LANG_LIST.slice(1)){$("#langSt").textContent="перевожу на "+l.toUpperCase()+"…";try{CUR_TR[l]=await translateOne(base,l);ok++}catch(e){toast(l.toUpperCase()+": "+e.message,true);if(/API-ключа|401/.test(e.message))break}}
+  btn.disabled=false;langStatus();if(ok)toast("Переведено на "+ok+" яз. Проверь и нажми «Опубликовать»");if(EDIT_LANG!=="ru"){setFields(CUR_TR[EDIT_LANG]||{});preview()}};
 /* ---- image upload ---- */
 $("#imgUp").onclick=async()=>{const f=$("#imgFile").files[0];if(!f){toast("Выбери файл",true);return}if(f.size>5*1024*1024){toast("Файл больше 5 МБ",true);return}
   if(!TOKEN){toast("Нужен GitHub-токен",true);return}
@@ -280,7 +325,7 @@ $("#imgUp").onclick=async()=>{const f=$("#imgFile").files[0];if(!f){toast("Вы�
     insertMd("![описание картинки](/"+path+")");$("#imgHint").textContent="Загружено: /"+path+" (на сайте через 1–2 мин)";$("#imgFile").value=""}
   catch(e){$("#imgHint").textContent="";toast("Ошибка загрузки: "+e.message,true)}};
 /* ---- settings ---- */
-async function loadCfg(){try{const j=await getFile("config.json");const c=j?JSON.parse(j):{};$("#cDm").value=(c.refs||{}).dmarket||"";$("#cLs").value=(c.refs||{}).lis||"";$("#cTw").value=c.twitch||"";$("#cTg").value=c.telegram||"";$("#cAnnOn").checked=!!(c.announce&&c.announce.enabled);$("#cAnnText").value=(c.announce||{}).text||"";$("#cAnnUrl").value=(c.announce||{}).url||"";$("#cFeed").checked=c.feedEnabled!==false}catch(e){$("#cfgHint").textContent=e.message}}
+async function loadCfg(){$("#llmKey").value=localStorage.getItem("ss_admin_llm")||"";$("#llmModel").value=localStorage.getItem("ss_admin_llm_model")||"claude-sonnet-5-5";try{const j=await getFile("config.json");const c=j?JSON.parse(j):{};$("#cDm").value=(c.refs||{}).dmarket||"";$("#cLs").value=(c.refs||{}).lis||"";$("#cTw").value=c.twitch||"";$("#cTg").value=c.telegram||"";$("#cAnnOn").checked=!!(c.announce&&c.announce.enabled);$("#cAnnText").value=(c.announce||{}).text||"";$("#cAnnUrl").value=(c.announce||{}).url||"";$("#cFeed").checked=c.feedEnabled!==false}catch(e){$("#cfgHint").textContent=e.message}}
 $("#saveCfg").onclick=async()=>{const c={refs:{dmarket:$("#cDm").value.trim(),lis:$("#cLs").value.trim()},twitch:$("#cTw").value.trim(),telegram:$("#cTg").value.trim(),announce:{enabled:$("#cAnnOn").checked,text:$("#cAnnText").value.trim(),url:$("#cAnnUrl").value.trim()},feedEnabled:$("#cFeed").checked};
   try{await commitFiles([{path:"config.json",content:JSON.stringify(c,null,2)}],"Update site config");toast("Сохранено, на сайте через 1–2 минуты")}catch(e){toast("Ошибка: "+e.message,true)}};
 /* ---- firebase feed ---- */
@@ -316,6 +361,45 @@ function renderFeed(){$("#feedTable tbody").innerHTML=SETS.map(s=>`<tr><td>${new
 function renderStats(){const likes=SETS.reduce((a,s)=>a+(s.likes||0),0);const week=SETS.filter(s=>Date.now()-(s.createdAt||0)<7*864e5).length;const by={};SETS.forEach(s=>{by[s.preset]=(by[s.preset]||0)+1});const top=Object.entries(by).sort((a,b)=>b[1]-a[1])[0];
   $("#kv").innerHTML=`<div><b>${SETS.length}</b><small>сетов всего</small></div><div><b>${week}</b><small>за 7 дней</small></div><div><b>${likes}</b><small>лайков</small></div><div><b>${top?Engine.esc(top[0]):"—"}</b><small>самый частый цвет</small></div><div><b>${POSTS.length}</b><small>постов в блоге</small></div>`;
   $("#topTable tbody").innerHTML=SETS.slice().sort((a,b)=>(b.likes||0)-(a.likes||0)).slice(0,10).map(s=>`<tr><td>${s.likes||0}</td><td>${Engine.esc(s.name||"")}</td><td>${Engine.esc(s.preset||"")} · ${(s.items||[]).length} предм.</td><td>${new Date(s.createdAt||0).toLocaleDateString("ru-RU")}</td></tr>`).join("")}
+/* ---- skins database ---- */
+const SLOTMAP={"AK-47":"ak","M4A4":"m4","M4A1-S":"m4","AWP":"awp","Desert Eagle":"deagle","USP-S":"usp","Glock-18":"glock","P250":"p250","Five-SeveN":"fiveseven","Tec-9":"tec9","CZ75-Auto":"cz75","R8 Revolver":"r8","Dual Berettas":"duals","P2000":"p2000","MAC-10":"mac10","MP9":"mp9","MP7":"mp7","MP5-SD":"mp5","UMP-45":"ump","P90":"p90","PP-Bizon":"bizon","FAMAS":"famas","Galil AR":"galil","SG 553":"sg553","AUG":"aug","SSG 08":"ssg","SCAR-20":"scar","G3SG1":"g3","Nova":"nova","XM1014":"xm","MAG-7":"mag7","Sawed-Off":"sawed","M249":"m249","Negev":"negev"};
+const TIERS_RU={1:"до 300 ₽",2:"300–3000 ₽",3:"3–30 тыс. ₽",4:"30–150 тыс. ₽",5:"от 150 тыс. ₽"};
+function slotOf(r){if(r[4]==="Gloves")return "gloves";if(r[4]==="Knives")return "knife";return SLOTMAP[r[3]]||null}
+function tierOf(r){const [name,img,rar,weapon,cat]=r;const pat=(name.split(" | ")[1]||"").toLowerCase();
+  if(cat==="Gloves")return /sport gloves/i.test(weapon)?4:(/specialist|driver|moto/i.test(weapon)?4:3);
+  if(cat==="Knives"){const top=/doppler|fade|lore|tiger tooth|autotronic|slaughter|crimson web|marble/.test(pat);const prem=/karambit|m9 bayonet|butterfly|talon|skeleton/i.test(weapon);const cheap=/gut|navaja|shadow daggers/i.test(weapon);
+    if(prem)return top?5:4;if(cheap)return 3;return top?4:3}
+  const big=/^(AK-47|AWP|M4A4|M4A1-S)$/.test(weapon);
+  if(/contraband/i.test(rar))return 5;if(/covert/i.test(rar))return big?3:2;if(/classified/i.test(rar))return 2;if(/restricted/i.test(rar))return big?2:1;return 1}
+function rgb2lab(r,g,b){let [x,y,z]=[r/255,g/255,b/255].map(v=>v>.04045?Math.pow((v+.055)/1.055,2.4):v/12.92);[x,y,z]=[(x*.4124+y*.3576+z*.1805)/.95047,(x*.2126+y*.7152+z*.0722),(x*.0193+y*.1192+z*.9505)/1.08883].map(t=>t>.008856?Math.cbrt(t):7.787*t+16/116);return [116*y-16,500*(x-y),200*(y-z)]}
+const hex=(r,g,b)=>"#"+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,"0")).join("");
+async function colorsOf(img){return new Promise((res,rej)=>{const im=new Image();im.crossOrigin="anonymous";
+  im.onload=()=>{try{const c=document.createElement("canvas");const W=im.naturalWidth,H=im.naturalHeight;c.width=W;c.height=H;const x=c.getContext("2d",{willReadFrequently:true});x.drawImage(im,0,0);const d=x.getImageData(0,0,W,H).data;
+    const bins=new Map();let tot=0;
+    for(let i=0;i<d.length;i+=4){const a=d[i+3];if(a<140)continue;const r=d[i],g=d[i+1],b=d[i+2];const k=((r>>4)<<8)|((g>>4)<<4)|(b>>4);const e=bins.get(k)||{n:0,r:0,g:0,b:0};e.n++;e.r+=r;e.g+=g;e.b+=b;bins.set(k,e);tot++}
+    if(!tot)return res(null);
+    let cl=[...bins.values()].map(e=>({n:e.n,r:e.r/e.n,g:e.g/e.n,b:e.b/e.n}));cl.forEach(e=>e.lab=rgb2lab(e.r,e.g,e.b));cl.sort((a,b)=>b.n-a.n);
+    const out=[];for(const e of cl){const h=out.find(o=>Math.hypot(o.lab[0]-e.lab[0],o.lab[1]-e.lab[1],o.lab[2]-e.lab[2])<16);if(h){const n=h.n+e.n;h.r=(h.r*h.n+e.r*e.n)/n;h.g=(h.g*h.n+e.g*e.n)/n;h.b=(h.b*h.n+e.b*e.n)/n;h.n=n;h.lab=rgb2lab(h.r,h.g,h.b)}else out.push({...e});if(out.length>40)break}
+    // приоритет насыщенным цветам: тёмный корпус оружия не должен затмевать акцент
+    out.forEach(o=>{const mx=Math.max(o.r,o.g,o.b),mn=Math.min(o.r,o.g,o.b);const sat=mx?(mx-mn)/mx:0;const light=(mx+mn)/510;o.score=(o.n/tot)*(0.25+sat*1.6)*(light<.08?.35:1)});
+    out.sort((a,b)=>b.score-a.score);const top=out.filter(o=>o.n/tot>0.025).slice(0,3);res(top.map(o=>hex(o.r,o.g,o.b)))}catch(e){rej(e)}};
+  im.onerror=()=>rej(new Error("img"));im.src="https://images.weserv.nl/?url="+encodeURIComponent(img)+"&w=128&h=96&fit=inside&output=png"})}
+let EXTRA=[],BASE=new Set(),STOP=false;
+async function skinsInit(){try{const b=await (await fetch("/data/skins-base.json")).json();BASE=new Set(b.map(x=>x.toLowerCase()))}catch(e){}
+  try{const r=await fetch("/data/skins-extra.json?t="+Date.now(),{cache:"no-store"});EXTRA=r.ok?await r.json():[]}catch(e){EXTRA=[]}
+  $("#baseN").textContent=BASE.size;$("#apiN").textContent=SKINAPI.length;$("#extraN").textContent=EXTRA.length;$("#missN").textContent=missing().length;renderSkins()}
+const keyOf=r=>(r[0]+(r[5]?" ("+r[5]+")":"")).toLowerCase();
+function missing(){const have=new Set([...BASE,...EXTRA.map(e=>(e[1].replace("★ ","")+" | "+e[2]).toLowerCase())]);return SKINAPI.filter(r=>slotOf(r)&&!have.has(keyOf(r)))}
+function renderSkins(){const rows=EXTRA.slice(-60).reverse();$("#skinsTable tbody").innerHTML=rows.map(e=>`<tr><td><img src="${Engine.esc(e[5]||"")}" style="width:48px;height:36px;object-fit:contain;vertical-align:middle;margin-right:8px">${Engine.esc(e[1])} | ${Engine.esc(e[2])}</td><td>${e[0]}</td><td><span class="thumbs">${e[4].map(c=>`<i style="background:${c}"></i>`).join("")}</span> ${e[4].join(", ")}</td><td>${TIERS_RU[e[3]]||e[3]}</td><td><small>${Engine.esc(e[6]||"")}</small></td></tr>`).join("")||'<tr><td colspan="5" style="color:var(--dim)">Пока ничего не добавлено</td></tr>'}
+async function runSkins(all){if(!SKINAPI.length){toast("База ещё грузится",true);return}STOP=false;$("#skinsStop").hidden=false;$("#skinsRun").disabled=true;$("#skinsAll").disabled=true;
+  if(all)EXTRA=[];const todo=missing();let done=0,fail=0;const t0=Date.now();
+  const worker=async()=>{while(todo.length&&!STOP){const r=todo.shift();try{const cols=await colorsOf(r[1]);if(cols&&cols.length){const phase=r[5]?" ("+r[5]+")":"";const w=(r[4]==="Gloves"||r[4]==="Knives"?"★ ":"")+r[3];const skin=r[0].split(" | ").slice(1).join(" | ")+phase;EXTRA.push([slotOf(r),w,skin,tierOf(r),cols,r[1],r[6]||""])}else fail++}catch(e){fail++}
+    done++;$("#skinsBar").style.width=(100*done/(done+todo.length))+"%";$("#skinsHint").textContent=`обработано ${done}, ошибок ${fail}, осталось ${todo.length}`;if(done%20===0){$("#extraN").textContent=EXTRA.length;renderSkins()}}};
+  await Promise.all(Array.from({length:6},worker));
+  $("#skinsStop").hidden=true;$("#skinsRun").disabled=false;$("#skinsAll").disabled=false;$("#skinsSave").hidden=false;$("#extraN").textContent=EXTRA.length;$("#missN").textContent=missing().length;renderSkins();
+  $("#skinsHint").textContent=`Готово за ${Math.round((Date.now()-t0)/1000)} с: добавлено ${EXTRA.length}, не удалось ${fail}. Нажми «Сохранить в репозиторий».`}
+$("#skinsRun").onclick=()=>runSkins(false);$("#skinsAll").onclick=()=>{if(confirm("Пересчитать цвета для всех скинов заново? Это 3–6 минут."))runSkins(true)};$("#skinsStop").onclick=()=>{STOP=true};
+$("#skinsSave").onclick=async()=>{try{await commitFiles([{path:"data/skins-extra.json",content:JSON.stringify(EXTRA)}],"Update extra skins database ("+EXTRA.length+")");toast("Сохранено: "+EXTRA.length+" скинов, на сайте через 1–2 минуты");$("#skinsSave").hidden=true}catch(e){toast("Ошибка: "+e.message,true)}};
 /* ---- init ---- */
 loadPosts();if(!TOKEN)setTimeout(()=>$("#tokenModal").hidden=false,300);
 </script>

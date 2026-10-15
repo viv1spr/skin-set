@@ -497,7 +497,7 @@ body[data-route="blog"] .layout{grid-template-columns:1fr}
 
 .announce{display:flex;justify-content:center;align-items:center;gap:10px;padding:8px 14px;background:var(--pick);color:var(--on-pick);font:600 .8rem/1.2 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-align:center}
 .announce a{color:inherit;text-decoration:underline}
-</style>
+.card .cap em.pr{display:block;margin-top:4px;font:600 .8rem/1 var(--hud);letter-spacing:.06em;color:var(--pick);font-style:normal}</style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Wie finde ich CS2-Skins nach Farbe?","acceptedAnswer":{"@type":"Answer","text":"Wähle im Skinset-Builder eine Farbe — er vergleicht Farbtöne der Skins mit deiner Palette und stellt Messer, Handschuhe und Waffen in einem Schema mit Preisstufe zusammen."}},
@@ -549,7 +549,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 <div class="app">
 <header class="hud">
   <a class="logo" href="/de/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>
-  <nav class="tabs" id="tabs"><a href="/de/" data-route="home">Builder</a><a href="/de/so-funktionierts/" data-route="how">So funktioniert's</a><a href="/de/wo-kaufen/" data-route="shops">Marktplätze</a><a href="/de/loadouts/" data-route="feed">Loadouts</a><a href="/blog/" data-route="blog">Blog</a><a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a></nav>
+  <nav class="tabs" id="tabs"><a href="/de/" data-route="home">Builder</a><a href="/de/so-funktionierts/" data-route="how">So funktioniert's</a><a href="/de/wo-kaufen/" data-route="shops">Marktplätze</a><a href="/de/loadouts/" data-route="feed">Loadouts</a><a href="/de/blog/" data-route="blog">Blog</a><a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a></nav>
   <div class="langs"><a href="/cherno-belye-skiny-cs2/" class="" hreflang="ru">RU</a><a href="/en/black-white-cs2-skins/" class="" hreflang="en">EN</a><a href="/de/schwarz-weisse-cs2-skins/" class="on" hreflang="de">DE</a><a href="/pt/skins-preto-branco-cs2/" class="" hreflang="pt-BR">PT</a><a href="/tr/siyah-beyaz-cs2-skinleri/" class="" hreflang="tr">TR</a><a href="/pl/czarno-biale-skiny-cs2/" class="" hreflang="pl">PL</a></div><button class="hudbtn" id="copyTop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Loadout kopieren</span></button>
 </header>
 
@@ -1125,6 +1125,27 @@ async function loadImages(){
     $("#srcNote").textContent="Bilder: Valve / CS2";render();if(typeof drawFeed==="function")drawFeed();
   }catch(e){/* нет сети или заблокировано: остаёмся für силуэтах */}
 }
+
+/* дополнительная база скинов из админки: /data/skins-extra.json (новые кейсы, перчатки, ножи) */
+async function loadExtraSkins(){
+  try{const r=await fetch("/data/skins-extra.json",{cache:"no-store"});if(!r.ok)return;const list=await r.json();if(!Array.isArray(list))return;
+    const have=new Set(SKINS.map(s=>(s.weapon.replace("★ ","")+" | "+s.skin).toLowerCase()));let added=0;
+    for(const row of list){const [slot,weapon,skin,tier,colors,img]=row;if(!slot||!weapon||!skin||!colors||!colors.length)continue;
+      const key=(weapon.replace("★ ","")+" | "+skin).toLowerCase();if(have.has(key))continue;have.add(key);
+      SKINS.push({i:SKINS.length,slot,weapon,skin,tier:+tier||2,colors,lab:colors.map(hexToLab),img:img||null});added++}
+    if(added){window.EXTRA_SKINS=added;render();if(typeof drawFeed==="function")drawFeed()}
+  }catch(e){}
+}
+
+/* живые цены (DMarket / Lis-Skins): /data/prices.json, обновляется ботом раз в сутки */
+window.PRICES=null;
+async function loadPrices(){
+  try{const r=await fetch("/data/prices.json",{cache:"no-store"});if(!r.ok)return;const P=await r.json();if(!P||typeof P!=="object")return;window.PRICES=P;applyPrices();render();if(typeof drawFeed==="function")drawFeed()}catch(e){}
+}
+function applyPrices(){const P=window.PRICES;if(!P)return;const RATE=90;
+  for(const s of SKINS){const key=s.weapon.replace("★ ","")+" | "+s.skin;const rec=P[key];if(!rec)continue;const usd=Math.min(...[rec.dm,rec.ls].filter(x=>x>0));if(!isFinite(usd)||usd<=0)continue;
+    s.priceUsd=usd;s.priceRub=Math.round(usd*RATE);s.priceDm=rec.dm||null;s.priceLs=rec.ls||null;const t=tierFor(s.priceRub);if(t>=1&&t<=5)s.tier=t}}
+const priceLabel=s=>s&&s.priceRub?fmtMoney(s.priceRub):TIER[s.tier];
 const _art=art;
 function pic(slot,s,id){ const svg=_art(slot.shape,s?s.colors:["#666","#444"],id,s?s.i:0); return s&&s.img?`<img src="${s.img}" alt="${s.weapon} | ${s.skin}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='contents'"><span style="display:none">${svg}</span>`:svg }
 const SKINS = RAW.map(([slot,weapon,skin,tier,...colors],i)=>({i,slot,weapon,skin,tier,colors,lab:colors.map(hexToLab)}));
@@ -1203,7 +1224,7 @@ function render(){
   $("#customwrap").setAttribute("aria-pressed",state.preset===-1);
   if(CUR)$("#curSym").textContent=CUR.sym;const rubIn=$("#budgetRub");if(document.activeElement!==rubIn)rubIn.value=state.budgetRub==null?"":fromRub(state.budgetRub);
   document.querySelectorAll(".bq").forEach(b=>b.setAttribute("aria-pressed",(b.dataset.v===""?null:toRub(+b.dataset.v))===state.budgetRub));
-  {const est=active().reduce((a,sl)=>{const c=current(sl.id);return a+(c?PRICE_MID[c.s.tier]:0)},0);state._est=est;
+  {const est=active().reduce((a,sl)=>{const c=current(sl.id);return a+(c?(c.s.priceRub||PRICE_MID[c.s.tier]):0)},0);state._est=est;
   const fmt=n=>fmtMoney(n);
   if(state.budgetRub!=null&&state.budgetRub<=0)$("#bhint").innerHTML=`<b>Gib einen Betrag über null ein</b> oder entferne das Limit.`;
   else if(state.budgetRub==null)$("#bhint").innerHTML=`Ohne Limit — wir zeigen die <b>besten Farbtreffer</b> . Geschätzter Wert ≈ <b>${fmt(est)}</b>.`;
@@ -1219,7 +1240,7 @@ function render(){
     if(!c){cards.push(`<div class="card empty ${on?"on":""}" role="button" tabindex="0" data-sel="${slot.id}" style="--c0:#555"><span class="sl">${slot.label}</span><div class="pic">${art(slot.shape,["#666","#444"],"e"+slot.id,0)}</div><div class="rb"></div><div class="cap"><b>Über Budget</b><span>Limit erhöhen</span></div></div>`);continue}
     found++;const s=c.s;maxTier=Math.max(maxTier,s.tier);names.push(`${slot.label}: ${s.weapon} | ${s.skin}`);
     const rm=slot.premium?"":`<button class="rm" data-rm="${slot.id}" aria-label="Aus dem Set entfernen" title="Aus dem Set entfernen">×</button>`;
-    cards.push(`<div class="card ${on?"on":""}" role="button" tabindex="0" data-sel="${slot.id}" style="--c0:${s.colors[0]}"><span class="sl">${slot.label}</span>${rm}${state.locked[slot.id]!=null?`<span class="lk">${ICON.lock}</span>`:""}<div class="pic">${pic(slot,s,"c"+slot.id+s.i)}</div><div class="rb"></div><button class="swap choose" data-choose="${slot.id}">${ICON.pick}<span>Wählen</span></button><button class="swap" data-swap="${slot.id}" title="Andere Option für diesen Slot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"/></svg><span>Tauschen</span></button><div class="cap"><b>${s.skin}</b><span>${s.weapon}</span></div><div class="cb">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener sponsored" href="${sh.url(query(s))}" data-buy title="Kaufen bei ${sh.label}">${logoImg(sh.id,"s")}${sh.label}</a>`).join("")}</div></div>`);
+    cards.push(`<div class="card ${on?"on":""}" role="button" tabindex="0" data-sel="${slot.id}" style="--c0:${s.colors[0]}"><span class="sl">${slot.label}</span>${rm}${state.locked[slot.id]!=null?`<span class="lk">${ICON.lock}</span>`:""}<div class="pic">${pic(slot,s,"c"+slot.id+s.i)}</div><div class="rb"></div><button class="swap choose" data-choose="${slot.id}">${ICON.pick}<span>Wählen</span></button><button class="swap" data-swap="${slot.id}" title="Andere Option für diesen Slot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"/></svg><span>Tauschen</span></button><div class="cap"><b>${s.skin}</b><span>${s.weapon}</span>${s.priceRub?`<em class="pr">${fmtMoney(s.priceRub)}</em>`:""}</div><div class="cb">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener sponsored" href="${sh.url(query(s))}" data-buy title="Kaufen bei ${sh.label}">${logoImg(sh.id,"s")}${sh.label}</a>`).join("")}</div></div>`);
   }
   $("#slots").innerHTML=cards.join("");{const h=(state.hidden||[]).length;const rb=$("#restoreBtn");if(rb){rb.hidden=!h;$("#restoreN").textContent=h?"("+h+")":""}}$("#cnt").textContent=`${found} / ${act.length}`;
   $("#dTitle").textContent=`${found} Items`;$("#dSub").textContent=found?`≈ ${fmtMoney(state._est||0)}`:"Budget ändern";
@@ -1236,7 +1257,7 @@ function render(){
     $("#bigArt").innerHTML=pic(slot,s,"big"+s.i);$("#reflArt").innerHTML=pic(slot,s,"ref"+s.i);
     $("#info").innerHTML=`<div class="slotname">${slot.label} · Slot ${act.indexOf(slot)+1} von ${act.length}</div><p class="h1">${s.skin}</p><div class="wp">${s.weapon}</div>
       <div class="bar" style="--c0:${s.colors[0]};--c1:${s.colors[1]||s.colors[0]}"></div>
-      <div class="kv"><div><small>Preis</small><b>${TIER[s.tier]}</b></div><div><small>Treffer</small><b class="${c.d<32?"good":""}">${fitText(c.d)}</b></div></div>
+      <div class="kv"><div><small>Preis</small><b>${priceLabel(s)}</b></div><div><small>Treffer</small><b class="${c.d<32?"good":""}">${fitText(c.d)}</b></div></div>
       <div class="buy">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener sponsored" href="${sh.url(query(s))}">${mark(sh.id,sh.label.slice(0,2).toUpperCase())}<span class="tx"><small>Kaufen bei</small><b>${sh.label}</b></span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>`).join("")}</div>
       <div class="acts"><button id="altBtn" ${locked?"disabled":""}>${ICON.next}Anderer</button><button id="lockBtn" aria-pressed="${locked}">${ICON.lock}${locked?"Fixiert":"Fixieren"}</button></div>`;
   }else{ha.style.setProperty("--c0","#555");$("#bigArt").innerHTML=art(slot.shape,["#666","#444"],"bige",0);$("#reflArt").innerHTML="";
@@ -1279,7 +1300,7 @@ function drawPick(){const q=$("#spQ").value.trim().toLowerCase();const T=state.c
   let list=SKINS.filter(s=>s.slot===SP_SLOT).map(s=>({s,d:score(s,T)})).sort((a,b)=>a.d-b.d);
   if(q)list=list.filter(c=>(c.s.weapon+" "+c.s.skin).toLowerCase().includes(q));
   const cur=state.locked[SP_SLOT];
-  $("#spList").innerHTML=list.length?list.map(c=>{const s=c.s;return `<button data-pick="${s.i}" aria-pressed="${cur===s.i}" style="--c0:${s.colors[0]}"><i class="th">${pic(slot,s,"sp"+s.i)}</i><span><b>${s.skin}</b><small>${s.weapon}</small></span><em class="${c.d<32?"fit":""}">${TIER[s.tier]}</em></button>`}).join(""):`<div class="sp-sub">Nichts gefunden</div>`}
+  $("#spList").innerHTML=list.length?list.map(c=>{const s=c.s;return `<button data-pick="${s.i}" aria-pressed="${cur===s.i}" style="--c0:${s.colors[0]}"><i class="th">${pic(slot,s,"sp"+s.i)}</i><span><b>${s.skin}</b><small>${s.weapon}</small></span><em class="${c.d<32?"fit":""}">${priceLabel(s)}</em></button>`}).join(""):`<div class="sp-sub">Nichts gefunden</div>`}
 $("#spQ").addEventListener("input",drawPick);
 $("#spClose").addEventListener("click",()=>{$("#spick").hidden=true});
 $("#spList").addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;const s=SKINS[+b.dataset.pick];if(!s)return;
@@ -1346,7 +1367,7 @@ let fc=0;const NICK=["dust_rider","kr1stal","nova_x","ezpz","b1gm4n","mirage_cat
 const feedEl=$("#feed");
 const ago=ts=>{const d=(Date.now()-ts)/1000;if(d<60)return"gerade eben";if(d<3600)return Math.floor(d/60)+" Min.";if(d<86400)return Math.floor(d/3600)+" Std.";return Math.floor(d/86400)+" T."};
 function setCard(doc,{mine=false,name="Spieler",demo=false,idx=0}={}){
-  const items=(doc.items||[]).map(it=>({slot:SLOTS.find(s=>s.id===it.slot),s:SKINS[it.i]})).filter(x=>x.slot&&x.s);
+  const items=(doc.items||[]).map(it=>{let sk=SKINS[it.i];if(it.n){const h=SKINS.find(x=>(x.weapon.replace("★ ","")+" | "+x.skin)===it.n);if(h)sk=h}return{slot:SLOTS.find(s=>s.id===it.slot),s:sk}}).filter(x=>x.slot&&x.s);
   if(!items.length)return"";
   const thumbs=items.slice(0,4).map(x=>`<div style="--c0:${x.s.colors[0]}">${pic(x.slot,x.s,"t"+(fc++))}</div>`).join("");
   const pal=(doc.colors||[]).map(c=>`<i style="background:${c}"></i>`).join("");
@@ -1369,7 +1390,7 @@ feedEl.addEventListener("click",async e=>{const lk=e.target.closest("[data-like]
   if(VIEWING==null)MINE=JSON.parse(JSON.stringify({colors:state.colors,preset:state.preset,budget:state.budget,budgetRub:state.budgetRub,premium:state.premium,locked:state.locked,extra:state.extra,sel:state.sel,offset:state.offset}));
   VIEWING=f;
   state.colors=[...f.colors];state.preset=PRESETS.findIndex(p=>p.name===f.preset);state.budget=5;state.budgetRub=null;state.premium=true;state.locked={};
-  state.extra=f.items.map(it=>it.slot).filter(id=>EXTRA_SLOTS.some(s=>s.id===id));for(const it of f.items)state.locked[it.slot]=it.i;state.sel=(f.items[0]||{}).slot||"ak";render();
+  state.extra=f.items.map(it=>it.slot).filter(id=>EXTRA_SLOTS.some(s=>s.id===id));for(const it of f.items){let idx=it.i;if(it.n){const k=SKINS.findIndex(x=>(x.weapon.replace("★ ","")+" | "+x.skin)===it.n);if(k>=0)idx=k}state.locked[it.slot]=idx};state.sel=(f.items[0]||{}).slot||"ak";render();
   if(document.body.dataset.route==="feed")location.href="/de/";toast("Loadout geöffnet, Items fixiert");showViewing()});
 function showViewing(){const bar=$("#viewbar");$("#backMine2").hidden=!VIEWING;if(!VIEWING){bar.hidden=true;return}bar.hidden=false;$("#viewName").textContent=VIEWING._demo?VIEWING._name:"einem Spieler"}
 function backToMine(){if(!MINE)return;Object.assign(state,MINE);VIEWING=null;MINE=null;feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));render();showViewing();toast("Zurück zu deinem Loadout")}
@@ -1401,7 +1422,7 @@ function publishSet(){
 async function doPublish(){
   const name=cleanName($("#nickIn").value)||"Spieler";try{localStorage.setItem("skinset_nick",name)}catch(e){}
   $("#nickDlg").hidden=true;
-  const items=active().map(sl=>{const c=current(sl.id);return c?{slot:sl.id,i:c.s.i}:null}).filter(Boolean).slice(0,24);
+  const items=active().map(sl=>{const c=current(sl.id);return c?{slot:sl.id,i:c.s.i,n:c.s.weapon.replace("★ ","")+" | "+c.s.skin}:null}).filter(Boolean).slice(0,24);
   const doc={name,colors:state.colors.slice(0,2),preset:(state.preset>=0?PRESETS[state.preset].name:"custom").slice(0,40),items,createdAt:Date.now(),likes:0};
   const btns=[$("#pubBtn"),$("#pubBtn2")];btns.forEach(b=>b&&(b.disabled=true));
   try{const r=await fbAdd(doc);const id=(r.name||"").split("/").pop();MY_IDS.add(id);try{localStorage.setItem("skinset_my",JSON.stringify([...MY_IDS].slice(-50)));localStorage.setItem("skinset_pub",String(Date.now()))}catch(e){}
@@ -1427,7 +1448,7 @@ async function initFeed(){
   setInterval(async()=>{try{const d=await fbList();const m=new Map(d.map(x=>[x._id,x]));REAL=REAL.map(x=>m.get(x._id)||x);d.forEach(x=>{if(!REAL.find(y=>y._id===x._id))REAL.push(x)});applyFeed()}catch(e){}},90000);
 }
 initFeed();showViewing();
-render();loadImages();
+render();loadImages().then(loadExtraSkins).then(loadPrices);
 /* переключатель валюты */
 function applyCur(mode){
   const usd=mode==="usd";

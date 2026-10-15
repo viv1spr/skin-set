@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Skinset — админка</title>
+<link rel="icon" href="/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0b0d;--panel:#121317;--panel2:#191b21;--line:#23262e;--line2:#343845;--ink:#f2f2f2;--soft:#aab0bd;--dim:#6b7280;--pick:#e8402a;--ok:#49d17d;--hud:"Rajdhani",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--body)}
+a{color:var(--pick)}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:18px;height:58px;padding:0 20px;background:#0d0e12;border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:8px;font:700 1.15rem var(--hud);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo svg{width:24px;height:24px}
+.top nav{display:flex;gap:4px;margin-left:10px;overflow:auto}
+.top nav button{background:none;border:0;color:var(--soft);font:600 .82rem var(--hud);letter-spacing:.12em;text-transform:uppercase;padding:10px 12px;cursor:pointer;border-bottom:2px solid transparent}
+.top nav button.on{color:var(--ink);border-color:var(--pick)}
+.top .st{margin-left:auto;font-size:.78rem;color:var(--dim);display:flex;gap:10px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:#555}.dot.ok{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+main{max-width:1180px;margin:0 auto;padding:22px 20px 80px}
+.view{display:none}.view.on{display:block}
+h1{font:600 1.5rem var(--hud);letter-spacing:.06em;text-transform:uppercase;margin:0 0 14px}
+h2{font:600 1rem var(--hud);letter-spacing:.1em;text-transform:uppercase;margin:22px 0 10px;color:var(--soft)}
+.card{background:var(--panel);border:1px solid var(--line);padding:16px;margin-bottom:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}}
+label{display:block;font:600 .72rem var(--hud);letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin:0 0 5px}
+input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--ink);padding:9px 11px;font:inherit;outline:0}
+input:focus,select:focus,textarea:focus{border-color:var(--pick)}
+textarea{min-height:120px;resize:vertical;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9rem;line-height:1.5}
+textarea.md{min-height:520px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--pick);color:#fff;border:0;padding:10px 16px;font:600 .82rem var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--ink);clip-path:none}
+.btn.danger{background:#7a1f1f}
+.btn:disabled{opacity:.5;cursor:default}
+.f{margin-bottom:12px}
+.hint{font-size:.8rem;color:var(--dim);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+td,th{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font:600 .72rem var(--hud);letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+tr:hover td{background:rgba(255,255,255,.02)}
+.tag{display:inline-block;padding:2px 7px;border:1px solid var(--line2);font:600 .68rem var(--hud);letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.tag.draft{color:#ffb020;border-color:#ffb020}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#0d0e10;padding:10px 16px;font:600 .82rem var(--hud);letter-spacing:.1em;text-transform:uppercase;opacity:0;pointer-events:none;transition:.2s;z-index:50}
+.toast.show{opacity:1}
+.toast.err{background:#ff5a5a;color:#fff}
+.editor{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:1000px){.editor{grid-template-columns:1fr}}
+iframe.prev{width:100%;height:760px;border:1px solid var(--line);background:#0b0b0e}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.kv div{background:var(--panel2);border:1px solid var(--line);padding:12px}
+.kv b{display:block;font:700 1.6rem var(--hud)}
+.kv small{color:var(--soft);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.thumbs{display:flex;gap:4px}.thumbs i{width:12px;height:12px;display:inline-block;transform:rotate(45deg)}
+code{background:var(--panel2);padding:1px 5px;border:1px solid var(--line)}
+pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:auto;font-size:.8rem}
+.modal{position:fixed;inset:0;background:rgba(5,6,8,.8);display:grid;place-items:center;z-index:40;padding:16px}
+.modal[hidden]{display:none}
+.modal .card{width:min(520px,100%);margin:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{background:var(--panel2);border:1px solid var(--line2);color:var(--soft);padding:6px 10px;font:600 .72rem var(--hud);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.chips button:hover{color:var(--ink);border-color:#fff}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="/"><svg viewBox="0 0 32 32"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset · админка</a>
+  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Новый пост</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="help">Справка</button></nav>
+  <div class="st"><span class="dot" id="ghDot"></span><span id="ghSt">GitHub</span><button class="btn ghost" id="tokenBtn" style="padding:6px 10px">Токен</button></div>
+</header>
+<main>
+
+<section class="view on" id="v-posts">
+  <h1>Посты блога</h1>
+  <div class="row" style="margin-bottom:12px"><button class="btn" id="newPost">+ Новый пост</button><button class="btn ghost" id="reloadPosts">Обновить</button><button class="btn ghost" id="rebuildAll">Пересобрать блог</button><span class="hint" id="postsHint"></span></div>
+  <div class="card"><table id="postsTable"><thead><tr><th>Дата</th><th>Заголовок</th><th>Цвет</th><th>Статус</th><th></th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section class="view" id="v-edit">
+  <h1 id="editTitle">Новый пост</h1>
+  <div class="editor">
+    <div>
+      <div class="card">
+        <div class="f"><label>Заголовок (H1)</label><input id="pTitle" placeholder="С чем сочетать AK-47 Redline: перчатки, нож, пистолеты"></div>
+        <div class="grid g2">
+          <div class="f"><label>Адрес (slug)</label><input id="pSlug" placeholder="авто из заголовка"><div class="hint">skin-set.com/blog/<span id="slugPrev">…</span>/</div></div>
+          <div class="f"><label>Дата</label><input id="pDate" type="date"></div>
+        </div>
+        <div class="f"><label>Описание (meta description, 120–160 символов)</label><textarea id="pDesc" style="min-height:64px;font-family:inherit"></textarea><div class="hint"><span id="descLen">0</span> символов</div></div>
+        <div class="f"><label>Лид (первый абзац под заголовком)</label><textarea id="pLead" style="min-height:64px;font-family:inherit"></textarea></div>
+        <div class="grid g3">
+          <div class="f"><label>Цвет сета (для кнопки «собрать»)</label><select id="pColor"><option value="">— нет —</option></select></div>
+          <div class="f"><label>Бюджет, ₽ (необязательно)</label><input id="pBudget" type="number" placeholder="10000"></div>
+          <div class="f"><label>SEO title (если отличается)</label><input id="pSeoTitle" placeholder="авто: заголовок — Skinset"></div>
+        </div>
+        <div class="f"><label><input type="checkbox" id="pDraft" style="width:auto;margin-right:6px">Черновик (не показывать на сайте)</label></div>
+      </div>
+      <div class="card">
+        <label>Текст (Markdown)</label>
+        <div class="chips" style="margin-bottom:8px">
+          <button data-ins="## ">Заголовок</button><button data-ins="**жирный**">Жирный</button><button data-ins="- ">Список</button><button data-ins="[текст](https://)">Ссылка</button><button data-ins="![описание](https://адрес-картинки.png)">Картинка</button><button data-ins="> ">Цитата</button><button data-ins='[cta color=0 budget=10000 text="Собери красный сет за 10 000 ₽"]'>Кнопка «собрать сет»</button><button data-ins="| Предмет | Цена |\n|---|---|\n| AK-47 Redline | 300–3000 ₽ |">Таблица</button>
+        </div>
+        <textarea id="pMd" class="md" placeholder="## Подзаголовок&#10;&#10;Абзац текста. **Жирный**, [ссылка](https://...).&#10;&#10;- пункт&#10;- пункт&#10;&#10;[cta color=0 budget=10000 text=&quot;Собери красный сет за 10 000 ₽&quot;]"></textarea>
+        <div class="hint">Заголовки: ## и ###. Кнопка сета: [cta color=0..8 budget=... text="..."]. Цвета: 0 красный, 1 синий, 2 розовый, 3 фиолетовый, 4 зелёный, 5 золото, 6 оранжевый, 7 бирюза, 8 чёрно-белый.</div>
+      </div>
+      <div class="row"><button class="btn" id="publishBtn">Опубликовать</button><button class="btn ghost" id="previewBtn">Обновить предпросмотр</button><button class="btn ghost danger" id="deleteBtn" hidden>Удалить пост</button><span class="hint" id="editHint"></span></div>
+    </div>
+    <div><label>Предпросмотр</label><iframe class="prev" id="prev"></iframe></div>
+  </div>
+</section>
+
+<section class="view" id="v-feed">
+  <h1>Лента сетов</h1>
+  <div class="card">
+    <div class="row"><span class="dot" id="fbDot"></span><span id="fbSt">Firebase: не вошёл</span><button class="btn ghost" id="fbLogin">Войти через Google</button><button class="btn ghost" id="fbLogout" hidden>Выйти</button><button class="btn ghost" id="feedReload">Обновить</button></div>
+    <div class="hint">Удаление работает только после входа под аккаунтом владельца Firebase и после обновления правил (см. «Справка»).</div>
+  </div>
+  <div class="card"><table id="feedTable"><thead><tr><th>Дата</th><th>Ник</th><th>Цвета</th><th>Предметов</th><th>♥</th><th></th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section class="view" id="v-settings">
+  <h1>Настройки сайта</h1>
+  <div class="hint" style="margin-bottom:12px">Хранятся в <code>config.json</code>; страницы подхватывают их при загрузке без пересборки.</div>
+  <div class="card grid g2">
+    <div class="f"><label>Реф DMarket (ref=)</label><input id="cDm"></div>
+    <div class="f"><label>Реф Lis-Skins (rf=)</label><input id="cLs"></div>
+    <div class="f"><label>Ссылка Twitch</label><input id="cTw"></div>
+    <div class="f"><label>Ссылка Telegram</label><input id="cTg"></div>
+  </div>
+  <div class="card">
+    <div class="f"><label><input type="checkbox" id="cAnnOn" style="width:auto;margin-right:6px">Показывать объявление вверху сайта</label></div>
+    <div class="grid g2"><div class="f"><label>Текст объявления</label><input id="cAnnText" placeholder="Стрим сегодня в 20:00 — собираем сеты в прямом эфире"></div><div class="f"><label>Ссылка (необязательно)</label><input id="cAnnUrl" placeholder="https://www.twitch.tv/viv1stop"></div></div>
+    <div class="f"><label><input type="checkbox" id="cFeed" style="width:auto;margin-right:6px" checked>Показывать ленту сетов на сайте</label></div>
+  </div>
+  <div class="row"><button class="btn" id="saveCfg">Сохранить</button><span class="hint" id="cfgHint"></span></div>
+</section>
+
+<section class="view" id="v-stats">
+  <h1>Статистика</h1>
+  <div class="kv" id="kv"></div>
+  <h2>Топ сетов по лайкам</h2>
+  <div class="card"><table id="topTable"><thead><tr><th>♥</th><th>Ник</th><th>Предметы</th><th>Дата</th></tr></thead><tbody></tbody></table></div>
+  <h2>Где смотреть остальное</h2>
+  <div class="card">
+    <p><b>Поисковый трафик и запросы:</b> <a href="https://search.google.com/search-console" target="_blank">Google Search Console</a> · <a href="https://webmaster.yandex.ru" target="_blank">Яндекс Вебмастер</a>.<br><b>Посетители:</b> <a href="https://metrika.yandex.ru" target="_blank">Яндекс Метрика</a> (если счётчик подключён).<br><b>Доходы:</b> кабинеты партнёрок DMarket и Lis-Skins.</p>
+  </div>
+</section>
+
+<section class="view" id="v-help">
+  <h1>Справка</h1>
+  <div class="card">
+    <h2 style="margin-top:0">1. Токен GitHub (один раз)</h2>
+    <p>GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token. Repository access: <b>Only select repositories → skin-set</b>. Permissions → Repository permissions → <b>Contents: Read and write</b>. Срок — максимум (1 год). Скопируй токен и вставь по кнопке «Токен» вверху. Он хранится только в этом браузере.</p>
+    <h2>2. Вход в Firebase для модерации ленты</h2>
+    <p>Firebase Console → Build → <b>Authentication</b> → Get started → Sign-in method → <b>Google</b> → Enable (укажи почту поддержки) → Save. Затем Authentication → Settings → <b>Authorized domains</b> → Add domain → <code>skin-set.com</code>.</p>
+    <p>Потом Firestore → <b>Rules</b> → замени на это и Publish (удалять сможет только твоя почта):</p>
+<pre id="rulesPre"></pre>
+    <h2>3. Как публикуются посты</h2>
+    <p>Админка записывает файлы прямо в репозиторий GitHub: <code>blog/&lt;slug&gt;/index.html</code>, список <code>blog/index.html</code>, <code>blog/rss.xml</code>, <code>sitemap.xml</code> и базу постов <code>blog/posts.json</code>. GitHub Pages пересобирает сайт за 1–2 минуты. После публикации открой Search Console → Проверка URL → «Запросить индексирование».</p>
+    <h2>4. Markdown-шпаргалка</h2>
+    <pre>## Заголовок раздела
+### Подзаголовок
+Обычный абзац. **Жирный**, *курсив*, [ссылка](https://dmarket.com/...).
+- пункт списка
+1. нумерованный
+> цитата
+![подпись](https://адрес-картинки.png)
+| Предмет | Цена |
+|---|---|
+| AK-47 Redline | 300–3000 ₽ |
+[cta color=3 budget=10000 text="Собери фиолетовый сет за 10 000 ₽" btn="Открыть конструктор"]</pre>
+  </div>
+</section>
+</main>
+
+<div class="modal" id="tokenModal" hidden><div class="card">
+  <h2 style="margin-top:0">GitHub-токен</h2>
+  <div class="f"><input id="tokenIn" type="password" placeholder="github_pat_…"></div>
+  <div class="hint" style="margin-bottom:12px">Fine-grained token с правом Contents: Read and write на репозиторий viv1spr/skin-set. Хранится в localStorage этого браузера.</div>
+  <div class="row"><button class="btn" id="tokenSave">Сохранить</button><button class="btn ghost" id="tokenCancel">Отмена</button><button class="btn ghost danger" id="tokenClear">Удалить токен</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script src="/admin/engine.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script>
+const OWNER="viv1spr",REPO="skin-set",BRANCH="main";
+const FB_CFG={apiKey:"AIzaSyBCA4TCgmc4PD_lOarkvOHtf1f27_mSr6E",authDomain:"skinset-e5ac2.firebaseapp.com",projectId:"skinset-e5ac2"};
+const FS="https://firestore.googleapis.com/v1/projects/"+FB_CFG.projectId+"/databases/(default)/documents";
+const $=s=>document.querySelector(s);
+const toast=(t,err)=>{const e=$("#toast");e.textContent=t;e.className="toast show"+(err?" err":"");setTimeout(()=>e.classList.remove("show"),err?4000:2200)};
+/* ---- nav ---- */
+document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.v)));
+function show(v){document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));
+  if(v==="feed"||v==="stats")loadFeed();if(v==="settings")loadCfg();if(v==="posts")loadPosts()}
+/* ---- github ---- */
+let TOKEN=localStorage.getItem("ss_admin_gh")||"";
+function ghStatus(){$("#ghDot").className="dot"+(TOKEN?" ok":"");$("#ghSt").textContent=TOKEN?"GitHub: токен есть":"GitHub: нет токена"}
+ghStatus();
+$("#tokenBtn").onclick=()=>{$("#tokenIn").value=TOKEN;$("#tokenModal").hidden=false};
+$("#tokenCancel").onclick=()=>$("#tokenModal").hidden=true;
+$("#tokenClear").onclick=()=>{TOKEN="";localStorage.removeItem("ss_admin_gh");ghStatus();$("#tokenModal").hidden=true};
+$("#tokenSave").onclick=async()=>{TOKEN=$("#tokenIn").value.trim();localStorage.setItem("ss_admin_gh",TOKEN);ghStatus();$("#tokenModal").hidden=true;try{await gh("");toast("Токен работает");loadPosts()}catch(e){toast("Токен не принят: "+e.message,true)}};
+async function gh(path,opt={}){if(!TOKEN)throw new Error("нет токена GitHub");
+  const r=await fetch("https://api.github.com/repos/"+OWNER+"/"+REPO+path,{...opt,headers:{Authorization:"Bearer "+TOKEN,Accept:"application/vnd.github+json","Content-Type":"application/json",...(opt.headers||{})}});
+  if(!r.ok){let m=r.status+"";try{m+=" "+(await r.json()).message}catch(e){}throw new Error(m)}return r.status===204?null:r.json()}
+const b64dec=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g,"")),c=>c.charCodeAt(0)));
+async function getFile(path){try{const j=await gh("/contents/"+path+"?ref="+BRANCH+"&t="+Date.now());return b64dec(j.content)}catch(e){if(/^404/.test(e.message))return null;throw e}}
+async function commitFiles(files,message){
+  const ref=await gh("/git/ref/heads/"+BRANCH);const baseSha=ref.object.sha;const base=await gh("/git/commits/"+baseSha);
+  const tree=[];for(const f of files){if(f.delete){tree.push({path:f.path,mode:"100644",type:"blob",sha:null})}else{const b=await gh("/git/blobs",{method:"POST",body:JSON.stringify({content:f.content,encoding:"utf-8"})});tree.push({path:f.path,mode:"100644",type:"blob",sha:b.sha})}}
+  const t=await gh("/git/trees",{method:"POST",body:JSON.stringify({base_tree:base.tree.sha,tree})});
+  const c=await gh("/git/commits",{method:"POST",body:JSON.stringify({message,tree:t.sha,parents:[baseSha]})});
+  await gh("/git/refs/heads/"+BRANCH,{method:"PATCH",body:JSON.stringify({sha:c.sha,force:false})});return c.sha}
+/* ---- posts ---- */
+let POSTS=[],TPL=null,ITPL=null,CUR=null;
+async function loadTemplates(){if(!TPL){TPL=await getFile("blog/_template.html");ITPL=await getFile("blog/_index_template.html")}if(!TPL||!ITPL)throw new Error("шаблоны блога не найдены в репозитории")}
+async function loadPosts(){try{const j=await getFile("blog/posts.json");POSTS=j?JSON.parse(j):[];renderPosts();$("#postsHint").textContent=POSTS.length+" постов"}catch(e){$("#postsHint").textContent=e.message;renderPosts()}}
+function renderPosts(){const tb=$("#postsTable tbody");tb.innerHTML=POSTS.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(p=>{const c=p.color!==""&&p.color!==undefined&&Engine.PRESETS[+p.color];
+  return `<tr><td>${p.date}</td><td><b>${Engine.esc(p.title)}</b><br><small style="color:var(--dim)">/blog/${Engine.esc(p.slug)}/</small></td><td>${c?`<span class="thumbs"><i style="background:${c[2]}"></i></span> ${Engine.esc(c[0])}`:"—"}</td><td>${p.draft?'<span class="tag draft">черновик</span>':'<span class="tag">опубликован</span>'}</td><td class="row"><button class="btn ghost" data-edit="${Engine.esc(p.slug)}">Изменить</button><a class="btn ghost" href="/blog/${Engine.esc(p.slug)}/" target="_blank">Открыть</a></td></tr>`}).join("")||'<tr><td colspan="5" style="color:var(--dim)">Постов пока нет — нажми «Новый пост».</td></tr>';
+  tb.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editPost(POSTS.find(p=>p.slug===b.dataset.edit)))}
+$("#reloadPosts").onclick=loadPosts;$("#newPost").onclick=()=>editPost(null);
+Engine.PRESETS.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p[0];$("#pColor").appendChild(o)});
+function editPost(p){CUR=p;$("#editTitle").textContent=p?"Редактирование: "+p.title:"Новый пост";
+  $("#pTitle").value=p?p.title:"";$("#pSlug").value=p?p.slug:"";$("#pDate").value=p?p.date.slice(0,10):new Date().toISOString().slice(0,10);
+  $("#pDesc").value=p?p.desc||"":"";$("#pLead").value=p?p.lead||"":"";$("#pColor").value=p&&p.color!==undefined?p.color:"";$("#pBudget").value=p&&p.budget||"";$("#pSeoTitle").value=p&&p.seoTitle||"";$("#pDraft").checked=!!(p&&p.draft);$("#pMd").value=p?p.md||"":"";
+  $("#deleteBtn").hidden=!p;$("#pSlug").disabled=!!p;syncSlug();show("edit");preview()}
+function syncSlug(){if(!CUR&&!$("#pSlug").dataset.manual)$("#pSlug").value=Engine.translit($("#pTitle").value);$("#slugPrev").textContent=$("#pSlug").value||"…"}
+$("#pTitle").addEventListener("input",syncSlug);$("#pSlug").addEventListener("input",()=>{$("#pSlug").dataset.manual="1";$("#slugPrev").textContent=$("#pSlug").value});
+$("#pDesc").addEventListener("input",()=>$("#descLen").textContent=$("#pDesc").value.length);
+document.querySelectorAll("[data-ins]").forEach(b=>b.onclick=()=>{const t=$("#pMd");const s=t.selectionStart,e=t.selectionEnd;const ins=b.dataset.ins.replace(/\\n/g,"\n");t.value=t.value.slice(0,s)+(s>0&&t.value[s-1]!=="\n"&&/^[#\-\[>|]/.test(ins)?"\n":"")+ins+t.value.slice(e);t.focus();preview()});
+function collect(){const slug=($("#pSlug").value||Engine.translit($("#pTitle").value)).trim();const color=$("#pColor").value;
+  return {slug,title:$("#pTitle").value.trim(),date:$("#pDate").value||new Date().toISOString().slice(0,10),desc:$("#pDesc").value.trim(),lead:$("#pLead").value.trim(),color:color===""?undefined:+color,budget:+$("#pBudget").value||undefined,seoTitle:$("#pSeoTitle").value.trim()||undefined,draft:$("#pDraft").checked,md:$("#pMd").value,updated:new Date().toISOString().slice(0,10)}}
+let pt;$("#pMd").addEventListener("input",()=>{clearTimeout(pt);pt=setTimeout(preview,600)});$("#previewBtn").onclick=preview;
+async function preview(){try{await loadTemplates()}catch(e){$("#prev").srcdoc="<p style='color:#fff;font-family:sans-serif;padding:20px'>"+e.message+"</p>";return}
+  const p=collect();let html=Engine.buildPost(TPL,p,POSTS);html=html.replace("<head>","<head><base href=\"https://skin-set.com/\">");$("#prev").srcdoc=html}
+async function buildAll(posts){const files=[];for(const p of posts){if(p.draft)continue;files.push({path:"blog/"+p.slug+"/index.html",content:Engine.buildPost(TPL,p,posts)})}
+  files.push({path:"blog/index.html",content:Engine.buildIndex(ITPL,posts)});files.push({path:"blog/rss.xml",content:Engine.buildRss(posts)});
+  const sm=await getFile("sitemap.xml");files.push({path:"sitemap.xml",content:Engine.buildSitemap(sm||'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n</urlset>',posts)});
+  files.push({path:"blog/posts.json",content:JSON.stringify(posts,null,1)});return files}
+$("#publishBtn").onclick=async()=>{const p=collect();if(!p.title||!p.md.trim()){toast("Нужны заголовок и текст",true);return}
+  if(!/^[a-z0-9-]+$/.test(p.slug)){toast("Slug: только латиница, цифры и дефис",true);return}
+  const btn=$("#publishBtn");btn.disabled=true;$("#editHint").textContent="Публикую…";
+  try{await loadTemplates();await loadPosts();const i=POSTS.findIndex(x=>x.slug===p.slug);if(!CUR&&i>=0)throw new Error("пост с таким адресом уже есть");
+    const old=i>=0?POSTS[i]:null;const np={...(old||{}),...p};if(old)np.date=old.date;POSTS=i>=0?POSTS.map((x,k)=>k===i?np:x):[...POSTS,np];
+    const files=await buildAll(POSTS);if(np.draft&&old&&!old.draft)files.push({path:"blog/"+np.slug+"/index.html",delete:true});
+    await commitFiles(files,(old?"Update post: ":"New post: ")+np.title);CUR=np;$("#pSlug").disabled=true;$("#deleteBtn").hidden=false;
+    $("#editHint").textContent="Готово. Сайт обновится через 1–2 минуты: https://skin-set.com/blog/"+np.slug+"/";toast("Опубликовано")}
+  catch(e){$("#editHint").textContent="";toast("Ошибка: "+e.message,true)}finally{btn.disabled=false}};
+$("#deleteBtn").onclick=async()=>{if(!CUR||!confirm("Удалить пост «"+CUR.title+"»?"))return;try{await loadTemplates();await loadPosts();POSTS=POSTS.filter(x=>x.slug!==CUR.slug);const files=await buildAll(POSTS);files.push({path:"blog/"+CUR.slug+"/index.html",delete:true});await commitFiles(files,"Delete post: "+CUR.title);toast("Удалено");CUR=null;show("posts")}catch(e){toast("Ошибка: "+e.message,true)}};
+$("#rebuildAll").onclick=async()=>{try{TPL=null;await loadTemplates();await loadPosts();const files=await buildAll(POSTS);await commitFiles(files,"Rebuild blog");toast("Блог пересобран")}catch(e){toast("Ошибка: "+e.message,true)}};
+/* ---- settings ---- */
+async function loadCfg(){try{const j=await getFile("config.json");const c=j?JSON.parse(j):{};$("#cDm").value=(c.refs||{}).dmarket||"";$("#cLs").value=(c.refs||{}).lis||"";$("#cTw").value=c.twitch||"";$("#cTg").value=c.telegram||"";$("#cAnnOn").checked=!!(c.announce&&c.announce.enabled);$("#cAnnText").value=(c.announce||{}).text||"";$("#cAnnUrl").value=(c.announce||{}).url||"";$("#cFeed").checked=c.feedEnabled!==false}catch(e){$("#cfgHint").textContent=e.message}}
+$("#saveCfg").onclick=async()=>{const c={refs:{dmarket:$("#cDm").value.trim(),lis:$("#cLs").value.trim()},twitch:$("#cTw").value.trim(),telegram:$("#cTg").value.trim(),announce:{enabled:$("#cAnnOn").checked,text:$("#cAnnText").value.trim(),url:$("#cAnnUrl").value.trim()},feedEnabled:$("#cFeed").checked};
+  try{await commitFiles([{path:"config.json",content:JSON.stringify(c,null,2)}],"Update site config");toast("Сохранено, на сайте через 1–2 минуты")}catch(e){toast("Ошибка: "+e.message,true)}};
+/* ---- firebase feed ---- */
+let auth=null,USER=null;
+if(typeof firebase!=="undefined"){firebase.initializeApp(FB_CFG);auth=firebase.auth();auth.onAuthStateChanged(u=>{USER=u;$("#fbDot").className="dot"+(u?" ok":"");$("#fbSt").textContent=u?"Firebase: "+u.email:"Firebase: не вошёл";$("#fbLogin").hidden=!!u;$("#fbLogout").hidden=!u;$("#rulesPre").textContent=rules(u?u.email:"ТВОЯ_ПОЧТА@gmail.com")});}else{$("#fbSt").textContent="Firebase SDK не загрузился (блокировка сети?)"}
+$("#fbLogin").onclick=()=>auth&&auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>toast("Вход не удался: "+e.message,true));
+$("#fbLogout").onclick=()=>auth&&auth.signOut();
+function rules(email){return `rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /sets/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['name','colors','preset','items','createdAt','likes'])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 24
+        && request.resource.data.colors is list && request.resource.data.colors.size() <= 2
+        && request.resource.data.preset is string && request.resource.data.preset.size() <= 40
+        && request.resource.data.items is list && request.resource.data.items.size() <= 24
+        && request.resource.data.createdAt is number
+        && request.resource.data.likes == 0;
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes'])
+        && request.resource.data.likes == resource.data.get('likes', 0) + 1;
+      allow delete: if request.auth != null && request.auth.token.email == "${email}";
+    }
+  }
+}`}
+$("#rulesPre").textContent=rules("ТВОЯ_ПОЧТА@gmail.com");
+const fr=v=>!v?null:"stringValue"in v?v.stringValue:"integerValue"in v?+v.integerValue:"doubleValue"in v?v.doubleValue:"arrayValue"in v?(v.arrayValue.values||[]).map(fr):"mapValue"in v?Object.fromEntries(Object.entries(v.mapValue.fields||{}).map(([k,x])=>[k,fr(x)])):null;
+let SETS=[];
+async function loadFeed(){try{const r=await fetch(FS+"/sets?pageSize=200&orderBy=createdAt%20desc&key="+FB_CFG.apiKey);const j=await r.json();SETS=(j.documents||[]).map(d=>({...fr({mapValue:{fields:d.fields}}),_id:d.name.split("/").pop()}));renderFeed();renderStats()}catch(e){toast("Лента: "+e.message,true)}}
+$("#feedReload").onclick=loadFeed;
+function renderFeed(){$("#feedTable tbody").innerHTML=SETS.map(s=>`<tr><td>${new Date(s.createdAt||0).toLocaleString("ru-RU")}</td><td>${Engine.esc(s.name||"")}</td><td><span class="thumbs">${(s.colors||[]).map(c=>`<i style="background:${Engine.esc(c)}"></i>`).join("")}</span> ${Engine.esc(s.preset||"")}</td><td>${(s.items||[]).length}</td><td>${s.likes||0}</td><td><button class="btn ghost danger" data-del="${s._id}">Удалить</button></td></tr>`).join("")||'<tr><td colspan="6" style="color:var(--dim)">Пусто</td></tr>';
+  document.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(!USER){toast("Сначала войди через Google",true);return}if(!confirm("Удалить сет?"))return;try{const tok=await USER.getIdToken();const r=await fetch(FS+"/sets/"+b.dataset.del+"?key="+FB_CFG.apiKey,{method:"DELETE",headers:{Authorization:"Bearer "+tok}});if(!r.ok)throw new Error(r.status+" — проверь правила Firestore");toast("Удалено");loadFeed()}catch(e){toast("Ошибка: "+e.message,true)}})}
+function renderStats(){const likes=SETS.reduce((a,s)=>a+(s.likes||0),0);const week=SETS.filter(s=>Date.now()-(s.createdAt||0)<7*864e5).length;const by={};SETS.forEach(s=>{by[s.preset]=(by[s.preset]||0)+1});const top=Object.entries(by).sort((a,b)=>b[1]-a[1])[0];
+  $("#kv").innerHTML=`<div><b>${SETS.length}</b><small>сетов всего</small></div><div><b>${week}</b><small>за 7 дней</small></div><div><b>${likes}</b><small>лайков</small></div><div><b>${top?Engine.esc(top[0]):"—"}</b><small>самый частый цвет</small></div><div><b>${POSTS.length}</b><small>постов в блоге</small></div>`;
+  $("#topTable tbody").innerHTML=SETS.slice().sort((a,b)=>(b.likes||0)-(a.likes||0)).slice(0,10).map(s=>`<tr><td>${s.likes||0}</td><td>${Engine.esc(s.name||"")}</td><td>${Engine.esc(s.preset||"")} · ${(s.items||[]).length} предм.</td><td>${new Date(s.createdAt||0).toLocaleDateString("ru-RU")}</td></tr>`).join("")}
+/* ---- init ---- */
+loadPosts();if(!TOKEN)setTimeout(()=>$("#tokenModal").hidden=false,300);
+</script>
+</body>
+</html>

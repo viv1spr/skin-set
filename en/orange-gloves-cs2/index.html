@@ -451,6 +451,35 @@ body[data-route="feed"] .feed-head .sorts{display:flex}
 .fs .lk2:hover{color:var(--ink);border-color:#fff}
 .fs .lk2.on{color:#ff5a7a;border-color:#ff5a7a}
 .fs .lk2.on svg{fill:#ff5a7a}
+
+/* блог */
+body[data-route="blog"] .feed,body[data-route="blog"] .dock{display:none}
+body[data-route="blog"] .layout{grid-template-columns:1fr}
+.post-meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--soft);font-size:.85rem;margin:0 0 22px}
+.post-body{max-width:72ch;font-size:1.02rem;line-height:1.65}
+.post-body h2{margin:30px 0 10px;font:600 1.25rem/1.2 var(--hud);letter-spacing:.08em;text-transform:uppercase}
+.post-body h3{margin:22px 0 8px;font:600 1.02rem/1.2 var(--hud);letter-spacing:.06em;text-transform:uppercase}
+.post-body p{margin:0 0 14px}
+.post-body ul,.post-body ol{margin:0 0 14px;padding-left:22px}
+.post-body li{margin:4px 0}
+.post-body img{max-width:100%;height:auto;display:block;margin:14px 0;border:1px solid var(--line)}
+.post-body blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--pick);background:rgba(255,255,255,.03);color:var(--soft)}
+.post-body a{color:var(--pick)}.post-body a.hudbtn,.post-cta a.hudbtn{color:var(--on-pick,#fff)}
+.post-body table{border-collapse:collapse;width:100%;margin:0 0 14px;font-size:.92rem}
+.post-body td,.post-body th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+.post-cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:22px 0;padding:16px 18px;border:1px solid var(--line2);background:linear-gradient(90deg,color-mix(in srgb,var(--c0,var(--pick)) 18%,transparent),transparent)}
+.post-cta i{width:16px;height:16px;background:var(--c0,var(--pick));transform:rotate(45deg);flex:none}
+.post-cta span{flex:1;min-width:200px}
+.post-cta .hudbtn{margin:0}
+.post-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:18px 0 28px}
+.post-card{display:block;border:1px solid var(--line);background:rgba(255,255,255,.02);padding:16px;text-decoration:none;color:var(--ink);border-top:3px solid var(--c0,var(--pick))}
+.post-card:hover{border-color:var(--pick)}
+.post-card b{display:block;font:600 1rem/1.25 var(--hud);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+.post-card p{margin:0 0 8px;color:var(--soft);font-size:.9rem}
+.post-card small{color:var(--dim);font-size:.78rem}
+.post-more{margin-top:30px}
+.announce{display:flex;justify-content:center;align-items:center;gap:10px;padding:8px 14px;background:var(--pick);color:var(--on-pick);font:600 .8rem/1.2 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-align:center}
+.announce a{color:inherit;text-decoration:underline}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What are the cheapest orange gloves in CS2?", "acceptedAnswer": {"@type": "Answer", "text": "The most affordable are Driver Gloves Overtake, Hand Wraps Desert Shamagh (“$35–350” tier) — a solid choice for a budget orange loadout."}}, {"@type": "Question", "name": "What are the most expensive orange gloves?", "acceptedAnswer": {"@type": "Answer", "text": "At the top: Sport Gloves Scarlet Shamagh, Moto Gloves Boom! (“$350–1,700” tier). Wear matters a lot: Factory New can cost several times more than Field-Tested."}}, {"@type": "Question", "name": "How do I match a knife and weapons to orange gloves?", "acceptedAnswer": {"@type": "Answer", "text": "Open the Skinset builder, pick the gloves via “Pick”, set a budget — the other slots get filled in the same palette."}}]}</script>
 <style>
@@ -497,7 +526,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 <div class="app">
 <header class="hud">
   <a class="logo" href="/en/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>
-  <nav class="tabs" id="tabs"><a href="/en/" data-route="home">Builder</a><a href="/en/how-it-works/" data-route="how">How it works</a><a href="/en/where-to-buy/" data-route="shops">Marketplaces</a><a href="/en/loadouts/" data-route="feed">Loadouts</a><a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a></nav>
+  <nav class="tabs" id="tabs"><a href="/en/" data-route="home">Builder</a><a href="/en/how-it-works/" data-route="how">How it works</a><a href="/en/where-to-buy/" data-route="shops">Marketplaces</a><a href="/en/loadouts/" data-route="feed">Loadouts</a><a href="/blog/" data-route="blog">Blog</a><a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a></nav>
   <div class="langs"><a href="/oranzhevye-skiny-cs2/" class="" hreflang="ru">RU</a><a href="/en/orange-cs2-skins/" class="on" hreflang="en">EN</a><a href="/de/orange-cs2-skins/" class="" hreflang="de">DE</a><a href="/pt/skins-laranjas-cs2/" class="" hreflang="pt-BR">PT</a><a href="/tr/turuncu-cs2-skinleri/" class="" hreflang="tr">TR</a><a href="/pl/pomaranczowe-skiny-cs2/" class="" hreflang="pl">PL</a></div><button class="hudbtn" id="copyTop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy loadout</span></button>
 </header>
 
@@ -1411,13 +1440,24 @@ $("#introClose").addEventListener("click",()=>{$("#intro").hidden=true;try{local
     img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(src)}catch(e){}})();
 /* ===== маршруты (страницы) ===== */
 function route(){
-  const P={"/en/how-it-works/": "how", "/en/where-to-buy/": "shops", "/en/loadouts/": "feed"};const h=P[location.pathname.replace(/index\.html$/,"")]||(window.PAGE_ROUTE||"home");const r=["how","shops","feed"].includes(h)?h:"home";
+  const P={"/en/how-it-works/": "how", "/en/where-to-buy/": "shops", "/en/loadouts/": "feed"};const h=P[location.pathname.replace(/index\.html$/,"")]||(window.PAGE_ROUTE||"home");const r=["how","shops","feed","blog"].includes(h)?h:"home";
   document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number"&&!window.PAGE_TITLE_LOCK)document.title={home:"Skinset — CS2 skins by color: build a matching loadout",how:"How color matching works — Skinset",shops:"Where to buy CS2 skins from your loadout: DMarket & Lis-Skins — Skinset",feed:"Player loadouts — Skinset"}[r];
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===r));
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.route===r));
   window.scrollTo({top:0,behavior:"instant"});
 }
 window.addEventListener("hashchange",route);route();
+</script>
+<script>
+/* настройки сайта из админки: /config.json */
+fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if(!c)return;
+  try{if(c.refs){if(c.refs.dmarket)REF.dmarket=c.refs.dmarket;if(c.refs.lis)REF.lis=c.refs.lis}}catch(e){}
+  if(c.twitch)document.querySelectorAll('a[href*="twitch.tv"]').forEach(a=>a.href=c.twitch);
+  if(c.telegram)document.querySelectorAll('a[href*="t.me"]').forEach(a=>a.href=c.telegram);
+  if(c.announce&&c.announce.enabled&&c.announce.text&&!document.querySelector(".announce")){const d=document.createElement("div");d.className="announce";d.innerHTML=c.announce.url?'<a href="'+c.announce.url.replace(/"/g,"&quot;")+'" target="_blank" rel="noopener"></a>':"<span></span>";d.firstChild.textContent=c.announce.text;const app=document.querySelector(".app");app&&app.insertBefore(d,app.firstChild)}
+  if(c.feedEnabled===false){const f=document.querySelector(".feed");if(f)f.style.display="none";const l=document.querySelector(".layout");if(l)l.style.gridTemplateColumns="1fr"}
+  try{if(typeof render==="function"&&c.refs)render()}catch(e){}
+}).catch(()=>{});
 </script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+name: Update skin prices
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  prices:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node admin/fetch-prices.js
+      - run: node admin/build.js
+      - name: Commit
+        run: |
+          git config user.name "price-bot"
+          git config user.email "bot@skin-set.com"
+          git add data/prices.json blog en/blog de/blog pt/blog tr/blog pl/blog sitemap.xml
+          git diff --cached --quiet || git commit -m "Update prices $(date -u +%F)"
+          git push

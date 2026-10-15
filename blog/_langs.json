@@ -43,7 +43,17 @@
 "upd": "Минимальная цена (любой износ) и цена в Field-Tested по данным Lis-Skins и Skinport, обновляются раз в сутки. Кнопки — партнёрские ссылки: для тебя цена не меняется.",
 "buy": "Купить",
 "na": "—",
-"from": "от"
+"from": "от",
+"all_t": "Все",
+"tags": {
+"combo": "Сочетания",
+"budget": "Бюджетные сеты",
+"guide": "Гайды",
+"news": "Новинки"
+},
+"featured": "Главное",
+"read_more": "Читать",
+"min": "мин"
 },
 "blog": "/blog/"
 },
@@ -91,7 +101,17 @@
 "upd": "Lowest price (any wear) and Field-Tested price from Lis-Skins and Skinport, refreshed daily. Buttons are affiliate links: the price for you doesn't change.",
 "buy": "Buy",
 "na": "—",
-"from": "From"
+"from": "From",
+"all_t": "All",
+"tags": {
+"combo": "Pairings",
+"budget": "Budget sets",
+"guide": "Guides",
+"news": "New skins"
+},
+"featured": "Featured",
+"read_more": "Read",
+"min": "min"
 },
 "blog": "/en/blog/"
 },
@@ -139,7 +159,17 @@
 "upd": "Niedrigster Preis (jeder Zustand) und Field-Tested-Preis laut Lis-Skins und Skinport, täglich aktualisiert. Buttons sind Partnerlinks: der Preis ändert sich für dich nicht.",
 "buy": "Kaufen",
 "na": "—",
-"from": "Ab"
+"from": "Ab",
+"all_t": "Alle",
+"tags": {
+"combo": "Kombinationen",
+"budget": "Budget-Sets",
+"guide": "Guides",
+"news": "Neuheiten"
+},
+"featured": "Empfohlen",
+"read_more": "Lesen",
+"min": "Min."
 },
 "blog": "/de/blog/"
 },
@@ -187,7 +217,17 @@
 "upd": "Menor preço (qualquer desgaste) e preço Field-Tested segundo Lis-Skins e Skinport, atualizados diariamente. Os botões são links de afiliado: o preço para você não muda.",
 "buy": "Comprar",
 "na": "—",
-"from": "A partir de"
+"from": "A partir de",
+"all_t": "Todos",
+"tags": {
+"combo": "Combinações",
+"budget": "Sets baratos",
+"guide": "Guias",
+"news": "Novidades"
+},
+"featured": "Destaque",
+"read_more": "Ler",
+"min": "min"
 },
 "blog": "/pt/blog/"
 },
@@ -235,7 +275,17 @@
 "upd": "En düşük fiyat (her aşınma) ve Field-Tested fiyatı, Lis-Skins ve Skinport verileri, günlük güncellenir. Butonlar ortaklık bağlantısıdır: senin için fiyat değişmez.",
 "buy": "Satın al",
 "na": "—",
-"from": "En düşük"
+"from": "En düşük",
+"all_t": "Tümü",
+"tags": {
+"combo": "Kombinasyonlar",
+"budget": "Bütçe setleri",
+"guide": "Rehberler",
+"news": "Yenilikler"
+},
+"featured": "Öne çıkan",
+"read_more": "Oku",
+"min": "dk"
 },
 "blog": "/tr/blog/"
 },
@@ -283,7 +333,17 @@
 "upd": "Najniższa cena (dowolne zużycie) i cena Field-Tested według Lis-Skins i Skinport, odświeżane codziennie. Przyciski to linki partnerskie: cena dla ciebie się nie zmienia.",
 "buy": "Kup",
 "na": "—",
-"from": "Od"
+"from": "Od",
+"all_t": "Wszystkie",
+"tags": {
+"combo": "Połączenia",
+"budget": "Zestawy budżetowe",
+"guide": "Poradniki",
+"news": "Nowości"
+},
+"featured": "Polecane",
+"read_more": "Czytaj",
+"min": "min"
 },
 "blog": "/pl/blog/"
 }

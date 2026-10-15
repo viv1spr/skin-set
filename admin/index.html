@@ -92,7 +92,8 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
         </div>
         <div class="f"><label>Описание (meta description, 120–160 символов)</label><textarea id="pDesc" style="min-height:64px;font-family:inherit"></textarea><div class="hint"><span id="descLen">0</span> символов</div></div>
         <div class="f"><label>Лид (первый абзац под заголовком)</label><textarea id="pLead" style="min-height:64px;font-family:inherit"></textarea></div>
-        <div class="grid g3">
+        <div class="grid g2">
+          <div class="f"><label>Рубрика</label><select id="pTag"><option value="combo">Сочетания</option><option value="budget">Бюджетные сеты</option><option value="guide">Гайды</option><option value="news">Новинки</option></select></div>
           <div class="f"><label>Цвет сета (для кнопки «собрать»)</label><select id="pColor"><option value="">— нет —</option></select></div>
           <div class="f"><label>Бюджет, ₽ (необязательно)</label><input id="pBudget" type="number" placeholder="10000"></div>
           <div class="f"><label>SEO title (если отличается)</label><input id="pSeoTitle" placeholder="авто: заголовок — Skinset"></div>
@@ -258,7 +259,7 @@ $("#reloadPosts").onclick=loadPosts;$("#newPost").onclick=()=>editPost(null);
 Engine.PRESETS.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p[0];$("#pColor").appendChild(o)});
 function editPost(p){CUR=p;CUR_TR=JSON.parse(JSON.stringify((p&&p.tr)||{}));EDIT_LANG="ru";$("#pLang").value="ru";langStatus();$("#editTitle").textContent=p?"Редактирование: "+p.title:"Новый пост";
   $("#pTitle").value=p?p.title:"";$("#pSlug").value=p?p.slug:"";$("#pDate").value=p?p.date.slice(0,10):new Date().toISOString().slice(0,10);
-  $("#pDesc").value=p?p.desc||"":"";$("#pLead").value=p?p.lead||"":"";$("#pColor").value=p&&p.color!==undefined?p.color:"";$("#pBudget").value=p&&p.budget||"";$("#pSeoTitle").value=p&&p.seoTitle||"";$("#pCoverSkin").value=p&&p.coverSkin||"";$("#pCover").value=p&&p.cover||"";$("#pDraft").checked=!!(p&&p.draft);$("#pMd").value=p?p.md||"":"";
+  $("#pDesc").value=p?p.desc||"":"";$("#pLead").value=p?p.lead||"":"";$("#pColor").value=p&&p.color!==undefined?p.color:"";$("#pBudget").value=p&&p.budget||"";$("#pSeoTitle").value=p&&p.seoTitle||"";$("#pTag").value=p&&p.tag||"guide";$("#pCoverSkin").value=p&&p.coverSkin||"";$("#pCover").value=p&&p.cover||"";$("#pDraft").checked=!!(p&&p.draft);$("#pMd").value=p?p.md||"":"";
   $("#deleteBtn").hidden=!p;$("#pSlug").disabled=!!p;RU_FIELDS=fieldsNow();syncSlug();show("edit");preview()}
 function syncSlug(){if(!CUR&&!$("#pSlug").dataset.manual)$("#pSlug").value=Engine.translit($("#pTitle").value);$("#slugPrev").textContent=$("#pSlug").value||"…"}
 $("#pTitle").addEventListener("input",syncSlug);$("#pSlug").addEventListener("input",()=>{$("#pSlug").dataset.manual="1";$("#slugPrev").textContent=$("#pSlug").value});
@@ -274,7 +275,7 @@ $("#pLang").addEventListener("change",()=>{const to=$("#pLang").value;if(EDIT_LA
 function collect(){if(EDIT_LANG!=="ru"){CUR_TR[EDIT_LANG]={...(CUR_TR[EDIT_LANG]||{}),...fieldsNow()}}const base=EDIT_LANG==="ru"?fieldsNow():(RU_FIELDS||fieldsNow());
   const tr={};for(const l of LANG_LIST.slice(1)){const t=CUR_TR[l];if(t&&t.md&&t.title)tr[l]=t}
   const slug=($("#pSlug").value||Engine.translit(base.title)).trim();const color=$("#pColor").value;
-  return {tr,slug,title:base.title,date:$("#pDate").value||new Date().toISOString().slice(0,10),desc:base.desc,lead:base.lead,color:color===""?undefined:+color,budget:+$("#pBudget").value||undefined,seoTitle:$("#pSeoTitle").value.trim()||undefined,coverSkin:$("#pCoverSkin").value.trim()||undefined,cover:$("#pCover").value.trim()||undefined,draft:$("#pDraft").checked,md:base.md,updated:new Date().toISOString().slice(0,10)}}
+  return {tr,slug,title:base.title,date:$("#pDate").value||new Date().toISOString().slice(0,10),desc:base.desc,lead:base.lead,color:color===""?undefined:+color,budget:+$("#pBudget").value||undefined,seoTitle:$("#pSeoTitle").value.trim()||undefined,tag:$("#pTag").value,coverSkin:$("#pCoverSkin").value.trim()||undefined,cover:$("#pCover").value.trim()||undefined,draft:$("#pDraft").checked,md:base.md,updated:new Date().toISOString().slice(0,10)}}
 let pt;$("#pMd").addEventListener("input",()=>{clearTimeout(pt);pt=setTimeout(preview,600)});$("#previewBtn").onclick=preview;
 async function preview(){try{await loadTemplates()}catch(e){$("#prev").srcdoc="<p style='color:#fff;font-family:sans-serif;padding:20px'>"+e.message+"</p>";return}
   const p=collect();const T=TPLS[EDIT_LANG]||TPLS.ru;let html=Engine.buildPost(T.tpl,p,POSTS,EDIT_LANG);if(!html){$("#prev").srcdoc="<p style='color:#fff;font-family:sans-serif;padding:20px'>Для этого языка ещё нет перевода</p>";return}html=html.replace("<head>","<head><base href=\"https://skin-set.com/\">");$("#prev").srcdoc=html}

@@ -488,7 +488,7 @@ table.pt td.pb a:hover{border-color:var(--pick);color:var(--pick)}
 .lp{font-weight:600;color:var(--pick)}
 figcaption .lp{color:var(--ink)}
 @media(max-width:700px){table.pt{font-size:.82rem}table.pt td,table.pt th{padding:6px 6px}table.pt td.pb a{margin:2px 4px 2px 0}}
-</style>
+.post-body h2[id],.post-prices h2[id]{scroll-margin-top:84px}html{scroll-behavior:smooth}</style>
 <script type="application/ld+json">{{LD}}</script>
 <style>
 .tabs a.twitch{display:flex;align-items:center;gap:7px;padding:0 16px;border-left:1px solid var(--line);background:rgba(145,70,255,.14);color:#c9a6ff;font:500 .9rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
@@ -1463,7 +1463,7 @@ function route(){
   document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number"&&!window.PAGE_TITLE_LOCK)document.title={home:"Skinset — renge göre CS2 skinleri: uyumlu envanter oluştur",how:"Renk eşleştirme nasıl çalışır — Skinset",shops:"Setindeki CS2 skinlerini nereden alırsın: DMarket ve Lis-Skins — Skinset",feed:"Oyuncu setleri — Skinset"}[r];
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===r));
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.route===r));
-  window.scrollTo({top:0,behavior:"instant"});
+  if(!(location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)))))window.scrollTo({top:0,behavior:"instant"});
 }
 window.addEventListener("hashchange",route);route();
 </script>
@@ -1481,7 +1481,7 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
 <script>
 /* живые цены в статье: обновляем спаны из /data/prices.json */
 (()=>{const R={rub:90,usd:1,eur:1,brl:5.5,pln:4};const f=(u,c)=>{const v=u*(R[c]||1);const r=v>=100?Math.round(v):Math.round(v*10)/10;const n=c==="usd"?r.toLocaleString("en-US"):r.toLocaleString("de-DE");return c==="rub"?n.replace(/\./g," ")+" ₽":c==="usd"?"$"+n:c==="eur"?n+" €":c==="brl"?"R$ "+n:n+" zł"};
-fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P=>{if(!P)return;document.querySelectorAll(".lp[data-skin]").forEach(el=>{const rec=P[el.dataset.skin];if(!rec)return;const src=el.dataset.src;const v=src?(src==="FT"?(rec.w||{}).FT:rec[src]):Math.min(...([rec.dm,rec.ls].filter(x=>x>0).length?[rec.dm,rec.ls]:[rec.sp]).filter(x=>x>0));if(v>0&&isFinite(v))el.textContent=f(v,el.dataset.cur||"rub")})}).catch(()=>{})})();
+fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P=>{if(!P)return;document.querySelectorAll(".lp[data-skin]").forEach(el=>{const rec=P[el.dataset.skin];if(!rec)return;const src=el.dataset.src;const v=src?(/^(FN|MW|FT|WW|BS)$/.test(src)?(rec.w||{})[src]:rec[src]):Math.min(...([rec.dm,rec.ls].filter(x=>x>0).length?[rec.dm,rec.ls]:[rec.sp]).filter(x=>x>0));if(v>0&&isFinite(v))el.textContent=f(v,el.dataset.cur||"rub")})}).catch(()=>{})})();
 </script>
 </body>
 </html>

@@ -499,7 +499,7 @@ body[data-route="blog"] .layout{grid-template-columns:1fr}
 
 .announce{display:flex;justify-content:center;align-items:center;gap:10px;padding:8px 14px;background:var(--pick);color:var(--on-pick);font:600 .8rem/1.2 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-align:center}
 .announce a{color:inherit;text-decoration:underline}
-.card .cap em.pr{display:block;margin-top:4px;font:600 .8rem/1 var(--hud);letter-spacing:.06em;color:var(--pick);font-style:normal}</style>
+.card .cap em.pr{display:block;margin-top:4px;font:600 .8rem/1 var(--hud);letter-spacing:.06em;color:var(--pick);font-style:normal}.post-body h2[id],.post-prices h2[id]{scroll-margin-top:84px}html{scroll-behavior:smooth}</style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Какой самый дешёвый чёрно-белый нож в CS2?", "acceptedAnswer": {"@type": "Answer", "text": "Самые доступные варианты — Huntsman Knife Black Laminate, Gut Knife Night. Они стоят на уровне «3–30 тыс. ₽» и подходят, если нужен чёрно-белый акцент без большого бюджета."}}, {"@type": "Question", "name": "Какой чёрно-белый нож самый дорогой?", "acceptedAnswer": {"@type": "Answer", "text": "Верх списка — Flip Knife Freehand, Karambit Freehand: уровень «30–150 тыс. ₽». Это коллекционные предметы, цена зависит от фазы и float."}}, {"@type": "Question", "name": "Как подобрать перчатки и оружие под чёрно-белый нож?", "acceptedAnswer": {"@type": "Answer", "text": "Открой конструктор Skinset, выбери этот нож через «Выбрать», укажи бюджет — сервис подберёт остальные слоты в той же гамме и покажет, где купить."}}]}</script>
 <style>
 .tabs a.twitch{display:flex;align-items:center;gap:7px;padding:0 16px;border-left:1px solid var(--line);background:rgba(145,70,255,.14);color:#c9a6ff;font:500 .9rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
@@ -1494,7 +1494,7 @@ function route(){
   document.body.dataset.route=r;if(typeof window.PAGE_PRESET!=="number"&&typeof window.PAGE_BUDGET!=="number"&&!window.PAGE_TITLE_LOCK)document.title={home:"Skinset — подбор скинов CS2 по цвету: собери инвентарь в одной гамме",how:"Как работает подбор скинов по цвету — Skinset",shops:"Где купить скины CS2 из сета: DMarket и Lis-Skins — Skinset",feed:"Сеты игроков — Skinset"}[r];
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===r));
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.route===r));
-  window.scrollTo({top:0,behavior:"instant"});
+  if(!(location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)))))window.scrollTo({top:0,behavior:"instant"});
 }
 window.addEventListener("hashchange",route);route();
 </script>

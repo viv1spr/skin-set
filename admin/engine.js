@@ -8,7 +8,7 @@ const RATES={rub:90,usd:1,eur:1,brl:5.5,pln:4};
 function fmtPrice(usd,cur){if(!(usd>0))return null;const v=usd*(RATES[cur]||1);const r=v>=100?Math.round(v):Math.round(v*10)/10;const n=cur==="usd"?r.toLocaleString("en-US"):r.toLocaleString("de-DE");return cur==="rub"?n.replace(/\./g," ")+" ₽":cur==="usd"?"$"+n:cur==="eur"?n+" €":cur==="brl"?"R$ "+n:n+" zł"}
 function priceOf(name){const r=PRICES[name]||PRICES[name.replace("★ ","")];if(!r)return null;const v=[r.dm,r.ls].filter(x=>x>0);const w=v.length?v:[r.sp].filter(x=>x>0);return w.length?{min:Math.min(...w),dm:r.dm||null,ls:r.ls||null}:null}
 function curOf(){return ((LANGS||{})[CUR_LANG]||{}).ui&&LANGS[CUR_LANG].ui.cur||"rub"}
-function priceSpan(name){const p=priceOf(name);const cur=curOf();return '<span class="lp" data-skin="'+esc(name)+'" data-cur="'+cur+'">'+(p?esc(fmtPrice(p.min,cur)):"…")+'</span>'}
+function priceSpan(name,wear){const cur=curOf();let v=null;if(wear){const r=PRICES[name]||{};v=(r.w||{})[wear]||null}else{const p=priceOf(name);v=p?p.min:null}return '<span class="lp" data-skin="'+esc(name)+'" data-cur="'+cur+'"'+(wear?' data-src="'+esc(wear)+'"':'')+'>'+(v?esc(fmtPrice(v,cur)):"…")+'</span>'}
 function setSkins(m){SKINS=Array.isArray(m)?Object.fromEntries(m.map(r=>[r[0]+(r[5]?" ("+r[5]+")":""),r[1]])):(m||{})}
 function skinImg(name){if(!name)return null;const n=name.replace(/★\s*/,"").trim();if(SKINS[n])return SKINS[n];const k=Object.keys(SKINS).find(x=>x.toLowerCase()===n.toLowerCase())||Object.keys(SKINS).find(x=>x.toLowerCase().startsWith(n.toLowerCase()));return k?SKINS[k]:null}
 function skinFig(name,cap,small){const img=skinImg(name);if(!img)return "";USED.push(name);return '<figure class="post-skin'+(small?" sm":"")+'"><img src="'+esc(img)+'" alt="'+esc(name)+'" loading="lazy"><figcaption>'+esc(cap||name)+' · '+priceSpan(name)+'</figcaption></figure>'}
@@ -16,7 +16,7 @@ const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"
 function translit(s){const m={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"c",ч:"ch",ш:"sh",щ:"sch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya"};
   return s.toLowerCase().split("").map(c=>m[c]!==undefined?m[c]:c).join("").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,70)}
 function inline(t){
-  const ph=[];t=t.replace(/\[price\s+name="([^"]+)"\]/g,(m,n)=>{USED.push(n);ph.push(priceSpan(n));return "\u0000"+(ph.length-1)+"\u0000"});
+  const ph=[];t=t.replace(/\[price\s+name="([^"]+)"(?:\s+wear="(\w+)")?\]/g,(m,n,w)=>{USED.push(n);ph.push(priceSpan(n,w));return "\u0000"+(ph.length-1)+"\u0000"});
   t=esc(t);t=t.replace(/\u0000(\d+)\u0000/g,(m,i)=>ph[+i]);
   t=t.replace(/`([^`]+)`/g,"<code>$1</code>");
   t=t.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,'<img src="$2" alt="$1" loading="lazy">');

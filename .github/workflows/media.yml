@@ -17,6 +17,7 @@ jobs:
             [ -z "$id" ] && continue
             curl -sfL "$url/512fx384f" -o "m/img/$id.png" || curl -sfL "$url" -o "m/img/$id.png" || echo "fail $id"
           done < m/list.tsv
+          curl -sfL -o m/Oswald.ttf "https://raw.githubusercontent.com/google/fonts/main/ofl/oswald/Oswald%5Bwght%5D.ttf" || echo nofont
           ls -la m/img
           git config user.name bot; git config user.email bot@users.noreply.github.com
-          git add m/img && git commit -m "media imgs" && git push
+          git add m && git commit -m "media imgs" && git push

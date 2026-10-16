@@ -1,0 +1,22 @@
+name: media
+on:
+  push:
+    branches: [media]
+    paths: [m/list.tsv]
+permissions:
+  contents: write
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: media }
+      - run: |
+          mkdir -p m/img
+          while IFS=$'\t' read -r id url; do
+            [ -z "$id" ] && continue
+            curl -sfL "$url/512fx384f" -o "m/img/$id.png" || curl -sfL "$url" -o "m/img/$id.png" || echo "fail $id"
+          done < m/list.tsv
+          ls -la m/img
+          git config user.name bot; git config user.email bot@users.noreply.github.com
+          git add m/img && git commit -m "media imgs" && git push

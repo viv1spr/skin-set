@@ -132,7 +132,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
   <div class="hint" style="margin-bottom:12px">Хранятся в <code>config.json</code>; страницы подхватывают их при загрузке без пересборки.</div>
   <div class="card grid g2">
     <div class="f"><label>Реф DMarket (ref=)</label><input id="cDm"></div>
-    <div class="f"><label>Реф Lis-Skins (rf=)</label><input id="cLs"></div>
+    <div class="f"><label>Реф Avan.market (r=)</label><input id="cLs"></div>
     <div class="f"><label>Ссылка Twitch</label><input id="cTw"></div>
     <div class="f"><label>Ссылка Telegram</label><input id="cTg"></div>
   </div>
@@ -157,7 +157,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
   <div class="card"><table id="topTable"><thead><tr><th>♥</th><th>Ник</th><th>Предметы</th><th>Дата</th></tr></thead><tbody></tbody></table></div>
   <h2>Где смотреть остальное</h2>
   <div class="card">
-    <p><b>Поисковый трафик и запросы:</b> <a href="https://search.google.com/search-console" target="_blank">Google Search Console</a> · <a href="https://webmaster.yandex.ru" target="_blank">Яндекс Вебмастер</a>.<br><b>Посетители:</b> <a href="https://metrika.yandex.ru" target="_blank">Яндекс Метрика</a> (если счётчик подключён).<br><b>Доходы:</b> кабинеты партнёрок DMarket и Lis-Skins.</p>
+    <p><b>Поисковый трафик и запросы:</b> <a href="https://search.google.com/search-console" target="_blank">Google Search Console</a> · <a href="https://webmaster.yandex.ru" target="_blank">Яндекс Вебмастер</a>.<br><b>Посетители:</b> <a href="https://metrika.yandex.ru" target="_blank">Яндекс Метрика</a> (если счётчик подключён).<br><b>Доходы:</b> кабинеты партнёрок DMarket и Avan.market.</p>
   </div>
 </section>
 
@@ -326,8 +326,8 @@ $("#imgUp").onclick=async()=>{const f=$("#imgFile").files[0];if(!f){toast("Вы�
     insertMd("![описание картинки](/"+path+")");$("#imgHint").textContent="Загружено: /"+path+" (на сайте через 1–2 мин)";$("#imgFile").value=""}
   catch(e){$("#imgHint").textContent="";toast("Ошибка загрузки: "+e.message,true)}};
 /* ---- settings ---- */
-async function loadCfg(){$("#llmKey").value=localStorage.getItem("ss_admin_llm")||"";$("#llmModel").value=localStorage.getItem("ss_admin_llm_model")||"claude-sonnet-5-5";try{const j=await getFile("config.json");const c=j?JSON.parse(j):{};$("#cDm").value=(c.refs||{}).dmarket||"";$("#cLs").value=(c.refs||{}).lis||"";$("#cTw").value=c.twitch||"";$("#cTg").value=c.telegram||"";$("#cAnnOn").checked=!!(c.announce&&c.announce.enabled);$("#cAnnText").value=(c.announce||{}).text||"";$("#cAnnUrl").value=(c.announce||{}).url||"";$("#cFeed").checked=c.feedEnabled!==false}catch(e){$("#cfgHint").textContent=e.message}}
-$("#saveCfg").onclick=async()=>{const c={refs:{dmarket:$("#cDm").value.trim(),lis:$("#cLs").value.trim()},twitch:$("#cTw").value.trim(),telegram:$("#cTg").value.trim(),announce:{enabled:$("#cAnnOn").checked,text:$("#cAnnText").value.trim(),url:$("#cAnnUrl").value.trim()},feedEnabled:$("#cFeed").checked};
+async function loadCfg(){$("#llmKey").value=localStorage.getItem("ss_admin_llm")||"";$("#llmModel").value=localStorage.getItem("ss_admin_llm_model")||"claude-sonnet-5-5";try{const j=await getFile("config.json");const c=j?JSON.parse(j):{};$("#cDm").value=(c.refs||{}).dmarket||"";$("#cLs").value=(c.refs||{}).avan||"";$("#cTw").value=c.twitch||"";$("#cTg").value=c.telegram||"";$("#cAnnOn").checked=!!(c.announce&&c.announce.enabled);$("#cAnnText").value=(c.announce||{}).text||"";$("#cAnnUrl").value=(c.announce||{}).url||"";$("#cFeed").checked=c.feedEnabled!==false}catch(e){$("#cfgHint").textContent=e.message}}
+$("#saveCfg").onclick=async()=>{const c={refs:{dmarket:$("#cDm").value.trim(),avan:$("#cLs").value.trim(),lis:"477323"},twitch:$("#cTw").value.trim(),telegram:$("#cTg").value.trim(),announce:{enabled:$("#cAnnOn").checked,text:$("#cAnnText").value.trim(),url:$("#cAnnUrl").value.trim()},feedEnabled:$("#cFeed").checked};
   try{await commitFiles([{path:"config.json",content:JSON.stringify(c,null,2)}],"Update site config");toast("Сохранено, на сайте через 1–2 минуты")}catch(e){toast("Ошибка: "+e.message,true)}};
 /* ---- firebase feed ---- */
 let auth=null,USER=null;

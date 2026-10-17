@@ -1291,6 +1291,29 @@ const PRICE_MID={1:150,2:1200,3:9000,4:60000,5:250000};
 const PRICE_MIN={1:30,2:300,3:3000,4:30000,5:150000};
 let ALLOC={};
 /* распределяем общий бюджет по слотам: сначала минимум всем, потом повышаем уровни, bıçak и eldiven в приоритете */
+let CAPRUB=null;
+/* бюджет в рублях по реальным ценам: делим сумму между слотами, подбираем лучший по цвету предмет в каждой доле,
+   остаток отдаём ножу, перчаткам и главным пушкам; итоговые лимиты слотов в сумме не превышают бюджет,
+   поэтому «Другой» и перемешивание тоже остаются в бюджете */
+function allocateRub(){CAPRUB=null;if(state.budgetRub==null||state.budgetRub<=0||!window.PRICES)return;
+  const R=state.budgetRub,slots=active(),pr=s=>s.priceRub||PRICE_MID[s.tier]||0;CAPRUB={};let rest=R;let free=[];
+  for(const sl of slots){const li=state.locked[sl.id];const sk=li!=null?SKINS[li]:null;if(sk){rest-=pr(sk);CAPRUB[sl.id]=Infinity}else free.push(sl)}
+  rest=Math.max(0,rest);
+  const minP={};for(const s of SKINS){const p=pr(s);if(p>0&&(minP[s.slot]==null||p<minP[s.slot]))minP[s.slot]=p}
+  const W=s=>s.premium?(s.id==="knife"?45:30):(s.id==="ak"||s.id==="awp"?7:5);
+  for(let k=0;k<3;k++){const tw=free.reduce((a,s)=>a+W(s),0);let ch=false;
+    free=free.filter(s=>{if(!s.premium)return true;if((minP[s.id]||0)>rest*W(s)/tw){CAPRUB[s.id]=0;ch=true;return false}return true});if(!ch)break}
+  const tw=free.reduce((a,s)=>a+W(s),0)||1;free.forEach(s=>CAPRUB[s.id]=rest*W(s)/tw);
+  const pick=id=>{const l=candidates(id);return l.length?pr(l[0].s):0};
+  const got={};free.forEach(s=>got[s.id]=pick(s.id));
+  let left=rest-free.reduce((a,s)=>a+got[s.id],0);
+  const order=free.slice().sort((a,b)=>W(b)-W(a));
+  for(const s of order){if(left<=1)break;const old=got[s.id];CAPRUB[s.id]=old+left;const np=pick(s.id);got[s.id]=np;left-=np-old}
+  free.forEach(s=>CAPRUB[s.id]=got[s.id]);
+  if(left>0){free.forEach(s=>CAPRUB[s.id]+=left*W(s)/tw)}
+}
+const capL=(id,t)=>CAPRUB&&isFinite(CAPRUB[id])?"≤ "+fmtMoney(Math.round(CAPRUB[id])):TIER[t];
+const capW=(a,b)=>{if(CAPRUB){const v=active().filter(s=>!s.premium&&isFinite(CAPRUB[s.id])).map(s=>CAPRUB[s.id]);if(v.length)return "≤ "+fmtMoney(Math.round(Math.max(...v)))}return a===b?TIER[a]:TIER[a]+" … "+TIER[b]};
 function allocate(){
   const slots=active();ALLOC={};
   if(state.budgetRub==null){slots.forEach(s=>ALLOC[s.id]=5);return}
@@ -1316,6 +1339,7 @@ function allocate(){
     if(!best)break;info[best.id].i++;spent+=best.delta;
   }
   slots.forEach(s=>{const f=info[s.id];ALLOC[s.id]=f.lt!=null?f.lt:f.skip?0:f.tiers[f.i]});
+  allocateRub();
 }
 const tierFor=rub=>rub==null||rub===""||isNaN(rub)?5:rub<=0?0:rub<=300?1:rub<=3000?2:rub<=30000?3:rub<=150000?4:5;
 const state={...DEF,offset:{},locked:{},sel:"ak",extra:[],hidden:[],wear:"any",wearBy:{}};let MINE=null,VIEWING=null;
@@ -1328,7 +1352,8 @@ const fitText=d=>d<18?"Tam isabet":d<32?"Harika":d<50?"Uyumlu":"En yakın";
 const active=()=>[...BASE_SLOTS.filter(s=>!(s.premium&&!state.premium)&&!(state.hidden||[]).includes(s.id)),...(state.extra||[]).map(id=>EXTRA_SLOTS.find(s=>s.id===id)).filter(Boolean)];
 /* подбор с учётом бюджета: чем выше лимит, тем сильнее предпочитаем дорогие предметы; слишком дешёвые для бюджета штрафуем */
 function candidates(slot){const T=state.colors.map(hexToLab);const cap=ALLOC[slot]==null?5:ALLOC[slot];const target=state.budgetRub==null?null:cap;
-  const list=SKINS.filter(s=>s.slot===slot&&s.tier<=cap).map(s=>{const d=score(s,T);const gap=target==null?0:Math.max(0,target-s.tier);return{s,d,fit:d+gap*24}}).sort((a,b)=>a.fit-b.fit);
+  const RC=CAPRUB&&CAPRUB[slot]!=null&&isFinite(CAPRUB[slot])?CAPRUB[slot]:null;
+  const list=(RC!=null?SKINS.filter(s=>s.slot===slot&&(s.priceRub||PRICE_MID[s.tier]||0)<=RC).map(s=>{const d=score(s,T);const p=s.priceRub||PRICE_MID[s.tier]||1;return{s,d,fit:d+12*Math.max(0,Math.log2(RC/p)-0.6)}}):SKINS.filter(s=>s.slot===slot&&s.tier<=cap).map(s=>{const d=score(s,T);const gap=target==null?0:Math.max(0,target-s.tier);return{s,d,fit:d+gap*24}})).sort((a,b)=>a.fit-b.fit);
   // при переборе сначала разные скины, потом повторы için других ножах/перчатках
   const seen=new Set(),first=[],rest=[];for(const c of list){const key=c.s.skin.replace(/\s*\(.*\)/,"");(seen.has(key)?rest:first).push(c);seen.add(key)}return first.concat(rest)}
 function current(slot){if(state.locked[slot]!=null){const s=SKINS[state.locked[slot]];if(s)return{s,d:score(s,state.colors.map(hexToLab))}}const l=candidates(slot);if(!l.length)return null;return l[(state.offset[slot]||0)%l.length]}
@@ -1353,8 +1378,8 @@ function render(){
   const fmt=n=>fmtMoney(n);
   if(state.budgetRub!=null&&state.budgetRub<=0)$("#bhint").innerHTML=`<b>Sıfırdan büyük bir tutar gir</b> veya limiti kaldır.`;
   else if(state.budgetRub==null)$("#bhint").innerHTML=`Limit yok — en iyi <b>renk eşleşmeleri gösteriliyor</b> . Tahmini set değeri ≈ <b>${fmt(est)}</b>.`;
-  else{const parts=[];const k=ALLOC.knife,g=ALLOC.gloves;if(state.premium){parts.push(k?`bıçak ${TIER[k]}`:"bıçak sığmıyor");parts.push(g?`eldiven ${TIER[g]}`:"eldiven sığmıyor")}
-    const wt=active().filter(s=>!s.premium).map(s=>ALLOC[s.id]);const wmin=Math.min(...wt),wmax=Math.max(...wt);parts.push(`silahlar ${wmin===wmax?TIER[wmin]:TIER[wmin].replace(/ ₽$/,"")+" … "+TIER[wmax]}`);
+  else{const parts=[];const k=CAPRUB?(CAPRUB.knife>0?1:0):ALLOC.knife,g=CAPRUB?(CAPRUB.gloves>0?1:0):ALLOC.gloves;if(state.premium){parts.push(k?`bıçak ${capL("knife",k)}`:"bıçak sığmıyor");parts.push(g?`eldiven ${capL("gloves",g)}`:"eldiven sığmıyor")}
+    const wt=active().filter(s=>!s.premium).map(s=>ALLOC[s.id]);const wmin=Math.min(...wt),wmax=Math.max(...wt);parts.push(`silahlar ${capW(wmin,wmax)}`);
     $("#bhint").innerHTML=`Bütçe <b>${fmt(state.budgetRub)}</b> için ${active().length} eşya için şöyle dağıtıldı: ${parts.join(", ")}. Tahmini set değeri <b>≈ ${fmt(est)}</b>${est>state.budgetRub*1.1?` — <b>limitin üstünde</b>: daha ucuzu yok, fiyatlar aralık olarak tutuluyor`:""}.`}}
   $("#premium").setAttribute("aria-pressed",state.premium);
 

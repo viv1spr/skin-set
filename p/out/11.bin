@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd">
+
+  <!-- Priority 1.0 - Критичный уровень -->
+  <url>
+    <loc>https://avan.market/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Priority 0.9 - Очень высокий уровень -->
+  <!-- Основные коммерческие страницы -->
+  <url>
+    <loc>https://avan.market/market</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/market/cs</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/market/dota2</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/market/rust</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/sell/cs2</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/sell/csgo</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/sell/dota2</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/sell/rust</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/sell/tf2</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Priority 0.8 - Высокий уровень -->
+  <!-- Важные коммерческие страницы -->
+  <url>
+    <loc>https://avan.market/sticker-craft</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/inventory-value</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Priority 0.7 - Средне-высокий уровень -->
+  <!-- Английские версии основных страниц -->
+  <url>
+    <loc>https://avan.market/en/</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/market</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/sell/cs2</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/sell/csgo</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/sell/dota2</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/sell/rust</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/sell/tf2</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/market/dota2</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/market/rust</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/market/cs</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/sticker-craft</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/inventory-value</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Priority 0.5 - Стандартный уровень -->
+  <!-- Информационные страницы -->
+  <url>
+    <loc>https://avan.market/reviews</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/profile/partnership</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/contacts</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/help</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/help/how_it_work/sell</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/help/how_it_work/buy</loc>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Priority 0.4 - Низкий уровень -->
+  <!-- Английские информационные страницы -->
+  <url>
+    <loc>https://avan.market/en/reviews</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/profile/partnership</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/contacts</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/help</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/help/how_it_work/sell</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/help/how_it_work/buy</loc>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Priority 0.3 - Очень низкий уровень -->
+  <!-- Служебные страницы -->
+  <url>
+    <loc>https://avan.market/help/guarantees</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/help/terms</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/help/privacy</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/help/guarantees</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/help/terms</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://avan.market/en/help/privacy</loc>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

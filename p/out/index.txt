@@ -10,3 +10,12 @@
 10 200 https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://avan.market&size=128 image/png https://www.google.com/s2/favicons?domain=avan.market&sz=128
 11 200 https://avan.market/sitemap.xml application/xml https://avan.market/sitemap.xml
 12 200 https://avan.market/robots.txt text/plain; charset=UTF-8 https://avan.market/robots.txt
+1 200 https://avan.market/market/cs?name=AK-47+Redline text/html; charset=utf-8 https://avan.market/ru/market/cs?name=AK-47%20Redline
+2 200 https://avan.market/market/cs?name=Karambit+Doppler text/html; charset=utf-8 https://avan.market/ru/market/cs?name=Karambit%20Doppler
+3 200 https://avan.market/market/cs/star-karambit-doppler-factory-new text/html; charset=utf-8 https://avan.market/ru/market/cs/star-karambit-doppler-factory-new
+4 200 https://avan.market/market/cs/karambit-doppler-phase-2 text/html; charset=utf-8 https://avan.market/ru/market/cs/karambit-doppler-phase-2
+5 200 https://avan.market/market/cs/karambit-autotronic-field-tested text/html; charset=utf-8 https://avan.market/ru/market/cs/karambit-autotronic-field-tested
+6 200 https://avan.market/market/cs/star-karambit-autotronic-field-tested text/html; charset=utf-8 https://avan.market/ru/market/cs/star-karambit-autotronic-field-tested
+7 200 https://avan.market/market/cs/moto-gloves-blood-pressure-field-tested text/html; charset=utf-8 https://avan.market/ru/market/cs/moto-gloves-blood-pressure-field-tested
+8 200 https://avan.market/market/cs/karambit text/html; charset=utf-8 https://avan.market/ru/market/cs/karambit
+9 200 https://avan.market/market/cs/ak-47 text/html; charset=utf-8 https://avan.market/ru/market/cs/ak-47

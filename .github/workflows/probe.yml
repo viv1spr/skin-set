@@ -1,0 +1,24 @@
+name: probe
+on:
+  push:
+    branches: [media]
+    paths: [p/urls.txt]
+permissions:
+  contents: write
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: media }
+      - run: |
+          mkdir -p p/out
+          i=0
+          while read -r url; do
+            [ -z "$url" ] && continue
+            i=$((i+1))
+            code=$(curl -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36" -o "p/out/$i.bin" -w '%{http_code} %{url_effective} %{content_type}' "$url")
+            echo "$i $code $url" >> p/out/index.txt
+          done < p/urls.txt
+          git config user.name bot; git config user.email bot@users.noreply.github.com
+          git add p && git commit -m "probe" && git push

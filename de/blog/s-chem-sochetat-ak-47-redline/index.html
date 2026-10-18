@@ -578,7 +578,7 @@ body[data-route="feed"] .fs .lk2{padding:5px 9px;font-size:.8rem}
 @media(max-width:700px){body[data-route="feed"] .feed{padding:22px 12px 60px}body[data-route="feed"] .feed-head .sorts{margin-left:0}body[data-route="feed"] .pubwrap .hudbtn{width:100%!important;flex:1 1 100%}body[data-route="feed"] .feed-list{grid-template-columns:1fr!important}}
 body[data-route="feed"] #pubBtn{background:#c4161c;color:#fff}
 body[data-route="feed"] #pubBtn:hover{background:#e01d24}
-.buy a.ls{background:linear-gradient(135deg,#ffd21f,#f5a300)!important;color:#141414!important}.buy a.ls *{color:#141414}.card .cb a.ls{background:#f5b800!important;color:#141414!important}.mk.ls .ico{background:#111!important}</style>
+.buy a.ls{background:linear-gradient(135deg,#ffd21f,#f5a300)!important;color:#141414!important}.buy a.ls *{color:#141414}.card .cb a.ls{background:#f5b800!important;color:#141414!important}.mk.ls .ico{background:#111!important}body.viewing #budget,body.viewing .ctrl>.grp:not(.wearsel),body.viewing #premium{display:none!important}body.viewing .viewbar{padding:14px 20px;font-size:1rem;background:color-mix(in srgb,var(--pick) 30%,rgba(10,11,13,.7));border-bottom:2px solid var(--pick)}body.viewing .viewbar b{font-size:1.1em}.viewbar .vb-btns{display:flex;gap:8px;flex-wrap:wrap}</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Was passt zur AK-47 Redline? Messer, Handschuhe und Pistolen für jedes Budget","description":"Was du um die AK-47 Redline baust: Handschuhe, Messer, M4, AWP und Pistolen in Rot-Schwarz. Drei fertige Sets von 45 bis 500 € mit Live-Preisen.","datePublished":"2026-10-13","dateModified":"2026-10-15","inLanguage":"de","author":{"@type":"Person","name":"viv1stop","url":"https://www.twitch.tv/viv1stop"},"publisher":{"@type":"Organization","name":"Skinset","url":"https://skin-set.com"},"mainEntityOfPage":"https://skin-set.com/de/blog/s-chem-sochetat-ak-47-redline/"}</script>
 <style>
 .tabs a.twitch{display:flex;align-items:center;gap:7px;padding:0 16px;border-left:1px solid var(--line);background:rgba(145,70,255,.14);color:#c9a6ff;font:500 .9rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
@@ -658,7 +658,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
       <div class="grp wearsel"><span class="lbl">Zustand</span><div class="seg" id="wearSel"><button data-w="any" aria-pressed="true" title="">Egal</button><button data-w="FN" aria-pressed="false" title="Factory New">FN</button><button data-w="MW" aria-pressed="false" title="Minimal Wear">MW</button><button data-w="FT" aria-pressed="false" title="Field-Tested">FT</button><button data-w="WW" aria-pressed="false" title="Well-Worn">WW</button><button data-w="BS" aria-pressed="false" title="Battle-Scarred">BS</button></div></div>
     </div>
 
-    <div class="viewbar" id="viewbar" hidden><span>Du siehst das Loadout von <b id="viewName"></b>. Dein eigenes Loadout bleibt erhalten.</span><button class="hudbtn" id="backMine">← Zurück zu meinem Loadout</button></div>
+    <div class="viewbar" id="viewbar" hidden><span>Du siehst das Loadout von <b id="viewName"></b>. Dein eigenes Loadout bleibt erhalten.</span><span class="vb-btns"><button class="hudbtn ghost" id="takeSet">Set übernehmen</button><button class="hudbtn" id="backMine">← Zurück zu meinem Loadout</button></span></div>
     <div class="budget-row" id="budget" role="group" aria-label="Budget">
       <div class="bl"><b>Budget</b><span>für das ganze Loadout</span></div>
       <div class="seg curSel" id="curSel"><button data-cur="local" aria-pressed="true">€</button><button data-cur="usd" aria-pressed="false">$</button></div><label class="binput"><span class="cur" id="curSym">₽</span><input type="number" id="budgetRub" inputmode="numeric" min="0" step="100" placeholder="ohne Limit" aria-label="Betrag in Euro"><button type="button" id="budgetClear" aria-label="Limit entfernen">×</button></label>
@@ -1249,11 +1249,11 @@ function priceFor(s,wear){const P=window.PRICES;if(!P)return null;const rec=P[s.
   if(W[wear]>0)return {usd:W[wear],wear};const wi=WEARS.indexOf(wear);let b=ks[0];for(const k of ks)if(Math.abs(WEARS.indexOf(k)-wi)<Math.abs(WEARS.indexOf(b)-wi))b=k;return {usd:W[b],wear:b,fb:true}}
 function applyPrices(){const P=window.PRICES;if(!P)return;const RATE=90;
   for(const s of SKINS){const p=priceFor(s,effWear(s.slot));if(!p){s.priceUsd=s.priceRub=null;s.wearShown=null;continue}
-    s.priceUsd=p.usd;s.priceRub=Math.round(p.usd*RATE);s.wearShown=p.wear;s.wearFb=!!p.fb;const t=tierFor(s.priceRub);if(t>=1&&t<=5)s.tier=t}}
+    s.priceUsd=p.usd;s.priceRub=p.usd*RATE;s.wearShown=p.wear;s.wearFb=!!p.fb;const t=tierFor(s.priceRub);if(t>=1&&t<=5)s.tier=t}}
 const wearBadge=s=>s&&s.wearShown?`<i class="wb${s.wearFb?" fb":""}" title="${WEAR_FULL[s.wearShown]}${s.wearFb?" — "+WT.fb:""}">${s.wearShown}</i>`:"";
 const queryW=s=>query(s)+(s&&s.wearShown?" ("+WEAR_FULL[s.wearShown]+")":"");
 function wearRow(slot,s){const P=window.PRICES;if(!P)return"";const rec=P[s.weapon.replace("★ ","")+" | "+s.skin];if(!rec||!rec.w)return"";const cur=(state.wearBy||{})[slot.id]||"";
-  const btn=(k,label,usd,title)=>`<button data-wear="${k}" aria-pressed="${cur===k}" title="${title}"><b>${label}</b><small>${usd?fmtMoney(Math.round(usd*90)):"—"}</small></button>`;
+  const btn=(k,label,usd,title)=>`<button data-wear="${k}" aria-pressed="${cur===k}" title="${title}"><b>${label}</b><small>${usd?fmtMoney(usd*90):"—"}</small></button>`;
   const min=Math.min(...WEARS.filter(k=>rec.w[k]>0).map(k=>rec.w[k]));
   return `<div class="wears"><small>${WT.wear}</small><div>${btn("",WT.any,min,WT.anyT)}${WEARS.filter(k=>rec.w[k]>0).map(k=>btn(k,k,rec.w[k],WEAR_FULL[k])).join("")}</div></div>`}
 const priceLabel=s=>s&&s.priceRub?fmtMoney(s.priceRub):TIER[s.tier];
@@ -1272,7 +1272,8 @@ const TIER_MAX={1:300,2:3000,3:30000,4:150000,5:Infinity};
 let CUR=window.CUR||null;const LOCAL_CUR=CUR,LOCAL_TIERS=Object.assign({},window.TIERS||null),USD_CUR={"sym": "$", "rate": 90},USD_TIERS={"1": "under $4", "2": "$4–35", "3": "$35–350", "4": "$350–1,700", "5": "$1,700+"}; // {sym,rate} — валюта интерфейса; суммы внутри считаются в рублях
 const toRub=v=>CUR?Math.round(v*CUR.rate):Math.round(v);
 const fromRub=r=>CUR?Math.round(r/CUR.rate):Math.round(r);
-const fmtMoney=r=>CUR?(CUR.sym==="$"||CUR.sym==="R$"?CUR.sym+" "+fromRub(r).toLocaleString("en-US"):fromRub(r).toLocaleString("de-DE")+" "+CUR.sym):r.toLocaleString("en-US")+" ₽";
+const fmtMoney=r=>{const v=CUR?r/CUR.rate:r;const a=Math.abs(v);const d=a>0&&a<10?2:0;const n=a>0&&a<0.01?0.01:v;const o={minimumFractionDigits:d,maximumFractionDigits:d};const pre=a>0&&a<0.01?"< ":"";
+  if(!CUR)return pre+n.toLocaleString("ru-RU",o)+" ₽";return CUR.sym==="$"||CUR.sym==="R$"?pre+CUR.sym+" "+n.toLocaleString("en-US",o):pre+n.toLocaleString("de-DE",o)+" "+CUR.sym};
 const RU_TIERS=Object.assign({},TIER);if(window.TIERS)Object.assign(TIER,window.TIERS);
 const PRICE_MID={1:150,2:1200,3:9000,4:60000,5:250000};
 const PRICE_MIN={1:30,2:300,3:3000,4:30000,5:150000};
@@ -1545,9 +1546,9 @@ feedEl.addEventListener("click",async e=>{const lk=e.target.closest("[data-like]
   state.colors=[...f.colors];state.preset=PRESETS.findIndex(p=>p.name===f.preset);state.budget=5;state.budgetRub=null;state.premium=true;state.locked={};
   state.extra=f.items.map(it=>it.slot).filter(id=>EXTRA_SLOTS.some(s=>s.id===id));for(const it of f.items){let idx=it.i;if(it.n){const k=SKINS.findIndex(x=>(x.weapon.replace("★ ","")+" | "+x.skin)===it.n);if(k>=0)idx=k}state.locked[it.slot]=idx};state.sel=(f.items[0]||{}).slot||"ak";render();
   if(document.body.dataset.route==="feed")location.href="/de/";toast("Loadout geöffnet, Items fixiert");showViewing()});
-function showViewing(){const bar=$("#viewbar");$("#backMine2").hidden=!VIEWING;if(!VIEWING){bar.hidden=true;return}bar.hidden=false;$("#viewName").textContent=VIEWING._demo?VIEWING._name:"einem Spieler"}
+function showViewing(){document.body.classList.toggle("viewing",!!VIEWING);const bar=$("#viewbar");$("#backMine2").hidden=!VIEWING;if(!VIEWING){bar.hidden=true;return}bar.hidden=false;$("#viewName").textContent=VIEWING._demo?VIEWING._name:(VIEWING.name||"einem Spieler")}
 function backToMine(){if(!MINE)return;Object.assign(state,MINE);VIEWING=null;MINE=null;feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));render();showViewing();toast("Zurück zu deinem Loadout")}
-$("#backMine").addEventListener("click",backToMine);$("#backMine2").addEventListener("click",backToMine);
+$("#backMine").addEventListener("click",backToMine);{const t=$("#takeSet");if(t)t.addEventListener("click",()=>{VIEWING=null;MINE=null;feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));render();showViewing();toast("Das Set gehört jetzt dir – Farbe und Budget frei änderbar")})}$("#backMine2").addEventListener("click",backToMine);
 /* клик по логотипу: вернуться к своему сету и für главную */
 document.querySelector(".logo").addEventListener("click",e=>{
   if(VIEWING){e.preventDefault();backToMine();if(document.body.dataset.route!=="home"){const home=document.querySelector(".logo").getAttribute("href");if(home&&home!=="#/")location.href=home;else location.hash="#/"}window.scrollTo({top:0,behavior:"smooth"})}

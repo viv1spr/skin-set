@@ -188,7 +188,7 @@ body[data-route="how"] .main,body[data-route="shops"] .main{background:linear-gr
 /* кнопки купить için карточках лоадаута */
 .card .cb{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 14px 14px}
 .card .cb a{height:36px;display:flex;align-items:center;justify-content:center;font:600 .78rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#fff;white-space:nowrap}
-.card .cb a.dm{background:#1d6cf2}.card .cb a.ls{background:#f97316}
+.card .cb a.dm{background:#1d6cf2}.card .cb a:only-child{grid-column:1/-1}.card .cb a.ls{background:#f97316}
 .card .cb a:hover{filter:brightness(1.15)}
 .info .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.info .acts button{white-space:nowrap;padding:0 8px}.info .acts #pickBtn{flex:1 1 100%;order:3;border-color:color-mix(in srgb,var(--pick) 60%,var(--line2));color:var(--ink)}.info .acts #pickBtn:hover{background:color-mix(in srgb,var(--pick) 16%,transparent)}
 .info .acts button{flex:1;height:36px;border:1px solid var(--line2);background:transparent;cursor:pointer;font:500 .78rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:var(--soft);display:flex;align-items:center;justify-content:center;gap:8px}

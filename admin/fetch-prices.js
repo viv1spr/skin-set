@@ -1,5 +1,5 @@
 // Node 20: daily prices from Lis-Skins (public export) + Skinport (public API) as fallback.
-// Writes data/prices.json: { "Weapon | Skin": { ls, sp, w:{FN,MW,FT,WW,BS}, t } } (USD, min per wear across sources)
+// Writes data/prices.json: { "Weapon | Skin": { ls, sp, w:{FN,MW,FT,WW,BS}, t } } (USD; per wear: Lis-Skins price, Skinport only as fallback)
 // DMarket: public endpoint retired (needs API keys) — set DM_PUBLIC/DM_SECRET secrets later to enable.
 const fs=require("fs"),path=require("path");
 const root=path.join(__dirname,"..");
@@ -19,7 +19,7 @@ const stripPhase=n=>n.replace(/\s*\((Phase \d)\)$/,"");
 (async()=>{
   const [L,S]=await Promise.all([lis(),skinport()]);const now=Date.now();const out={};
   for(const n of names){const a=L.get(n)||L.get(stripPhase(n)),b=S.get(n)||S.get(stripPhase(n));if(!a&&!b)continue;
-    const rec={t:now};if(a)rec.ls=+a.min.toFixed(2);if(b)rec.sp=+b.min.toFixed(2);const w={};for(const k of["FN","MW","FT","WW","BS"]){const v=Math.min((a&&a.w[k])||Infinity,(b&&b.w[k])||Infinity);if(isFinite(v))w[k]=+v.toFixed(2)}if(Object.keys(w).length)rec.w=w;out[n]=rec}
+    const rec={t:now};if(a)rec.ls=+a.min.toFixed(2);if(b)rec.sp=+b.min.toFixed(2);const w={};for(const k of["FN","MW","FT","WW","BS"]){const v=(a&&a.w[k])||(b&&b.w[k])||Infinity; // Lis-Skins в приоритете, Skinport только если на Lis нет этого износаif(isFinite(v))w[k]=+v.toFixed(2)}if(Object.keys(w).length)rec.w=w;out[n]=rec}
   fs.writeFileSync(path.join(root,"data/prices.json"),JSON.stringify(out));
   META.finished=new Date().toISOString();META.names=names.length;META.priced=Object.keys(out).length;fs.writeFileSync(path.join(root,"data/prices-meta.json"),JSON.stringify(META,null,1));
   console.log(JSON.stringify(META))})();

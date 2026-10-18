@@ -1495,9 +1495,8 @@ function demoFeed(){FEED=Array.from({length:10},()=>({...demoSet(),_demo:true,_n
 async function drawFeed(){
   feedEl.innerHTML=FEED.map((f,idx)=>setCard(f,{idx,mine:!!(f._id&&MY_IDS.has(f._id)),name:f._demo?f._name:(cleanName(f.name)||"Player"),demo:!!f._demo})).join("");
 }
-feedEl.addEventListener("click",async e=>{const lk=e.target.closest("[data-like]");if(lk){e.stopPropagation();const id=lk.dataset.like;if(LIKED.has(id)){toast("Already liked");return}
-    LIKED.add(id);try{localStorage.setItem("skinset_liked",JSON.stringify([...LIKED].slice(-500)))}catch(x){}const f=REAL.find(x=>x._id===id);if(f)f.likes=(f.likes||0)+1;lk.classList.add("on");lk.lastChild.textContent=f?f.likes:"";
-    try{await fbLike(id)}catch(x){console.warn(x)}return}
+feedEl.addEventListener("click",async e=>{const lk=e.target.closest("[data-like]");if(lk){e.stopPropagation();const id=lk.dataset.like;const un=LIKED.has(id);if(un)LIKED.delete(id);else LIKED.add(id);try{localStorage.setItem("skinset_liked",JSON.stringify([...LIKED].slice(-500)))}catch(x){}const f=REAL.find(x=>x._id===id);if(f)f.likes=Math.max(0,(f.likes||0)+(un?-1:1));lk.classList.toggle("on",!un);lk.lastChild.textContent=f?f.likes:"";
+    try{await fbLike(id,un?-1:1)}catch(x){console.warn(x)}return}
   const b=e.target.closest("[data-idx]");if(!b)return;const f=FEED[+b.dataset.idx];if(!f)return;
   feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");
   if(VIEWING==null)MINE=JSON.parse(JSON.stringify({colors:state.colors,preset:state.preset,budget:state.budget,budgetRub:state.budgetRub,premium:state.premium,locked:state.locked,extra:state.extra,sel:state.sel,offset:state.offset,hidden:state.hidden,wearBy:state.wearBy,frozen:state.frozen}));
@@ -1519,7 +1518,7 @@ const fv=v=>Array.isArray(v)?{arrayValue:{values:v.map(fv)}}:typeof v==="number"
 const fr=v=>!v?null:"stringValue"in v?v.stringValue:"integerValue"in v?+v.integerValue:"doubleValue"in v?v.doubleValue:"booleanValue"in v?v.booleanValue:"arrayValue"in v?(v.arrayValue.values||[]).map(fr):"mapValue"in v?Object.fromEntries(Object.entries(v.mapValue.fields||{}).map(([k,x])=>[k,fr(x)])):null;
 async function fbList(order){const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);const j=await r.json();return (j.documents||[]).map(d=>({...fr({mapValue:{fields:d.fields}}),_id:d.name.split("/").pop()}))}
 async function fbAdd(doc){const r=await fetch(FB_URL+"?key="+FB_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields:fv(doc).mapValue.fields})});if(!r.ok)throw new Error("fb "+r.status);return r.json()}
-async function fbLike(id){const doc=FB_URL.replace(/^https:\/\/firestore\.googleapis\.com\/v1\//,"")+"/"+id;const r=await fetch(FB_URL.replace(/\/documents\/sets$/,"/documents:commit")+"?key="+FB_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({writes:[{transform:{document:doc,fieldTransforms:[{fieldPath:"likes",increment:{integerValue:"1"}}]}}]})});if(!r.ok)throw new Error("fb "+r.status);return r.json()}
+async function fbLike(id,d){d=d||1;const doc=FB_URL.replace(/^https:\/\/firestore\.googleapis\.com\/v1\//,"")+"/"+id;const r=await fetch(FB_URL.replace(/\/documents\/sets$/,"/documents:commit")+"?key="+FB_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({writes:[{transform:{document:doc,fieldTransforms:[{fieldPath:"likes",increment:{integerValue:String(d)}}]}}]})});if(!r.ok)throw new Error("fb "+r.status);return r.json()}
 const LIKED=new Set(JSON.parse((()=>{try{return localStorage.getItem("skinset_liked")}catch(e){return null}})()||"[]"));
 let FEED_SORT="top";
 let REAL=[];const MY_IDS=new Set(JSON.parse((()=>{try{return localStorage.getItem("skinset_my")}catch(e){return null}})()||"[]"));

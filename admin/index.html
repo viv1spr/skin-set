@@ -68,7 +68,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
 <body>
 <header class="top">
   <a class="logo" href="/"><svg viewBox="0 0 32 32"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset · админка</a>
-  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="skins">База скинов</button><button data-v="help">Справка</button></nav>
+  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="links">Ссылки</button><button data-v="skins">База скинов</button><button data-v="help">Справка</button></nav>
   <div class="st"><span class="dot" id="ghDot"></span><span id="ghSt">GitHub</span><button class="btn ghost" id="tokenBtn" style="padding:6px 10px">Токен</button></div>
 </header>
 <main>
@@ -135,6 +135,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
     <div class="f"><label>Реф Lis-Skins (rf=)</label><input id="cLs"></div>
     <div class="f"><label>Ссылка Twitch</label><input id="cTw"></div>
     <div class="f"><label>Ссылка Telegram</label><input id="cTg"></div>
+    <div class="f"><label>Адрес воркера (вход через Steam и ссылки)</label><input id="cWk" placeholder="https://skinset.ИМЯ.workers.dev"></div>
   </div>
   <div class="card">
     <div class="f"><label><input type="checkbox" id="cAnnOn" style="width:auto;margin-right:6px">Показывать объявление вверху сайта</label></div>
@@ -159,6 +160,25 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
   <div class="card">
     <p><b>Поисковый трафик и запросы:</b> <a href="https://search.google.com/search-console" target="_blank">Google Search Console</a> · <a href="https://webmaster.yandex.ru" target="_blank">Яндекс Вебмастер</a>.<br><b>Посетители:</b> <a href="https://metrika.yandex.ru" target="_blank">Яндекс Метрика</a> (если счётчик подключён).<br><b>Доходы:</b> кабинеты партнёрок DMarket и Lis-Skins.</p>
   </div>
+</section>
+
+<section class="view" id="v-links">
+  <h1>Ссылки</h1>
+  <div class="card">
+    <div class="grid g2"><div class="f"><label>Ключ админки воркера (ADMIN_KEY, хранится в этом браузере)</label><input id="lkKey" type="password"></div><div class="f"><label>&nbsp;</label><div class="row"><button class="btn ghost" id="lkKeySave">Сохранить ключ</button><button class="btn ghost" id="lkReload">Обновить</button><span class="hint" id="lkSt"></span></div></div></div>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">Новая ссылка</h2>
+    <div class="grid g2">
+      <div class="f"><label>Название (для себя)</label><input id="lkName" placeholder="Стрим 20.10, описание YouTube…"></div>
+      <div class="f"><label>Код (латиница, цифры, - _)</label><input id="lkCode" placeholder="twitch-oct"></div>
+      <div class="f"><label>Страница сайта</label><input id="lkPath" value="/" placeholder="/ или /en/ или /krasnye-skiny-cs2/"></div>
+      <div class="f"><label>&nbsp;</label><div class="row"><button class="btn" id="lkCreate">Создать</button></div></div>
+    </div>
+    <div class="hint">Ссылка вида <code>skin-set.com/?l=код</code>. Считаются: переходы (уникальные за сессию), клики «Купить» на DMarket/Lis-Skins и опубликованные сеты этих посетителей.</div>
+  </div>
+  <div class="kv" id="lkKv"></div>
+  <div class="card"><table id="lkTable"><thead><tr><th>Название</th><th>Ссылка</th><th>Переходы</th><th>Клики «Купить»</th><th>Сеты</th><th>Конверсия</th><th>7 дней</th><th></th></tr></thead><tbody></tbody></table></div>
 </section>
 
 <section class="view" id="v-skins">
@@ -222,7 +242,7 @@ const toast=(t,err)=>{const e=$("#toast");e.textContent=t;e.className="toast sho
 /* ---- nav ---- */
 document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.v)));
 function show(v){document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));
-  if(v==="feed"||v==="stats")loadFeed();if(v==="skins")skinsInit();if(v==="settings")loadCfg();if(v==="posts")loadPosts()}
+  if(v==="feed"||v==="stats")loadFeed();if(v==="skins")skinsInit();if(v==="settings")loadCfg();if(v==="posts")loadPosts();if(v==="links")loadLinks()}
 /* ---- github ---- */
 let TOKEN=localStorage.getItem("ss_admin_gh")||"";
 function ghStatus(){$("#ghDot").className="dot"+(TOKEN?" ok":"");$("#ghSt").textContent=TOKEN?"GitHub: токен есть":"GitHub: нет токена"}
@@ -326,9 +346,30 @@ $("#imgUp").onclick=async()=>{const f=$("#imgFile").files[0];if(!f){toast("Вы�
     insertMd("![описание картинки](/"+path+")");$("#imgHint").textContent="Загружено: /"+path+" (на сайте через 1–2 мин)";$("#imgFile").value=""}
   catch(e){$("#imgHint").textContent="";toast("Ошибка загрузки: "+e.message,true)}};
 /* ---- settings ---- */
-async function loadCfg(){$("#llmKey").value=localStorage.getItem("ss_admin_llm")||"";$("#llmModel").value=localStorage.getItem("ss_admin_llm_model")||"claude-sonnet-5-5";try{const j=await getFile("config.json");const c=j?JSON.parse(j):{};$("#cDm").value=(c.refs||{}).dmarket||"";$("#cLs").value=(c.refs||{}).lis||"";$("#cTw").value=c.twitch||"";$("#cTg").value=c.telegram||"";$("#cAnnOn").checked=!!(c.announce&&c.announce.enabled);$("#cAnnText").value=(c.announce||{}).text||"";$("#cAnnUrl").value=(c.announce||{}).url||"";$("#cFeed").checked=c.feedEnabled!==false}catch(e){$("#cfgHint").textContent=e.message}}
-$("#saveCfg").onclick=async()=>{const c={refs:{dmarket:$("#cDm").value.trim(),lis:$("#cLs").value.trim()},twitch:$("#cTw").value.trim(),telegram:$("#cTg").value.trim(),announce:{enabled:$("#cAnnOn").checked,text:$("#cAnnText").value.trim(),url:$("#cAnnUrl").value.trim()},feedEnabled:$("#cFeed").checked};
+async function loadCfg(){$("#llmKey").value=localStorage.getItem("ss_admin_llm")||"";$("#llmModel").value=localStorage.getItem("ss_admin_llm_model")||"claude-sonnet-5-5";try{const j=await getFile("config.json");const c=j?JSON.parse(j):{};$("#cDm").value=(c.refs||{}).dmarket||"";$("#cLs").value=(c.refs||{}).lis||"";$("#cTw").value=c.twitch||"";$("#cTg").value=c.telegram||"";$("#cWk").value=c.worker||"";$("#cAnnOn").checked=!!(c.announce&&c.announce.enabled);$("#cAnnText").value=(c.announce||{}).text||"";$("#cAnnUrl").value=(c.announce||{}).url||"";$("#cFeed").checked=c.feedEnabled!==false}catch(e){$("#cfgHint").textContent=e.message}}
+$("#saveCfg").onclick=async()=>{const c={refs:{dmarket:$("#cDm").value.trim(),lis:$("#cLs").value.trim()},twitch:$("#cTw").value.trim(),telegram:$("#cTg").value.trim(),announce:{enabled:$("#cAnnOn").checked,text:$("#cAnnText").value.trim(),url:$("#cAnnUrl").value.trim()},feedEnabled:$("#cFeed").checked};const wk=$("#cWk").value.trim().replace(/\/+$/,"");if(wk)c.worker=wk;
   try{await commitFiles([{path:"config.json",content:JSON.stringify(c,null,2)}],"Update site config");toast("Сохранено, на сайте через 1–2 минуты")}catch(e){toast("Ошибка: "+e.message,true)}};
+/* ---- трекинговые ссылки (воркер) ---- */
+let WK=null;async function wk(){if(WK)return WK;const j=await getFile("config.json");const c=j?JSON.parse(j):{};if(!c.worker)throw new Error("Сначала впиши адрес воркера в «Настройках»");return WK=c.worker.replace(/\/+$/,"")}
+const lkKey=()=>localStorage.getItem("ss_admin_wk")||"";
+async function lkApi(method,q,body){const r=await fetch((await wk())+"/api/links"+(q||""),{method,headers:{Authorization:"Bearer "+lkKey(),"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||("HTTP "+r.status));return j}
+const lkUrl=l=>"https://skin-set.com"+(l.path||"/")+((l.path||"/").includes("?")?"&":"?")+"l="+l.code;
+const lkEsc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+function spark(d){const days=[];for(let i=6;i>=0;i--){const k=new Date(Date.now()+3*3600e3-i*864e5).toISOString().slice(0,10);days.push((d&&d[k]&&d[k].v)||0)}const m=Math.max(1,...days);return `<span title="${days.join(" · ")}" style="display:inline-flex;gap:2px;align-items:flex-end;height:22px">${days.map(v=>`<i style="display:block;width:6px;height:${Math.max(2,Math.round(v/m*22))}px;background:var(--pick)"></i>`).join("")}</span>`}
+async function loadLinks(){$("#lkKey").value=lkKey();const tb=$("#lkTable tbody");if(!lkKey()){$("#lkSt").textContent="Впиши ключ админки";return}
+  try{$("#lkSt").textContent="Загрузка…";const {links}=await lkApi("GET");$("#lkSt").textContent="Ок";
+    const T=links.reduce((a,l)=>({v:a.v+(l.v||0),b:a.b+(l.b||0),p:a.p+(l.p||0)}),{v:0,b:0,p:0});
+    $("#lkKv").innerHTML=`<div><b>${links.length}</b><small>ссылок</small></div><div><b>${T.v}</b><small>переходов</small></div><div><b>${T.b}</b><small>кликов «Купить»</small></div><div><b>${T.p}</b><small>сетов</small></div>`;
+    tb.innerHTML=links.length?links.map(l=>`<tr><td><b>${lkEsc(l.name)}</b><br><small style="color:var(--dim)">${new Date(l.created).toLocaleDateString("ru-RU")}</small></td><td><code style="font-size:.78rem">${lkEsc(lkUrl(l))}</code><br><button class="btn ghost" data-lkcopy="${lkEsc(lkUrl(l))}" style="padding:4px 8px;margin-top:4px">Копировать</button></td><td>${l.v||0}</td><td>${l.b||0}</td><td>${l.p||0}</td><td>${l.v?Math.round((l.b||0)/l.v*100)+"%":"—"}</td><td>${spark(l.d)}</td><td><button class="btn ghost" data-lkdel="${lkEsc(l.code)}" style="padding:4px 8px">Удалить</button></td></tr>`).join(""):`<tr><td colspan="8" class="hint">Пока нет ссылок</td></tr>`;
+    tb.querySelectorAll("[data-lkcopy]").forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.dataset.lkcopy);toast("Скопировано")});
+    tb.querySelectorAll("[data-lkdel]").forEach(b=>b.onclick=async()=>{if(!confirm("Удалить ссылку и её статистику?"))return;try{await lkApi("DELETE","?code="+encodeURIComponent(b.dataset.lkdel));loadLinks()}catch(e){toast(e.message,true)}});
+  }catch(e){$("#lkSt").textContent=e.message;toast("Ссылки: "+e.message,true)}}
+$("#lkKeySave").onclick=()=>{localStorage.setItem("ss_admin_wk",$("#lkKey").value.trim());loadLinks()};
+$("#lkReload").onclick=loadLinks;
+$("#lkName").oninput=()=>{if(!$("#lkCode").dataset.touched)$("#lkCode").value=$("#lkName").value.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,32)};
+$("#lkCode").oninput=()=>{$("#lkCode").dataset.touched=1};
+$("#lkCreate").onclick=async()=>{const code=$("#lkCode").value.trim().toLowerCase();if(!/^[a-z0-9_-]{1,32}$/.test(code)){toast("Код: латиница, цифры, - и _",true);return}
+  try{const {link}=await lkApi("POST","",{code,name:$("#lkName").value.trim()||code,path:$("#lkPath").value.trim()||"/"});navigator.clipboard&&navigator.clipboard.writeText(lkUrl(link)).catch(()=>{});toast("Создано, ссылка скопирована");$("#lkName").value="";$("#lkCode").value="";delete $("#lkCode").dataset.touched;loadLinks()}catch(e){toast(e.message,true)}};
 /* ---- firebase feed ---- */
 let auth=null,USER=null;
 if(typeof firebase!=="undefined"){firebase.initializeApp(FB_CFG);auth=firebase.auth();auth.onAuthStateChanged(u=>{USER=u;$("#fbDot").className="dot"+(u?" ok":"");$("#fbSt").textContent=u?"Firebase: "+u.email:"Firebase: не вошёл";$("#fbLogin").hidden=!!u;$("#fbLogout").hidden=!u;$("#rulesPre").textContent=rules(u?u.email:"ТВОЯ_ПОЧТА@gmail.com")});}else{$("#fbSt").textContent="Firebase SDK не загрузился (блокировка сети?)"}

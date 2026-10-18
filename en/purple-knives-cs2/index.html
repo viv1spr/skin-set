@@ -554,7 +554,7 @@ body[data-route="feed"] .fs .lk2{padding:5px 9px;font-size:.8rem}
 @media(max-width:700px){body[data-route="feed"] .feed{padding:22px 12px 60px}body[data-route="feed"] .feed-head .sorts{margin-left:0}body[data-route="feed"] .pubwrap .hudbtn{width:100%!important;flex:1 1 100%}body[data-route="feed"] .feed-list{grid-template-columns:1fr!important}}
 body[data-route="feed"] #pubBtn{background:#c4161c;color:#fff}
 body[data-route="feed"] #pubBtn:hover{background:#e01d24}
-body.viewing #budget,body.viewing .ctrl>.grp:not(.wearsel),body.viewing #premium{display:none!important}body.viewing .viewbar{padding:14px 20px;font-size:1rem;background:color-mix(in srgb,var(--pick) 30%,rgba(10,11,13,.7));border-bottom:2px solid var(--pick)}body.viewing .viewbar b{font-size:1.1em}.viewbar .vb-btns{display:flex;gap:8px;flex-wrap:wrap}</style>
+body.viewing #budget,body.viewing .ctrl>.grp:not(.wearsel),body.viewing #premium{display:none!important}body.viewing .viewbar{padding:14px 20px;font-size:1rem;background:color-mix(in srgb,var(--pick) 30%,rgba(10,11,13,.7));border-bottom:2px solid var(--pick)}body.viewing .viewbar b{font-size:1.1em}.viewbar .vb-btns{display:flex;gap:8px;flex-wrap:wrap}#premium{display:none!important}@keyframes pgReload{0%{opacity:0;transform:translateY(10px);filter:blur(3px)}100%{opacity:1;transform:none;filter:none}}body.reloading .layout,body.reloading main.main{animation:pgReload .55s ease}body.reloading::before{content:"";position:fixed;left:0;top:0;height:3px;z-index:9999;background:var(--pick);box-shadow:0 0 12px var(--pick);animation:pgBar .6s ease forwards}@keyframes pgBar{0%{width:0;opacity:1}80%{width:100%;opacity:1}100%{width:100%;opacity:0}}</style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the cheapest purple knife in CS2?", "acceptedAnswer": {"@type": "Answer", "text": "The most affordable options are Gut Knife Doppler (Phase 2), Falchion Knife Doppler (Phase 4), in the “$35–350” tier — a good pick when you want a purple accent without a big budget."}}, {"@type": "Question", "name": "What is the most expensive purple knife?", "acceptedAnswer": {"@type": "Answer", "text": "At the top of the list: Karambit Doppler (Sapphire), Shadow Daggers Doppler (Sapphire) (“$1,700+” tier). These are collector items; the price depends on phase and float."}}, {"@type": "Question", "name": "How do I match gloves and weapons to a purple knife?", "acceptedAnswer": {"@type": "Answer", "text": "Open the Skinset builder, pick this knife via “Pick”, set a budget — the service fills the other slots in the same palette and shows where to buy."}}]}</script>
 <style>
 .tabs a.twitch{display:flex;align-items:center;gap:7px;padding:0 16px;border-left:1px solid var(--line);background:rgba(145,70,255,.14);color:#c9a6ff;font:500 .9rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
@@ -1303,12 +1303,13 @@ function allocate(){
 const tierFor=rub=>rub==null||rub===""||isNaN(rub)?5:rub<=0?0:rub<=300?1:rub<=3000?2:rub<=30000?3:rub<=150000?4:5;
 const state={...DEF,offset:{},locked:{},sel:"ak",extra:[],hidden:[],wear:"any",wearBy:{}};let MINE=null,VIEWING=null;
 try{const sv=JSON.parse(localStorage.getItem("skinset7")||"null");if(sv){Object.assign(state,sv);state.offset={}}}catch(e){}
+if(state.premium===false){state.hidden=[...new Set([...(state.hidden||[]),"knife","gloves"])]}state.premium=true;
 if(typeof window.PAGE_PRESET==="number"){state.preset=window.PAGE_PRESET;state.colors=[...PRESETS[state.preset].c];state.locked={};state.offset={}}
 {const qb=new URLSearchParams(location.search).get("budget");const pb=qb!=null?+qb:(typeof window.PAGE_BUDGET==="number"?window.PAGE_BUDGET:null);if(pb!=null&&!isNaN(pb)){state.budgetRub=pb;state.budget=tierFor(pb);state.locked={};state.offset={}}}
 function save(){try{localStorage.setItem("skinset7",JSON.stringify({colors:state.colors,budget:state.budget,budgetRub:state.budgetRub,premium:state.premium,preset:state.preset,locked:state.locked,sel:state.sel,extra:state.extra,hidden:state.hidden,wear:state.wear,wearBy:state.wearBy}))}catch(e){}}
 const $=s=>document.querySelector(s);
 const fitText=d=>d<18?"Spot on":d<32?"Great":d<50?"Close":"Nearest";
-const active=()=>[...BASE_SLOTS.filter(s=>!(s.premium&&!state.premium)&&!(state.hidden||[]).includes(s.id)),...(state.extra||[]).map(id=>EXTRA_SLOTS.find(s=>s.id===id)).filter(Boolean)];
+const active=()=>[...BASE_SLOTS.filter(s=>!(state.hidden||[]).includes(s.id)),...(state.extra||[]).map(id=>EXTRA_SLOTS.find(s=>s.id===id)).filter(Boolean)];
 /* подбор с учётом бюджета: чем выше лимит, тем сильнее предпочитаем дорогие предметы; слишком дешёвые для бюджета штрафуем */
 function candidates(slot){const T=state.colors.map(hexToLab);const cap=ALLOC[slot]==null?5:ALLOC[slot];const target=state.budgetRub==null?null:cap;
   const RC=CAPRUB&&CAPRUB[slot]!=null&&isFinite(CAPRUB[slot])?CAPRUB[slot]:null;const inSeg=s=>{const p=s.priceRub||PRICE_MID[s.tier]||0;return p<=RC&&p>=RC*0.35};const segOk=RC!=null&&SKINS.filter(s=>s.slot===slot&&inSeg(s)).length>=6;
@@ -1337,7 +1338,7 @@ function render(){
   const fmt=n=>fmtMoney(n);
   if(state.budgetRub!=null&&state.budgetRub<=0)$("#bhint").innerHTML=`<b>Enter an amount above zero</b> or clear the limit.`;
   else if(state.budgetRub==null)$("#bhint").innerHTML=`No limit — showing the <b>best color matches</b> . Estimated loadout value ≈ <b>${fmt(est)}</b>.`;
-  else{const parts=[];const k=CAPRUB?(CAPRUB.knife>0?1:0):ALLOC.knife,g=CAPRUB?(CAPRUB.gloves>0?1:0):ALLOC.gloves;if(state.premium){parts.push(k?`knife ${capL("knife",k)}`:"knife doesn't fit");parts.push(g?`gloves ${capL("gloves",g)}`:"gloves don't fit")}
+  else{const parts=[];const k=CAPRUB?(CAPRUB.knife>0?1:0):ALLOC.knife,g=CAPRUB?(CAPRUB.gloves>0?1:0):ALLOC.gloves;{const A=active().map(x=>x.id);if(A.includes("knife"))parts.push(k?`knife ${capL("knife",k)}`:"knife doesn't fit");if(A.includes("gloves"))parts.push(g?`gloves ${capL("gloves",g)}`:"gloves don't fit")}
     const wt=active().filter(s=>!s.premium).map(s=>ALLOC[s.id]);const wmin=Math.min(...wt),wmax=Math.max(...wt);parts.push(`weapons ${capW(wmin,wmax)}`);
     $("#bhint").innerHTML=`Budget <b>${fmt(state.budgetRub)}</b> for ${active().length} items is split like this: ${parts.join(", ")}. Estimated loadout value <b>≈ ${fmt(est)}</b>${est>state.budgetRub*1.1?` — <b>above the limit</b>: can't go cheaper, prices are stored as ranges`:""}.`}}
   $("#premium").setAttribute("aria-pressed",state.premium);
@@ -1348,7 +1349,7 @@ function render(){
     const c=current(slot.id),on=slot.id===state.sel;
     if(!c){cards.push(`<div class="card empty ${on?"on":""}" role="button" tabindex="0" data-sel="${slot.id}" style="--c0:#555"><span class="sl">${slot.label}</span><div class="pic">${art(slot.shape,["#666","#444"],"e"+slot.id,0)}</div><div class="rb"></div><div class="cap"><b>Over budget</b><span>raise the limit</span></div></div>`);continue}
     found++;const s=c.s;maxTier=Math.max(maxTier,s.tier);names.push(`${slot.label}: ${s.weapon} | ${s.skin}`);
-    const rm=slot.premium?"":`<button class="rm" data-rm="${slot.id}" aria-label="Remove from set" title="Remove from set">×</button>`;
+    const rm=`<button class="rm" data-rm="${slot.id}" aria-label="Remove from set" title="Remove from set">×</button>`;
     cards.push(`<div class="card ${on?"on":""}" role="button" tabindex="0" data-sel="${slot.id}" style="--c0:${s.colors[0]}"><span class="sl">${slot.label}</span>${rm}${state.locked[slot.id]!=null?`<span class="lk">${ICON.lock}</span>`:""}<div class="pic">${pic(slot,s,"c"+slot.id+s.i)}</div><div class="rb"></div><button class="swap choose" data-choose="${slot.id}">${ICON.pick}<span>Pick</span></button><button class="swap" data-swap="${slot.id}" title="Another option for this slot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"/></svg><span>Swap</span></button><div class="cap"><b>${s.skin}</b><span>${s.weapon}</span>${s.priceRub?`<em class="pr">${wearBadge(s)}${fmtMoney(s.priceRub)}</em>`:""}</div><div class="cb">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener sponsored" href="${sh.url(queryW(s))}" data-buy title="Buy on ${sh.label}">${logoImg(sh.id,"s")}${sh.label}</a>`).join("")}</div></div>`);
   }
   $("#slots").innerHTML=cards.join("");{const h=(state.hidden||[]).length;const rb=$("#restoreBtn");if(rb){rb.hidden=!h;$("#restoreN").textContent=h?"("+h+")":""}}$("#cnt").textContent=`${found} / ${act.length}`;
@@ -1419,7 +1420,7 @@ $("#spClose").addEventListener("click",()=>{$("#spick").hidden=true});
 $("#spList").addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;const s=SKINS[+b.dataset.pick];if(!s)return;
   state.locked[s.slot]=s.i;state.sel=s.slot;state.offset[s.slot]=0;$("#spick").hidden=true;render();flashCards();toast("Locked. The rest of the budget was redistributed")});
 /* пикер оружия */
-function drawPicker(){const BASEG={name:"Base slots",slots:BASE_SLOTS.filter(s=>!s.premium),base:true};$("#pkGroups").innerHTML=[BASEG,...EXTRA_GROUPS].map(g=>`<div class="pk-g"><div class="gn">${g.name}</div><div class="ws">${g.slots.map(s=>`<button data-add="${s.id}" aria-pressed="${g.base?!(state.hidden||[]).includes(s.id):(state.extra||[]).includes(s.id)}">${s.label}</button>`).join("")}</div></div>`).join("")}
+function drawPicker(){const BASEG={name:"Base slots",slots:BASE_SLOTS,base:true};$("#pkGroups").innerHTML=[BASEG,...EXTRA_GROUPS].map(g=>`<div class="pk-g"><div class="gn">${g.name}</div><div class="ws">${g.slots.map(s=>`<button data-add="${s.id}" aria-pressed="${g.base?!(state.hidden||[]).includes(s.id):(state.extra||[]).includes(s.id)}">${s.label}</button>`).join("")}</div></div>`).join("")}
 $("#restoreBtn").addEventListener("click",()=>{state.hidden=[];render();flashCards()});
 $("#addBtn").addEventListener("click",()=>{const p=$("#picker");p.hidden=!p.hidden;if(!p.hidden){drawPicker();$("#spick").hidden=true}});
 $("#pkClose").addEventListener("click",()=>{$("#picker").hidden=true});
@@ -1509,7 +1510,7 @@ function showViewing(){document.body.classList.toggle("viewing",!!VIEWING);const
 function backToMine(){if(!MINE)return;Object.assign(state,MINE);VIEWING=null;MINE=null;feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));render();showViewing();toast("Back to your loadout")}
 $("#backMine").addEventListener("click",backToMine);{const t=$("#takeSet");if(t)t.addEventListener("click",()=>{VIEWING=null;MINE=null;feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));render();showViewing();toast("The loadout is yours now — change colors and budget freely")})}$("#backMine2").addEventListener("click",backToMine);
 /* клик по логотипу: вернуться к своему сету и for главную */
-document.querySelector(".logo").addEventListener("click",e=>{
+document.querySelector(".logo").addEventListener("click",e=>{document.body.classList.remove("reloading");void document.body.offsetWidth;document.body.classList.add("reloading");setTimeout(()=>document.body.classList.remove("reloading"),700);if(typeof flashCards==="function")setTimeout(flashCards,80);
   if(VIEWING){e.preventDefault();backToMine();if(document.body.dataset.route!=="home"){const home=document.querySelector(".logo").getAttribute("href");if(home&&home!=="#/")location.href=home;else location.hash="#/"}window.scrollTo({top:0,behavior:"smooth"})}
   else if(document.body.dataset.route==="home"){e.preventDefault();window.scrollTo({top:0,behavior:"smooth"})}
 });

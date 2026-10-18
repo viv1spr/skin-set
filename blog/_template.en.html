@@ -1508,10 +1508,10 @@ feedEl.addEventListener("click",async e=>{const lk=e.target.closest("[data-like]
     try{await fbLike(id)}catch(x){console.warn(x)}return}
   const b=e.target.closest("[data-idx]");if(!b)return;const f=FEED[+b.dataset.idx];if(!f)return;
   feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");
-  if(VIEWING==null)MINE=JSON.parse(JSON.stringify({colors:state.colors,preset:state.preset,budget:state.budget,budgetRub:state.budgetRub,premium:state.premium,locked:state.locked,extra:state.extra,sel:state.sel,offset:state.offset}));
+  if(VIEWING==null)MINE=JSON.parse(JSON.stringify({colors:state.colors,preset:state.preset,budget:state.budget,budgetRub:state.budgetRub,premium:state.premium,locked:state.locked,extra:state.extra,sel:state.sel,offset:state.offset,hidden:state.hidden,wearBy:state.wearBy,frozen:state.frozen}));
   VIEWING=f;
   state.colors=[...f.colors];state.preset=PRESETS.findIndex(p=>p.name===f.preset);state.budget=5;state.budgetRub=null;state.premium=true;state.locked={};
-  state.extra=f.items.map(it=>it.slot).filter(id=>EXTRA_SLOTS.some(s=>s.id===id));for(const it of f.items){let idx=it.i;if(it.n){const k=SKINS.findIndex(x=>(x.weapon.replace("★ ","")+" | "+x.skin)===it.n);if(k>=0)idx=k}state.locked[it.slot]=idx};state.sel=(f.items[0]||{}).slot||"ak";render();
+  state.extra=f.items.map(it=>it.slot).filter(id=>EXTRA_SLOTS.some(s=>s.id===id));state.hidden=BASE_SLOTS.filter(s=>!f.items.some(it=>it.slot===s.id)).map(s=>s.id);state.wearBy={};state.frozen=null;for(const it of f.items){let idx=it.i;if(it.n){const k=SKINS.findIndex(x=>(x.weapon.replace("★ ","")+" | "+x.skin)===it.n);if(k>=0)idx=k}state.locked[it.slot]=idx};state.sel=(f.items[0]||{}).slot||"ak";render();
   if(document.body.dataset.route==="feed")location.href="/en/";toast("Loadout opened, items locked");showViewing()});
 function showViewing(){document.body.classList.toggle("viewing",!!VIEWING);const bar=$("#viewbar");$("#backMine2").hidden=!VIEWING;if(!VIEWING){bar.hidden=true;return}bar.hidden=false;$("#viewName").textContent=VIEWING._demo?VIEWING._name:(VIEWING.name||"a player")}
 function backToMine(){if(!MINE)return;Object.assign(state,MINE);VIEWING=null;MINE=null;feedEl.querySelectorAll(".fs.on").forEach(x=>x.classList.remove("on"));render();showViewing();toast("Back to your loadout")}

@@ -143,6 +143,21 @@ export default {
       return Response.redirect(dest.toString(), 302);
     }
 
+    /* временная диагностика инвентаря */
+    if (p === "/api/invdbg") {
+      if (!isAdmin(req, env)) return json({ error: "auth" }, 401);
+      const sid = u.searchParams.get("sid"); const out = {};
+      const vars = {
+        c2000: `https://steamcommunity.com/inventory/${sid}/730/2?l=english&count=2000`,
+        c500: `https://steamcommunity.com/inventory/${sid}/730/2?l=english&count=500`,
+        c75: `https://steamcommunity.com/inventory/${sid}/730/2?count=75`,
+        bare: `https://steamcommunity.com/inventory/${sid}/730/2`,
+        legacy: `https://steamcommunity.com/profiles/${sid}/inventory/json/730/2`
+      };
+      for (const [k, url] of Object.entries(vars)) { try { const r = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130 Safari/537.36", "Accept": "application/json", "Referer": `https://steamcommunity.com/profiles/${sid}/inventory` } }); const t = await r.text(); out[k] = r.status + " " + t.slice(0, 80) } catch (e) { out[k] = String(e) } }
+      return json(out);
+    }
+
     /* админка: статистика входов через Steam */
     if (p === "/api/users") {
       if (!isAdmin(req, env)) return json({ error: "Неверный ключ админки" }, 401);

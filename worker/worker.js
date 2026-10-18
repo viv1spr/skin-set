@@ -113,6 +113,11 @@ export default {
       const m = (u.searchParams.get("openid.claimed_id") || "").match(/^https:\/\/steamcommunity\.com\/openid\/id\/(\d{17})$/);
       if (!/is_valid\s*:\s*true/.test(vt) || !m) return back("steam=error");
       const sid = m[1]; const pr = await steamProfile(sid);
+      if (env.KV) {
+        const k = "user:" + sid; const o = (await env.KV.get(k, "json")) || { sid, first: Date.now(), c: 0 };
+        o.n = pr.n; o.a = pr.a; o.last = Date.now(); o.c = (o.c || 0) + 1; await env.KV.put(k, JSON.stringify(o));
+        const dk = "logins:" + day(); await env.KV.put(dk, String(+((await env.KV.get(dk)) || 0) + 1), { expirationTtl: 100 * 86400 });
+      }
       const tok = await makeToken(env, { sid, n: pr.n, a: pr.a, exp: Math.floor(Date.now() / 1000) + 30 * 86400 });
       return back("steam=" + tok);
     }
@@ -136,6 +141,15 @@ export default {
       const code = cleanCode(p.slice(3)); const l = env.KV && code ? await getLink(env, code) : null;
       const dest = new URL(l && l.path ? l.path : "/", SITE); if (l) dest.searchParams.set("l", code);
       return Response.redirect(dest.toString(), 302);
+    }
+
+    /* админка: статистика входов через Steam */
+    if (p === "/api/users") {
+      if (!isAdmin(req, env)) return json({ error: "Неверный ключ админки" }, 401);
+      const users = []; let cursor;
+      do { const r = await env.KV.list({ prefix: "user:", cursor }); for (const k of r.keys) { const v = await env.KV.get(k.name, "json"); if (v) users.push(v) } cursor = r.list_complete ? null : r.cursor } while (cursor);
+      const days = {}; for (let i = 0; i < 30; i++) { const d = new Date(Date.now() + 3 * 3600e3 - i * 864e5).toISOString().slice(0, 10); days[d] = +((await env.KV.get("logins:" + d)) || 0) }
+      return json({ users: users.sort((a, b) => b.last - a.last), days });
     }
 
     /* админка */

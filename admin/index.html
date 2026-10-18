@@ -68,7 +68,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
 <body>
 <header class="top">
   <a class="logo" href="/"><svg viewBox="0 0 32 32"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset · админка</a>
-  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="links">Ссылки</button><button data-v="skins">База скинов</button><button data-v="help">Справка</button></nav>
+  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="links">Ссылки</button><button data-v="steam">Steam</button><button data-v="skins">База скинов</button><button data-v="help">Справка</button></nav>
   <div class="st"><span class="dot" id="ghDot"></span><span id="ghSt">GitHub</span><button class="btn ghost" id="tokenBtn" style="padding:6px 10px">Токен</button></div>
 </header>
 <main>
@@ -181,6 +181,16 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
   <div class="card"><table id="lkTable"><thead><tr><th>Название</th><th>Ссылка</th><th>Переходы</th><th>Клики «Купить»</th><th>Сеты</th><th>Конверсия</th><th>7 дней</th><th></th></tr></thead><tbody></tbody></table></div>
 </section>
 
+<section class="view" id="v-steam">
+  <h1>Входы через Steam</h1>
+  <div class="row" style="margin-bottom:12px"><button class="btn ghost" id="stReload">Обновить</button><span class="hint" id="stSt">Ключ берётся из вкладки «Ссылки»</span></div>
+  <div class="kv" id="stKv"></div>
+  <h2>Входы за 30 дней</h2>
+  <div class="card"><div id="stChart" style="display:flex;gap:3px;align-items:flex-end;height:120px"></div><div class="hint" id="stAxis" style="display:flex;justify-content:space-between;margin-top:6px"></div></div>
+  <h2>Пользователи</h2>
+  <div class="card"><table id="stTable"><thead><tr><th></th><th>Ник</th><th>Профиль</th><th>Первый вход</th><th>Последний</th><th>Входов</th></tr></thead><tbody></tbody></table></div>
+</section>
+
 <section class="view" id="v-skins">
   <h1>База скинов</h1>
   <div class="card">
@@ -242,7 +252,7 @@ const toast=(t,err)=>{const e=$("#toast");e.textContent=t;e.className="toast sho
 /* ---- nav ---- */
 document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.v)));
 function show(v){document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));
-  if(v==="feed"||v==="stats")loadFeed();if(v==="skins")skinsInit();if(v==="settings")loadCfg();if(v==="posts")loadPosts();if(v==="links")loadLinks()}
+  if(v==="feed"||v==="stats")loadFeed();if(v==="skins")skinsInit();if(v==="settings")loadCfg();if(v==="posts")loadPosts();if(v==="links")loadLinks();if(v==="steam")loadSteam()}
 /* ---- github ---- */
 let TOKEN=localStorage.getItem("ss_admin_gh")||"";
 function ghStatus(){$("#ghDot").className="dot"+(TOKEN?" ok":"");$("#ghSt").textContent=TOKEN?"GitHub: токен есть":"GitHub: нет токена"}
@@ -370,6 +380,18 @@ $("#lkName").oninput=()=>{if(!$("#lkCode").dataset.touched)$("#lkCode").value=$(
 $("#lkCode").oninput=()=>{$("#lkCode").dataset.touched=1};
 $("#lkCreate").onclick=async()=>{const code=$("#lkCode").value.trim().toLowerCase();if(!/^[a-z0-9_-]{1,32}$/.test(code)){toast("Код: латиница, цифры, - и _",true);return}
   try{const {link}=await lkApi("POST","",{code,name:$("#lkName").value.trim()||code,path:$("#lkPath").value.trim()||"/"});navigator.clipboard&&navigator.clipboard.writeText(lkUrl(link)).catch(()=>{});toast("Создано, ссылка скопирована");$("#lkName").value="";$("#lkCode").value="";delete $("#lkCode").dataset.touched;loadLinks()}catch(e){toast(e.message,true)}};
+/* ---- статистика входов через Steam ---- */
+async function loadSteam(){if(!lkKey()){$("#stSt").textContent="Сначала впиши ключ во вкладке «Ссылки»";return}
+  try{$("#stSt").textContent="Загрузка…";const r=await fetch((await wk())+"/api/users",{headers:{Authorization:"Bearer "+lkKey()}});const j=await r.json();if(!r.ok)throw new Error(j.error||r.status);$("#stSt").textContent="Ок";
+    const U=j.users||[],D=j.days||{};const ks=Object.keys(D).sort();const today=ks[ks.length-1];const now=Date.now();
+    const act=n=>U.filter(u=>now-u.last<n*864e5).length,nw=n=>U.filter(u=>now-u.first<n*864e5).length,sum=n=>ks.slice(-n).reduce((a,k)=>a+D[k],0);
+    $("#stKv").innerHTML=`<div><b>${U.length}</b><small>всего пользователей</small></div><div><b>${nw(1)}</b><small>новых за сутки</small></div><div><b>${nw(7)}</b><small>новых за 7 дней</small></div><div><b>${act(7)}</b><small>активных за 7 дней</small></div><div><b>${D[today]||0}</b><small>входов сегодня</small></div><div><b>${sum(30)}</b><small>входов за 30 дней</small></div>`;
+    const m=Math.max(1,...ks.map(k=>D[k]));$("#stChart").innerHTML=ks.map(k=>`<i title="${k}: ${D[k]}" style="flex:1;display:block;height:${Math.max(2,Math.round(D[k]/m*120))}px;background:var(--pick)"></i>`).join("");
+    $("#stAxis").innerHTML=`<span>${ks[0]||""}</span><span>${today||""}</span>`;
+    const dt=t=>new Date(t).toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+    $("#stTable tbody").innerHTML=U.length?U.map(u=>`<tr><td>${u.a?`<img src="${lkEsc(u.a)}" width="32" height="32" alt="">`:""}</td><td><b>${lkEsc(u.n)}</b></td><td><a href="https://steamcommunity.com/profiles/${lkEsc(u.sid)}" target="_blank" rel="noopener">${lkEsc(u.sid)}</a></td><td>${dt(u.first)}</td><td>${dt(u.last)}</td><td>${u.c||1}</td></tr>`).join(""):`<tr><td colspan="6" class="hint">Пока никто не входил</td></tr>`;
+  }catch(e){$("#stSt").textContent=e.message;toast("Steam: "+e.message,true)}}
+$("#stReload").onclick=loadSteam;
 /* ---- firebase feed ---- */
 let auth=null,USER=null;
 if(typeof firebase!=="undefined"){firebase.initializeApp(FB_CFG);auth=firebase.auth();auth.onAuthStateChanged(u=>{USER=u;$("#fbDot").className="dot"+(u?" ok":"");$("#fbSt").textContent=u?"Firebase: "+u.email:"Firebase: не вошёл";$("#fbLogin").hidden=!!u;$("#fbLogout").hidden=!u;$("#rulesPre").textContent=rules(u?u.email:"ТВОЯ_ПОЧТА@gmail.com")});}else{$("#fbSt").textContent="Firebase SDK не загрузился (блокировка сети?)"}

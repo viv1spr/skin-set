@@ -649,7 +649,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
         <li><b>1</b><span>Aşağıdan renk seç</span></li>
         <li><b>2</b><span>Tüm set için bütçe gir</span></li>
         <li><b>3</b><span>Beğendiğini sabitle, kalanı karıştır</span></li>
-        <li><b>4</b><span>DMarket ve Lis-Skins düğmelerinden al</span></li>
+        <li><b>4</b><span>DMarket düğmesinden al</span></li>
       </ol>
       <button class="intro-close" id="introClose" aria-label="İpucunu gizle">Anladım ×</button>
     </section>
@@ -822,9 +822,7 @@ const mark=(id,txt,cls="lg")=>`<span class="${cls}">${logoImg(id)}<b>${txt}</b><
 const enc = encodeURIComponent;
 const SHOPS = [
   { id:"dm", label:"DMarket", about:"Düşük komisyonlu, para çekilebilen büyük pazar. Pahalı eşyalar için ideal.",
-    url:q => "https://dmarket.com/ru/ingame-items/item-list/csgo-skins?title=" + enc(q) + (REF.dmarket ? "&ref=" + enc(REF.dmarket) : "") },
-  { id:"ls", label:"Lis-Skins", about:"Doğu Avrupa'da popüler, hızlı teslimat ve kolay ödeme.",
-    url:q => "https://lis-skins.com/"+(window.LIS_PATH||"ru")+"/market/csgo/?query=" + enc(q) + (REF.lis ? "&rf=" + enc(REF.lis) : "") }
+    url:q => "https://dmarket.com/ru/ingame-items/item-list/csgo-skins?title=" + enc(q) + (REF.dmarket ? "&ref=" + enc(REF.dmarket) : "") }
 ];
 
 const RAW = [

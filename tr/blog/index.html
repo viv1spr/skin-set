@@ -1672,11 +1672,11 @@ document.addEventListener("click",e=>{const b=e.target.closest(".blog-tags butto
     if(!ME){el.innerHTML=`<button class="stm-btn" id="stmIn" title="${esc(STL.login)}">${STEAM_SVG}<span class="tx">${esc(STL.login)}</span><span class="tx2">${esc(STL.short)}</span></button>`;
       el.querySelector("#stmIn").onclick=()=>{location.href=W+"/login?r="+encodeURIComponent(location.origin+location.pathname+location.search)};return}
     const st=!INV?STL.invLoad:INV.private?STL.invPriv:INV.error?STL.invErr:STL.inv.replace("{n}",INV.match||0);
-    el.innerHTML=`<button class="stm-btn" id="stmMe">${ME.a?`<img src="${esc(ME.a)}" alt="">`:STEAM_SVG}<span class="nm">${esc(ME.n)}</span></button><div class="stm-menu" id="stmMenu" ${open?"":"hidden"}><div><b style="color:var(--ink,#fff)">${esc(ME.n)}</b><br>${esc(st)}</div><label><input type="checkbox" id="stmUse" ${state.useInv?"checked":""}>${esc(STL.use)}</label><button id="stmRef">${esc(STL.refresh)}</button><button id="stmOut">${esc(STL.out)}</button></div>`;
+    el.innerHTML=`<button class="stm-btn" id="stmMe">${ME.a?`<img src="${esc(ME.a)}" alt="">`:STEAM_SVG}<span class="nm">${esc(ME.n)}</span></button><div class="stm-menu" id="stmMenu" ${open?"":"hidden"}><div><b style="color:var(--ink,#fff)">${esc(ME.n)}</b><br>${esc(st)}</div><label><input type="checkbox" id="stmUse" ${state.useInv?"checked":""}>${esc(STL.use)}</label><button id="stmOut">${esc(STL.out)}</button></div>`;
     el.querySelector("#stmMe").onclick=e=>{e.stopPropagation();open=!open;draw()};
     el.querySelector("#stmMenu").onclick=e=>e.stopPropagation();
     el.querySelector("#stmUse").onchange=e=>{state.useInv=e.target.checked;LS("skinset_useinv",state.useInv?"1":"0");rr()};
-    el.querySelector("#stmRef").onclick=()=>{INV=null;draw();loadInv()};
+    
     el.querySelector("#stmOut").onclick=()=>{LS("skinset_steam",null);ME=null;INV=null;open=false;window.STEAM_INV=null;SKINS.forEach(s=>s.owned=false);rr();draw()}}
   document.addEventListener("click",()=>{if(open){open=false;draw()}});
   async function loadInv(){try{const r=await fetch(W+"/inv?t="+encodeURIComponent(tok));if(r.status===401){LS("skinset_steam",null);ME=null;draw();return}INV=await r.json()}catch(e){INV={error:"net"}}mark();draw()}

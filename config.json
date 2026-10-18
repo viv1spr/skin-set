@@ -10,5 +10,6 @@
     "text": "",
     "url": ""
   },
-  "feedEnabled": true
+  "feedEnabled": true,
+  "worker": "https://skinset-api.vova3421vova.workers.dev"
 }

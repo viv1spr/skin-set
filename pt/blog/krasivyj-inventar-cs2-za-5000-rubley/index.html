@@ -1337,10 +1337,10 @@ function allocate(){
 }
 const tierFor=rub=>rub==null||rub===""||isNaN(rub)?5:rub<=0?0:rub<=300?1:rub<=3000?2:rub<=30000?3:rub<=150000?4:5;
 const state={...DEF,offset:{},locked:{},sel:"ak",extra:[],hidden:[],wear:"any",wearBy:{}};let MINE=null,VIEWING=null;
-try{const sv=JSON.parse(localStorage.getItem("skinset7")||"null");if(sv){Object.assign(state,sv);state.offset={}}}catch(e){}
+try{const sv=JSON.parse(localStorage.getItem("skinset7")||"null");if(sv){Object.assign(state,sv);state.offset={};state.frozen=null}}catch(e){}
 if(state.premium===false){state.hidden=[...new Set([...(state.hidden||[]),"knife","gloves"])]}state.premium=true;
-if(typeof window.PAGE_PRESET==="number"){state.preset=window.PAGE_PRESET;state.colors=[...PRESETS[state.preset].c];state.locked={};state.offset={}}
-{const qb=new URLSearchParams(location.search).get("budget");const pb=qb!=null?+qb:(typeof window.PAGE_BUDGET==="number"?window.PAGE_BUDGET:null);if(pb!=null&&!isNaN(pb)){state.budgetRub=pb;state.budget=tierFor(pb);state.locked={};state.offset={}}}
+if(typeof window.PAGE_PRESET==="number"){state.preset=window.PAGE_PRESET;state.colors=[...PRESETS[state.preset].c];state.locked={};state.offset={};state.frozen=null}
+{const qb=new URLSearchParams(location.search).get("budget");const pb=qb!=null?+qb:(typeof window.PAGE_BUDGET==="number"?window.PAGE_BUDGET:null);if(pb!=null&&!isNaN(pb)){state.budgetRub=pb;state.budget=tierFor(pb);state.locked={};state.offset={};state.frozen=null}}
 function save(){try{localStorage.setItem("skinset7",JSON.stringify({colors:state.colors,budget:state.budget,budgetRub:state.budgetRub,premium:state.premium,preset:state.preset,locked:state.locked,sel:state.sel,extra:state.extra,hidden:state.hidden,wear:state.wear,wearBy:state.wearBy}))}catch(e){}}
 const $=s=>document.querySelector(s);
 const fitText=d=>d<18?"Perfeito":d<32?"Ótimo":d<50?"No tom":"Mais próximo";
@@ -1351,7 +1351,7 @@ function candidates(slot){const T=state.colors.map(hexToLab);const cap=ALLOC[slo
   const list=(RC!=null?SKINS.filter(s=>s.slot===slot&&(segOk?inSeg(s):(s.priceRub||PRICE_MID[s.tier]||0)<=RC)).map(s=>{const d=score(s,T);const p=s.priceRub||PRICE_MID[s.tier]||1;return{s,d,fit:d+12*Math.max(0,Math.log2(RC/p)-0.6)}}):SKINS.filter(s=>s.slot===slot&&s.tier<=cap).map(s=>{const d=score(s,T);const gap=target==null?0:Math.max(0,target-s.tier);return{s,d,fit:d+gap*24}})).sort((a,b)=>a.fit-b.fit);
   // при переборе сначала разные скины, потом повторы para других ножах/перчатках
   const seen=new Set(),first=[],rest=[];for(const c of list){const key=c.s.skin.replace(/\s*\(.*\)/,"");(seen.has(key)?rest:first).push(c);seen.add(key)}return first.concat(rest)}
-function current(slot){if(state.locked[slot]!=null){const s=SKINS[state.locked[slot]];if(s)return{s,d:score(s,state.colors.map(hexToLab))}}const l=candidates(slot);if(!l.length)return null;return l[(state.offset[slot]||0)%l.length]}
+function current(slot){if(state.locked[slot]!=null){const s=SKINS[state.locked[slot]];if(s)return{s,d:score(s,state.colors.map(hexToLab))}}if(state.frozen&&state.frozen[slot]!=null){const s=SKINS[state.frozen[slot]];if(s)return{s,d:score(s,state.colors.map(hexToLab))}}const l=candidates(slot);if(!l.length)return null;return l[(state.offset[slot]||0)%l.length]}
 const query=s=>(s.weapon.replace("★ ","")+" "+s.skin.replace(/\s*\(.*\)/,"")).trim();
 const ICON={lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
   next:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"/></svg>',
@@ -1413,15 +1413,15 @@ function render(){
 /* контролы */
 $("#colors").innerHTML=PRESETS.map((p,i)=>`<button class="sw" data-p="${i}" title="${p.name}" aria-label="${p.name}" style="background:${p.c.length>1?`linear-gradient(135deg,${p.c[0]} 50%,${p.c[1]} 50%)`:p.c[0]}"></button>`).join("")+`<span class="sw custom" id="customwrap" title="Cor própria"><input type="color" id="custom" aria-label="Cor própria"></span>`;
 $("#markets").innerHTML=SHOPS.map(sh=>`<div class="mk ${sh.id}">${mark(sh.id,sh.label.slice(0,2).toUpperCase(),"ico")}<div><b>${sh.label}</b><p>${sh.about}</p><a class="hudbtn ghost" target="_blank" rel="noopener sponsored" href="${sh.url("")}">Abrir</a></div></div>`).join("");
-$("#seoLinks").addEventListener("click",e=>{const b=e.target.closest("[data-seo]");if(!b)return;state.preset=+b.dataset.seo;state.colors=[...PRESETS[state.preset].c];state.offset={};state.locked={};render();window.scrollTo({top:0,behavior:"smooth"})});
-$("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;state.preset=+b.dataset.p;state.colors=[...PRESETS[state.preset].c];state.offset={};state.locked={};render()});
-$("#custom").addEventListener("input",e=>{state.preset=-1;state.colors[0]=e.target.value;state.offset={};state.locked={};render()});
-$("#c2").addEventListener("input",e=>{state.preset=-1;state.colors=[state.colors[0],e.target.value];state.offset={};state.locked={};render()});
-$("#use2").addEventListener("click",()=>{state.preset=-1;state.colors=state.colors.length>1?[state.colors[0]]:[state.colors[0],$("#c2").value];state.offset={};state.locked={};render()});
+$("#seoLinks").addEventListener("click",e=>{const b=e.target.closest("[data-seo]");if(!b)return;state.preset=+b.dataset.seo;state.colors=[...PRESETS[state.preset].c];state.offset={};state.frozen=null;state.locked={};render();window.scrollTo({top:0,behavior:"smooth"})});
+$("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;state.preset=+b.dataset.p;state.colors=[...PRESETS[state.preset].c];state.offset={};state.frozen=null;state.locked={};render()});
+$("#custom").addEventListener("input",e=>{state.preset=-1;state.colors[0]=e.target.value;state.offset={};state.frozen=null;state.locked={};render()});
+$("#c2").addEventListener("input",e=>{state.preset=-1;state.colors=[state.colors[0],e.target.value];state.offset={};state.frozen=null;state.locked={};render()});
+$("#use2").addEventListener("click",()=>{state.preset=-1;state.colors=state.colors.length>1?[state.colors[0]]:[state.colors[0],$("#c2").value];state.offset={};state.frozen=null;state.locked={};render()});
 function flashCards(){document.querySelectorAll(".card").forEach((c,i)=>{c.classList.remove("flash");void c.offsetWidth;c.style.animationDelay=(i*30)+"ms";c.classList.add("flash")})}
 function applyBudget(rub,announce){
   const nr=rub==null||rub===""?null:Math.max(0,toRub(+rub));const same=nr===state.budgetRub;state.budgetRub=nr;state.budget=tierFor(state.budgetRub);
-  if(!same){state.offset={};if(active().every(s=>state.locked[s.id]!=null))state.locked={};allocate();render();flashCards()}if(announce)toast(state.budgetRub==null?"Limite removido":`Orçamento do set: ${fmtMoney(state.budgetRub)}`);
+  if(!same){state.offset={};state.frozen=null;if(active().every(s=>state.locked[s.id]!=null))state.locked={};allocate();render();flashCards()}if(announce)toast(state.budgetRub==null?"Limite removido":`Orçamento do set: ${fmtMoney(state.budgetRub)}`);
 }
 document.querySelectorAll(".bq").forEach(q=>{q.type="button";q.addEventListener("mousedown",e=>e.preventDefault());q.addEventListener("click",()=>{clearTimeout(bT);applyBudget(q.dataset.v===""?null:+q.dataset.v,true)})});
 $("#budgetClear").addEventListener("click",()=>{clearTimeout(bT);applyBudget(null,true)});
@@ -1429,10 +1429,10 @@ var bT;$("#budgetRub").addEventListener("input",e=>{applyBudget(e.target.value==
 $("#budgetRub").addEventListener("change",e=>{applyBudget(e.target.value===""?null:e.target.value,true)});
 $("#budgetRub").addEventListener("keydown",e=>{if(e.key==="Enter")e.target.blur()});
 $("#premium").addEventListener("click",()=>{state.premium=!state.premium;if(active().every(s=>state.locked[s.id]!=null))state.locked={};render()});
-$("#slots").addEventListener("click",e=>{if(e.target.closest("[data-buy]"))return;const ch=e.target.closest("[data-choose]");if(ch){state.sel=ch.dataset.choose;render();openPick(ch.dataset.choose);return}const sw=e.target.closest("[data-swap]");if(sw){const k=sw.dataset.swap;delete state.locked[k];state.offset[k]=(state.offset[k]||0)+1;state.sel=k;render();const c=document.querySelector(`.card[data-sel="${k}"]`);if(c){c.classList.add("spin")}return}const rm=e.target.closest("[data-rm]");if(rm){const id=rm.dataset.rm;if(active().length<=1){toast("Não dá para remover o último slot");return}if(BASE_SLOTS.find(x=>x.id===id)){state.hidden=[...new Set([...(state.hidden||[]),id])]}else state.extra=(state.extra||[]).filter(x=>x!==id);delete state.locked[id];if(state.sel===id)state.sel=active()[0].id;render();if(!$("#picker").hidden)drawPicker();return}const b=e.target.closest("[data-sel]");if(!b)return;state.sel=b.dataset.sel;render()});
+$("#slots").addEventListener("click",e=>{if(e.target.closest("[data-buy]"))return;const ch=e.target.closest("[data-choose]");if(ch){state.sel=ch.dataset.choose;render();openPick(ch.dataset.choose);return}const sw=e.target.closest("[data-swap]");if(sw){const k=sw.dataset.swap;delete state.locked[k];if(state.frozen)delete state.frozen[k];state.offset[k]=(state.offset[k]||0)+1;state.sel=k;render();const c=document.querySelector(`.card[data-sel="${k}"]`);if(c){c.classList.add("spin")}return}const rm=e.target.closest("[data-rm]");if(rm){const id=rm.dataset.rm;if(active().length<=1){toast("Não dá para remover o último slot");return}if(BASE_SLOTS.find(x=>x.id===id)){state.hidden=[...new Set([...(state.hidden||[]),id])]}else state.extra=(state.extra||[]).filter(x=>x!==id);delete state.locked[id];if(state.sel===id)state.sel=active()[0].id;render();if(!$("#picker").hidden)drawPicker();return}const b=e.target.closest("[data-sel]");if(!b)return;state.sel=b.dataset.sel;render()});
 $("#slots").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){const b=e.target.closest("[data-sel]");if(b){e.preventDefault();state.sel=b.dataset.sel;render()}}});
 $("#info").addEventListener("click",e=>{
-  if(e.target.closest("#altBtn")){state.offset[state.sel]=(state.offset[state.sel]||0)+1;render()}
+  if(e.target.closest("#altBtn")){if(state.frozen)delete state.frozen[state.sel];state.offset[state.sel]=(state.offset[state.sel]||0)+1;render()}
   if(e.target.closest("#pickBtn")){openPick(state.sel)}
   if(e.target.closest("#lockBtn")){const c=current(state.sel);if(state.locked[state.sel]!=null)delete state.locked[state.sel];else if(c)state.locked[state.sel]=c.s.i;render()}
 });
@@ -1441,7 +1441,7 @@ $("#prev").addEventListener("click",()=>step(-1));$("#next").addEventListener("c
 document.addEventListener("keydown",e=>{if(document.body.dataset.route!=="home"||e.target.tagName==="INPUT")return;if(e.key==="ArrowLeft")step(-1);if(e.key==="ArrowRight")step(1)});
 /* качество (износ) */
 {const ws=document.getElementById("wearSel");if(ws)ws.addEventListener("click",e=>{const b=e.target.closest("[data-w]");if(!b)return;state.wear=b.dataset.w;state.wearBy={};render();flashCards()})}
-$("#info").addEventListener("click",e=>{const b=e.target.closest("[data-wear]");if(!b)return;{const c=current(state.sel);if(c)state.locked[state.sel]=c.s.i}state.wearBy=state.wearBy||{};if(b.dataset.wear)state.wearBy[state.sel]=b.dataset.wear;else delete state.wearBy[state.sel];render()});
+$("#info").addEventListener("click",e=>{const b=e.target.closest("[data-wear]");if(!b)return;{state.frozen=state.frozen||{};for(const sl of active()){if(state.locked[sl.id]!=null)continue;const c=current(sl.id);if(c)state.frozen[sl.id]=c.s.i}}state.wearBy=state.wearBy||{};if(b.dataset.wear)state.wearBy[state.sel]=b.dataset.wear;else delete state.wearBy[state.sel];render()});
 /* выбор конкретного предмета в слот */
 let SP_SLOT=null;
 function openPick(id){SP_SLOT=id;const slot=SLOTS.find(s=>s.id===id);$("#spTitle").textContent=slot?slot.label:id;$("#spQ").value="";const p=$("#spick");p.hidden=false;$("#picker").hidden=true;drawPick();p.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{if(!matchMedia("(pointer:coarse)").matches)$("#spQ").focus()},350)}
@@ -1504,7 +1504,7 @@ async function shotSet(){
   finally{btn.disabled=false}
 }
 $("#shotBtn").addEventListener("click",shotSet);
-const reroll=()=>{if(active().every(s=>state.locked[s.id]!=null)){state.locked={};VIEWING=null;showViewing();toast("Todos os itens estavam fixados — fixações removidas")}for(const s of active()){if(state.locked[s.id]!=null)continue;const prev=state.offset[s.id]||0;const n=candidates(s.id).length;if(n>1){let o=prev;while(o===prev)o=Math.floor(Math.random()*Math.min(5,n));state.offset[s.id]=o}}render();flashCards()};
+const reroll=()=>{state.frozen=null;if(active().every(s=>state.locked[s.id]!=null)){state.locked={};VIEWING=null;showViewing();toast("Todos os itens estavam fixados — fixações removidas")}for(const s of active()){if(state.locked[s.id]!=null)continue;const prev=state.offset[s.id]||0;const n=candidates(s.id).length;if(n>1){let o=prev;while(o===prev)o=Math.floor(Math.random()*Math.min(5,n));state.offset[s.id]=o}}render();flashCards()};
 $("#reroll").addEventListener("click",reroll);$("#reroll2").addEventListener("click",reroll);
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
 async function copySet(){const text="Meu set de CS2 combinando:\n"+(state._names||[]).join("\n");

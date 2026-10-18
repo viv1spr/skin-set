@@ -11,5 +11,5 @@
     "url": ""
   },
   "feedEnabled": true,
-  "worker": "https://skinset-api.vova3421vova.workers.dev"
+  "worker": "https://auth.skin-set.com"
 }

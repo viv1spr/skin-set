@@ -1284,7 +1284,7 @@ const TIER_MAX={1:300,2:3000,3:30000,4:150000,5:Infinity};
 let CUR=window.CUR||null;const LOCAL_CUR=CUR,LOCAL_TIERS=Object.assign({},window.TIERS||null),USD_CUR={"sym": "$", "rate": 90},USD_TIERS={"1": "under $4", "2": "$4–35", "3": "$35–350", "4": "$350–1,700", "5": "$1,700+"}; // {sym,rate} — валюта интерфейса; суммы внутри считаются в рублях
 const toRub=v=>CUR?Math.round(v*CUR.rate):Math.round(v);
 const fromRub=r=>CUR?Math.round(r/CUR.rate):Math.round(r);
-const fmtMoney=r=>{const v=CUR?r/CUR.rate:r;const a=Math.abs(v);const d=a>0&&a<10?2:0;const n=a>0&&a<0.01?0.01:v;const o={minimumFractionDigits:d,maximumFractionDigits:d};const pre=a>0&&a<0.01?"< ":"";
+const fmtMoney=r=>{const v=CUR?r/CUR.rate:r;const a=Math.abs(v);const d=CUR?(a>0&&a<1000?2:0):(a>0&&a<10?2:0);const n=a>0&&a<0.01?0.01:v;const o={minimumFractionDigits:d,maximumFractionDigits:d};const pre=a>0&&a<0.01?"< ":"";
   if(!CUR)return pre+n.toLocaleString("ru-RU",o)+" ₽";return CUR.sym==="$"||CUR.sym==="R$"?pre+CUR.sym+" "+n.toLocaleString("en-US",o):pre+n.toLocaleString("de-DE",o)+" "+CUR.sym};
 const RU_TIERS=Object.assign({},TIER);if(window.TIERS)Object.assign(TIER,window.TIERS);
 const PRICE_MID={1:150,2:1200,3:9000,4:60000,5:250000};

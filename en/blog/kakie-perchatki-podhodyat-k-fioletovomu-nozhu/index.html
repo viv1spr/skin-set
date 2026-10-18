@@ -1724,7 +1724,7 @@ fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P
     if(e.target.closest("#reroll,#reroll2,#altBtn,[data-swap],[data-pick]"))k="s";
     if(!k)return;if(GC[k]>=LIM){e.preventDefault();e.stopImmediatePropagation();gateModal();return}
     GC[k]++;LS("skinset_gate",JSON.stringify(GC))},true);
-  fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if(!c||!c.worker)return;W=c.worker.replace(/\/+$/,"");if(LC&&!sessionStorage.getItem("skinset_lv_"+LC)){try{sessionStorage.setItem("skinset_lv_"+LC,"1")}catch(e){}hit("v")}start()}).catch(()=>{});
+  fetch("/config.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if(!c||!c.worker)return;W=c.worker.replace(/\/+$/,"").replace(/^https:\/\/skinset-api\.[^/]+\.workers\.dev$/,"https://auth.skin-set.com");if(LC&&!sessionStorage.getItem("skinset_lv_"+LC)){try{sessionStorage.setItem("skinset_lv_"+LC,"1")}catch(e){}hit("v")}start()}).catch(()=>{});
 })();</script>
 </body>
 </html>

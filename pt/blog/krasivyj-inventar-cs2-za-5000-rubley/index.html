@@ -1115,13 +1115,13 @@ const RAW = [
 
 const BASE_SLOTS = [
   {id:"knife",label:"Faca",shape:"knife",premium:true},{id:"gloves",label:"Luvas",shape:"gloves",premium:true},
-  {id:"ak",label:"AK-47",shape:"rifle"},{id:"m4",label:"M4",shape:"rifle"},{id:"awp",label:"AWP",shape:"sniper"},
+  {id:"ak",label:"AK-47",shape:"rifle"},{id:"m4",label:"M4A4",shape:"rifle"},{id:"awp",label:"AWP",shape:"sniper"},
   {id:"deagle",label:"Desert Eagle",shape:"pistol"},{id:"usp",label:"USP-S",shape:"silenced"},{id:"glock",label:"Glock-18",shape:"pistol"}
 ];
 const EXTRA_GROUPS = [
   {name:"Pistolas",slots:[{id:"p250",label:"P250",shape:"pistol"},{id:"fiveseven",label:"Five-SeveN",shape:"pistol"},{id:"tec9",label:"Tec-9",shape:"pistol"},{id:"cz75",label:"CZ75-Auto",shape:"pistol"},{id:"r8",label:"R8 Revolver",shape:"pistol"},{id:"duals",label:"Dual Berettas",shape:"pistol"},{id:"p2000",label:"P2000",shape:"pistol"}]},
   {name:"Submetralhadoras",slots:[{id:"mac10",label:"MAC-10",shape:"smg"},{id:"mp9",label:"MP9",shape:"smg"},{id:"mp7",label:"MP7",shape:"smg"},{id:"mp5",label:"MP5-SD",shape:"smg"},{id:"ump",label:"UMP-45",shape:"smg"},{id:"p90",label:"P90",shape:"smg"},{id:"bizon",label:"PP-Bizon",shape:"smg"}]},
-  {name:"Rifles",slots:[{id:"famas",label:"FAMAS",shape:"rifle"},{id:"galil",label:"Galil AR",shape:"rifle"},{id:"sg553",label:"SG 553",shape:"rifle"},{id:"aug",label:"AUG",shape:"rifle"}]},
+  {name:"Rifles",slots:[{id:"m4s",label:"M4A1-S",shape:"rifle"},{id:"famas",label:"FAMAS",shape:"rifle"},{id:"galil",label:"Galil AR",shape:"rifle"},{id:"sg553",label:"SG 553",shape:"rifle"},{id:"aug",label:"AUG",shape:"rifle"}]},
   {name:"Snipers",slots:[{id:"ssg",label:"SSG 08",shape:"sniper"},{id:"scar",label:"SCAR-20",shape:"sniper"},{id:"g3",label:"G3SG1",shape:"sniper"}]},
   {name:"Escopetas",slots:[{id:"nova",label:"Nova",shape:"shotgun"},{id:"xm",label:"XM1014",shape:"shotgun"},{id:"mag7",label:"MAG-7",shape:"shotgun"},{id:"sawed",label:"Sawed-Off",shape:"shotgun"}]},
   {name:"Metralhadoras",slots:[{id:"m249",label:"M249",shape:"lmg"},{id:"negev",label:"Negev",shape:"lmg"}]}
@@ -1219,7 +1219,7 @@ async function loadExtraSkins(){
     const have=new Set(SKINS.map(s=>(s.weapon.replace("★ ","")+" | "+s.skin).toLowerCase()));let added=0;
     for(const row of list){const [slot,weapon,skin,tier,colors,img]=row;if(!slot||!weapon||!skin||!colors||!colors.length)continue;
       const key=(weapon.replace("★ ","")+" | "+skin).toLowerCase();if(have.has(key))continue;have.add(key);
-      SKINS.push({i:SKINS.length,slot,weapon,skin,tier:+tier||2,colors,lab:colors.map(hexToLab),img:img||null});added++}
+      SKINS.push({i:SKINS.length,slot:(slot==="m4"&&/^M4A1-S/.test(weapon))?"m4s":slot,weapon,skin,tier:+tier||2,colors,lab:colors.map(hexToLab),img:img||null});added++}
     if(added){window.EXTRA_SKINS=added;render();if(typeof drawFeed==="function")drawFeed()}
   }catch(e){}
 }
@@ -1253,7 +1253,7 @@ function wearRow(slot,s){const P=window.PRICES;if(!P)return"";const rec=P[s.weap
 const priceLabel=s=>s&&s.priceRub?fmtMoney(s.priceRub):TIER[s.tier];
 const _art=art;
 function pic(slot,s,id){ const svg=_art(slot.shape,s?s.colors:["#666","#444"],id,s?s.i:0); return s&&s.img?`<img src="${s.img}" alt="${s.weapon} | ${s.skin}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='contents'"><span style="display:none">${svg}</span>`:svg }
-const SKINS = RAW.map(([slot,weapon,skin,tier,...colors],i)=>({i,slot,weapon,skin,tier,colors,lab:colors.map(hexToLab)}));
+const SKINS = RAW.map(([slot,weapon,skin,tier,...colors],i)=>({i,slot:(slot==="m4"&&/^M4A1-S/.test(weapon))?"m4s":slot,weapon,skin,tier,colors,lab:colors.map(hexToLab)}));
 function score(skin,targets){
   let s=0;for(const t of targets){let best=Infinity;skin.lab.forEach((c,k)=>{best=Math.min(best,dist(t,c)+k*6)});s+=best}
   s/=targets.length;
@@ -1280,7 +1280,7 @@ let CAPRUB=null;
 function allocateRub(){CAPRUB=null;if(state.budgetRub==null||state.budgetRub<=0||!window.PRICES)return;
   const R=state.budgetRub,slots=active(),pr=s=>s.priceRub||PRICE_MID[s.tier]||0;CAPRUB={};let rest=R;let free=[];
   // иерархия: 1 — нож и перчатки, 2 — AK/M4/AWP, 3 — пистолеты и остальное
-  const lvl=s=>s.premium?1:(["ak","m4","awp"].includes(s.id)?2:3);
+  const lvl=s=>s.premium?1:(["ak","m4","m4s","awp"].includes(s.id)?2:3);
   const W=s=>s.premium?(s.id==="knife"?42:30):(lvl(s)===2?8:3);
   for(const sl of slots){const li=state.locked[sl.id];const sk=li!=null?SKINS[li]:null;if(sk){rest-=pr(sk);CAPRUB[sl.id]=Infinity}else free.push(sl)}
   rest=Math.max(0,rest);
@@ -1463,7 +1463,7 @@ function drawPicker(){const G=EXTRA_GROUPS,hid=state.hidden||[],ext=state.extra|
   const on=id=>B(id)?!hid.includes(id):ext.includes(id);const lab=id=>(B(id)||EXTRA_SLOTS.find(s=>s.id===id)||{}).label||id;
   const ico=sh=>SHAPES[sh]?`<svg viewBox="0 0 200 70" aria-hidden="true"><path d="${SHAPES[sh].body}"/></svg>`:"";
   const ids=g=>(g?g.slots.map(s=>s.id):[]);
-  const cats=[{k:"knife",single:"knife",sh:"knife"},{k:"pist",name:G[0].name,sh:"pistol",ids:["deagle","usp","glock",...ids(G[0])]},{k:"rifle",name:G[2].name,sh:"rifle",ids:["ak","m4",...ids(G[2])]},{k:"snip",name:G[3].name,sh:"sniper",ids:["awp",...ids(G[3])]},{k:"smg",name:G[1].name,sh:"smg",ids:ids(G[1])},{k:"shot",name:G[4].name,sh:"shotgun",ids:ids(G[4])},{k:"lmg",name:G[5].name,sh:"lmg",ids:ids(G[5])},{k:"gloves",single:"gloves",sh:"gloves"}];
+  const cats=[{k:"knife",single:"knife",sh:"knife"},{k:"gloves",single:"gloves",sh:"gloves"},{k:"pist",name:G[0].name,sh:"pistol",ids:["deagle","usp","glock",...ids(G[0])]},{k:"rifle",name:G[2].name,sh:"rifle",ids:["ak","m4",...ids(G[2])]},{k:"snip",name:G[3].name,sh:"sniper",ids:["awp",...ids(G[3])]},{k:"smg",name:G[1].name,sh:"smg",ids:ids(G[1])},{k:"shot",name:G[4].name,sh:"shotgun",ids:ids(G[4])},{k:"lmg",name:G[5].name,sh:"lmg",ids:ids(G[5])}];
   $("#pkGroups").innerHTML=`<div class="cbar">${cats.map(c=>{if(c.single)return `<button class="cb-i${on(c.single)?" on":""}" data-add="${c.single}" aria-pressed="${on(c.single)}">${ico(c.sh)}<span>${lab(c.single)}</span><b class="ck"></b></button>`;
     const n=c.ids.filter(on).length;return `<div class="cb-d${PK_OPEN===c.k?" open":""}"><button class="cb-i${n?" on":""}" data-cat="${c.k}" aria-expanded="${PK_OPEN===c.k}">${ico(c.sh)}<span>${c.name}</span>${n?`<em>${n}</em>`:""}<i class="chev"></i></button><div class="cb-m">${c.ids.map(id=>`<button data-add="${id}" aria-pressed="${on(id)}"><b class="ck"></b>${lab(id)}</button>`).join("")}</div></div>`}).join("")}</div>`}
 $("#restoreBtn").addEventListener("click",()=>{state.hidden=[];render();flashCards()});

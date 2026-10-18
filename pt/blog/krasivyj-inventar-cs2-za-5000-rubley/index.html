@@ -1417,21 +1417,21 @@ function render(){
 $("#colors").innerHTML=PRESETS.map((p,i)=>`<button class="sw" data-p="${i}" title="${p.name}" aria-label="${p.name}" style="background:${p.c.length>1?`linear-gradient(135deg,${p.c[0]} 50%,${p.c[1]} 50%)`:p.c[0]}"></button>`).join("")+`<span class="sw custom" id="customwrap" title="Cor própria"><input type="color" id="custom" aria-label="Cor própria"></span>`;
 $("#markets").innerHTML=SHOPS.map(sh=>`<div class="mk ${sh.id}">${mark(sh.id,sh.label.slice(0,2).toUpperCase(),"ico")}<div><b>${sh.label}</b><p>${sh.about}</p><a class="hudbtn ghost" target="_blank" rel="noopener sponsored" href="${sh.url("")}">Abrir</a></div></div>`).join("");
 $("#seoLinks").addEventListener("click",e=>{const b=e.target.closest("[data-seo]");if(!b)return;state.preset=+b.dataset.seo;state.colors=[...PRESETS[state.preset].c];state.offset={};state.locked={};render();window.scrollTo({top:0,behavior:"smooth"})});
-$("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;state.preset=+b.dataset.p;state.colors=[...PRESETS[state.preset].c];state.offset={};render()});
-$("#custom").addEventListener("input",e=>{state.preset=-1;state.colors[0]=e.target.value;state.offset={};render()});
-$("#c2").addEventListener("input",e=>{state.preset=-1;state.colors=[state.colors[0],e.target.value];state.offset={};render()});
-$("#use2").addEventListener("click",()=>{state.preset=-1;state.colors=state.colors.length>1?[state.colors[0]]:[state.colors[0],$("#c2").value];state.offset={};render()});
+$("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;state.preset=+b.dataset.p;state.colors=[...PRESETS[state.preset].c];state.offset={};state.locked={};render()});
+$("#custom").addEventListener("input",e=>{state.preset=-1;state.colors[0]=e.target.value;state.offset={};state.locked={};render()});
+$("#c2").addEventListener("input",e=>{state.preset=-1;state.colors=[state.colors[0],e.target.value];state.offset={};state.locked={};render()});
+$("#use2").addEventListener("click",()=>{state.preset=-1;state.colors=state.colors.length>1?[state.colors[0]]:[state.colors[0],$("#c2").value];state.offset={};state.locked={};render()});
 function flashCards(){document.querySelectorAll(".card").forEach((c,i)=>{c.classList.remove("flash");void c.offsetWidth;c.style.animationDelay=(i*30)+"ms";c.classList.add("flash")})}
 function applyBudget(rub,announce){
   const nr=rub==null||rub===""?null:Math.max(0,toRub(+rub));const same=nr===state.budgetRub;state.budgetRub=nr;state.budget=tierFor(state.budgetRub);
-  if(!same){state.offset={};allocate();render();flashCards()}if(announce)toast(state.budgetRub==null?"Limite removido":`Orçamento do set: ${fmtMoney(state.budgetRub)}`);
+  if(!same){state.offset={};if(active().every(s=>state.locked[s.id]!=null))state.locked={};allocate();render();flashCards()}if(announce)toast(state.budgetRub==null?"Limite removido":`Orçamento do set: ${fmtMoney(state.budgetRub)}`);
 }
 document.querySelectorAll(".bq").forEach(q=>{q.type="button";q.addEventListener("mousedown",e=>e.preventDefault());q.addEventListener("click",()=>{clearTimeout(bT);applyBudget(q.dataset.v===""?null:+q.dataset.v,true)})});
 $("#budgetClear").addEventListener("click",()=>{clearTimeout(bT);applyBudget(null,true)});
 var bT;$("#budgetRub").addEventListener("input",e=>{applyBudget(e.target.value===""?null:e.target.value,false)});
 $("#budgetRub").addEventListener("change",e=>{applyBudget(e.target.value===""?null:e.target.value,true)});
 $("#budgetRub").addEventListener("keydown",e=>{if(e.key==="Enter")e.target.blur()});
-$("#premium").addEventListener("click",()=>{state.premium=!state.premium;render()});
+$("#premium").addEventListener("click",()=>{state.premium=!state.premium;if(active().every(s=>state.locked[s.id]!=null))state.locked={};render()});
 $("#slots").addEventListener("click",e=>{if(e.target.closest("[data-buy]"))return;const ch=e.target.closest("[data-choose]");if(ch){state.sel=ch.dataset.choose;render();openPick(ch.dataset.choose);return}const sw=e.target.closest("[data-swap]");if(sw){const k=sw.dataset.swap;delete state.locked[k];state.offset[k]=(state.offset[k]||0)+1;state.sel=k;render();const c=document.querySelector(`.card[data-sel="${k}"]`);if(c){c.classList.add("spin")}return}const rm=e.target.closest("[data-rm]");if(rm){const id=rm.dataset.rm;if(active().length<=1){toast("Não dá para remover o último slot");return}if(BASE_SLOTS.find(x=>x.id===id)){state.hidden=[...new Set([...(state.hidden||[]),id])]}else state.extra=(state.extra||[]).filter(x=>x!==id);delete state.locked[id];if(state.sel===id)state.sel=active()[0].id;render();if(!$("#picker").hidden)drawPicker();return}const b=e.target.closest("[data-sel]");if(!b)return;state.sel=b.dataset.sel;render()});
 $("#slots").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){const b=e.target.closest("[data-sel]");if(b){e.preventDefault();state.sel=b.dataset.sel;render()}}});
 $("#info").addEventListener("click",e=>{

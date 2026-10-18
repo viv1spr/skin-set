@@ -1253,7 +1253,8 @@ async function loadExtraSkins(){
 /* живые цены (DMarket / Lis-Skins): /data/prices.json, обновляется ботом раз в сутки */
 window.PRICES=null;
 async function loadPrices(){
-  try{const r=await fetch("/data/prices.json",{cache:"no-store"});if(!r.ok)return;const P=await r.json();if(!P||typeof P!=="object")return;window.PRICES=P;applyPrices();render();if(typeof drawFeed==="function")drawFeed()}catch(e){}
+  try{let P=null;try{const ac=new AbortController();const tm=setTimeout(()=>ac.abort(),4000);const r0=await fetch("https://raw.githubusercontent.com/viv1spr/skin-set/prices/prices.json?t="+Math.floor(Date.now()/60000),{signal:ac.signal});clearTimeout(tm);if(r0.ok)P=await r0.json()}catch(e){}
+  if(!P||typeof P!=="object"||!Object.keys(P).length){const r=await fetch("/data/prices.json",{cache:"no-store"});if(!r.ok)return;P=await r.json()}if(!P||typeof P!=="object")return;window.PRICES=P;applyPrices();render();if(typeof drawFeed==="function")drawFeed()}catch(e){}
 }
 const WEARS=["FN","MW","FT","WW","BS"],WEAR_FULL={"FN":"Factory New","MW":"Minimal Wear","FT":"Field-Tested","WW":"Well-Worn","BS":"Battle-Scarred"};
 const WI18N={"ru":{"any":"Любое","anyT":"Самое дешёвое качество","fb":"нет в этом качестве — показано ближайшее","cheap":"дешевле всего","wear":"Качество этого предмета"},

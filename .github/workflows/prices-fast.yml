@@ -1,0 +1,27 @@
+name: Fast prices (every 5 min)
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: prices-fast
+  cancel-in-progress: false
+jobs:
+  prices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main, fetch-depth: 1 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node admin/fetch-prices.js
+      - name: Publish to "prices" branch (does not trigger site rebuild)
+        run: |
+          mkdir -p /tmp/out && cp data/prices.json data/prices-meta.json /tmp/out/
+          cd /tmp/out && git init -q && git checkout -q -b prices
+          git config user.name "price-bot" && git config user.email "bot@skin-set.com"
+          git add . && git commit -q -m "prices $(date -u +%FT%TZ)"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" prices

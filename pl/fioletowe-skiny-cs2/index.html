@@ -552,7 +552,7 @@ body[data-route="feed"] .fs .lk2{padding:5px 9px;font-size:.8rem}
 @media(max-width:700px){body[data-route="feed"] .feed{padding:22px 12px 60px}body[data-route="feed"] .feed-head .sorts{margin-left:0}body[data-route="feed"] .pubwrap .hudbtn{width:100%!important;flex:1 1 100%}body[data-route="feed"] .feed-list{grid-template-columns:1fr!important}}
 body[data-route="feed"] #pubBtn{background:#c4161c;color:#fff}
 body[data-route="feed"] #pubBtn:hover{background:#e01d24}
-body.viewing #budget,body.viewing .ctrl>.grp:not(.wearsel),body.viewing #premium{display:none!important}body.viewing .viewbar{padding:14px 20px;font-size:1rem;background:color-mix(in srgb,var(--pick) 30%,rgba(10,11,13,.7));border-bottom:2px solid var(--pick)}body.viewing .viewbar b{font-size:1.1em}.viewbar .vb-btns{display:flex;gap:8px;flex-wrap:wrap}#premium{display:none!important}@keyframes pgReload{0%{opacity:0;transform:translateY(10px);filter:blur(3px)}100%{opacity:1;transform:none;filter:none}}body.reloading .layout,body.reloading main.main{animation:pgReload .55s ease}body.reloading::before{content:"";position:fixed;left:0;top:0;height:3px;z-index:9999;background:var(--pick);box-shadow:0 0 12px var(--pick);animation:pgBar .6s ease forwards}@keyframes pgBar{0%{width:0;opacity:1}80%{width:100%;opacity:1}100%{width:100%;opacity:0}}.wears button.na{opacity:.35;cursor:default;border-style:dashed}.wears button.na:hover{border-color:var(--line2)}.wears-empty{min-height:110px}</style>
+body.viewing #budget,body.viewing .ctrl>.grp:not(.wearsel),body.viewing #premium{display:none!important}body.viewing .viewbar{padding:14px 20px;font-size:1rem;background:color-mix(in srgb,var(--pick) 30%,rgba(10,11,13,.7));border-bottom:2px solid var(--pick)}body.viewing .viewbar b{font-size:1.1em}.viewbar .vb-btns{display:flex;gap:8px;flex-wrap:wrap}#premium{display:none!important}@keyframes pgReload{0%{opacity:0;transform:translateY(10px);filter:blur(3px)}100%{opacity:1;transform:none;filter:none}}body.reloading .layout,body.reloading main.main{animation:pgReload .55s ease}body.reloading::before{content:"";position:fixed;left:0;top:0;height:3px;z-index:9999;background:var(--pick);box-shadow:0 0 12px var(--pick);animation:pgBar .6s ease forwards}@keyframes pgBar{0%{width:0;opacity:1}80%{width:100%;opacity:1}100%{width:100%;opacity:0}}.wears button.na{opacity:.35;cursor:default;border-style:dashed}.wears button.na:hover{border-color:var(--line2)}.wears-empty{min-height:110px}.seo{position:relative}.seo.collapsed{max-height:100px;overflow:hidden}.seo.collapsed::after{content:"";position:absolute;left:0;right:0;bottom:0;height:50px;background:linear-gradient(transparent,rgba(8,9,11,.96));pointer-events:none}.seo-tg{position:absolute;top:30px;right:28px;z-index:2;display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--ink);font:600 .78rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}.seo-tg:hover{border-color:#fff}.seo-tg i{display:inline-block;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}.seo:not(.collapsed) .seo-tg i{transform:rotate(-135deg) translateY(-2px)}@media(max-width:700px){.seo-tg{position:static;margin-bottom:12px}}</style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Jak dobrać skiny CS2 według koloru?","acceptedAnswer":{"@type":"Answer","text":"Wybierz kolor w kreatorze Skinset — porównuje odcienie skinów z Twoją paletą i składa nóż, rękawice oraz bronie w jednym schemacie, z przedziałem ceny dla każdego."}},
@@ -675,7 +675,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
     </section>
 
 
-    <section class="seo" id="seo">
+    <section class="seo collapsed" id="seo"><button class="seo-tg" id="seoTg" type="button" aria-expanded="false" data-o="Rozwiń" data-c="Zwiń"><span>Rozwiń</span><i></i></button>
       <div class="seo-in">
         <h1 id="seoH2">Fioletowe skiny CS2</h1>
         <div id="seoColor" class="seo-dyn"></div>
@@ -1621,5 +1621,5 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
   try{if(typeof render==="function"&&c.refs)render()}catch(e){}
 }).catch(()=>{});
 </script>
-</body>
+<script>(function(){var b=document.getElementById("seoTg"),s=document.getElementById("seo");if(!b||!s)return;b.addEventListener("click",function(){var c=s.classList.toggle("collapsed");b.setAttribute("aria-expanded",!c);b.firstChild.textContent=c?b.dataset.o:b.dataset.c;if(c)s.scrollIntoView({block:"nearest"})})})();</script></body>
 </html>

@@ -17,6 +17,25 @@ NAV = {
  "tr": [("/tr/", "Oluşturucu"), ("/tr/nasil-calisir/", "Nasıl çalışır"), ("/tr/nereden-alinir/", "Pazar yerleri"), ("/tr/setler/", "Setler"), ("/tr/blog/", "Blog")],
  "pl": [("/pl/", "Kreator"), ("/pl/jak-to-dziala/", "Jak to działa"), ("/pl/gdzie-kupic/", "Rynki"), ("/pl/zestawy/", "Zestawy"), ("/pl/blog/", "Blog")],
 }
+CP = {
+ "ru": ["krasnye-skiny-cs2","sinie-skiny-cs2","rozovye-skiny-cs2","fioletovye-skiny-cs2","zelenye-skiny-cs2","zolotye-skiny-cs2","oranzhevye-skiny-cs2","biryuzovye-skiny-cs2","cherno-belye-skiny-cs2"],
+ "en": ["red-black-cs2-skins","blue-cs2-skins","pink-cs2-skins","purple-cs2-skins","green-cs2-skins","gold-cs2-skins","orange-cs2-skins","teal-cs2-skins","black-white-cs2-skins"],
+ "de": ["rot-schwarze-cs2-skins","blaue-cs2-skins","pinke-cs2-skins","lila-cs2-skins","gruene-cs2-skins","goldene-cs2-skins","orange-cs2-skins","tuerkise-cs2-skins","schwarz-weisse-cs2-skins"],
+ "pt": ["skins-vermelhas-cs2","skins-azuis-cs2","skins-rosas-cs2","skins-roxas-cs2","skins-verdes-cs2","skins-douradas-cs2","skins-laranjas-cs2","skins-turquesa-cs2","skins-preto-branco-cs2"],
+ "tr": ["kirmizi-cs2-skinleri","mavi-cs2-skinleri","pembe-cs2-skinleri","mor-cs2-skinleri","yesil-cs2-skinleri","altin-cs2-skinleri","turuncu-cs2-skinleri","turkuaz-cs2-skinleri","siyah-beyaz-cs2-skinleri"],
+ "pl": ["czerwone-skiny-cs2","niebieskie-skiny-cs2","rozowe-skiny-cs2","fioletowe-skiny-cs2","zielone-skiny-cs2","zlote-skiny-cs2","pomaranczowe-skiny-cs2","turkusowe-skiny-cs2","czarno-biale-skiny-cs2"],
+}
+PCOL = [["#c4161c","#1a1a1a"],["#1f4fd6"],["#ff5cb0"],["#6a2bb5"],["#1d9b5a"],["#d4af37"],["#f26a1b","#f4f4f4"],["#00c2c7"],["#f4f4f4","#1a1a1a"]]
+PNAMES = {
+ "ru": ["Красный с чёрным","Синий","Розовый","Фиолетовый","Зелёный","Золото","Оранжевый с белым","Бирюза","Чёрно-белый"],
+ "en": ["Red & black","Blue","Pink","Purple","Green","Gold","Orange & white","Teal","Black & white"],
+ "de": ["Rot-Schwarz","Blau","Pink","Lila","Grün","Gold","Orange-Weiß","Türkis","Schwarz-Weiß"],
+ "pt": ["Vermelho e preto","Azul","Rosa","Roxo","Verde","Dourado","Laranja e branco","Turquesa","Preto e branco"],
+ "tr": ["Kırmızı-siyah","Mavi","Pembe","Mor","Yeşil","Altın","Turuncu-beyaz","Turkuaz","Siyah-beyaz"],
+ "pl": ["Czerwono-czarny","Niebieski","Różowy","Fioletowy","Zielony","Złoty","Pomarańczowo-biały","Turkusowy","Czarno-biały"],
+}
+PICK = {"ru":"Или сразу выбери цвет:","en":"Or pick a color right away:","de":"Oder wähle direkt eine Farbe:","pt":"Ou escolha uma cor agora:","tr":"Ya da hemen bir renk seç:","pl":"Albo od razu wybierz kolor:"}
+TAKE = {"ru":"Собрать такой сет →","en":"Build this set →","de":"Dieses Set bauen →","pt":"Montar este set →","tr":"Bu seti kur →","pl":"Zbuduj ten zestaw →"}
 ABOUT_LABEL = {"ru": "О проекте", "en": "About", "de": "Über uns", "pt": "Sobre", "tr": "Hakkında", "pl": "O projekcie"}
 
 T = {
@@ -163,13 +182,15 @@ h1 em,h2 em{font-style:normal;color:var(--pick);text-shadow:0 0 40px rgba(196,22
 .btn.s{background:rgba(145,70,255,.16);border:1px solid rgba(145,70,255,.5);color:#d9c2ff}
 .btn svg{width:18px;height:18px}
 .set{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-.sk{position:relative;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015));border:1px solid var(--line2);border-bottom:3px solid var(--pick);padding:12px 10px 10px;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);animation:up .6s both}
+.pick{margin-top:26px}.pick small{display:block;color:var(--soft);font:500 .82rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}.sws{display:flex;flex-wrap:wrap;gap:8px}.sws a{width:42px;height:42px;border:1px solid rgba(255,255,255,.25);clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);transition:transform .15s,border-color .15s}.sws a:hover{transform:translateY(-3px) scale(1.08);border-color:#fff}
+.setwrap{display:block;text-decoration:none;color:inherit}.setwrap .take{display:flex;justify-content:center;margin-top:10px;font:600 .9rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:var(--pick)}.setwrap:hover .take{color:#ff4b52}.setwrap:hover .sk{border-color:rgba(255,255,255,.35)}
+.sk{position:relative;transition:transform .2s,border-color .2s;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015));border:1px solid var(--line2);border-bottom:3px solid var(--pick);padding:12px 10px 10px;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);animation:up .6s both}
 .sk:nth-child(1){grid-column:span 6}.sk:nth-child(2){grid-column:span 6}.sk:nth-child(n+3){grid-column:span 2}
 .sk img{display:block;width:100%;height:120px;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(0,0,0,.6))}
 .sk:nth-child(n+3) img{height:70px}
 .sk b{display:block;font:600 .95rem/1.1 var(--hud);text-transform:uppercase;letter-spacing:.03em;margin-top:6px}
 .sk small{color:var(--dim);font-size:.78rem}
-.sk:nth-child(2){animation-delay:.1s}.sk:nth-child(3){animation-delay:.2s}.sk:nth-child(4){animation-delay:.3s}.sk:nth-child(5){animation-delay:.4s}
+.setwrap .sk:hover{transform:translateY(-4px)}.sk:nth-child(2){animation-delay:.1s}.sk:nth-child(3){animation-delay:.2s}.sk:nth-child(4){animation-delay:.3s}.sk:nth-child(5){animation-delay:.4s}
 @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:rgba(14,15,17,.6)}
 .stats div{padding:22px 20px;border-left:1px solid var(--line)}.stats div:first-child{border-left:0}
@@ -206,7 +227,7 @@ details p{margin:0;padding:0 20px 18px;color:var(--soft)}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;color:var(--dim);font-size:.85rem}
 footer a{color:var(--soft)}
 @media(max-width:960px){.hero,.me,.part{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.feats{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.stats div:nth-child(3){border-left:0}.stats div:nth-child(n+3){border-top:1px solid var(--line)}}
-@media(max-width:700px){.hud{padding:0 14px;height:auto;flex-wrap:wrap;padding-top:10px}.tabs{order:3;width:100%;margin:6px -14px 0;overflow-x:auto;height:44px}.tabs a{padding:0 12px;font-size:.85rem;white-space:nowrap}.langs{margin-left:auto}main{padding:0 16px}section{padding:48px 0}.hero{padding-top:36px;gap:28px}.steps,.feats{grid-template-columns:1fr}.me{padding:24px}.me .ms b{font-size:1.4rem}.btn{height:48px;padding:0 20px;font-size:.92rem}.sk img{height:90px}.sk:nth-child(n+3) img{height:56px}}
+@media(max-width:700px){.sws{flex-wrap:nowrap;gap:5px}.sws a{flex:1 1 0;width:auto;height:auto;aspect-ratio:1;max-width:42px}.hud{padding:0 14px;height:auto;flex-wrap:wrap;padding-top:10px}.tabs{order:3;width:100%;margin:6px -14px 0;overflow-x:auto;height:44px}.tabs a{padding:0 12px;font-size:.85rem;white-space:nowrap}.langs{margin-left:auto}main{padding:0 16px}section{padding:48px 0}.hero{padding-top:36px;gap:28px}.steps,.feats{grid-template-columns:1fr}.me{padding:24px}.me .ms b{font-size:1.4rem}.btn{height:48px;padding:0 20px;font-size:.92rem}.sk img{height:90px}.sk:nth-child(n+3) img{height:56px}}
 """
 
 LANG_JS = '<script>(()=>{const L=document.querySelector(".langs"),b=L.querySelector(".lbtn");b.onclick=e=>{e.stopPropagation();L.classList.toggle("open")};document.addEventListener("click",e=>{if(!L.contains(e.target))L.classList.remove("open")})})();</script>'
@@ -221,6 +242,8 @@ def build(lang, items):
     tw_svg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg>'
     tg_svg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1-1 .2-1.5L20.6 2.9c.9-.3 1.6.2 1.3 1.4Z"/></svg>'
     sets = "".join(f'<div class="sk"><img src="{e(img)}" alt="{e(w)} | {e(sk)}" loading="eager" onerror="this.style.visibility=\'hidden\'"><b>{e(sk)}</b><small>{e(w)}</small></div>' for w, sk, img in items)
+    def bgc(c): return c[0] if len(c)==1 else f'linear-gradient(135deg,{c[0]} 50%,{c[1]} 50%)'
+    swatches = ''.join(f'<a href="{HOME[lang]}{CP[lang][i]}/" title="{e(PNAMES[lang][i])}" aria-label="{e(PNAMES[lang][i])}" style="background:{bgc(c)}"></a>' for i, c in enumerate(PCOL))
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}
     org_ld = {"@context": "https://schema.org", "@type": "WebApplication", "name": "Skinset", "url": "https://skin-set.com" + HOME[lang], "applicationCategory": "GameApplication", "operatingSystem": "Web", "inLanguage": HREFLANG[lang], "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": t["desc"], "author": {"@type": "Person", "name": "viv1stop", "url": TW, "sameAs": [TW, TG]}}
     og = f"https://skin-set.com/img/og-{lang}.png"
@@ -256,8 +279,9 @@ def build(lang, items):
       <h1>{t['h1']}</h1>
       <p class="lead">{e(t['lead'])}</p>
       <div class="btns"><a class="btn p" href="{HOME[lang]}">{e(t['cta'])} →</a><a class="btn s" href="{TW}" target="_blank" rel="noopener">{tw_svg}{e(t['cta2'])}</a></div>
+      <div class="pick"><small>{e(PICK[lang])}</small><div class="sws">{swatches}</div></div>
     </div>
-    <div class="set" aria-hidden="true">{sets}</div>
+    <a class="setwrap" href="{HOME[lang] if lang=='ru' else HOME[lang]}{CP[lang][0]}/"><div class="set">{sets}</div><span class="take">{e(TAKE[lang])}</span></a>
   </section>
   <div class="stats">{''.join(f'<div><b>{e(a)}</b><span>{e(b)}</span></div>' for a, b in t['stats'])}</div>
   <section><h2>{e(t['how_h'])}</h2><div class="steps">{''.join(f'<div class="card"><h3>{e(a)}</h3><p>{e(b)}</p></div>' for a, b in t['how'])}</div></section>

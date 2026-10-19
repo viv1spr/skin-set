@@ -242,6 +242,8 @@ def build(lang, items):
     tw_svg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg>'
     tg_svg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1-1 .2-1.5L20.6 2.9c.9-.3 1.6.2 1.3 1.4Z"/></svg>'
     sets = "".join(f'<div class="sk"><img src="{e(img)}" alt="{e(w)} | {e(sk)}" loading="eager" onerror="this.style.visibility=\'hidden\'"><b>{e(sk)}</b><small>{e(w)}</small></div>' for w, sk, img in items)
+    from urllib.parse import quote
+    setq = quote(';'.join(f'{w}|{sk}' for w, sk, img in items), safe='')
     def bgc(c): return c[0] if len(c)==1 else f'linear-gradient(135deg,{c[0]} 50%,{c[1]} 50%)'
     swatches = ''.join(f'<a href="{HOME[lang]}{CP[lang][i]}/" title="{e(PNAMES[lang][i])}" aria-label="{e(PNAMES[lang][i])}" style="background:{bgc(c)}"></a>' for i, c in enumerate(PCOL))
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}
@@ -281,7 +283,7 @@ def build(lang, items):
       <div class="btns"><a class="btn p" href="{HOME[lang]}">{e(t['cta'])} →</a><a class="btn s" href="{TW}" target="_blank" rel="noopener">{tw_svg}{e(t['cta2'])}</a></div>
       <div class="pick"><small>{e(PICK[lang])}</small><div class="sws">{swatches}</div></div>
     </div>
-    <a class="setwrap" href="{HOME[lang] if lang=='ru' else HOME[lang]}{CP[lang][0]}/"><div class="set">{sets}</div><span class="take">{e(TAKE[lang])}</span></a>
+    <a class="setwrap" href="{HOME[lang]}{CP[lang][0]}/?set={setq}"><div class="set">{sets}</div><span class="take">{e(TAKE[lang])}</span></a>
   </section>
   <div class="stats">{''.join(f'<div><b>{e(a)}</b><span>{e(b)}</span></div>' for a, b in t['stats'])}</div>
   <section><h2>{e(t['how_h'])}</h2><div class="steps">{''.join(f'<div class="card"><h3>{e(a)}</h3><p>{e(b)}</p></div>' for a, b in t['how'])}</div></section>

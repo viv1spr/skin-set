@@ -1790,5 +1790,16 @@ fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P
 <script>(()=>{const el=document.getElementById("info");if(!el)return;const fit=()=>{const h=el.querySelector(".h1");if(!h||h.dataset.fit===h.textContent)return;h.dataset.fit=h.textContent;h.title=h.textContent;h.style.fontSize="";let f=parseFloat(getComputedStyle(h).fontSize);while(h.scrollWidth>h.clientWidth+1&&f>17){f-=1;h.style.fontSize=f+"px"}};new MutationObserver(fit).observe(el,{childList:true,subtree:true});addEventListener("resize",()=>{const h=el.querySelector(".h1");if(h)h.dataset.fit="";fit()});fit()})();</script>
 <script>(()=>{const d=document.querySelector(".dock");if(!d)return;const u=()=>document.documentElement.style.setProperty("--dockH",(getComputedStyle(d).display==="none"?0:d.offsetHeight)+"px");u();addEventListener("resize",u)})();</script>
 <script>(()=>{const L=document.querySelector(".langs");if(!L||L.classList.contains("dd"))return;const N={RU:"Русский",EN:"English",DE:"Deutsch",PT:"Português",TR:"Türkçe",PL:"Polski"};const links=[...L.querySelectorAll("a")];const cur=links.find(a=>a.classList.contains("on"))||links[0];const m=document.createElement("div");m.className="lmenu";m.setAttribute("role","menu");links.forEach(a=>{const c=a.textContent.trim();a.innerHTML=`<span>${N[c]||c}</span><small>${c}</small>`;m.appendChild(a)});const b=document.createElement("button");b.className="lbtn";b.type="button";b.setAttribute("aria-haspopup","menu");b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>${cur?cur.querySelector("small").textContent:""}</span><i class="chev"></i>`;L.classList.add("dd");L.append(b,m);b.onclick=e=>{e.stopPropagation();L.classList.toggle("open")};document.addEventListener("click",e=>{if(!L.contains(e.target))L.classList.remove("open")})})();</script>
+<script>/* ?set=Оружие|Скин;... — открыть конкретный сет (ссылки со страницы «О проекте») */
+(()=>{let q;try{q=new URLSearchParams(location.search).get("set")}catch(e){}if(!q)return;const want=q.split(";").map(x=>x.trim().toLowerCase()).filter(Boolean);const t0=Date.now();
+  const key=s=>(s.weapon.replace("★ ","")+"|"+s.skin).toLowerCase();
+  const go=()=>{if(typeof SKINS==="undefined"||typeof state==="undefined")return setTimeout(go,150);
+    const found=want.map(w=>SKINS.find(s=>key(s)===w.replace("★ ",""))).filter(Boolean);
+    if(found.length<want.length&&Date.now()-t0<8000)return setTimeout(go,250);
+    state.locked=state.locked||{};state.hidden=(state.hidden||[]).filter(id=>!found.some(s=>s.slot===id));state.extra=state.extra||[];
+    for(const s of found){state.locked[s.slot]=s.i;if(typeof BASE_SLOTS!=="undefined"&&!BASE_SLOTS.find(b=>b.id===s.slot)&&!state.extra.includes(s.slot))state.extra.push(s.slot)}
+    state.frozen=null;try{render()}catch(e){}
+    try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
+  go()})();</script>
 </body>
 </html>

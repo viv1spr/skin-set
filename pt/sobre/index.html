@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Skinset — skins de CS2 por cor | Sobre o projeto e o streamer viv1stop</title>
+<meta name="description" content="Skinset é um montador gratuito de inventário de CS2: faca, luvas e armas em uma cor e no seu orçamento, com preços ao vivo e login Steam. Criado pelo streamer viv1stop.">
+<link rel="canonical" href="https://skin-set.com/pt/sobre/">
+<link rel="alternate" hreflang="ru" href="https://skin-set.com/o-proekte/"><link rel="alternate" hreflang="en" href="https://skin-set.com/en/about/"><link rel="alternate" hreflang="de" href="https://skin-set.com/de/ueber-uns/"><link rel="alternate" hreflang="pt-BR" href="https://skin-set.com/pt/sobre/"><link rel="alternate" hreflang="tr" href="https://skin-set.com/tr/hakkimizda/"><link rel="alternate" hreflang="pl" href="https://skin-set.com/pl/o-projekcie/"><link rel="alternate" hreflang="x-default" href="https://skin-set.com/en/about/">
+<meta property="og:type" content="website"><meta property="og:url" content="https://skin-set.com/pt/sobre/"><meta property="og:title" content="Skinset — skins de CS2 por cor | Sobre o projeto e o streamer viv1stop"><meta property="og:description" content="Skinset é um montador gratuito de inventário de CS2: faca, luvas e armas em uma cor e no seu orçamento, com preços ao vivo e login Steam. Criado pelo streamer viv1stop."><meta property="og:image" content="https://skin-set.com/img/og-pt.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0c0f">
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png"><link rel="apple-touch-icon" href="/img/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--pick:#c4161c;--ink:#f3f1ea;--soft:#b9b4a7;--dim:#7d786d;--line:rgba(255,255,255,.1);--line2:rgba(255,255,255,.18);--hud:"Oswald","Arial Narrow",Impact,sans-serif;--body:"Roboto Condensed","Arial Narrow",system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font:400 16px/1.55 var(--body);background:#0b0c0f;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 600px at 80% -10%,rgba(196,22,28,.28),transparent 60%),radial-gradient(700px 500px at -10% 40%,rgba(110,40,200,.18),transparent 60%),repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 48px),repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 48px),#0b0c0f}
+a{color:inherit}
+.hud{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;height:62px;padding:0 24px;background:rgba(10,11,13,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:700 1.35rem/1 var(--hud);letter-spacing:.06em;text-transform:uppercase;font-style:italic;text-decoration:none}
+.logo svg{width:30px;height:30px}
+.tabs{display:flex;margin:0 auto;height:100%}
+.tabs a{display:flex;align-items:center;padding:0 18px;font:500 .95rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;color:var(--soft);text-decoration:none;border-bottom:3px solid transparent}
+.tabs a:hover{color:var(--ink)}.tabs a.on{color:var(--ink);border-bottom-color:var(--pick)}
+.langs{position:relative}
+.lbtn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 10px;background:rgba(255,255,255,.04);border:1px solid var(--line2);color:var(--ink);font:600 .74rem/1 var(--hud);letter-spacing:.08em;cursor:pointer}
+.lbtn svg{width:15px;height:15px;opacity:.8}
+.lmenu{display:none;position:absolute;right:0;top:calc(100% + 6px);min-width:170px;padding:6px;background:#15171c;border:1px solid var(--line2);box-shadow:0 18px 40px rgba(0,0,0,.55)}
+.langs.open .lmenu{display:block}
+.lmenu a{display:flex;justify-content:space-between;padding:9px 10px;color:var(--soft);text-decoration:none}
+.lmenu a:hover,.lmenu a.on{background:rgba(255,255,255,.06);color:var(--ink)}
+.lmenu small{font:600 .68rem/1 var(--hud);letter-spacing:.08em;color:var(--dim)}
+main{max-width:1180px;margin:0 auto;padding:0 24px}
+section{padding:72px 0}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding-top:64px}
+.kick{display:inline-block;font:600 .8rem/1 var(--hud);letter-spacing:.18em;text-transform:uppercase;background:var(--pick);color:#fff;padding:7px 14px 8px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+h1{margin:18px 0 18px;font:700 clamp(2.4rem,5.4vw,4.4rem)/1 var(--hud);text-transform:uppercase;letter-spacing:.01em}
+h1 em,h2 em{font-style:normal;color:var(--pick);text-shadow:0 0 40px rgba(196,22,28,.45)}
+.lead{font-size:1.15rem;color:var(--soft);max-width:54ch;margin:0 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;font:600 1rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:filter .15s}
+.btn:hover{filter:brightness(1.15)}
+.btn.p{background:var(--pick);color:#fff;box-shadow:0 10px 30px rgba(196,22,28,.35)}
+.btn.s{background:rgba(145,70,255,.16);border:1px solid rgba(145,70,255,.5);color:#d9c2ff}
+.btn svg{width:18px;height:18px}
+.set{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.sk{position:relative;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015));border:1px solid var(--line2);border-bottom:3px solid var(--pick);padding:12px 10px 10px;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);animation:up .6s both}
+.sk:nth-child(1){grid-column:span 6}.sk:nth-child(2){grid-column:span 6}.sk:nth-child(n+3){grid-column:span 2}
+.sk img{display:block;width:100%;height:120px;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(0,0,0,.6))}
+.sk:nth-child(n+3) img{height:70px}
+.sk b{display:block;font:600 .95rem/1.1 var(--hud);text-transform:uppercase;letter-spacing:.03em;margin-top:6px}
+.sk small{color:var(--dim);font-size:.78rem}
+.sk:nth-child(2){animation-delay:.1s}.sk:nth-child(3){animation-delay:.2s}.sk:nth-child(4){animation-delay:.3s}.sk:nth-child(5){animation-delay:.4s}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:rgba(14,15,17,.6)}
+.stats div{padding:22px 20px;border-left:1px solid var(--line)}.stats div:first-child{border-left:0}
+.stats b{display:block;font:700 2rem/1 var(--hud);color:var(--ink)}
+.stats span{color:var(--soft);font-size:.9rem;text-transform:uppercase;letter-spacing:.06em}
+h2{margin:0 0 28px;font:700 clamp(1.7rem,3.2vw,2.5rem)/1.05 var(--hud);text-transform:uppercase;letter-spacing:.02em}
+h2::before{content:"";display:block;width:44px;height:4px;background:var(--pick);margin-bottom:14px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:s}
+.card{background:rgba(14,15,17,.72);border:1px solid var(--line);padding:22px;clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.card h3{margin:0 0 8px;font:600 1.15rem/1.15 var(--hud);text-transform:uppercase;letter-spacing:.03em}
+.card p{margin:0;color:var(--soft)}
+.steps .card::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;margin-bottom:14px;background:var(--pick);color:#fff;font:700 1rem/1 var(--hud);clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.feats svg{width:30px;height:30px;color:var(--pick);margin-bottom:12px}
+.me{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center;background:linear-gradient(135deg,rgba(145,70,255,.18),rgba(14,15,17,.75) 60%);border:1px solid rgba(145,70,255,.35);padding:36px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+.me p{color:var(--soft);font-size:1.08rem;margin:0 0 22px}
+.me .ms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.me .ms div{background:rgba(0,0,0,.3);border:1px solid var(--line);padding:16px}
+.me .ms b{display:block;font:700 1.8rem/1 var(--hud);color:#d9c2ff}
+.me .ms span{color:var(--soft);font-size:.85rem}
+.part{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.part ul{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:10px}
+.part li{display:flex;gap:12px;align-items:flex-start;background:rgba(14,15,17,.72);border:1px solid var(--line);padding:14px 16px}
+.part li::before{content:"";flex:none;width:10px;height:10px;margin-top:7px;background:var(--pick);transform:rotate(45deg)}
+.part p{color:var(--soft);font-size:1.08rem;margin:0 0 22px}
+.btn.tg{background:#229ed9;color:#fff}
+details{background:rgba(14,15,17,.72);border:1px solid var(--line);margin-bottom:10px}
+summary{cursor:pointer;padding:18px 20px;font:600 1.05rem/1.2 var(--hud);text-transform:uppercase;letter-spacing:.03em;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--pick);font-size:1.4rem;line-height:.8}
+details[open] summary::after{content:"−"}
+details p{margin:0;padding:0 20px 18px;color:var(--soft)}
+.final{text-align:center;padding:72px 0 88px}
+.final h2::before{margin-left:auto;margin-right:auto}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;color:var(--dim);font-size:.85rem}
+footer a{color:var(--soft)}
+@media(max-width:960px){.hero,.me,.part{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.feats{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.stats div:nth-child(3){border-left:0}.stats div:nth-child(n+3){border-top:1px solid var(--line)}}
+@media(max-width:700px){.hud{padding:0 14px;height:auto;flex-wrap:wrap;padding-top:10px}.tabs{order:3;width:100%;margin:6px -14px 0;overflow-x:auto;height:44px}.tabs a{padding:0 12px;font-size:.85rem;white-space:nowrap}.langs{margin-left:auto}main{padding:0 16px}section{padding:48px 0}.hero{padding-top:36px;gap:28px}.steps,.feats{grid-template-columns:1fr}.me{padding:24px}.me .ms b{font-size:1.4rem}.btn{height:48px;padding:0 20px;font-size:.92rem}.sk img{height:90px}.sk:nth-child(n+3) img{height:56px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Skinset", "url": "https://skin-set.com/pt/", "applicationCategory": "GameApplication", "operatingSystem": "Web", "inLanguage": "pt-BR", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Skinset é um montador gratuito de inventário de CS2: faca, luvas e armas em uma cor e no seu orçamento, com preços ao vivo e login Steam. Criado pelo streamer viv1stop.", "author": {"@type": "Person", "name": "viv1stop", "url": "https://www.twitch.tv/viv1stop", "sameAs": ["https://www.twitch.tv/viv1stop", "https://t.me/Vivistop"]}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "O Skinset é grátis?", "acceptedAnswer": {"@type": "Answer", "text": "Sim. Ganhamos com links de afiliado dos marketplaces — o seu preço não muda."}}, {"@type": "Question", "name": "De onde vêm os preços?", "acceptedAnswer": {"@type": "Answer", "text": "De grandes marketplaces, atualizados a cada 5 minutos. Preço exato e disponibilidade no marketplace."}}, {"@type": "Question", "name": "Por que entrar com a Steam?", "acceptedAnswer": {"@type": "Answer", "text": "Para o site ver seu inventário público de CS2 e montar o set ao redor das suas skins. A senha é digitada só na Steam."}}, {"@type": "Question", "name": "É um site oficial da Valve?", "acceptedAnswer": {"@type": "Answer", "text": "Não, é um projeto de fã sem ligação com a Valve."}}]}</script>
+</head>
+<body>
+<header class="hud">
+  <a class="logo" href="/pt/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>
+  <nav class="tabs"><a href="/pt/">Montador</a><a href="/pt/como-funciona/">Como funciona</a><a href="/pt/onde-comprar/">Lojas</a><a href="/pt/sets/">Sets</a><a href="/pt/blog/">Blog</a><a href="/pt/sobre/" class="on">Sobre</a></nav>
+  <div class="langs"><button class="lbtn" type="button" aria-haspopup="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>PT</span></button><div class="lmenu"><a href="/o-proekte/" hreflang="ru"><span>Русский</span><small>RU</small></a><a href="/en/about/" hreflang="en"><span>English</span><small>EN</small></a><a href="/de/ueber-uns/" hreflang="de"><span>Deutsch</span><small>DE</small></a><a href="/pt/sobre/" hreflang="pt-BR" class=on><span>Português</span><small>PT</small></a><a href="/tr/hakkimizda/" hreflang="tr"><span>Türkçe</span><small>TR</small></a><a href="/pl/o-projekcie/" hreflang="pl"><span>Polski</span><small>PL</small></a></div></div>
+</header>
+<main>
+  <section class="hero">
+    <div>
+      <span class="kick">Montador grátis de inventário CS2</span>
+      <h1>Monte seu inventário CS2<br><em>em uma cor</em></h1>
+      <p class="lead">O Skinset escolhe faca, luvas e todas as armas na cor e no orçamento que você quiser em segundos — com preços ao vivo, desgaste e botão de compra em cada skin.</p>
+      <div class="btns"><a class="btn p" href="/pt/">Abrir o montador →</a><a class="btn s" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg>Ver a live</a></div>
+    </div>
+    <div class="set" aria-hidden="true"><div class="sk"><img src="https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLzn4_v8ydP0POjV7Z4IumsA2aCw-JzuftsSxa_nBovp3PWnomsdn2QPVN0D5UiEOUP50LtltTvY-Ll4g3YjItFmSv-2i9A6X4-_a9cBu2YVmHc" alt="Bayonet | Doppler (Ruby)" loading="eager" onerror="this.style.visibility='hidden'"><b>Doppler (Ruby)</b><small>Bayonet</small></div><div class="sk"><img src="https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5T441rsfhr9kYDl7h1c4_24bZtpMvmFC3Wvw_x5s-BtShawhxwptgKXn4vGLSLANkI-XMN2Qu4OsEG6lYK2M-OwtgPf2IMRzXio3yMY7yhptbxRAKIkq_bVhhaBb-OYO4AFQA" alt="Driver Gloves | Brocade Crane" loading="eager" onerror="this.style.visibility='hidden'"><b>Brocade Crane</b><small>Driver Gloves</small></div><div class="sk"><img src="https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiFO0PC7ZKhoNM-BD26e_uMisbBWQyC0nQlp4GmGydioIH3DPFMjDMd2QrQO5hDtkNK2Ne_htAXd3d0Uyiiriysb5zErvbh6fsb98Q" alt="M4A4 | Bullet Rain" loading="eager" onerror="this.style.visibility='hidden'"><b>Bullet Rain</b><small>M4A4</small></div><div class="sk"><img src="https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSKOSsHGKU_utyt-R6cCW6khUz_TvRzd2tdy2WOlUoDZtxRLZY5xWwxty1Muzr4FCP2N5GmS-siywf7Xl1o7FVhoySCzY" alt="USP-S | Bleeding Edge" loading="eager" onerror="this.style.visibility='hidden'"><b>Bleeding Edge</b><small>USP-S</small></div><div class="sk"><img src="https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1c_M2pZKtuK6HLMWaHwPxyj-1gSCGn20gksm_Uyo7_JSmeOARyXsEhFLQMsUW_wIXuP-rj71CIiotAzCqoinhXrnE8DvG09t0" alt="Glock-18 | Royal Legion" loading="eager" onerror="this.style.visibility='hidden'"><b>Royal Legion</b><small>Glock-18</small></div></div>
+  </section>
+  <div class="stats"><div><b>2.000+</b><span>skins com preço</span></div><div><b>5 min</b><span>atualização de preços</span></div><div><b>6</b><span>idiomas</span></div><div><b>Steam</b><span>login e inventário</span></div></div>
+  <section><h2>Como funciona</h2><div class="steps"><div class="card"><h3>Escolha a cor</h3><p>Uma ou duas — por exemplo, vermelho e preto. As skins são escolhidas pelas cores reais da imagem, não pelo nome.</p></div><div class="card"><h3>Defina o orçamento</h3><p>Um valor para o set todo: faca e luvas ficam com a maior parte, rifles com o meio e pistolas com o resto.</p></div><div class="card"><h3>Ajuste</h3><p>Fixe o que gostou, embaralhe o resto, escolha o desgaste de FN a BS. O preço do set atualiza na hora.</p></div><div class="card"><h3>Compre ou compartilhe</h3><p>Cada skin tem botão de compra. Copie o set, salve como imagem ou publique no feed.</p></div></div></section>
+  <section style="padding-top:0"><h2>O que o Skinset faz</h2><div class="feats"><div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.7 1.5-1.4 0-.4-.2-.7-.4-1-.2-.3-.4-.6-.4-1 0-.8.6-1.4 1.4-1.4H16a5 5 0 0 0 5-5c0-4.4-4-8.2-9-8.2Z"/><path d="M7.5 11.5h.01M9.5 7.5h.01M14.5 7.5h.01"/></svg><h3>Combinação por cor</h3><p>Comparamos as cores de cada skin com a sua paleta e mostramos as mais próximas.</p></div><div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v12H3z"/><path d="M3 10h18"/><path d="M16 14h2"/></svg><h3>Orçamento do set</h3><p>O valor é dividido entre os slots por importância e o total fica no limite.</p></div><div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg><h3>Preços ao vivo</h3><p>Preços e desgaste atualizados a cada 5 minutos.</p></div><div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v12H4z"/><path d="M9 7V5h6v2"/></svg><h3>Seu inventário</h3><p>Entre com a Steam e o site encontra as skins que você já tem e monta o set ao redor delas.</p></div><div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"/></svg><h3>Sets da comunidade</h3><p>Publique seus sets, curta os de outros e pegue qualquer um com um clique.</p></div><div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg><h3>Guias</h3><p>Blog com sets prontos por cor, combinações e inventários para todo orçamento.</p></div></div></section>
+  <section style="padding-top:0"><div class="me"><div><h2>Criado pelo streamer viv1stop</h2><p>Oi! Eu sou o Vova e faço live de Counter-Strike na Twitch. O Skinset nasceu na live: os viewers sempre pediam um inventário bonito em uma cor e no orçamento deles. Agora qualquer um faz isso em poucos cliques, de graça.</p><a class="btn s" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg>Ir para a Twitch</a></div><div class="ms"><div><b>≈370</b><span>viewers em média</span></div><div><b>2.500+</b><span>seguidores</span></div><div><b>60 h</b><span>de live por mês</span></div></div></div></section>
+  <section style="padding-top:0" id="partners"><div class="part"><div><h2>Para marketplaces e marcas</h2><p>O Skinset traz jogadores que já escolheram skins específicas e estão prontos para comprar. Aberto a parcerias:</p><a class="btn tg" href="https://t.me/Vivistop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1-1 .2-1.5L20.6 2.9c.9-.3 1.6.2 1.3 1.4Z"/></svg>Falar no Telegram</a></div><ul><li>Seu botão de compra e preços nos cards das skins</li><li>Integrações na live: montar sets com seus anúncios ao vivo</li><li>Artigos e guias no blog em 6 idiomas</li><li>Sorteios e cupons para o público</li></ul></div></section>
+  <section style="padding-top:0"><h2>Perguntas frequentes</h2><details><summary>O Skinset é grátis?</summary><p>Sim. Ganhamos com links de afiliado dos marketplaces — o seu preço não muda.</p></details><details><summary>De onde vêm os preços?</summary><p>De grandes marketplaces, atualizados a cada 5 minutos. Preço exato e disponibilidade no marketplace.</p></details><details><summary>Por que entrar com a Steam?</summary><p>Para o site ver seu inventário público de CS2 e montar o set ao redor das suas skins. A senha é digitada só na Steam.</p></details><details><summary>É um site oficial da Valve?</summary><p>Não, é um projeto de fã sem ligação com a Valve.</p></details></section>
+  <section class="final"><h2>Monte seu inventário CS2<br><em>em uma cor</em></h2><div class="btns" style="justify-content:center"><a class="btn p" href="/pt/">Abrir o montador →</a></div></section>
+</main>
+<footer><p>Skinset é um projeto de fã, sem ligação com a Valve. Counter-Strike e nomes de itens pertencem aos seus donos.</p><p><a href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a> · <a href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener">Twitch viv1stop</a></p></footer>
+<script>(()=>{const L=document.querySelector(".langs"),b=L.querySelector(".lbtn");b.onclick=e=>{e.stopPropagation();L.classList.toggle("open")};document.addEventListener("click",e=>{if(!L.contains(e.target))L.classList.remove("open")})})();</script>
+</body>
+</html>

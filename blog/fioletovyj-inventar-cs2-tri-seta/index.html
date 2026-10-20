@@ -1797,5 +1797,39 @@ fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P
     state.frozen=null;try{render()}catch(e){}
     try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
   go()})();</script>
+<style id="skinPopCss">.post-skin{cursor:pointer;transition:transform .15s,border-color .15s}.post-skin:hover{transform:translateY(-3px)}
+.sp-ov{position:fixed;inset:0;z-index:95;background:rgba(5,6,8,.8);display:grid;place-items:center;padding:16px;backdrop-filter:blur(3px)}.sp-ov[hidden]{display:none}
+.sp-box{position:relative;width:min(460px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:#111318;border:1px solid var(--line2,#333);border-top:3px solid var(--pick,#c4161c);padding:22px 20px 18px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.sp-x{position:absolute;top:8px;right:10px;width:32px;height:32px;background:none;border:0;color:var(--dim,#888);font-size:1.5rem;cursor:pointer}.sp-x:hover{color:#fff}
+.sp-img{display:block;width:100%;height:190px;object-fit:contain;filter:drop-shadow(0 14px 18px rgba(0,0,0,.6));background:radial-gradient(closest-side,rgba(255,255,255,.08),transparent)}
+.sp-w{margin:12px 0 2px;color:var(--dim,#888);font:500 .78rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase}
+.sp-n{margin:4px 0 14px;font:600 1.5rem/1.1 var(--hud);text-transform:uppercase;letter-spacing:.02em;color:#fff}
+.sp-lbl{color:var(--soft,#bbb);font:500 .72rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.sp-wears{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:14px}
+.sp-wears button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px;background:rgba(255,255,255,.04);border:1px solid var(--line2,#333);color:#fff;cursor:pointer;font:600 .8rem/1 var(--hud)}
+.sp-wears button small{font:500 .66rem/1 var(--body,inherit);color:var(--soft,#bbb)}
+.sp-wears button[aria-pressed="true"]{border-color:var(--pick,#c4161c);background:color-mix(in srgb,var(--pick,#c4161c) 22%,transparent)}
+.sp-wears button:disabled{opacity:.3;cursor:default}
+.sp-buy{display:flex;align-items:center;justify-content:space-between;gap:10px;height:52px;padding:0 16px;background:linear-gradient(90deg,#1d6cf2,#2a8bff);color:#fff;text-decoration:none;font:700 .9rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.sp-buy:hover{filter:brightness(1.1)}.sp-buy b{font:700 1.05rem/1 var(--hud)}
+.sp-set{display:block;margin-top:8px;text-align:center;padding:12px;border:1px solid var(--line2,#333);color:var(--soft,#ddd);text-decoration:none;font:600 .78rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase}.sp-set:hover{color:#fff;border-color:#fff}
+@media(max-width:420px){.sp-wears{grid-template-columns:repeat(5,1fr)}.sp-n{font-size:1.25rem}.sp-img{height:150px}}</style>
+<script>/* поп-ап скина в блоге */
+(()=>{const lang=(document.documentElement.lang||"ru").slice(0,2);
+const T=({ru:{q:"Качество",buy:"Купить на DMarket",set:"Собрать сет с этим скином",any:"от",na:"нет"},en:{q:"Wear",buy:"Buy on DMarket",set:"Build a set with this skin",any:"from",na:"n/a"},de:{q:"Zustand",buy:"Auf DMarket kaufen",set:"Set mit diesem Skin bauen",any:"ab",na:"—"},pt:{q:"Desgaste",buy:"Comprar no DMarket",set:"Montar set com esta skin",any:"a partir de",na:"—"},tr:{q:"Aşınma",buy:"DMarket'te satın al",set:"Bu skinle set kur",any:"başlangıç",na:"—"},pl:{q:"Stan",buy:"Kup na DMarket",set:"Zbuduj zestaw z tym skinem",any:"od",na:"—"}})[lang]||{};
+const HOME={ru:"/",en:"/en/",de:"/de/",pt:"/pt/",tr:"/tr/",pl:"/pl/"}[lang]||"/";
+const WF={FN:"Factory New",MW:"Minimal Wear",FT:"Field-Tested",WW:"Well-Worn",BS:"Battle-Scarred"},WS=["FN","MW","FT","WW","BS"];
+const fmt=usd=>lang==="ru"?Math.round(usd*90).toLocaleString("ru-RU").replace(/,/g," ")+" ₽":"$"+(usd<100?usd.toFixed(2):Math.round(usd).toLocaleString("en-US"));
+let P=null;const getP=()=>P?Promise.resolve(P):(window.PRICES?Promise.resolve(P=window.PRICES):fetch("/data/prices.json").then(r=>r.json()).then(j=>P=j).catch(()=>({})));
+const ov=document.createElement("div");ov.className="sp-ov";ov.hidden=true;ov.innerHTML='<div class="sp-box" role="dialog" aria-modal="true"><button class="sp-x" aria-label="×">×</button><div class="sp-c"></div></div>';document.body.appendChild(ov);
+const close=()=>{ov.hidden=true};ov.addEventListener("click",e=>{if(e.target===ov||e.target.closest(".sp-x"))close()});addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+const dm=(name,w)=>"https://dmarket.com/"+(lang==="ru"?"ru/":"")+"ingame-items/item-list/csgo-skins?title="+encodeURIComponent(name.replace(/★\s*/,"")+(w?" ("+WF[w]+")":""))+"&ref=L4QnfHPvxc";
+async function open(name,img){const p=await getP();const r=(p||{})[name.replace(/★\s*/,"")]||{};const w=r.w||{};const have=WS.filter(k=>w[k]>0);let cur=have.includes("FT")?"FT":have[0]||null;
+  const [wp,sk]=name.split(" | ");const c=ov.querySelector(".sp-c");
+  const draw=()=>{const price=cur&&w[cur]?fmt(w[cur]):"";c.innerHTML=`<img class="sp-img" src="${img}" alt=""><div class="sp-w">${wp||""}</div><div class="sp-n">${sk||name}</div>`+(have.length?`<div class="sp-lbl">${T.q}</div><div class="sp-wears">${WS.map(k=>`<button data-w="${k}" aria-pressed="${k===cur}" ${w[k]>0?"":"disabled"}>${k}<small>${w[k]>0?fmt(w[k]):"—"}</small></button>`).join("")}</div>`:"")+`<a class="sp-buy" href="${dm(name,cur)}" target="_blank" rel="noopener sponsored"><span>${T.buy}</span><b>${price}</b></a><a class="sp-set" href="${HOME}?set=${encodeURIComponent((wp||"").replace(/★\s*/,"").trim()+"|"+(sk||"").trim())}">${T.set} →</a>`;
+    c.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{cur=b.dataset.w;draw()})};
+  draw();ov.hidden=false}
+document.addEventListener("click",e=>{const f=e.target.closest&&e.target.closest(".post-skin");if(!f)return;const im=f.querySelector("img");if(!im)return;e.preventDefault();open(im.getAttribute("alt")||"",im.getAttribute("src"))});
+})();</script>
 </body>
 </html>

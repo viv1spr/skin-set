@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Убирает «Сеты», «Площадки» и «О проекте» из верхнего меню в выпадающее «Ещё».
+"""Убирает «Как работает», «Сеты» и «Площадки» из верхнего меню в выпадающее «Ещё».
 python3 admin/navmore.py  — пройтись по всем страницам сайта (идемпотентно).
 Генераторы вызывают fix(html) перед записью.
 """
@@ -8,9 +8,9 @@ import glob, os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGOF = {"ru": "ru", "en": "en", "de": "de", "pt-BR": "pt", "pt": "pt", "tr": "tr", "pl": "pl"}
 MORE = {
-    "ru": ["/sety/", "/gde-kupit/", "/o-proekte/"], "en": ["/en/loadouts/", "/en/where-to-buy/", "/en/about/"],
-    "de": ["/de/loadouts/", "/de/wo-kaufen/", "/de/ueber-uns/"], "pt": ["/pt/sets/", "/pt/onde-comprar/", "/pt/sobre/"],
-    "tr": ["/tr/setler/", "/tr/nereden-alinir/", "/tr/hakkimizda/"], "pl": ["/pl/zestawy/", "/pl/gdzie-kupic/", "/pl/o-projekcie/"],
+    "ru": ["/kak-rabotaet/", "/sety/", "/gde-kupit/"], "en": ["/en/how-it-works/", "/en/loadouts/", "/en/where-to-buy/"],
+    "de": ["/de/so-funktionierts/", "/de/loadouts/", "/de/wo-kaufen/"], "pt": ["/pt/como-funciona/", "/pt/sets/", "/pt/onde-comprar/"],
+    "tr": ["/tr/nasil-calisir/", "/tr/setler/", "/tr/nereden-alinir/"], "pl": ["/pl/jak-to-dziala/", "/pl/zestawy/", "/pl/gdzie-kupic/"],
 }
 LABEL = {"ru": "Ещё", "en": "More", "de": "Mehr", "pt": "Mais", "tr": "Daha fazla", "pl": "Więcej"}
 
@@ -34,6 +34,18 @@ b.addEventListener("click",e=>{e.stopPropagation();if(m.hidden){m.hidden=false;p
 document.addEventListener("click",e=>{if(!m.contains(e.target))close()});addEventListener("resize",close);addEventListener("scroll",()=>{if(!m.hidden)place()},{passive:true});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
 const t=b.closest(".tabs");if(t)t.addEventListener("scroll",()=>{if(!m.hidden)place()},{passive:true})})();</script>"""
+
+
+def undo(s):
+    """вернуть ссылки из «Ещё» обратно в меню (на место кнопки)"""
+    m = re.search(r'<div class="tmenu" id="tmenu"[^>]*>(.*?)</div>', s, re.S)
+    if not m: return s
+    links = m.group(1)
+    s = s.replace(m.group(0), "", 1)
+    s = re.sub(r'<button class="tmore" id="tmore".*?</button>', lambda _: links, s, count=1, flags=re.S)
+    s = re.sub(r'<style id="tmore-css">.*?</style>', "", s, count=1, flags=re.S)
+    s = re.sub(r'<script id="tmore-js">.*?</script>', "", s, count=1, flags=re.S)
+    return s
 
 
 def fix(s):
@@ -63,7 +75,7 @@ def main():
     n = 0
     for f in glob.glob(os.path.join(ROOT, "**/*.html"), recursive=True):
         if "/admin/" in f: continue
-        s = open(f, encoding="utf-8").read(); o = fix(s)
+        s = open(f, encoding="utf-8").read(); o = fix(undo(s)) if "--redo" in __import__("sys").argv else fix(s)
         if o != s: open(f, "w", encoding="utf-8").write(o); n += 1
     print(n, "files")
 

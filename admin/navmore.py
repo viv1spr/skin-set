@@ -75,6 +75,7 @@ def fix(s):
 BLABEL = {"ru": "Меню", "en": "Menu", "de": "Menü", "pt": "Menu", "tr": "Menü", "pl": "Menu"}
 BCSS = """<style id="burger-css">
 .burger,.bmenu,.bshade{display:none}
+@media(min-width:901px){.hud .langs~.stm{margin-left:12px!important}.hud .langs:has(~.stm:not([hidden])){margin-right:0!important}.hud:has(.langs~.stm){column-gap:0!important;gap:0!important}}
 @media(max-width:900px){
  .hud .tabs{display:none!important}
  .hud:has(.burger){column-gap:8px!important;height:56px!important;min-height:56px;padding:0 14px!important;flex-wrap:nowrap!important;align-items:center!important}.hud:has(.burger) .langs{margin-left:auto!important}.hud:has(.burger) .logo{height:56px;display:flex;align-items:center}.hud:has(.burger) .langs{margin-right:0!important}

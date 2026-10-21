@@ -70,6 +70,15 @@ body{background:radial-gradient(900px 520px at 75% -8%,rgba(228,174,57,.22),tran
 .gw h2::before{background:linear-gradient(90deg,#e4ae39,#ffd36a)}
 .gw-p{box-shadow:0 0 0 1px rgba(228,174,57,.08)}.gw-p:hover{transform:translateY(-3px);transition:transform .2s}
 @media (prefers-reduced-motion:reduce){.gw::before{animation:none}}
+
+/* шапка по центру, таймер полосой под текстом */
+.gw-hero{display:flex!important;flex-direction:column;align-items:center;text-align:center;margin:10px auto 30px;max-width:820px}
+.gw-hero .lead{max-width:640px;margin:0 auto}
+.gw-hero .gw-timer{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:22px;padding:12px 16px;background:rgba(14,15,17,.7);border:1px solid rgba(228,174,57,.45);border-top-width:1px;box-shadow:0 10px 40px rgba(228,174,57,.12)}
+.gw-hero .gw-timer small{margin:0;color:#e9cf8f}
+.gw-hero .gw-timer .cd{gap:6px}.gw-hero .gw-timer .cd div{min-width:64px;padding:8px 6px;background:rgba(228,174,57,.08);border-color:rgba(228,174,57,.3)}
+.gw-hero .gw-timer .cd b{font-size:1.7rem}
+@media(max-width:560px){.gw-hero .gw-timer{width:100%;gap:10px}.gw-hero .gw-timer .cd{width:100%}.gw-hero .gw-timer .cd div{min-width:0}}
 @media(max-width:860px){.gw-hero{grid-template-columns:1fr}.gw-prizes{grid-template-columns:1fr}.gw-p .im{height:110px;margin:10px 0 4px}.gw-p img{max-height:110px}.gw{padding:18px 14px 40px}.gw-tw{flex-direction:column;align-items:flex-start}.gw-btn{width:100%}}
 </style><style id="tmore-css">
 .tabs .tmore{display:flex;align-items:center;gap:7px;padding:0 16px;background:none;border:0;border-left:1px solid var(--line);color:var(--soft);font:500 .9rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;position:relative;height:100%;flex:0 0 auto}
@@ -145,7 +154,7 @@ body{background:radial-gradient(900px 520px at 75% -8%,rgba(228,174,57,.22),tran
 <div class="stm2" id="stm2"></div><button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header>
 <main class="gw">
 <nav class="crumbs"><a href="/pl/">Start</a> › Konkursy</nav>
-<div class="gw-hero"><div><span class="kick">Konkurs</span><h1><em>Konkurs</em> skinów CS2</h1><p class="lead">Za darmo: zaloguj się przez Steam, dodaj link do wymiany — i gotowe. Zwycięzców losujemy na żywo na Twitchu.</p></div><div class="gw-timer" id="gwCd"><small>&nbsp;</small></div></div>
+<div class="gw-hero"><span class="kick">Konkurs</span><h1><em>Konkurs</em> skinów CS2</h1><p class="lead">Za darmo: zaloguj się przez Steam, dodaj link do wymiany — i gotowe. Zwycięzców losujemy na żywo na Twitchu.</p><div class="gw-timer" id="gwCd"><small>&nbsp;</small></div></div>
 <h2>Nagrody</h2><div class="gw-prizes" id="gwPrizes"></div>
 <div id="gwWinH" hidden></div>
 <h2>Biorę udział</h2><div class="gw-box" id="gwBox"><div class="gw-msg">…</div></div>

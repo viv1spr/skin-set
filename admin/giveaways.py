@@ -128,6 +128,15 @@ body{background:radial-gradient(900px 520px at 75% -8%,rgba(228,174,57,.22),tran
 .gw h2::before{background:linear-gradient(90deg,#e4ae39,#ffd36a)}
 .gw-p{box-shadow:0 0 0 1px rgba(228,174,57,.08)}.gw-p:hover{transform:translateY(-3px);transition:transform .2s}
 @media (prefers-reduced-motion:reduce){.gw::before{animation:none}}
+
+/* шапка по центру, таймер полосой под текстом */
+.gw-hero{display:flex!important;flex-direction:column;align-items:center;text-align:center;margin:10px auto 30px;max-width:820px}
+.gw-hero .lead{max-width:640px;margin:0 auto}
+.gw-hero .gw-timer{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:22px;padding:12px 16px;background:rgba(14,15,17,.7);border:1px solid rgba(228,174,57,.45);border-top-width:1px;box-shadow:0 10px 40px rgba(228,174,57,.12)}
+.gw-hero .gw-timer small{margin:0;color:#e9cf8f}
+.gw-hero .gw-timer .cd{gap:6px}.gw-hero .gw-timer .cd div{min-width:64px;padding:8px 6px;background:rgba(228,174,57,.08);border-color:rgba(228,174,57,.3)}
+.gw-hero .gw-timer .cd b{font-size:1.7rem}
+@media(max-width:560px){.gw-hero .gw-timer{width:100%;gap:10px}.gw-hero .gw-timer .cd{width:100%}.gw-hero .gw-timer .cd div{min-width:0}}
 @media(max-width:860px){.gw-hero{grid-template-columns:1fr}.gw-prizes{grid-template-columns:1fr}.gw-p .im{height:110px;margin:10px 0 4px}.gw-p img{max-height:110px}.gw{padding:18px 14px 40px}.gw-tw{flex-direction:column;align-items:flex-start}.gw-btn{width:100%}}
 """
 
@@ -185,7 +194,7 @@ def build(lang):
 {header(lang, PATH)}
 <main class="gw">
 <nav class="crumbs"><a href="{HOME[lang]}">{e(t['crumbs'])}</a> › {e(TAB[lang])}</nav>
-<div class="gw-hero"><div><span class="kick">{e(t['kick'])}</span><h1>{e(t["h1"]).replace(e(t["hl"]), "<em>" + e(t["hl"]) + "</em>", 1)}</h1><p class="lead">{e(t['lead'])}</p></div><div class="gw-timer" id="gwCd"><small>&nbsp;</small></div></div>
+<div class="gw-hero"><span class="kick">{e(t['kick'])}</span><h1>{e(t["h1"]).replace(e(t["hl"]), "<em>" + e(t["hl"]) + "</em>", 1)}</h1><p class="lead">{e(t['lead'])}</p><div class="gw-timer" id="gwCd"><small>&nbsp;</small></div></div>
 <h2>{e(t['prizes'])}</h2><div class="gw-prizes" id="gwPrizes"></div>
 <div id="gwWinH" hidden></div>
 <h2>{e(t['go'])}</h2><div class="gw-box" id="gwBox"><div class="gw-msg">…</div></div>

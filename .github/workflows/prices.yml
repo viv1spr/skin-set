@@ -17,6 +17,7 @@ jobs:
       - run: node admin/build-extra.js
       - run: node admin/fetch-prices.js
       - run: node admin/build.js
+      - run: python3 admin/catalog.py --data
       - name: Commit
         run: |
           git config user.name "price-bot"

@@ -436,9 +436,9 @@ def main():
             old = open(out, encoding="utf-8").read() if os.path.exists(out) else None
             if old != h: open(out, "w", encoding="utf-8").write(h)
             made.append(url(lang, n))
-        out = os.path.join(ROOT, WIKI[lang].strip("/"), "index.html")
-        os.makedirs(os.path.dirname(out), exist_ok=True); open(out, "w", encoding="utf-8").write(index(lang)); made.append(WIKI[lang])
+        made.append(WIKI[lang])
     json.dump(sorted(SLUG), open(os.path.join(ROOT, "data/wiki-index.json"), "w"), ensure_ascii=False)
+    import catalog; catalog.main()  # индекс /skiny/ — каталог с фильтрами
     # отдельная карта сайта для вики
     d = datetime.date.today().isoformat()
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{SITE}{p}</loc></url>\n" for p in made) + "</urlset>\n"

@@ -259,6 +259,21 @@ try: META = json.load(open(os.path.join(ROOT, "data/prices-meta.json")))
 except Exception: pass
 
 
+WIKI = {"ru": "/skiny/", "en": "/en/skins/", "de": "/de/skins/", "pt": "/pt/skins/", "tr": "/tr/skinler/", "pl": "/pl/skiny/"}
+WIKIL = {"ru": "Справочник скинов CS2", "en": "CS2 skin guide", "de": "CS2-Skin-Guide", "pt": "Guia de skins de CS2", "tr": "CS2 skin rehberi", "pl": "Przewodnik po skinach CS2"}
+try:
+    _WN = set(json.load(open(os.path.join(ROOT, "data/wiki-index.json"))))
+except Exception:
+    _WN = set()
+
+
+def wiki_url(lang, name):
+    """ссылка на вики-страницу скина или None"""
+    if name not in _WN: return None
+    s = name.lower().replace("★", "").replace("|", " ").replace("&", " and ").replace("'", "")
+    return WIKI[lang] + re.sub(r"[^a-z0-9]+", "-", s).strip("-") + "/"
+
+
 def sets_for(rub):
     k = str(int(round(rub)))
     return [[r for r in SETS[str(p)][k] if r[1]] for p in range(9)]
@@ -287,7 +302,8 @@ def page(lang, n, tpl, date):
                 continue
             name = f"{x[1].replace('★ ', '')} | {x[2]}"; im = img(x[1], x[2])
             pic = f'<img src="{e(im)}" alt="{e(name)}" loading="lazy" width="54" height="40">' if im else ""
-            lis.append(f'<li>{pic}<span><b>{e(name)}</b><small>{e(x[4] or "")} · {e(loc(x[3]))}</small></span></li>')
+            wu = wiki_url(lang, name)
+            lis.append(f'<li>{pic}<span><b>{f'<a href="{wu}">{e(name)}</a>' if wu else e(name)}</b><small>{e(x[4] or "")} · {e(loc(x[3]))}</small></span></li>')
         setq = quote(";".join(f"{x[1]}|{x[2]}" for x in s), safe="")
         href = f"{PRE[lang]}/{CP[lang][p]}/?budget={rub}&set={setq}"
         blocks.append(f'<div class="seo-set" style="{sty}"><h3><i></i>{e(PNAMES[lang][p])}</h3><ul>{"".join(lis)}</ul>'
@@ -376,6 +392,8 @@ def main():
         f = os.path.join(ROOT, HOMEF[lang]); s = open(f, encoding="utf-8").read(); t = T[lang]
         short = lambda m: t["h1"].format(B=money(lang, m)).replace("Красивый инвентарь CS2", "Инвентарь").replace("Good-looking CS2 loadout", "Loadout").replace("Schönes CS2-Inventar", "Inventar").replace("Inventário bonito de CS2", "Inventário").replace(" altı güzel CS2 envanteri", " altı envanter").replace("Ładny ekwipunek CS2", "Ekwipunek")
         line = f'<p class="seo-budgets"><b>{e(t["budgets"])}:</b> ' + " · ".join(f'<a href="{path(lang, m)}">{e(short(m))}</a>' for m in lst) + "</p>"
+        line += f'\n        <p class="seo-wiki"><a href="{WIKI[lang]}"><b>{e(WIKIL[lang])}</b></a></p>'
+        s = re.sub(r'\s*<p class="seo-wiki">.*?</p>', "", s)
         if 'class="seo-budgets"' in s:
             s = re.sub(r'<p class="seo-budgets">.*?</p>', line, s, count=1, flags=re.S)
         else:

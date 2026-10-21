@@ -7,7 +7,7 @@ from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import sys; sys.path.insert(0, os.path.join(ROOT, "admin"))
-from budget_pages import img, SETS, CSS as BP_CSS, money, path as bpath, blog_links  # noqa
+from budget_pages import wiki_url, img, SETS, CSS as BP_CSS, money, path as bpath, blog_links  # noqa
 
 e = lambda s: html.escape(str(s), quote=True)
 SITE = "https://skin-set.com"
@@ -75,7 +75,8 @@ def parse_items(block):
 def li(w, s, c):
     p = price(w, s); im = img(w, s)
     pic = f'<img src="{e(im)}" alt="{e(w.replace("★ ", ""))} | {e(s)}" loading="lazy" width="60" height="45">' if im else '<i></i>'
-    return (f'<li style="--c0:{c}">{pic}<span><b>{e(s)}</b><small>{e(w)}</small></span><em>{"от " + e(rub(p)) if p else "нет цены"}</em>'
+    wu = wiki_url("ru", w.replace("★ ", "") + " | " + s)
+    return (f'<li style="--c0:{c}">{pic}<span><b>{f'<a href="{wu}">{e(s)}</a>' if wu else e(s)}</b><small>{e(w)}</small></span><em>{"от " + e(rub(p)) if p else "нет цены"}</em>'
             f'<a href="{e(dm(w, s))}" target="_blank" rel="nofollow sponsored noopener">DMarket</a></li>')
 
 
@@ -91,7 +92,8 @@ def setblock(name, color, s, href_base, budget):
     for x in s:
         n = f"{x[1].replace('★ ', '')} | {x[2]}"; im = img(x[1], x[2])
         pic = f'<img src="{e(im)}" alt="{e(n)}" loading="lazy" width="54" height="40">' if im else ""
-        lis.append(f'<li>{pic}<span><b>{e(n)}</b><small>{e(x[4] or "")} · {e(rub(x[3]))}</small></span></li>')
+        wu = wiki_url("ru", n)
+        lis.append(f'<li>{pic}<span><b>{f'<a href="{wu}">{e(n)}</a>' if wu else e(n)}</b><small>{e(x[4] or "")} · {e(rub(x[3]))}</small></span></li>')
     q = quote(";".join(f"{x[1]}|{x[2]}" for x in s), safe="")
     href = f"{href_base}?{'budget=' + str(budget) + '&' if budget else ''}set={q}"
     tot = sum(x[3] for x in s)

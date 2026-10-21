@@ -1,6 +1,8 @@
 // node admin/skin-wiki-data.js  (нужен локальный сервер на :8811 из корня) → data/wiki-sets.json
 const {chromium}=require(process.env.PW||'/opt/npm-tools/node_modules/playwright');
 const fs=require('fs');const names=JSON.parse(fs.readFileSync(__dirname+'/../data/skins-base.json','utf8'));
+// + все скины, которые попадают в примеры сетов на страницах бюджетов
+try{const B=JSON.parse(fs.readFileSync(__dirname+'/../data/budget-sets.json','utf8'));for(const p in B)for(const k in B[p])for(const r of B[p][k])if(r[1]){const n=r[1].replace('★ ','')+' | '+r[2];if(!names.includes(n))names.push(n)}}catch(e){}
 (async()=>{const br=await chromium.launch(process.env.PW?{}:{executablePath:'/opt/pw-browsers/chromium'});
 const pg=await br.newPage();await pg.route(/steamstatic|githubusercontent|auth\.skin-set|googleapis|gstatic/,r=>r.abort());
 await pg.goto(process.env.BASE||'http://localhost:8811/');

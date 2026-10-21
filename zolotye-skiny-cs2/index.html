@@ -655,14 +655,14 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 .tmenu a:hover,.tmenu a.on{background:rgba(255,255,255,.06);color:var(--ink,#fff)}
 @media(max-width:900px){.tabs .tmore{padding:0 12px;font-size:.78rem;border-left:0}}
 </style><style id="burger-css">
-.burger{display:none}
+.burger,.bmenu,.bshade{display:none}
 @media(max-width:900px){
  .hud .tabs{display:none!important}
  .hud:has(.burger){column-gap:8px!important;height:56px!important;min-height:56px;padding:0 14px!important;flex-wrap:nowrap!important;align-items:center!important}.hud:has(.burger) .langs{margin-left:auto!important}.hud:has(.burger) .logo{height:56px;display:flex;align-items:center}.hud:has(.burger) .langs{margin-right:0!important}
  .burger{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;margin:0;background:rgba(255,255,255,.04);border:1px solid var(--line2,rgba(255,255,255,.18));color:var(--ink,#fff);cursor:pointer;order:4;flex:none;align-self:center;-webkit-appearance:none;appearance:none;border-radius:0}
  .burger svg{display:block;width:20px;height:20px;flex:none}
  .burger.open{border-color:var(--pick,#c4161c)}
- .bshade{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)}
+ .bshade{display:block;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)}
  .bmenu{position:fixed;top:0;right:0;bottom:0;z-index:301;width:min(320px,86vw);display:flex;flex-direction:column;background:#121317;border-left:1px solid var(--line2,rgba(255,255,255,.18));box-shadow:-20px 0 60px rgba(0,0,0,.6);transform:translateX(102%);transition:transform .22s;overflow:auto;padding-bottom:env(safe-area-inset-bottom,0)}
  .bmenu.open{transform:none}
  .bmenu .bh{display:flex;justify-content:space-between;align-items:center;height:56px;padding:0 10px 0 18px;border-bottom:1px solid var(--line,rgba(255,255,255,.1));font:600 .95rem/1 var(--hud,sans-serif);letter-spacing:.12em;text-transform:uppercase;color:var(--soft,#b9b4a7)}
@@ -674,6 +674,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
  .bmenu nav hr{border:0;border-top:1px solid var(--line,rgba(255,255,255,.1));margin:8px 18px}
  .bmenu nav a.sub{min-height:46px;font-size:.92rem;color:var(--soft,#b9b4a7)}
  .bmenu nav a.twitch{color:#c9a6ff}.bmenu nav a svg{width:18px;height:18px}
+ .bshade[hidden]{display:none}
  body.bopen{overflow:hidden}
 }
 @media(max-width:370px){.hud:has(.burger) .logo{font-size:1.05rem!important}.hud:has(.burger) .logo svg{width:24px;height:24px}

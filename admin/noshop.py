@@ -8,13 +8,13 @@ import glob, os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGOF = {"ru": "ru", "en": "en", "de": "de", "pt-BR": "pt", "pt": "pt", "tr": "tr", "pl": "pl"}
 ABOUT = {"ru": "/o-proekte/", "en": "/en/about/", "de": "/de/ueber-uns/", "pt": "/pt/sobre/", "tr": "/tr/hakkimizda/", "pl": "/pl/o-projekcie/"}
-AD = {  # (над кнопкой, длинно, коротко, описание для «Площадок»)
-    "ru": ("Реклама", "Здесь может быть ваша площадка", "Ваша площадка здесь", "Маркетплейсам и брендам: кнопка покупки в каждой карточке скина. Напишите нам."),
-    "en": ("Ad", "Your marketplace could be here", "Your marketplace here", "For marketplaces and brands: a buy button on every skin card. Get in touch."),
-    "de": ("Werbung", "Hier könnte Ihr Marktplatz stehen", "Ihr Marktplatz hier", "Für Marktplätze und Marken: ein Kauf-Button auf jeder Skin-Karte. Schreiben Sie uns."),
-    "pt": ("Anúncio", "Sua loja pode estar aqui", "Sua loja aqui", "Para marketplaces e marcas: botão de compra em cada card de skin. Fale conosco."),
-    "tr": ("Reklam", "Pazar yeriniz burada olabilir", "Pazar yeriniz burada", "Pazar yerleri ve markalar için: her skin kartında satın alma düğmesi. Bize yazın."),
-    "pl": ("Reklama", "Tu może być Twój marketplace", "Twój marketplace tutaj", "Dla marketplace'ów i marek: przycisk zakupu na każdej karcie skina. Napisz do nas."),
+AD = {  # (маленькая подпись, крупно, коротко для карточки, описание для «Площадок»)
+    "ru": ("Купить", "Ваша площадка", "Купить · ваша площадка", "Маркетплейсам и брендам: кнопка покупки в каждой карточке скина. Напишите нам."),
+    "en": ("Buy", "Your marketplace", "Buy · your marketplace", "For marketplaces and brands: a buy button on every skin card. Get in touch."),
+    "de": ("Kaufen", "Ihr Marktplatz", "Kaufen · Ihr Marktplatz", "Für Marktplätze und Marken: ein Kauf-Button auf jeder Skin-Karte. Schreiben Sie uns."),
+    "pt": ("Comprar", "Sua loja", "Comprar · sua loja", "Para marketplaces e marcas: botão de compra em cada card de skin. Fale conosco."),
+    "tr": ("Satın al", "Pazar yeriniz", "Satın al · pazar yeriniz", "Pazar yerleri ve markalar için: her skin kartında satın alma düğmesi. Bize yazın."),
+    "pl": ("Kup", "Twój marketplace", "Kup · Twój marketplace", "Dla marketplace'ów i marek: przycisk zakupu na każdej karcie skina. Napisz do nas."),
 }
 STEP4 = {"ru": "Сохраняй сет или делись им", "en": "Save the set or share it", "de": "Set speichern oder teilen", "pt": "Salve o set ou compartilhe",
          "tr": "Seti kaydet ya da paylaş", "pl": "Zapisz zestaw lub udostępnij"}
@@ -28,16 +28,16 @@ WHERE = {  # абзац «где купить» и ответ FAQ
     "pl": "Skinset pokazuje orientacyjne ceny każdego przedmiotu i całego zestawu, aktualizowane co 4 godziny. Strona nic nie sprzedaje i nie ma nic wspólnego ze skrzynkami: złóż zestaw tutaj, a skiny kup na dowolnym rynku.",
 }
 AD_CSS = """<style id="noshop-css">
-.cb a.ad,.buy a.ad,.mk.ad{opacity:1}
-.cb a.ad{background:color-mix(in srgb,var(--pick) 18%,transparent)!important;color:#fff!important;border:1px dashed color-mix(in srgb,var(--pick) 85%,#fff)!important;font-size:.62rem!important;letter-spacing:.06em}
-.buy a.ad{background:linear-gradient(90deg,color-mix(in srgb,var(--pick) 32%,rgba(255,255,255,.04)),color-mix(in srgb,var(--pick) 12%,rgba(255,255,255,.02)))!important;color:#fff!important;border:1px dashed color-mix(in srgb,var(--pick) 90%,#fff)!important;box-shadow:0 0 0 1px rgba(0,0,0,.2),0 8px 22px color-mix(in srgb,var(--pick) 25%,transparent)}
-.buy a.ad .tx small{color:#ffb3b5!important;opacity:1}.buy a.ad .tx b{color:#fff!important;font-size:.92rem}
-.buy a.ad .ico,.buy a.ad .lg{background:var(--pick)!important;color:#fff!important;border-color:var(--pick)!important}
+.cb a.ad{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
+.buy a.ad{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 8px 22px rgba(45,115,255,.35)}
+.buy a.ad .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b{color:#fff!important;font-size:.98rem}
+.buy a.ad .ico,.buy a.ad .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
 .buy a.ad .arr{color:#fff!important;opacity:1}
-.buy a.ad:hover,.cb a.ad:hover{filter:brightness(1.18);border-style:solid!important}
+.buy a.ad:hover,.cb a.ad:hover{filter:brightness(1.12)}
 .sp-price{background:rgba(255,255,255,.05)!important;color:var(--ink,#fff)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.14);cursor:default}
-.sp-ad{display:block;margin-top:8px;padding:10px 12px;border:1px dashed #e0444a;background:rgba(196,22,28,.16);color:#fff;text-align:center;font-size:.82rem;font-weight:600;text-decoration:none}
-.sp-ad:hover{background:rgba(196,22,28,.28);border-style:solid}
+.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#06bfff,#2d73ff);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(45,115,255,.35)}
+.sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
+.sp-ad:hover{filter:brightness(1.12)}
 </style>"""
 
 
@@ -71,6 +71,8 @@ def fix(s):
     # списки скинов на цветовых страницах и прочие прямые ссылки на DMarket/Lis-Skins
     s = re.sub(r'<a href="https://(?:dmarket\.com|lis-skins\.com)[^"]*"[^>]*>(?:DMarket|Lis-Skins)</a>', "", s)
     s = re.sub(r'<a href="https://dmarket\.com[^"]*"[^>]*>(.*?)</a>', r"\1", s)
+    s = re.sub(r'<a class="sp-ad" href="([^"]*)">.*?</a>', lambda m: '<a class="sp-ad" href="' + m.group(1) + '"><span><small>' + AD[lang][0] + '</small>' + AD[lang][1] + '</span><span>→</span></a>', s)
+    s = re.sub(r'<style id="noshop-css">.*?</style>', lambda _: AD_CSS, s, flags=re.S)
     if s != o and 'id="noshop-css"' not in s:
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     return s

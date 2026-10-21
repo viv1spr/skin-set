@@ -684,16 +684,16 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 @media(max-width:370px){.hud:has(.burger) .logo{font-size:1.05rem!important}.hud:has(.burger) .logo svg{width:24px;height:24px}
 }
 </style><style id="noshop-css">
-.cb a.ad,.buy a.ad,.mk.ad{opacity:1}
-.cb a.ad{background:color-mix(in srgb,var(--pick) 18%,transparent)!important;color:#fff!important;border:1px dashed color-mix(in srgb,var(--pick) 85%,#fff)!important;font-size:.62rem!important;letter-spacing:.06em}
-.buy a.ad{background:linear-gradient(90deg,color-mix(in srgb,var(--pick) 32%,rgba(255,255,255,.04)),color-mix(in srgb,var(--pick) 12%,rgba(255,255,255,.02)))!important;color:#fff!important;border:1px dashed color-mix(in srgb,var(--pick) 90%,#fff)!important;box-shadow:0 0 0 1px rgba(0,0,0,.2),0 8px 22px color-mix(in srgb,var(--pick) 25%,transparent)}
-.buy a.ad .tx small{color:#ffb3b5!important;opacity:1}.buy a.ad .tx b{color:#fff!important;font-size:.92rem}
-.buy a.ad .ico,.buy a.ad .lg{background:var(--pick)!important;color:#fff!important;border-color:var(--pick)!important}
+.cb a.ad{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
+.buy a.ad{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 8px 22px rgba(45,115,255,.35)}
+.buy a.ad .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b{color:#fff!important;font-size:.98rem}
+.buy a.ad .ico,.buy a.ad .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
 .buy a.ad .arr{color:#fff!important;opacity:1}
-.buy a.ad:hover,.cb a.ad:hover{filter:brightness(1.18);border-style:solid!important}
+.buy a.ad:hover,.cb a.ad:hover{filter:brightness(1.12)}
 .sp-price{background:rgba(255,255,255,.05)!important;color:var(--ink,#fff)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.14);cursor:default}
-.sp-ad{display:block;margin-top:8px;padding:10px 12px;border:1px dashed #e0444a;background:rgba(196,22,28,.16);color:#fff;text-align:center;font-size:.82rem;font-weight:600;text-decoration:none}
-.sp-ad:hover{background:rgba(196,22,28,.28);border-style:solid}
+.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#06bfff,#2d73ff);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(45,115,255,.35)}
+.sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
+.sp-ad:hover{filter:brightness(1.12)}
 </style></head>
 <body>
 <div class="scene night" id="scene" aria-hidden="true">
@@ -883,7 +883,7 @@ const LOGOS = {
 const logoImg=(id,cls)=>{const L=LOGOS[id]||[];if(!L.length)return"";return `<img class="mlogo ${cls||""}" src="${L[0]}" data-alt="${L.slice(1).join("|")}" alt="" loading="lazy" onerror="var a=this.dataset.alt?this.dataset.alt.split('|'):[];if(a.length){this.dataset.alt=a.slice(1).join('|');this.src=a[0]}else this.remove()">`};
 const mark=(id,txt,cls="lg")=>`<span class="${cls}">${logoImg(id)}<b>${txt}</b></span>`;
 const enc = encodeURIComponent;
-const SHOPS = [ { id:"ad", label:'Pazar yeriniz burada', kick:'Reklam', long:'Pazar yeriniz burada olabilir', about:'Pazar yerleri ve markalar için: her skin kartında satın alma düğmesi. Bize yazın.', url:q => "/tr/hakkimizda/#partners" } ];
+const SHOPS = [ { id:"ad", label:'Satın al · pazar yeriniz', kick:'Satın al', long:'Pazar yeriniz', about:'Pazar yerleri ve markalar için: her skin kartında satın alma düğmesi. Bize yazın.', url:q => "/tr/hakkimizda/#partners" } ];
 
 const RAW = [
  // Bıçak
@@ -1833,7 +1833,7 @@ fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P
 @media(max-width:420px){.sp-wears{grid-template-columns:repeat(5,1fr)}.sp-n{font-size:1.25rem}.sp-img{height:150px}}</style>
 <script>/* поп-ап скина в блоге */
 (()=>{const lang=(document.documentElement.lang||"ru").slice(0,2);
-const T=({ru:{q:"Качество",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Собрать сет с этим скином",any:"от",na:"нет"},en:{q:"Wear",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Build a set with this skin",any:"from",na:"n/a"},de:{q:"Zustand",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Set mit diesem Skin bauen",any:"ab",na:"—"},pt:{q:"Desgaste",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Montar set com esta skin",any:"a partir de",na:"—"},tr:{q:"Aşınma",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Bu skinle set kur",any:"başlangıç",na:"—"},pl:{q:"Stan",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Zbuduj zestaw z tym skinem",any:"od",na:"—"}})[lang]||{};
+const T=({ru:{q:"Качество",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Собрать сет с этим скином",any:"от",na:"нет"},en:{q:"Wear",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Build a set with this skin",any:"from",na:"n/a"},de:{q:"Zustand",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Set mit diesem Skin bauen",any:"ab",na:"—"},pt:{q:"Desgaste",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Montar set com esta skin",any:"a partir de",na:"—"},tr:{q:"Aşınma",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Bu skinle set kur",any:"başlangıç",na:"—"},pl:{q:"Stan",buy:"",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",mk:"Piyasa fiyatı",set:"Zbuduj zestaw z tym skinem",any:"od",na:"—"}})[lang]||{};
 const HOME={ru:"/",en:"/en/",de:"/de/",pt:"/pt/",tr:"/tr/",pl:"/pl/"}[lang]||"/";
 const WF={FN:"Factory New",MW:"Minimal Wear",FT:"Field-Tested",WW:"Well-Worn",BS:"Battle-Scarred"},WS=["FN","MW","FT","WW","BS"];
 const fmt=usd=>lang==="ru"?Math.round(usd*90).toLocaleString("ru-RU").replace(/,/g," ")+" ₽":"$"+(usd<100?usd.toFixed(2):Math.round(usd).toLocaleString("en-US"));
@@ -1843,7 +1843,7 @@ const close=()=>{ov.hidden=true};ov.addEventListener("click",e=>{if(e.target===o
 const dm=(name,w)=>"https://dmarket.com/"+(lang==="ru"?"ru/":"")+"ingame-items/item-list/csgo-skins?title="+encodeURIComponent(name.replace(/★\s*/,"")+(w?" ("+WF[w]+")":""))+"&ref=L4QnfHPvxc";
 async function open(name,img){const p=await getP();const r=(p||{})[name.replace(/★\s*/,"")]||{};const w=r.w||{};const have=WS.filter(k=>w[k]>0);let cur=have.includes("FT")?"FT":have[0]||null;
   const [wp,sk]=name.split(" | ");const c=ov.querySelector(".sp-c");
-  const draw=()=>{const price=cur&&w[cur]?fmt(w[cur]):"";c.innerHTML=`<img class="sp-img" src="${img}" alt=""><div class="sp-w">${wp||""}</div><div class="sp-n">${sk||name}</div>`+(have.length?`<div class="sp-lbl">${T.q}</div><div class="sp-wears">${WS.map(k=>`<button data-w="${k}" aria-pressed="${k===cur}" ${w[k]>0?"":"disabled"}>${k}<small>${w[k]>0?fmt(w[k]):"—"}</small></button>`).join("")}</div>`:"")+`<div class="sp-buy sp-price"><span>${T.mk||""}</span><b>${price}</b></div><a class="sp-ad" href="/tr/hakkimizda/#partners">Pazar yeriniz burada olabilir →</a><a class="sp-set" href="${HOME}?set=${encodeURIComponent((wp||"").replace(/★\s*/,"").trim()+"|"+(sk||"").trim())}">${T.set} →</a>`;
+  const draw=()=>{const price=cur&&w[cur]?fmt(w[cur]):"";c.innerHTML=`<img class="sp-img" src="${img}" alt=""><div class="sp-w">${wp||""}</div><div class="sp-n">${sk||name}</div>`+(have.length?`<div class="sp-lbl">${T.q}</div><div class="sp-wears">${WS.map(k=>`<button data-w="${k}" aria-pressed="${k===cur}" ${w[k]>0?"":"disabled"}>${k}<small>${w[k]>0?fmt(w[k]):"—"}</small></button>`).join("")}</div>`:"")+`<div class="sp-buy sp-price"><span>${T.mk||""}</span><b>${price}</b></div><a class="sp-ad" href="/tr/hakkimizda/#partners"><span><small>Satın al</small>Pazar yeriniz</span><span>→</span></a><a class="sp-set" href="${HOME}?set=${encodeURIComponent((wp||"").replace(/★\s*/,"").trim()+"|"+(sk||"").trim())}">${T.set} →</a>`;
     c.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{cur=b.dataset.w;draw()})};
   draw();ov.hidden=false}
 document.addEventListener("click",e=>{const f=e.target.closest&&e.target.closest(".post-skin");if(!f)return;const im=f.querySelector("img");if(!im)return;e.preventDefault();open(im.getAttribute("alt")||"",im.getAttribute("src"))});

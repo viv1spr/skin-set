@@ -638,16 +638,16 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 @media(max-width:370px){.hud:has(.burger) .logo{font-size:1.05rem!important}.hud:has(.burger) .logo svg{width:24px;height:24px}
 }
 </style><style id="noshop-css">
-.cb a.ad,.buy a.ad,.mk.ad{opacity:1}
-.cb a.ad{background:color-mix(in srgb,var(--pick) 18%,transparent)!important;color:#fff!important;border:1px dashed color-mix(in srgb,var(--pick) 85%,#fff)!important;font-size:.62rem!important;letter-spacing:.06em}
-.buy a.ad{background:linear-gradient(90deg,color-mix(in srgb,var(--pick) 32%,rgba(255,255,255,.04)),color-mix(in srgb,var(--pick) 12%,rgba(255,255,255,.02)))!important;color:#fff!important;border:1px dashed color-mix(in srgb,var(--pick) 90%,#fff)!important;box-shadow:0 0 0 1px rgba(0,0,0,.2),0 8px 22px color-mix(in srgb,var(--pick) 25%,transparent)}
-.buy a.ad .tx small{color:#ffb3b5!important;opacity:1}.buy a.ad .tx b{color:#fff!important;font-size:.92rem}
-.buy a.ad .ico,.buy a.ad .lg{background:var(--pick)!important;color:#fff!important;border-color:var(--pick)!important}
+.cb a.ad{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
+.buy a.ad{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 8px 22px rgba(45,115,255,.35)}
+.buy a.ad .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b{color:#fff!important;font-size:.98rem}
+.buy a.ad .ico,.buy a.ad .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
 .buy a.ad .arr{color:#fff!important;opacity:1}
-.buy a.ad:hover,.cb a.ad:hover{filter:brightness(1.18);border-style:solid!important}
+.buy a.ad:hover,.cb a.ad:hover{filter:brightness(1.12)}
 .sp-price{background:rgba(255,255,255,.05)!important;color:var(--ink,#fff)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.14);cursor:default}
-.sp-ad{display:block;margin-top:8px;padding:10px 12px;border:1px dashed #e0444a;background:rgba(196,22,28,.16);color:#fff;text-align:center;font-size:.82rem;font-weight:600;text-decoration:none}
-.sp-ad:hover{background:rgba(196,22,28,.28);border-style:solid}
+.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#06bfff,#2d73ff);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(45,115,255,.35)}
+.sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
+.sp-ad:hover{filter:brightness(1.12)}
 </style><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Co można kupić w CS2 za 2 500 zł?", "acceptedAnswer": {"@type": "Answer", "text": "Pełny ekwipunek: nóż, rękawice i sześć głównych broni w jednym kolorze. Średnio taki zestaw kosztuje 2 144 zł, z czego około 1 087 zł idzie na nóż."}}, {"@type": "Question", "name": "Czy za 2 500 zł kupię nóż?", "acceptedAnswer": {"@type": "Answer", "text": "Tak. Najtańszy nóż w przykładach to Huntsman Knife | Gamma Doppler (Phase 1) za około 607 zł. Kreator sam decyduje, ile przeznaczyć na nóż, a ile na bronie."}}, {"@type": "Question", "name": "Który kolor zestawu jest najtańszy przy 2 500 zł?", "acceptedAnswer": {"@type": "Answer", "text": "W przykładach najtańszy jest zielony — około 1 884 zł, najdroższy różowy — około 2 406 zł. Różnica wynika z tego, ile skinów w danym kolorze jest w CS2."}}, {"@type": "Question", "name": "Gdzie kupić skiny?", "acceptedAnswer": {"@type": "Answer", "text": "Skinset pokazuje orientacyjne ceny każdego przedmiotu i całego zestawu, aktualizowane co 4 godziny. Strona nic nie sprzedaje i nie ma nic wspólnego ze skrzynkami: złóż zestaw tutaj, a skiny kup na dowolnym rynku."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://skin-set.com/pl/"}, {"@type": "ListItem", "position": 2, "name": "Ładny ekwipunek CS2 do 2 500 zł", "item": "https://skin-set.com/pl/ekwipunek-cs2-do-2500-zl/"}]}</script><style data-bp>
 .seo-set{border:1px solid var(--line);padding:12px 14px;margin:10px 0;background:rgba(255,255,255,.02)}
 .seo-set h3{margin:0 0 10px;font:600 .9rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
@@ -852,7 +852,7 @@ const LOGOS = {
 const logoImg=(id,cls)=>{const L=LOGOS[id]||[];if(!L.length)return"";return `<img class="mlogo ${cls||""}" src="${L[0]}" data-alt="${L.slice(1).join("|")}" alt="" loading="lazy" onerror="var a=this.dataset.alt?this.dataset.alt.split('|'):[];if(a.length){this.dataset.alt=a.slice(1).join('|');this.src=a[0]}else this.remove()">`};
 const mark=(id,txt,cls="lg")=>`<span class="${cls}">${logoImg(id)}<b>${txt}</b></span>`;
 const enc = encodeURIComponent;
-const SHOPS = [ { id:"ad", label:'Twój marketplace tutaj', kick:'Reklama', long:'Tu może być Twój marketplace', about:"Dla marketplace'ów i marek: przycisk zakupu na każdej karcie skina. Napisz do nas.", url:q => "/pl/o-projekcie/#partners" } ];
+const SHOPS = [ { id:"ad", label:'Kup · Twój marketplace', kick:'Kup', long:'Twój marketplace', about:"Dla marketplace'ów i marek: przycisk zakupu na każdej karcie skina. Napisz do nas.", url:q => "/pl/o-projekcie/#partners" } ];
 
 const RAW = [
  // Nóż

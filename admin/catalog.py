@@ -405,7 +405,7 @@ def main():
     for lang in L:
         out = os.path.join(ROOT, WIKI[lang].strip("/"), "index.html")
         os.makedirs(os.path.dirname(out), exist_ok=True)
-        open(out, "w", encoding="utf-8").write(build(lang, data))
+        import navmore; open(out, "w", encoding="utf-8").write(navmore.fix(build(lang, data)))
     print(len(data), "items, catalog pages written")
 
 

@@ -624,7 +624,18 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 .sw[aria-pressed="true"]::after{display:none!important;content:none!important}@media(max-width:700px){.ctrl>.grp:first-child{flex:1 1 auto!important}#colors{flex:1 1 auto!important;display:flex!important;justify-content:space-between}#colors .sw{flex:1 1 0!important;width:auto!important;min-width:0;max-width:34px}}</style>
 <style id="ownCss">.card .pic{position:relative}.card .pic .own{position:absolute;left:8px!important;right:auto!important;top:auto!important;bottom:8px!important;z-index:3;margin:0}</style>
 <style id="navfit">.hud .tabs a{white-space:nowrap}@media(max-width:1750px) and (min-width:701px){.hud .tabs a{padding-left:12px!important;padding-right:12px!important;letter-spacing:.06em}}@media(max-width:1400px) and (min-width:701px){.hud .tabs a{padding-left:9px!important;padding-right:9px!important;font-size:.82rem!important}}</style>
-</head>
+<style id="tmore-css">
+.tabs .tmore{display:flex;align-items:center;gap:7px;padding:0 16px;background:none;border:0;border-left:1px solid var(--line);color:var(--soft);font:500 .9rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;position:relative;height:100%;flex:0 0 auto}
+.tabs .tmore:hover,.tabs .tmore.open{color:var(--ink)}
+.tabs .tmore i{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+.tabs .tmore.open i{transform:rotate(-135deg) translateY(-1px)}
+.tabs .tmore.on{color:var(--ink)}.tabs .tmore.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--pick)}
+.tmenu{position:fixed;z-index:200;min-width:200px;padding:6px;background:#15171c;border:1px solid var(--line2,rgba(255,255,255,.18));box-shadow:0 18px 40px rgba(0,0,0,.55)}
+.tmenu[hidden]{display:none}
+.tmenu a{display:block;padding:11px 12px;color:var(--soft,#b9b4a7);text-decoration:none;font:500 .92rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.tmenu a:hover,.tmenu a.on{background:rgba(255,255,255,.06);color:var(--ink,#fff)}
+@media(max-width:900px){.tabs .tmore{padding:0 12px;font-size:.78rem;border-left:0}}
+</style></head>
 <body>
 <div class="scene night" id="scene" aria-hidden="true">
   <div class="pan" data-par="14"><svg class="panorama" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -644,7 +655,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 <div class="app">
 <header class="hud">
   <a class="logo" href="/en/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>
-  <nav class="tabs" id="tabs"><a href="/en/" data-route="home">Builder</a><a href="/en/skins/" data-skins>Skins</a><a href="/en/how-it-works/" data-route="how">How it works</a><a href="/en/where-to-buy/" data-route="shops">Marketplaces</a><a href="/en/loadouts/" data-route="feed">Loadouts</a><a href="/en/blog/" data-route="blog">Blog</a><a href="/en/about/" data-about>About</a><a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a></nav>
+  <nav class="tabs" id="tabs"><a href="/en/" data-route="home">Builder</a><a href="/en/skins/" data-skins>Skins</a><a href="/en/how-it-works/" data-route="how">How it works</a><a href="/en/blog/" data-route="blog">Blog</a><button class="tmore" id="tmore" type="button" aria-haspopup="menu" aria-expanded="false"><span>More</span><i></i></button><a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a></nav>
   <div class="langs"><a href="/cherno-belye-skiny-cs2/" class="" hreflang="ru">RU</a><a href="/en/black-white-cs2-skins/" class="on" hreflang="en">EN</a><a href="/de/schwarz-weisse-cs2-skins/" class="" hreflang="de">DE</a><a href="/pt/skins-preto-branco-cs2/" class="" hreflang="pt-BR">PT</a><a href="/tr/siyah-beyaz-cs2-skinleri/" class="" hreflang="tr">TR</a><a href="/pl/czarno-biale-skiny-cs2/" class="" hreflang="pl">PL</a></div><div class="stm" id="stm" hidden></div><button class="hudbtn" id="copyTop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy loadout</span></button>
 </header>
 
@@ -1737,5 +1748,12 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
     state.frozen=null;try{render()}catch(e){}
     try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
   go()})();</script>
-</body>
+<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/loadouts/" data-route="feed">Loadouts</a><a href="/en/where-to-buy/" data-route="shops">Marketplaces</a><a href="/en/about/" data-about>About</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
+const p=location.pathname;let on=false;m.querySelectorAll("a").forEach(a=>{if(p.startsWith(a.getAttribute("href"))){a.classList.add("on");on=true}});if(on)b.classList.add("on");
+const place=()=>{const r=b.getBoundingClientRect();const w=m.offsetWidth;m.style.top=(r.bottom+4)+"px";m.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+"px"};
+const close=()=>{m.hidden=true;b.classList.remove("open");b.setAttribute("aria-expanded","false")};
+b.addEventListener("click",e=>{e.stopPropagation();if(m.hidden){m.hidden=false;place();b.classList.add("open");b.setAttribute("aria-expanded","true")}else close()});
+document.addEventListener("click",e=>{if(!m.contains(e.target))close()});addEventListener("resize",close);addEventListener("scroll",()=>{if(!m.hidden)place()},{passive:true});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+const t=b.closest(".tabs");if(t)t.addEventListener("scroll",()=>{if(!m.hidden)place()},{passive:true})})();</script></body>
 </html>

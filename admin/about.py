@@ -304,5 +304,5 @@ if __name__ == "__main__":
     for lang in PATHS:
         p = os.path.join(ROOT, PATHS[lang].strip("/"), "index.html")
         os.makedirs(os.path.dirname(p), exist_ok=True)
-        open(p, "w", encoding="utf-8").write(build(lang, items))
+        import navmore; open(p, "w", encoding="utf-8").write(navmore.fix(build(lang, items)))
         print("wrote", p)

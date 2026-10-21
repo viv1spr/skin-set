@@ -425,12 +425,14 @@ def index(lang):
 
 
 def main():
+    import navmore
     open(os.path.join(ROOT, "wiki.css"), "w", encoding="utf-8").write(CSS)
     made = []
     for lang in LANGS:
         for n in SLUG:
             h = page(lang, n)
             if not h: continue
+            h = navmore.fix(h)
             out = os.path.join(ROOT, url(lang, n).strip("/"), "index.html")
             os.makedirs(os.path.dirname(out), exist_ok=True)
             old = open(out, encoding="utf-8").read() if os.path.exists(out) else None

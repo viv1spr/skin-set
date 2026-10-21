@@ -615,6 +615,30 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 .tmenu a{display:block;padding:11px 12px;color:var(--soft,#b9b4a7);text-decoration:none;font:500 .92rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .tmenu a:hover,.tmenu a.on{background:rgba(255,255,255,.06);color:var(--ink,#fff)}
 @media(max-width:900px){.tabs .tmore{padding:0 12px;font-size:.78rem;border-left:0}}
+</style><style id="burger-css">
+.burger{display:none}
+@media(max-width:900px){
+ .hud .tabs{display:none!important}
+ .hud:has(.burger){column-gap:8px!important}.hud:has(.burger) .langs{margin-right:0!important}
+ .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;padding:0 10px;margin-left:0;background:rgba(255,255,255,.05);border:1px solid var(--line2,rgba(255,255,255,.18));cursor:pointer;order:4;flex:none;align-self:center}
+ .burger i{display:block;height:2px;background:var(--ink,#fff);transition:transform .2s,opacity .2s}
+ .burger.open i:nth-child(1){transform:translateY(7px) rotate(45deg)}.burger.open i:nth-child(2){opacity:0}.burger.open i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+ .bshade{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)}
+ .bmenu{position:fixed;top:0;right:0;bottom:0;z-index:301;width:min(320px,86vw);display:flex;flex-direction:column;background:#121317;border-left:1px solid var(--line2,rgba(255,255,255,.18));box-shadow:-20px 0 60px rgba(0,0,0,.6);transform:translateX(102%);transition:transform .22s;overflow:auto;padding-bottom:env(safe-area-inset-bottom,0)}
+ .bmenu.open{transform:none}
+ .bmenu .bh{display:flex;justify-content:space-between;align-items:center;height:56px;padding:0 10px 0 18px;border-bottom:1px solid var(--line,rgba(255,255,255,.1));font:600 .95rem/1 var(--hud,sans-serif);letter-spacing:.12em;text-transform:uppercase;color:var(--soft,#b9b4a7)}
+ .bmenu .bx{width:44px;height:44px;background:none;border:0;color:var(--ink,#fff);font-size:1.8rem;cursor:pointer}
+ .bmenu nav{display:flex;flex-direction:column;padding:8px 0}
+ .bmenu nav a{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 18px;color:var(--ink,#fff);text-decoration:none;font:500 1.05rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;border-left:3px solid transparent}
+ .bmenu nav a:active,.bmenu nav a:hover{background:rgba(255,255,255,.05)}
+ .bmenu nav a.on{border-left-color:var(--pick,#c4161c);background:rgba(255,255,255,.04)}
+ .bmenu nav hr{border:0;border-top:1px solid var(--line,rgba(255,255,255,.1));margin:8px 18px}
+ .bmenu nav a.sub{min-height:46px;font-size:.92rem;color:var(--soft,#b9b4a7)}
+ .bmenu nav a.twitch{color:#c9a6ff}.bmenu nav a svg{width:18px;height:18px}
+ body.bopen{overflow:hidden}
+}
+@media(max-width:370px){.hud:has(.burger) .logo{font-size:1.05rem!important}.hud:has(.burger) .logo svg{width:24px;height:24px}
+}
 </style></head>
 <body>
 <div class="scene night" id="scene" aria-hidden="true">
@@ -637,7 +661,7 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
   <a class="logo" href="/de/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>
   <nav class="tabs" id="tabs"><a href="/de/" data-route="home">Builder</a><a href="/de/skins/" data-skins>Skins</a><a href="/de/blog/" data-route="blog">Blog</a><a href="/de/ueber-uns/" data-about>Über uns</a><button class="tmore" id="tmore" type="button" aria-haspopup="menu" aria-expanded="false"><span>Mehr</span><i></i></button><a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a></nav>
   <div class="langs"><a href="/kak-rabotaet/" class="" hreflang="ru">RU</a><a href="/en/how-it-works/" class="" hreflang="en">EN</a><a href="/de/so-funktionierts/" class="on" hreflang="de">DE</a><a href="/pt/como-funciona/" class="" hreflang="pt-BR">PT</a><a href="/tr/nasil-calisir/" class="" hreflang="tr">TR</a><a href="/pl/jak-to-dziala/" class="" hreflang="pl">PL</a></div><div class="stm" id="stm" hidden></div><button class="hudbtn" id="copyTop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Loadout kopieren</span></button>
-</header>
+<button class="burger" id="burger" type="button" aria-label="Menü" aria-expanded="false"><i></i><i></i><i></i></button></header>
 
 <div class="layout" id="top">
   <aside class="feed" aria-label="Loadout-Feed">
@@ -1734,5 +1758,15 @@ const close=()=>{m.hidden=true;b.classList.remove("open");b.setAttribute("aria-e
 b.addEventListener("click",e=>{e.stopPropagation();if(m.hidden){m.hidden=false;place();b.classList.add("open");b.setAttribute("aria-expanded","true")}else close()});
 document.addEventListener("click",e=>{if(!m.contains(e.target))close()});addEventListener("resize",close);addEventListener("scroll",()=>{if(!m.hidden)place()},{passive:true});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
-const t=b.closest(".tabs");if(t)t.addEventListener("scroll",()=>{if(!m.hidden)place()},{passive:true})})();</script></body>
+const t=b.closest(".tabs");if(t)t.addEventListener("scroll",()=>{if(!m.hidden)place()},{passive:true})})();</script><script id="burger-js">(()=>{const b=document.getElementById("burger");if(!b)return;const t=document.querySelector(".hud .tabs");const mm=document.getElementById("tmenu");
+const sh=document.createElement("div");sh.className="bshade";sh.hidden=true;const m=document.createElement("div");m.className="bmenu";m.setAttribute("role","dialog");
+const p=location.pathname,isOn=a=>{if(a.dataset.route==="home"&&document.body.dataset.route==="home")return true;const h=a.getAttribute("href");return h&&!/^https?:/.test(h)&&(h==="/"||/^\/[a-z]{2}\/$/.test(h)?p===h||p===h+"index.html":p.startsWith(h))};
+const main=t?[...t.querySelectorAll("a:not(.twitch)")]:[],more=mm?[...mm.querySelectorAll("a")]:[],tw=t?t.querySelector("a.twitch"):null;
+const ln=a=>{const c=a.cloneNode(true);c.removeAttribute("data-route");c.className=(a.classList.contains("twitch")?"twitch ":"")+(isOn(a)?"on":"");return c};
+const nav=document.createElement("nav");main.forEach(a=>nav.appendChild(ln(a)));if(more.length){nav.appendChild(document.createElement("hr"));more.forEach(a=>{const c=ln(a);c.classList.add("sub");nav.appendChild(c)})}if(tw){nav.appendChild(document.createElement("hr"));nav.appendChild(ln(tw))}
+m.innerHTML='<div class="bh"><span>'+b.getAttribute("aria-label")+'</span><button class="bx" type="button" aria-label="×">×</button></div>';m.appendChild(nav);document.body.append(sh,m);
+const open=()=>{sh.hidden=false;requestAnimationFrame(()=>m.classList.add("open"));b.classList.add("open");b.setAttribute("aria-expanded","true");document.body.classList.add("bopen")};
+const close=()=>{m.classList.remove("open");b.classList.remove("open");b.setAttribute("aria-expanded","false");document.body.classList.remove("bopen");setTimeout(()=>{if(!m.classList.contains("open"))sh.hidden=true},220)};
+b.addEventListener("click",()=>m.classList.contains("open")?close():open());sh.addEventListener("click",close);m.querySelector(".bx").addEventListener("click",close);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});nav.addEventListener("click",e=>{if(e.target.closest("a"))close()})})();</script></body>
 </html>

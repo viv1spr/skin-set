@@ -49,7 +49,7 @@ def undo(s):
 
 
 def fix(s):
-    if 'id="tmenu"' in s: return s
+    if 'id="tmenu"' in s: return burger(s)
     m = re.search(r'<html lang="([^"]+)"', s)
     lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     nm = re.search(r'<nav class="tabs"[^>]*>.*?</nav>', s, re.S)
@@ -68,14 +68,65 @@ def fix(s):
     menu = f'<div class="tmenu" id="tmenu" role="menu" hidden>{"".join(items)}</div>'
     s = s.replace("</head>", CSS + "</head>", 1)
     i = s.rfind("</body>")
-    return s[:i] + menu + JS + s[i:]
+    s = s[:i] + menu + JS + s[i:]
+    return burger(s)
+
+
+BLABEL = {"ru": "Меню", "en": "Menu", "de": "Menü", "pt": "Menu", "tr": "Menü", "pl": "Menu"}
+BCSS = """<style id="burger-css">
+.burger{display:none}
+@media(max-width:900px){
+ .hud .tabs{display:none!important}
+ .hud:has(.burger){column-gap:8px!important}.hud:has(.burger) .langs{margin-right:0!important}
+ .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;padding:0 10px;margin-left:0;background:rgba(255,255,255,.05);border:1px solid var(--line2,rgba(255,255,255,.18));cursor:pointer;order:4;flex:none;align-self:center}
+ .burger i{display:block;height:2px;background:var(--ink,#fff);transition:transform .2s,opacity .2s}
+ .burger.open i:nth-child(1){transform:translateY(7px) rotate(45deg)}.burger.open i:nth-child(2){opacity:0}.burger.open i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+ .bshade{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)}
+ .bmenu{position:fixed;top:0;right:0;bottom:0;z-index:301;width:min(320px,86vw);display:flex;flex-direction:column;background:#121317;border-left:1px solid var(--line2,rgba(255,255,255,.18));box-shadow:-20px 0 60px rgba(0,0,0,.6);transform:translateX(102%);transition:transform .22s;overflow:auto;padding-bottom:env(safe-area-inset-bottom,0)}
+ .bmenu.open{transform:none}
+ .bmenu .bh{display:flex;justify-content:space-between;align-items:center;height:56px;padding:0 10px 0 18px;border-bottom:1px solid var(--line,rgba(255,255,255,.1));font:600 .95rem/1 var(--hud,sans-serif);letter-spacing:.12em;text-transform:uppercase;color:var(--soft,#b9b4a7)}
+ .bmenu .bx{width:44px;height:44px;background:none;border:0;color:var(--ink,#fff);font-size:1.8rem;cursor:pointer}
+ .bmenu nav{display:flex;flex-direction:column;padding:8px 0}
+ .bmenu nav a{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 18px;color:var(--ink,#fff);text-decoration:none;font:500 1.05rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;border-left:3px solid transparent}
+ .bmenu nav a:active,.bmenu nav a:hover{background:rgba(255,255,255,.05)}
+ .bmenu nav a.on{border-left-color:var(--pick,#c4161c);background:rgba(255,255,255,.04)}
+ .bmenu nav hr{border:0;border-top:1px solid var(--line,rgba(255,255,255,.1));margin:8px 18px}
+ .bmenu nav a.sub{min-height:46px;font-size:.92rem;color:var(--soft,#b9b4a7)}
+ .bmenu nav a.twitch{color:#c9a6ff}.bmenu nav a svg{width:18px;height:18px}
+ body.bopen{overflow:hidden}
+}
+@media(max-width:370px){.hud:has(.burger) .logo{font-size:1.05rem!important}.hud:has(.burger) .logo svg{width:24px;height:24px}
+}
+</style>"""
+BJS = """<script id="burger-js">(()=>{const b=document.getElementById("burger");if(!b)return;const t=document.querySelector(".hud .tabs");const mm=document.getElementById("tmenu");
+const sh=document.createElement("div");sh.className="bshade";sh.hidden=true;const m=document.createElement("div");m.className="bmenu";m.setAttribute("role","dialog");
+const p=location.pathname,isOn=a=>{if(a.dataset.route==="home"&&document.body.dataset.route==="home")return true;const h=a.getAttribute("href");return h&&!/^https?:/.test(h)&&(h==="/"||/^\\/[a-z]{2}\\/$/.test(h)?p===h||p===h+"index.html":p.startsWith(h))};
+const main=t?[...t.querySelectorAll("a:not(.twitch)")]:[],more=mm?[...mm.querySelectorAll("a")]:[],tw=t?t.querySelector("a.twitch"):null;
+const ln=a=>{const c=a.cloneNode(true);c.removeAttribute("data-route");c.className=(a.classList.contains("twitch")?"twitch ":"")+(isOn(a)?"on":"");return c};
+const nav=document.createElement("nav");main.forEach(a=>nav.appendChild(ln(a)));if(more.length){nav.appendChild(document.createElement("hr"));more.forEach(a=>{const c=ln(a);c.classList.add("sub");nav.appendChild(c)})}if(tw){nav.appendChild(document.createElement("hr"));nav.appendChild(ln(tw))}
+m.innerHTML='<div class="bh"><span>'+b.getAttribute("aria-label")+'</span><button class="bx" type="button" aria-label="×">×</button></div>';m.appendChild(nav);document.body.append(sh,m);
+const open=()=>{sh.hidden=false;requestAnimationFrame(()=>m.classList.add("open"));b.classList.add("open");b.setAttribute("aria-expanded","true");document.body.classList.add("bopen")};
+const close=()=>{m.classList.remove("open");b.classList.remove("open");b.setAttribute("aria-expanded","false");document.body.classList.remove("bopen");setTimeout(()=>{if(!m.classList.contains("open"))sh.hidden=true},220)};
+b.addEventListener("click",()=>m.classList.contains("open")?close():open());sh.addEventListener("click",close);m.querySelector(".bx").addEventListener("click",close);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});nav.addEventListener("click",e=>{if(e.target.closest("a"))close()})})();</script>"""
+
+
+def burger(s):
+    if 'id="burger"' in s or "</header>" not in s or 'class="tabs"' not in s: return s
+    m = re.search(r'<html lang="([^"]+)"', s)
+    lang = LANGOF.get(m.group(1) if m else "ru", "ru")
+    btn = f'<button class="burger" id="burger" type="button" aria-label="{BLABEL[lang]}" aria-expanded="false"><i></i><i></i><i></i></button>'
+    i = s.find("</header>"); s = s[:i] + btn + s[i:]
+    s = s.replace("</head>", BCSS + "</head>", 1)
+    j = s.rfind("</body>")
+    return s[:j] + BJS + s[j:]
 
 
 def main():
     n = 0
     for f in glob.glob(os.path.join(ROOT, "**/*.html"), recursive=True):
         if "/admin/" in f: continue
-        s = open(f, encoding="utf-8").read(); o = fix(undo(s)) if "--redo" in __import__("sys").argv else fix(s)
+        s = open(f, encoding="utf-8").read(); o = burger(fix(undo(s)) if "--redo" in __import__("sys").argv else fix(s))
         if o != s: open(f, "w", encoding="utf-8").write(o); n += 1
     print(n, "files")
 

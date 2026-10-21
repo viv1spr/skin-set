@@ -77,7 +77,7 @@ BCSS = """<style id="burger-css">
 .burger{display:none}
 @media(max-width:900px){
  .hud .tabs{display:none!important}
- .hud:has(.burger){column-gap:8px!important}.hud:has(.burger) .langs{margin-right:0!important}
+ .hud:has(.burger){column-gap:8px!important;height:56px!important;min-height:56px;padding:0 14px!important;flex-wrap:nowrap!important;align-items:center!important}.hud:has(.burger) .langs{margin-left:auto!important}.hud:has(.burger) .logo{height:56px;display:flex;align-items:center}.hud:has(.burger) .langs{margin-right:0!important}
  .burger{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;margin:0;background:rgba(255,255,255,.04);border:1px solid var(--line2,rgba(255,255,255,.18));color:var(--ink,#fff);cursor:pointer;order:4;flex:none;align-self:center;-webkit-appearance:none;appearance:none;border-radius:0}
  .burger svg{display:block;width:20px;height:20px;flex:none}
  .burger.open{border-color:var(--pick,#c4161c)}

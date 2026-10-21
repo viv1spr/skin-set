@@ -79,6 +79,30 @@ async function hit(env, code, ev) {
   const keep = Object.keys(l.d).sort().slice(-90); l.d = Object.fromEntries(keep.map(k => [k, l.d[k]]));
   await env.KV.put("link:" + code, JSON.stringify(l)); return true;
 }
+
+/* ---------- розыгрыши ---------- */
+const GW_DEFAULT = [{
+  id: "g1", title: "3 скина за вход через Steam", starts: Date.parse("2026-10-21T17:00:00Z"), ends: Date.parse("2026-11-01T17:00:00Z"), status: "active", code: "",
+  items: [
+    { n: "AK-47 | Nouveau Rouge", w: "WW", f: 0.4292, st: false },
+    { n: "M4A1-S | Emphorosaur-S", w: "MW", f: 0.1002, st: true },
+    { n: "Desert Eagle | Serpent Strike", w: "MW", f: 0.0700, st: false }
+  ],
+  winners: []
+}];
+async function gwAll(env) { const v = env.KV ? await env.KV.get("gw:all", "json") : null; return Array.isArray(v) ? v : GW_DEFAULT }
+async function gwSave(env, list) { await env.KV.put("gw:all", JSON.stringify(list)) }
+const gwPublic = (g, count) => ({ id: g.id, title: g.title, starts: g.starts, ends: g.ends, status: g.status, items: g.items, hasCode: !!g.code, count: count || 0,
+  winners: (g.winners || []).map(w => ({ i: w.i, sid: w.sid, n: w.n, a: w.a, at: w.at })) });
+const gwActive = g => g.status !== "ended" && Date.now() < g.ends && Date.now() >= (g.starts || 0);
+const TRADE_RE = /^https:\/\/steamcommunity\.com\/tradeoffer\/new\/\?partner=(\d+)&token=([A-Za-z0-9_-]{6,16})$/;
+async function gwCount(env, id) { return +((await env.KV.get("gwn:" + id)) || 0) }
+async function gwEntries(env, id) {
+  const out = []; let cursor;
+  do { const r = await env.KV.list({ prefix: "gwe:" + id + ":", cursor }); for (const k of r.keys) { const v = await env.KV.get(k.name, "json"); if (v) out.push(v) } cursor = r.list_complete ? null : r.cursor } while (cursor);
+  return out;
+}
+
 const isAdmin = (req, env) => env.ADMIN_KEY && (req.headers.get("Authorization") || "") === "Bearer " + env.ADMIN_KEY;
 
 export default {
@@ -143,6 +167,74 @@ export default {
       const code = cleanCode(p.slice(3)); const l = env.KV && code ? await getLink(env, code) : null;
       const dest = new URL(l && l.path ? l.path : "/", SITE); if (l) dest.searchParams.set("l", code);
       return Response.redirect(dest.toString(), 302);
+    }
+
+
+    /* розыгрыши: публичный список */
+    if (p === "/gw") {
+      const list = await gwAll(env); const out = [];
+      for (const g of list) out.push(gwPublic(g, env.KV ? await gwCount(env, g.id) : 0));
+      return json({ list: out, now: Date.now() }, 200, { "Cache-Control": "public, max-age=20" });
+    }
+    /* мои участия */
+    if (p === "/gw/me") {
+      const t = await readToken(env, u.searchParams.get("t")); if (!t) return json({ error: "auth" }, 401);
+      const list = await gwAll(env); const mine = {};
+      for (const g of list) { const e = await env.KV.get("gwe:" + g.id + ":" + t.sid, "json"); if (e) mine[g.id] = { tk: e.tk, code: !!e.code, trade: e.trade } }
+      return json({ mine });
+    }
+    /* участвовать: POST {t,id,trade,code} */
+    if (p === "/gw/enter" && req.method === "POST") {
+      const b = await req.json().catch(() => ({}));
+      const t = await readToken(env, b.t); if (!t) return json({ error: "auth" }, 401);
+      const list = await gwAll(env); const g = list.find(x => x.id === b.id);
+      if (!g) return json({ error: "nogw" }, 404);
+      if (!gwActive(g)) return json({ error: "ended" }, 400);
+      const trade = String(b.trade || "").trim(); const m = trade.match(TRADE_RE);
+      if (!m) return json({ error: "trade" }, 400);
+      if ((BigInt(m[1]) + 76561197960265728n).toString() !== String(t.sid)) return json({ error: "tradeOwner" }, 400);
+      const key = "gwe:" + g.id + ":" + t.sid; const old = await env.KV.get(key, "json");
+      const codeOk = !!(g.code && String(b.code || "").trim().toLowerCase() === String(g.code).trim().toLowerCase());
+      if (b.code && g.code && !codeOk && !(old && old.code)) return json({ error: "code" }, 400);
+      const e = { sid: t.sid, n: t.n, a: t.a, trade, code: codeOk || !!(old && old.code), t: old ? old.t : Date.now() };
+      e.tk = 1 + (e.code ? 1 : 0);
+      await env.KV.put(key, JSON.stringify(e));
+      if (!old) await env.KV.put("gwn:" + g.id, String((await gwCount(env, g.id)) + 1));
+      return json({ ok: true, tk: e.tk, code: e.code, count: await gwCount(env, g.id) });
+    }
+    /* админка: розыгрыши */
+    if (p === "/api/gw") {
+      if (!isAdmin(req, env)) return json({ error: "Неверный ключ админки" }, 401);
+      if (req.method === "GET") {
+        const list = await gwAll(env); const out = [];
+        for (const g of list) { const es = await gwEntries(env, g.id); out.push({ ...g, count: es.length, entries: es.sort((a, b) => a.t - b.t) }) }
+        return json({ list: out });
+      }
+      if (req.method === "POST") {
+        const b = await req.json().catch(() => ({}));
+        if (!Array.isArray(b.list)) return json({ error: "list" }, 400);
+        const cur = await gwAll(env);
+        const clean = b.list.map(g => ({ id: String(g.id || "").replace(/[^a-z0-9_-]/gi, "").slice(0, 24) || ("g" + Date.now()), title: String(g.title || "").slice(0, 120),
+          starts: +g.starts || Date.now(), ends: +g.ends || Date.now() + 7 * 864e5, status: g.status === "ended" ? "ended" : "active", code: String(g.code || "").slice(0, 40),
+          items: (g.items || []).slice(0, 10).map(i => ({ n: String(i.n || "").slice(0, 80), w: String(i.w || "").slice(0, 2), f: i.f === "" || i.f == null ? null : +i.f, st: !!i.st })),
+          winners: (cur.find(x => x.id === g.id) || {}).winners || [] }));
+        await gwSave(env, clean); return json({ ok: true });
+      }
+    }
+    if (p === "/api/gw/draw" && req.method === "POST") {
+      if (!isAdmin(req, env)) return json({ error: "Неверный ключ админки" }, 401);
+      const b = await req.json().catch(() => ({})); const list = await gwAll(env); const g = list.find(x => x.id === b.id);
+      if (!g) return json({ error: "nogw" }, 404);
+      const item = +b.item || 0; g.winners = (g.winners || []).filter(w => w.i !== item);
+      const taken = new Set(g.winners.map(w => w.sid));
+      const pool = (await gwEntries(env, g.id)).filter(e => !taken.has(e.sid));
+      if (!pool.length) return json({ error: "Нет участников" }, 400);
+      const tot = pool.reduce((a, e) => a + (e.tk || 1), 0);
+      const rnd = new Uint32Array(1); crypto.getRandomValues(rnd); let x = rnd[0] / 2 ** 32 * tot, win = pool[0];
+      for (const e of pool) { x -= (e.tk || 1); if (x < 0) { win = e; break } }
+      g.winners.push({ i: item, sid: win.sid, n: win.n, a: win.a, trade: win.trade, at: Date.now() });
+      await gwSave(env, list);
+      return json({ winner: win, pool: pool.map(e => ({ n: e.n, a: e.a })) });
     }
 
     /* админка: статистика входов через Steam */

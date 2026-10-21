@@ -10,12 +10,12 @@ PATHS = {"ru": "/o-proekte/", "en": "/en/about/", "de": "/de/ueber-uns/", "pt": 
 HOME = {"ru": "/", "en": "/en/", "de": "/de/", "pt": "/pt/", "tr": "/tr/", "pl": "/pl/"}
 HREFLANG = {"ru": "ru", "en": "en", "de": "de", "pt": "pt-BR", "tr": "tr", "pl": "pl"}
 NAV = {
- "ru": [("/", "Конструктор"), ("/skiny/", "Скины"), ("/kak-rabotaet/", "Как работает"), ("/gde-kupit/", "Площадки"), ("/sety/", "Сеты"), ("/blog/", "Блог")],
- "en": [("/en/", "Builder"), ("/en/skins/", "Skins"), ("/en/how-it-works/", "How it works"), ("/en/where-to-buy/", "Marketplaces"), ("/en/loadouts/", "Loadouts"), ("/en/blog/", "Blog")],
- "de": [("/de/", "Builder"), ("/de/skins/", "Skins"), ("/de/so-funktionierts/", "So funktioniert's"), ("/de/wo-kaufen/", "Marktplätze"), ("/de/loadouts/", "Loadouts"), ("/de/blog/", "Blog")],
- "pt": [("/pt/", "Montador"), ("/pt/skins/", "Skins"), ("/pt/como-funciona/", "Como funciona"), ("/pt/onde-comprar/", "Lojas"), ("/pt/sets/", "Sets"), ("/pt/blog/", "Blog")],
- "tr": [("/tr/", "Oluşturucu"), ("/tr/skinler/", "Skinler"), ("/tr/nasil-calisir/", "Nasıl çalışır"), ("/tr/nereden-alinir/", "Pazar yerleri"), ("/tr/setler/", "Setler"), ("/tr/blog/", "Blog")],
- "pl": [("/pl/", "Kreator"), ("/pl/skiny/", "Skiny"), ("/pl/jak-to-dziala/", "Jak to działa"), ("/pl/gdzie-kupic/", "Rynki"), ("/pl/zestawy/", "Zestawy"), ("/pl/blog/", "Blog")],
+ "ru": [("/", "Конструктор"), ("/skiny/", "Скины"), ("/rozygryshi/", "Розыгрыши"), ("/kak-rabotaet/", "Как работает"), ("/gde-kupit/", "Площадки"), ("/sety/", "Сеты"), ("/blog/", "Блог")],
+ "en": [("/en/", "Builder"), ("/en/skins/", "Skins"), ("/en/giveaways/", "Giveaways"), ("/en/how-it-works/", "How it works"), ("/en/where-to-buy/", "Marketplaces"), ("/en/loadouts/", "Loadouts"), ("/en/blog/", "Blog")],
+ "de": [("/de/", "Builder"), ("/de/skins/", "Skins"), ("/de/gewinnspiele/", "Gewinnspiele"), ("/de/so-funktionierts/", "So funktioniert's"), ("/de/wo-kaufen/", "Marktplätze"), ("/de/loadouts/", "Loadouts"), ("/de/blog/", "Blog")],
+ "pt": [("/pt/", "Montador"), ("/pt/skins/", "Skins"), ("/pt/sorteios/", "Sorteios"), ("/pt/como-funciona/", "Como funciona"), ("/pt/onde-comprar/", "Lojas"), ("/pt/sets/", "Sets"), ("/pt/blog/", "Blog")],
+ "tr": [("/tr/", "Oluşturucu"), ("/tr/skinler/", "Skinler"), ("/tr/cekilisler/", "Çekilişler"), ("/tr/nasil-calisir/", "Nasıl çalışır"), ("/tr/nereden-alinir/", "Pazar yerleri"), ("/tr/setler/", "Setler"), ("/tr/blog/", "Blog")],
+ "pl": [("/pl/", "Kreator"), ("/pl/skiny/", "Skiny"), ("/pl/konkursy/", "Konkursy"), ("/pl/jak-to-dziala/", "Jak to działa"), ("/pl/gdzie-kupic/", "Rynki"), ("/pl/zestawy/", "Zestawy"), ("/pl/blog/", "Blog")],
 }
 CP = {
  "ru": ["krasnye-skiny-cs2","sinie-skiny-cs2","rozovye-skiny-cs2","fioletovye-skiny-cs2","zelenye-skiny-cs2","zolotye-skiny-cs2","oranzhevye-skiny-cs2","biryuzovye-skiny-cs2","cherno-belye-skiny-cs2"],

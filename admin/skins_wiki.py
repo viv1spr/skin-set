@@ -42,11 +42,11 @@ SLOTN = {
 
 T = {
 "ru": dict(
- title="{name} — цена, качество и с чем сочетать | Skinset", desc="{name}: цены по качеству от {pmin}, редкость «{rar}», цвета и готовые сеты с ножом и перчатками в тон. Купить на DMarket.",
+ title="{name} — цена, качество и с чем сочетать | Skinset", desc="{name}: цены по качеству от {pmin}, редкость «{rar}», цвета и готовые сеты с ножом и перчатками в тон.",
  crumbs=("Главная", "Скины CS2"), h1="{name}", sub="Скин для {w} · {rar}", coll="Коллекция", typ="Тип", rarL="Редкость", colL="Цвета",
  intro="{name} — скин для {w} редкости «{rar}»{coll}. Основные цвета — {cols}. Самый доступный вариант на рынке сейчас — {cw} от {cp}{fn}.",
  fn=", в Factory New — от {p}", ratio="Разница между самым дешёвым и самым дорогим качеством — примерно в {x} раза, поэтому выбор износа сильно влияет на цену сета.",
- price_h="Цена {name} по качеству", tab=("Качество", "Цена на рынке", ""), buy="DMarket", noprice="нет в продаже", live="Цены обновляются каждые 4 часа; точная цена и float — на DMarket.",
+ price_h="Цена {name} по качеству", tab=("Качество", "Цена на рынке", ""), buy="DMarket", noprice="нет в продаже", live="Цены — ориентир по рынку, обновляются каждые 4 часа.",
  sets_h="С чем сочетать {name}", sets_p="Конструктор Skinset подобрал к скину нож, перчатки и оружие в той же гамме ({color}). Нажми «Открыть в конструкторе», чтобы загрузить сет и заменить любой слот.",
  cheap="Недорогой сет", lux="Максимальный сет", total="Итого", open="Открыть в конструкторе",
  sim_h="Похожие скины по цвету", more_h="Другие скины {w}", all="Все скины CS2",
@@ -58,11 +58,11 @@ T = {
  idx_h="Скины CS2", idx_p="Справочник скинов из конструктора Skinset: у каждого — цены по качеству, цвета, похожие скины и готовые сеты с ножом и перчатками в тон.",
  color_set="Сет «{c}»"),
 "en": dict(
- title="{name} — price, wear and what to pair it with | Skinset", desc="{name}: prices by wear from {pmin}, {rar} rarity, colors and ready loadouts with a matching knife and gloves. Buy on DMarket.",
+ title="{name} — price, wear and what to pair it with | Skinset", desc="{name}: prices by wear from {pmin}, {rar} rarity, colors and ready loadouts with a matching knife and gloves.",
  crumbs=("Home", "CS2 skins"), h1="{name}", sub="{w} skin · {rar}", coll="Collection", typ="Type", rarL="Rarity", colL="Colors",
  intro="{name} is a {rar} skin for the {w}{coll}. Main colors: {cols}. The cheapest version on the market right now is {cw} from {cp}{fn}.",
  fn=", Factory New starts at {p}", ratio="The gap between the cheapest and the most expensive wear is about {x}×, so the wear you pick changes the set price a lot.",
- price_h="{name} price by wear", tab=("Wear", "Market price", ""), buy="DMarket", noprice="not listed", live="Prices update every 4 hours; exact price and float are on DMarket.",
+ price_h="{name} price by wear", tab=("Wear", "Market price", ""), buy="DMarket", noprice="not listed", live="Prices are a market guide, updated every 4 hours.",
  sets_h="What to pair {name} with", sets_p="The Skinset builder matched a knife, gloves and guns in the same palette ({color}). Click “Open in builder” to load the set and swap any slot.",
  cheap="Budget set", lux="Max set", total="Total", open="Open in builder",
  sim_h="Similar skins by color", more_h="More {w} skins", all="All CS2 skins",
@@ -74,11 +74,11 @@ T = {
  idx_h="CS2 skins", idx_p="Skin guide from the Skinset builder: each skin has prices by wear, colors, similar skins and ready sets with a matching knife and gloves.",
  color_set="{c} set"),
 "de": dict(
- title="{name} — Preis, Zustand und Kombinationen | Skinset", desc="{name}: Preise nach Zustand ab {pmin}, Seltenheit {rar}, Farben und fertige Loadouts mit passendem Messer und Handschuhen. Kaufen bei DMarket.",
+ title="{name} — Preis, Zustand und Kombinationen | Skinset", desc="{name}: Preise nach Zustand ab {pmin}, Seltenheit {rar}, Farben und fertige Loadouts mit passendem Messer und Handschuhen.",
  crumbs=("Start", "CS2-Skins"), h1="{name}", sub="{w}-Skin · {rar}", coll="Kollektion", typ="Typ", rarL="Seltenheit", colL="Farben",
  intro="{name} ist ein {rar}-Skin für die {w}{coll}. Hauptfarben: {cols}. Die günstigste Variante auf dem Markt ist gerade {cw} ab {cp}{fn}.",
  fn=", Factory New ab {p}", ratio="Zwischen dem günstigsten und dem teuersten Zustand liegt etwa Faktor {x} — der Zustand verändert den Set-Preis stark.",
- price_h="{name} Preis nach Zustand", tab=("Zustand", "Marktpreis", ""), buy="DMarket", noprice="nicht gelistet", live="Preise werden alle 4 Stunden aktualisiert; genauer Preis und Float auf DMarket.",
+ price_h="{name} Preis nach Zustand", tab=("Zustand", "Marktpreis", ""), buy="DMarket", noprice="nicht gelistet", live="Preise sind Marktrichtwerte, alle 4 Stunden aktualisiert.",
  sets_h="Womit {name} kombinieren", sets_p="Der Skinset-Builder hat Messer, Handschuhe und Waffen in derselben Palette gewählt ({color}). „Im Builder öffnen“ lädt das Set — dann jeden Slot tauschen.",
  cheap="Günstiges Set", lux="Maximales Set", total="Gesamt", open="Im Builder öffnen",
  sim_h="Ähnliche Skins nach Farbe", more_h="Weitere {w}-Skins", all="Alle CS2-Skins",
@@ -90,11 +90,11 @@ T = {
  idx_h="CS2-Skins", idx_p="Skin-Guide aus dem Skinset-Builder: zu jedem Skin Preise nach Zustand, Farben, ähnliche Skins und fertige Sets mit passendem Messer und Handschuhen.",
  color_set="Set „{c}“"),
 "pt": dict(
- title="{name} — preço, desgaste e com o que combinar | Skinset", desc="{name}: preços por desgaste a partir de {pmin}, raridade {rar}, cores e sets prontos com faca e luvas combinando. Compre na DMarket.",
+ title="{name} — preço, desgaste e com o que combinar | Skinset", desc="{name}: preços por desgaste a partir de {pmin}, raridade {rar}, cores e sets prontos com faca e luvas combinando.",
  crumbs=("Início", "Skins de CS2"), h1="{name}", sub="Skin de {w} · {rar}", coll="Coleção", typ="Tipo", rarL="Raridade", colL="Cores",
  intro="{name} é uma skin {rar} para a {w}{coll}. Cores principais: {cols}. A versão mais barata no mercado agora é {cw} a partir de {cp}{fn}.",
  fn=", Factory New a partir de {p}", ratio="A diferença entre o desgaste mais barato e o mais caro é de cerca de {x}×, então o desgaste muda muito o preço do set.",
- price_h="Preço de {name} por desgaste", tab=("Desgaste", "Preço de mercado", ""), buy="DMarket", noprice="sem anúncio", live="Os preços atualizam a cada 4 horas; preço exato e float na DMarket.",
+ price_h="Preço de {name} por desgaste", tab=("Desgaste", "Preço de mercado", ""), buy="DMarket", noprice="sem anúncio", live="Os preços são uma referência de mercado, atualizada a cada 4 horas.",
  sets_h="Com o que combinar {name}", sets_p="O montador Skinset escolheu faca, luvas e armas na mesma paleta ({color}). Clique em “Abrir no montador” para carregar o set e trocar qualquer slot.",
  cheap="Set econômico", lux="Set máximo", total="Total", open="Abrir no montador",
  sim_h="Skins parecidas pela cor", more_h="Mais skins de {w}", all="Todas as skins de CS2",
@@ -106,11 +106,11 @@ T = {
  idx_h="Skins de CS2", idx_p="Guia de skins do montador Skinset: cada skin tem preços por desgaste, cores, skins parecidas e sets prontos com faca e luvas combinando.",
  color_set="Set {c}"),
 "tr": dict(
- title="{name} — fiyat, aşınma ve neyle uyumlu | Skinset", desc="{name}: aşınmaya göre fiyatlar {pmin}'den başlar, nadirlik {rar}, renkler ve uyumlu bıçak ile eldivenli hazır setler. DMarket'ten al.",
+ title="{name} — fiyat, aşınma ve neyle uyumlu | Skinset", desc="{name}: aşınmaya göre fiyatlar {pmin}'den başlar, nadirlik {rar}, renkler ve uyumlu bıçak ile eldivenli hazır setler.",
  crumbs=("Ana sayfa", "CS2 skinleri"), h1="{name}", sub="{w} skini · {rar}", coll="Koleksiyon", typ="Tür", rarL="Nadirlik", colL="Renkler",
  intro="{name}, {w} için {rar} nadirlikte bir skin{coll}. Ana renkler: {cols}. Şu an piyasadaki en ucuz sürüm {cw}, {cp} fiyattan başlıyor{fn}.",
  fn="; Factory New {p}'den başlıyor", ratio="En ucuz ve en pahalı aşınma arasındaki fark yaklaşık {x} kat — aşınma seçimi set fiyatını çok etkiler.",
- price_h="Aşınmaya göre {name} fiyatı", tab=("Aşınma", "Piyasa fiyatı", ""), buy="DMarket", noprice="ilan yok", live="Fiyatlar 4 saatte bir güncellenir; kesin fiyat ve float DMarket'te.",
+ price_h="Aşınmaya göre {name} fiyatı", tab=("Aşınma", "Piyasa fiyatı", ""), buy="DMarket", noprice="ilan yok", live="Fiyatlar piyasa rehberidir, 4 saatte bir güncellenir.",
  sets_h="{name} neyle uyumlu", sets_p="Skinset oluşturucusu aynı paletten bıçak, eldiven ve silah seçti ({color}). Seti yüklemek ve istediğin slotu değiştirmek için “Oluşturucuda aç”a tıkla.",
  cheap="Uygun fiyatlı set", lux="Maksimum set", total="Toplam", open="Oluşturucuda aç",
  sim_h="Renge göre benzer skinler", more_h="Diğer {w} skinleri", all="Tüm CS2 skinleri",
@@ -122,11 +122,11 @@ T = {
  idx_h="CS2 skinleri", idx_p="Skinset oluşturucusundan skin rehberi: her skin için aşınmaya göre fiyatlar, renkler, benzer skinler ve uyumlu bıçak ile eldivenli hazır setler.",
  color_set="{c} set"),
 "pl": dict(
- title="{name} — cena, stan i z czym łączyć | Skinset", desc="{name}: ceny według stanu od {pmin}, rzadkość {rar}, kolory i gotowe zestawy z pasującym nożem i rękawicami. Kup na DMarket.",
+ title="{name} — cena, stan i z czym łączyć | Skinset", desc="{name}: ceny według stanu od {pmin}, rzadkość {rar}, kolory i gotowe zestawy z pasującym nożem i rękawicami.",
  crumbs=("Start", "Skiny CS2"), h1="{name}", sub="Skin do {w} · {rar}", coll="Kolekcja", typ="Typ", rarL="Rzadkość", colL="Kolory",
  intro="{name} to skin {rar} do {w}{coll}. Główne kolory: {cols}. Najtańsza wersja na rynku to teraz {cw} od {cp}{fn}.",
  fn=", Factory New od {p}", ratio="Różnica między najtańszym a najdroższym stanem to około {x}×, więc wybór stanu mocno zmienia cenę zestawu.",
- price_h="Cena {name} według stanu", tab=("Stan", "Cena rynkowa", ""), buy="DMarket", noprice="brak ofert", live="Ceny aktualizują się co 4 godziny; dokładna cena i float na DMarket.",
+ price_h="Cena {name} według stanu", tab=("Stan", "Cena rynkowa", ""), buy="DMarket", noprice="brak ofert", live="Ceny to orientacja rynkowa, aktualizowane co 4 godziny.",
  sets_h="Z czym łączyć {name}", sets_p="Kreator Skinset dobrał nóż, rękawice i bronie w tej samej palecie ({color}). Kliknij „Otwórz w kreatorze”, aby wczytać zestaw i wymienić dowolny slot.",
  cheap="Tani zestaw", lux="Maksymalny zestaw", total="Razem", open="Otwórz w kreatorze",
  sim_h="Podobne skiny według koloru", more_h="Inne skiny {w}", all="Wszystkie skiny CS2",
@@ -342,7 +342,7 @@ def page(lang, n):
         v = pw.get(k)
         nm = f"{wname(lang, k)}" + (f"<small>{WEARN['*'][k]}</small>" if lang == "ru" else f"<small>{k}</small>")
         if v:
-            rows.append(f'<tr><td>{nm}</td><td data-pk="{e(n)}" data-w="{k}" data-pre="{e(pre)}" data-suf="{e(suf)}">{e(lp(lang, v * 90))}</td><td><a class="bb" href="{e(dm(n, k))}" target="_blank" rel="nofollow sponsored noopener">{e(t["buy"])}</a></td></tr>')
+            rows.append(f'<tr><td>{nm}</td><td data-pk="{e(n)}" data-w="{k}" data-pre="{e(pre)}" data-suf="{e(suf)}">{e(lp(lang, v * 90))}</td><td></td></tr>')
     # пара для FAQ
     pair = [r for r in d["lux"] if r[0] in ("knife", "gloves") and f"{r[1].replace('★ ', '')} | {r[2]}" != n]
     pair_s = (" и " if lang == "ru" else " and " if lang == "en" else " und " if lang == "de" else " e " if lang == "pt" else " ve " if lang == "tr" else " i ").join(f"{r[1].replace('★ ', '')} | {r[2]}" for r in pair[:2]) or "—"
@@ -354,7 +354,7 @@ def page(lang, n):
     canon = SITE + url(lang, n)
     alts = "".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{url(l, n)}">' for l in LANGS) + f'<link rel="alternate" hreflang="x-default" href="{SITE}{url("en", n)}">'
     ld = [{"@context": "https://schema.org", "@type": "Product", "name": n, "image": im, "description": intro, "brand": {"@type": "Brand", "name": "Counter-Strike 2"},
-           "offers": {"@type": "AggregateOffer", "priceCurrency": "USD", "lowPrice": round(min(pw[k] for k in pw if pw[k]), 2), "highPrice": round(max(pw[k] for k in pw if pw[k]), 2), "offerCount": len(wp), "url": dm(n)}},
+           "offers": {"@type": "AggregateOffer", "priceCurrency": "USD", "lowPrice": round(min(pw[k] for k in pw if pw[k]), 2), "highPrice": round(max(pw[k] for k in pw if pw[k]), 2), "offerCount": len(wp)}},
           {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in faq]},
           {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
               {"@type": "ListItem", "position": 1, "name": t["crumbs"][0], "item": SITE + HOME[lang]},

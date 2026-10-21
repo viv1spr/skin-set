@@ -289,7 +289,7 @@ for(const id of ["pmin","pmax"])$("#"+id).addEventListener("change",e=>{S[id]=e.
 document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#md").classList.remove("open")});
 function modal(n){const x=D.find(y=>y.n===n);if(!x)return;const im=x.i.startsWith("http")?x.i:IMG+x.i+"/512fx384f";
  const base=n.replace(/\s*\(.*\)$/,"").replace(" | "," ");
- const rows=W.map((w,i)=>x.p[i]?`<tr><td>${esc(L.wears[i])}</td><td>${money(x.p[i])}</td><td><a class="bb" target="_blank" rel="nofollow sponsored noopener" href="https://dmarket.com/ingame-items/item-list/csgo-skins?title=${encodeURIComponent(base)}&ref=${REF}">DMarket</a></td></tr>`:"").join("");
+ const rows=W.map((w,i)=>x.p[i]?`<tr><td>${esc(L.wears[i])}</td><td>${money(x.p[i])}</td><td></td></tr>`:"").join("");
  const set=encodeURIComponent((x.c==="knife"||x.c==="gloves"?"★ ":"")+x.w+"|"+x.s);
  $("#mdb").style.setProperty("--rc",L.rcol[x.r]);
  $("#mdb").innerHTML=`<button class="x" aria-label="${esc(L.close)}">×</button><div><img src="${esc(im)}" alt="${esc(n)}"></div><div><h3>${esc(x.s)}</h3><div class="mw">${esc(x.w)} · <span style="color:${L.rcol[x.r]}">${esc(L.rars[x.r])}</span></div><div class="mh">${esc(L.mkth)}</div><table>${rows}</table><div class="act"><a class="p" href="${HOME}${CP0}/?set=${set}">${esc(L.build)} →</a>${x.u?`<a class="s" href="${L.wiki}${x.u}/">${esc(L.details)}</a>`:""}</div></div>`;

@@ -77,7 +77,7 @@ def li(w, s, c):
     pic = f'<img src="{e(im)}" alt="{e(w.replace("★ ", ""))} | {e(s)}" loading="lazy" width="60" height="45">' if im else '<i></i>'
     wu = wiki_url("ru", w.replace("★ ", "") + " | " + s)
     return (f'<li style="--c0:{c}">{pic}<span><b>{f'<a href="{wu}">{e(s)}</a>' if wu else e(s)}</b><small>{e(w)}</small></span><em>{"от " + e(rub(p)) if p else "нет цены"}</em>'
-            f'<a href="{e(dm(w, s))}" target="_blank" rel="nofollow sponsored noopener">DMarket</a></li>')
+            f'</li>')
 
 
 CSS = BP_CSS.replace("<style data-bp>", "<style data-cp>") .replace("</style>", """
@@ -134,7 +134,7 @@ def do_color(p, c):
     cheap_k = next((x for x in sets[1][2] if x[0] == "knife"), None)
     name = c["Set"].split(" КС")[0]  # «Фиолетовый сет»
     faq = [
-        (f"Как собрать {c['m']} сет в КС 2?", f"Открой конструктор Skinset на этой странице: цвет уже выбран. Укажи бюджет — сервис подберёт нож, перчатки, AK-47, M4, AWP и пистолеты в {c['m'].replace('ый', 'ой').replace('ий', 'ей')} гамме и покажет цены на DMarket."),
+        (f"Как собрать {c['m']} сет в КС 2?", f"Открой конструктор Skinset на этой странице: цвет уже выбран. Укажи бюджет — сервис подберёт нож, перчатки, AK-47, M4, AWP и пистолеты в {c['m'].replace('ый', 'ой').replace('ий', 'ей')} гамме."),
         (f"Сколько стоит {c['m']} инвентарь CS2?", f"Оружейный {c['m']} сет без ножа можно собрать примерно за {rub(sets[0][1])}. Полный сет с ножом и перчатками — от {rub(sets[1][1])}" + (f" (нож {cheap_k[1].replace('★ ', '')} | {cheap_k[2]})" if cheap_k else "") + f", а самый дорогой вариант в базе обходится примерно в {rub(sets[2][1])}."),
         (f"Какой нож выбрать для сета «{name.lower()}»?", (f"В премиальном варианте конструктор ставит {knife[1].replace('★ ', '')} | {knife[2]} (около {rub(knife[3])}). " if knife else "") + f"Полный список с ценами — на странице «<a href=\"/{c['stem']}-nozhi-cs2/\">{c['pl'].capitalize()} ножи CS2</a>»."),
         ("Это сет для КС ГО или для КС 2?", "Для обоих: скины из CS:GO перенеслись в Counter-Strike 2 без изменений, поэтому «сет кс го» и «сет кс 2» — одно и то же. Цены в Skinset — актуальные рыночные, обновляются каждые 4 часа."),
@@ -146,7 +146,7 @@ def do_color(p, c):
              f'<h2>Готовые {e(c["pl"])} сеты: 3 бюджета</h2><p>Сеты собраны конструктором Skinset по текущим ценам. «Открыть в конструкторе» загрузит именно этот сет — дальше можно заменить любой слот.</p>\n'
              + "".join(b for b, _, _ in sets) +
              f'\n<h2>Как собрать {e(c["m"])} сет в CS2</h2><p>{e(c["how"])}</p>\n'
-             f'<div class="seo-list"><h2>{e(c["pl"].capitalize())} скины CS2 по слотам</h2><p>По каждому слоту — скины с самым точным совпадением цвета и минимальная цена на рынке. Кнопка DMarket откроет поиск этого скина.</p>{lists}</div>\n'
+             f'<div class="seo-list"><h2>{e(c["pl"].capitalize())} скины CS2 по слотам</h2><p>По каждому слоту — скины с самым точным совпадением цвета и минимальная цена на рынке.</p>{lists}</div>\n'
              f'<h2>Ножи и перчатки в этом цвете</h2><ul class="seo-chips"><li><a href="/{c["stem"]}-nozhi-cs2/">{e(c["pl"].capitalize())} ножи CS2</a></li><li><a href="/{c["stem"]}-perchatki-cs2/">{e(c["pl"].capitalize())} перчатки CS2</a></li></ul>\n'
              f'<h2>Вопросы и ответы</h2>' + "".join(f"<h3>{e(q)}</h3><p>{a if '<a ' in a else e(a)}</p>" for q, a in faq) +
              (f'\n<h2>Статьи по теме</h2><ul class="seo-chips">' + "".join(f'<li><a href="{h}">{e(t)}</a></li>' for h, t in bl) + "</ul>" if bl else "") +

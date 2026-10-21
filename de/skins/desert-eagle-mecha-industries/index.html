@@ -50,13 +50,39 @@
 }
 @media(max-width:370px){.hud:has(.burger) .logo{font-size:1.05rem!important}.hud:has(.burger) .logo svg{width:24px;height:24px}
 }
+</style><style id="hdr-unify">
+.hud{height:62px;padding:0 20px;background:linear-gradient(rgba(10,11,13,.97),rgba(10,11,13,.93));gap:0}
+.hud .logo{font:italic 600 1.35rem/1 var(--hud)}
+.hud .tabs{position:absolute;left:50%;top:0;transform:translateX(-50%);height:100%;margin:0;display:flex}
+.hud .tabs a,.hud .tabs .tmore{display:flex;align-items:center;padding:0 22px;font:500 1rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--soft);border:0;border-left:1px solid var(--line);border-bottom:0;position:relative;white-space:nowrap;height:100%}
+.hud .tabs>:last-child{border-right:1px solid var(--line)}
+.hud .tabs a:hover{color:var(--ink)}
+.hud .tabs a.on{color:var(--ink);border-bottom:0}
+.hud .tabs a.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--pick)}
+.hud .tabs a.twitch{gap:7px;padding:0 16px;background:rgba(145,70,255,.14);color:#c9a6ff;font-size:.9rem}
+.hud .tabs a.twitch svg{width:16px;height:16px}
+.hud .langs{margin-left:auto}
+.hud .langs .lbtn{height:34px}
+.hud .langs .lbtn::after{content:"";width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.7;margin-left:2px}
+@media(min-width:901px) and (max-width:1549px){.hud .tabs{left:200px;transform:none}.hud .tabs a,.hud .tabs .tmore{padding:0 14px;font-size:.88rem;letter-spacing:.06em}}
+@media(max-width:1750px) and (min-width:901px){.hud .tabs a,.hud .tabs .tmore{padding-left:12px;padding-right:12px;letter-spacing:.06em}}
+@media(max-width:1400px) and (min-width:901px){.hud .tabs a,.hud .tabs .tmore{padding-left:9px;padding-right:9px;font-size:.82rem}}
+.stm2{position:relative;display:flex;align-items:center;margin-left:12px}
+.stm2 .sb{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;background:linear-gradient(90deg,#06bfff,#2d73ff);border:0;color:#fff;font:700 .76rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 6px 18px rgba(45,115,255,.35);clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);text-decoration:none}
+.stm2 .sb:hover{filter:brightness(1.12)}.stm2 .sb svg{width:20px;height:20px;flex:none}.stm2 .sb .s2{display:none}
+.stm2 .me{display:inline-flex;align-items:center;gap:9px;height:34px;padding:0 12px 0 4px;background:#171a21;color:#c7d5e0;border:1px solid #2a475e;font:600 .8rem/1 var(--hud);cursor:pointer}
+.stm2 .me img{width:26px;height:26px;border-radius:2px}.stm2 .me span{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stm2 .mm{position:absolute;right:0;top:calc(100% + 6px);z-index:60;min-width:200px;background:#111318;border:1px solid var(--line2);box-shadow:0 12px 30px rgba(0,0,0,.6);padding:8px;display:grid;gap:6px}
+.stm2 .mm[hidden]{display:none}.stm2 .mm a,.stm2 .mm button{display:block;background:transparent;border:1px solid var(--line2);color:var(--soft);padding:9px 10px;font:600 .72rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-align:left;text-decoration:none}
+.stm2 .mm a:hover,.stm2 .mm button:hover{color:#fff;border-color:#fff}
+@media(max-width:900px){.stm2{margin-left:0;order:3}.stm2 .sb{height:34px;padding:0 11px}.stm2 .sb .s1{display:none}.stm2 .sb .s2{display:inline}.stm2 .me span{display:none}.stm2 .me{padding:0 4px}.hud .langs{order:2}}
 </style></head>
 <body data-rate="100">
 <header class="hud">
   <a class="logo" href="/de/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>
-  <nav class="tabs"><a href="/de/">Builder</a><a href="/de/skins/" class=on>Skins</a><a href="/de/blog/">Blog</a><a href="/de/ueber-uns/">Über uns</a><button class="tmore" id="tmore" type="button" aria-haspopup="menu" aria-expanded="false"><span>Mehr</span><i></i></button></nav>
+  <nav class="tabs"><a href="/de/">Builder</a><a href="/de/skins/" class=on>Skins</a><a href="/de/blog/">Blog</a><a href="/de/ueber-uns/">Über uns</a><button class="tmore" id="tmore" type="button" aria-haspopup="menu" aria-expanded="false"><span>Mehr</span><i></i></button><a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a></nav>
   <div class="langs"><button class="lbtn" type="button" aria-haspopup="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>DE</span></button><div class="lmenu"><a href="/skiny/desert-eagle-mecha-industries/" hreflang="ru"><span>Русский</span><small>RU</small></a><a href="/en/skins/desert-eagle-mecha-industries/" hreflang="en"><span>English</span><small>EN</small></a><a href="/de/skins/desert-eagle-mecha-industries/" hreflang="de" class=on><span>Deutsch</span><small>DE</small></a><a href="/pt/skins/desert-eagle-mecha-industries/" hreflang="pt-BR"><span>Português</span><small>PT</small></a><a href="/tr/skinler/desert-eagle-mecha-industries/" hreflang="tr"><span>Türkçe</span><small>TR</small></a><a href="/pl/skiny/desert-eagle-mecha-industries/" hreflang="pl"><span>Polski</span><small>PL</small></a></div></div>
-<button class="burger" id="burger" type="button" aria-label="Menü" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header>
+<div class="stm2" id="stm2"></div><button class="burger" id="burger" type="button" aria-label="Menü" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header>
 <main><article class="wk">
 <nav class="crumbs"><a href="/de/">Start</a> › <a href="/de/skins/">CS2-Skins</a> › Desert Eagle › Mecha Industries</nav>
 <span class="sub">Desert Eagle-Skin · Classified</span>
@@ -96,5 +122,5 @@ m.innerHTML='<div class="bh"><span>'+b.getAttribute("aria-label")+'</span><butto
 const open=()=>{sh.hidden=false;requestAnimationFrame(()=>m.classList.add("open"));b.classList.add("open");b.setAttribute("aria-expanded","true");document.body.classList.add("bopen")};
 const close=()=>{m.classList.remove("open");b.classList.remove("open");b.setAttribute("aria-expanded","false");document.body.classList.remove("bopen");setTimeout(()=>{if(!m.classList.contains("open"))sh.hidden=true},220)};
 b.addEventListener("click",()=>m.classList.contains("open")?close():open());sh.addEventListener("click",close);m.querySelector(".bx").addEventListener("click",close);
-document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});nav.addEventListener("click",e=>{if(e.target.closest("a"))close()})})();</script></body>
+document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});nav.addEventListener("click",e=>{if(e.target.closest("a"))close()})})();</script><script id="stm2js">(()=>{const W="https://auth.skin-set.com",el=document.getElementById("stm2");if(!el)return;const LS=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};try{const m=location.hash.match(/steam=([^&]+)/);if(m){const v=decodeURIComponent(m[1]);if(v!=="cancel"&&v!=="error")LS("skinset_steam",v);history.replaceState(null,"",location.pathname+location.search)}}catch(e){}const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);const SV='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.17l5.35 2.21a2.8 2.8 0 0 1 1.6-.5h.16l2.38-3.45v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.13a2.83 2.83 0 0 1-5.62.47L2.4 14.7A10 10 0 1 0 12 2Zm-4.72 15.2-1.23-.51a2.13 2.13 0 1 0 1.17-2.92l1.27.53a1.57 1.57 0 1 1-1.2 2.9Zm9.5-7.3a2.51 2.51 0 1 0-2.5 2.52 2.52 2.52 0 0 0 2.5-2.52Zm-4.39 0a1.89 1.89 0 1 1 1.89 1.89 1.89 1.89 0 0 1-1.89-1.89Z"/></svg>';const login=()=>{el.innerHTML='<a class="sb" href="'+W+"/login?r="+encodeURIComponent(location.origin+location.pathname+location.search)+'">'+SV+'<span class="s1">Mit Steam anmelden</span><span class="s2">Anmelden</span></a>'};const t=LS("skinset_steam");if(!t){login();return}login();fetch(W+"/me?t="+encodeURIComponent(t)).then(r=>r.ok?r.json():null).then(me=>{if(!me||!me.sid){LS("skinset_steam",null);return}el.innerHTML='<button class="me" type="button">'+(me.a?'<img src="'+esc(me.a)+'" alt="">':SV)+'<span>'+esc(me.n)+'</span></button><div class="mm" hidden><a href="/de/">Builder öffnen</a><button type="button" data-out>Abmelden</button></div>';const b=el.querySelector(".me"),mm=el.querySelector(".mm");b.onclick=e=>{e.stopPropagation();mm.hidden=!mm.hidden};document.addEventListener("click",e=>{if(!el.contains(e.target))mm.hidden=true});el.querySelector("[data-out]").onclick=()=>{LS("skinset_steam",null);login()}}).catch(()=>{})})();</script></body>
 </html>

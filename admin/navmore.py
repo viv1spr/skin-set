@@ -49,7 +49,7 @@ def undo(s):
 
 
 def fix(s):
-    if 'id="tmenu"' in s: return burger(s)
+    if 'id="tmenu"' in s: return unify(burger(s))
     m = re.search(r'<html lang="([^"]+)"', s)
     lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     nm = re.search(r'<nav class="tabs"[^>]*>.*?</nav>', s, re.S)
@@ -69,7 +69,7 @@ def fix(s):
     s = s.replace("</head>", CSS + "</head>", 1)
     i = s.rfind("</body>")
     s = s[:i] + menu + JS + s[i:]
-    return burger(s)
+    return unify(burger(s))
 
 
 BLABEL = {"ru": "Меню", "en": "Menu", "de": "Menü", "pt": "Menu", "tr": "Menü", "pl": "Menu"}
@@ -129,6 +129,75 @@ def main():
         s = open(f, encoding="utf-8").read(); o = burger(fix(undo(s)) if "--redo" in __import__("sys").argv else fix(s))
         if o != s: open(f, "w", encoding="utf-8").write(o); n += 1
     print(n, "files")
+
+
+
+# ---------- шапка статичных страниц (вики, каталог, «о проекте») как у конструктора ----------
+TW = '<a class="twitch" href="https://www.twitch.tv/viv1stop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg><span class="t">Twitch</span></a>'
+STEAM_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.17l5.35 2.21a2.8 2.8 0 0 1 1.6-.5h.16l2.38-3.45v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.13a2.83 2.83 0 0 1-5.62.47L2.4 14.7A10 10 0 1 0 12 2Zm-4.72 15.2-1.23-.51a2.13 2.13 0 1 0 1.17-2.92l1.27.53a1.57 1.57 0 1 1-1.2 2.9Zm9.5-7.3a2.51 2.51 0 1 0-2.5 2.52 2.52 2.52 0 0 0 2.5-2.52Zm-4.39 0a1.89 1.89 0 1 1 1.89 1.89 1.89 1.89 0 0 1-1.89-1.89Z"/></svg>'
+STL2 = {"ru": ("Войти через Steam", "Войти", "Выйти", "Открыть конструктор"), "en": ("Sign in with Steam", "Sign in", "Sign out", "Open builder"),
+        "de": ("Mit Steam anmelden", "Anmelden", "Abmelden", "Builder öffnen"), "pt": ("Entrar com Steam", "Entrar", "Sair", "Abrir montador"),
+        "tr": ("Steam ile giriş", "Giriş", "Çıkış", "Oluşturucuyu aç"), "pl": ("Zaloguj przez Steam", "Zaloguj", "Wyloguj", "Otwórz kreator")}
+HOMEP = {"ru": "/", "en": "/en/", "de": "/de/", "pt": "/pt/", "tr": "/tr/", "pl": "/pl/"}
+UCSS = """<style id="hdr-unify">
+.hud{height:62px;padding:0 20px;background:linear-gradient(rgba(10,11,13,.97),rgba(10,11,13,.93));gap:0}
+.hud .logo{font:italic 600 1.35rem/1 var(--hud)}
+.hud .tabs{position:absolute;left:50%;top:0;transform:translateX(-50%);height:100%;margin:0;display:flex}
+.hud .tabs a,.hud .tabs .tmore{display:flex;align-items:center;padding:0 22px;font:500 1rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--soft);border:0;border-left:1px solid var(--line);border-bottom:0;position:relative;white-space:nowrap;height:100%}
+.hud .tabs>:last-child{border-right:1px solid var(--line)}
+.hud .tabs a:hover{color:var(--ink)}
+.hud .tabs a.on{color:var(--ink);border-bottom:0}
+.hud .tabs a.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--pick)}
+.hud .tabs a.twitch{gap:7px;padding:0 16px;background:rgba(145,70,255,.14);color:#c9a6ff;font-size:.9rem}
+.hud .tabs a.twitch svg{width:16px;height:16px}
+.hud .langs{margin-left:auto}
+.hud .langs .lbtn{height:34px}
+.hud .langs .lbtn::after{content:"";width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.7;margin-left:2px}
+@media(min-width:901px) and (max-width:1549px){.hud .tabs{left:200px;transform:none}.hud .tabs a,.hud .tabs .tmore{padding:0 14px;font-size:.88rem;letter-spacing:.06em}}
+@media(max-width:1750px) and (min-width:901px){.hud .tabs a,.hud .tabs .tmore{padding-left:12px;padding-right:12px;letter-spacing:.06em}}
+@media(max-width:1400px) and (min-width:901px){.hud .tabs a,.hud .tabs .tmore{padding-left:9px;padding-right:9px;font-size:.82rem}}
+.stm2{position:relative;display:flex;align-items:center;margin-left:12px}
+.stm2 .sb{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;background:linear-gradient(90deg,#06bfff,#2d73ff);border:0;color:#fff;font:700 .76rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 6px 18px rgba(45,115,255,.35);clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);text-decoration:none}
+.stm2 .sb:hover{filter:brightness(1.12)}.stm2 .sb svg{width:20px;height:20px;flex:none}.stm2 .sb .s2{display:none}
+.stm2 .me{display:inline-flex;align-items:center;gap:9px;height:34px;padding:0 12px 0 4px;background:#171a21;color:#c7d5e0;border:1px solid #2a475e;font:600 .8rem/1 var(--hud);cursor:pointer}
+.stm2 .me img{width:26px;height:26px;border-radius:2px}.stm2 .me span{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stm2 .mm{position:absolute;right:0;top:calc(100% + 6px);z-index:60;min-width:200px;background:#111318;border:1px solid var(--line2);box-shadow:0 12px 30px rgba(0,0,0,.6);padding:8px;display:grid;gap:6px}
+.stm2 .mm[hidden]{display:none}.stm2 .mm a,.stm2 .mm button{display:block;background:transparent;border:1px solid var(--line2);color:var(--soft);padding:9px 10px;font:600 .72rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-align:left;text-decoration:none}
+.stm2 .mm a:hover,.stm2 .mm button:hover{color:#fff;border-color:#fff}
+@media(max-width:900px){.stm2{margin-left:0;order:3}.stm2 .sb{height:34px;padding:0 11px}.stm2 .sb .s1{display:none}.stm2 .sb .s2{display:inline}.stm2 .me span{display:none}.stm2 .me{padding:0 4px}.hud .langs{order:2}}
+</style>"""
+
+
+def ujs(lang):
+    a, b, out, op = STL2[lang]
+    return ('<script id="stm2js">(()=>{const W="https://auth.skin-set.com",el=document.getElementById("stm2");if(!el)return;'
+            'const LS=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};'
+            'try{const m=location.hash.match(/steam=([^&]+)/);if(m){const v=decodeURIComponent(m[1]);if(v!=="cancel"&&v!=="error")LS("skinset_steam",v);history.replaceState(null,"",location.pathname+location.search)}}catch(e){}'
+            'const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",\'"\':"&quot;"})[c]);'
+            f'const SV={STEAM_SVG!r};'
+            f'const login=()=>{{el.innerHTML=\'<a class="sb" href="\'+W+"/login?r="+encodeURIComponent(location.origin+location.pathname+location.search)+\'">\'+SV+\'<span class="s1">{a}</span><span class="s2">{b}</span></a>\'}};'
+            'const t=LS("skinset_steam");if(!t){login();return}login();'
+            'fetch(W+"/me?t="+encodeURIComponent(t)).then(r=>r.ok?r.json():null).then(me=>{if(!me||!me.sid){LS("skinset_steam",null);return}'
+            f'el.innerHTML=\'<button class="me" type="button">\'+(me.a?\'<img src="\'+esc(me.a)+\'" alt="">\':SV)+\'<span>\'+esc(me.n)+\'</span></button><div class="mm" hidden><a href="{HOMEP[lang]}">{op}</a><button type="button" data-out>{out}</button></div>\';'
+            'const b=el.querySelector(".me"),mm=el.querySelector(".mm");b.onclick=e=>{e.stopPropagation();mm.hidden=!mm.hidden};document.addEventListener("click",e=>{if(!el.contains(e.target))mm.hidden=true});'
+            'el.querySelector("[data-out]").onclick=()=>{LS("skinset_steam",null);login()}}).catch(()=>{})})();</script>')
+
+
+def unify(s):
+    """статичные страницы: шапка как в конструкторе (разделители, размеры, Twitch, Steam)"""
+    if 'id="hdr-unify"' in s or 'id="tabs"' in s: return s
+    if not re.search(r'<nav class="tabs">', s): return s
+    m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
+    nm = re.search(r'<nav class="tabs">.*?</nav>', s, re.S)
+    nav = nm.group(0)
+    if 'class="twitch"' not in nav: nav = nav.replace("</nav>", TW + "</nav>")
+    s = s[:nm.start()] + nav + s[nm.end():]
+    stm = '<div class="stm2" id="stm2"></div>'
+    if '<button class="burger"' in s: s = s.replace('<button class="burger"', stm + '<button class="burger"', 1)
+    else: s = s.replace("</header>", stm + "</header>", 1)
+    s = s.replace("</head>", UCSS + "</head>", 1)
+    j = s.rfind("</body>")
+    return s[:j] + ujs(lang) + s[j:]
 
 
 if __name__ == "__main__":

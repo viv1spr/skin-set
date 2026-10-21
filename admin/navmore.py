@@ -78,9 +78,9 @@ BCSS = """<style id="burger-css">
 @media(max-width:900px){
  .hud .tabs{display:none!important}
  .hud:has(.burger){column-gap:8px!important}.hud:has(.burger) .langs{margin-right:0!important}
- .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;padding:0 10px;margin-left:0;background:rgba(255,255,255,.05);border:1px solid var(--line2,rgba(255,255,255,.18));cursor:pointer;order:4;flex:none;align-self:center}
- .burger i{display:block;height:2px;background:var(--ink,#fff);transition:transform .2s,opacity .2s}
- .burger.open i:nth-child(1){transform:translateY(7px) rotate(45deg)}.burger.open i:nth-child(2){opacity:0}.burger.open i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+ .burger{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;margin:0;background:rgba(255,255,255,.04);border:1px solid var(--line2,rgba(255,255,255,.18));color:var(--ink,#fff);cursor:pointer;order:4;flex:none;align-self:center;-webkit-appearance:none;appearance:none;border-radius:0}
+ .burger svg{display:block;width:20px;height:20px;flex:none}
+ .burger.open{border-color:var(--pick,#c4161c)}
  .bshade{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)}
  .bmenu{position:fixed;top:0;right:0;bottom:0;z-index:301;width:min(320px,86vw);display:flex;flex-direction:column;background:#121317;border-left:1px solid var(--line2,rgba(255,255,255,.18));box-shadow:-20px 0 60px rgba(0,0,0,.6);transform:translateX(102%);transition:transform .22s;overflow:auto;padding-bottom:env(safe-area-inset-bottom,0)}
  .bmenu.open{transform:none}
@@ -115,7 +115,7 @@ def burger(s):
     if 'id="burger"' in s or "</header>" not in s or 'class="tabs"' not in s: return s
     m = re.search(r'<html lang="([^"]+)"', s)
     lang = LANGOF.get(m.group(1) if m else "ru", "ru")
-    btn = f'<button class="burger" id="burger" type="button" aria-label="{BLABEL[lang]}" aria-expanded="false"><i></i><i></i><i></i></button>'
+    btn = f'<button class="burger" id="burger" type="button" aria-label="{BLABEL[lang]}" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>'
     i = s.find("</header>"); s = s[:i] + btn + s[i:]
     s = s.replace("</head>", BCSS + "</head>", 1)
     j = s.rfind("</body>")

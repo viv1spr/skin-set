@@ -31,9 +31,9 @@
 @media(max-width:900px){
  .hud .tabs{display:none!important}
  .hud:has(.burger){column-gap:8px!important}.hud:has(.burger) .langs{margin-right:0!important}
- .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;padding:0 10px;margin-left:0;background:rgba(255,255,255,.05);border:1px solid var(--line2,rgba(255,255,255,.18));cursor:pointer;order:4;flex:none;align-self:center}
- .burger i{display:block;height:2px;background:var(--ink,#fff);transition:transform .2s,opacity .2s}
- .burger.open i:nth-child(1){transform:translateY(7px) rotate(45deg)}.burger.open i:nth-child(2){opacity:0}.burger.open i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+ .burger{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;margin:0;background:rgba(255,255,255,.04);border:1px solid var(--line2,rgba(255,255,255,.18));color:var(--ink,#fff);cursor:pointer;order:4;flex:none;align-self:center;-webkit-appearance:none;appearance:none;border-radius:0}
+ .burger svg{display:block;width:20px;height:20px;flex:none}
+ .burger.open{border-color:var(--pick,#c4161c)}
  .bshade{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)}
  .bmenu{position:fixed;top:0;right:0;bottom:0;z-index:301;width:min(320px,86vw);display:flex;flex-direction:column;background:#121317;border-left:1px solid var(--line2,rgba(255,255,255,.18));box-shadow:-20px 0 60px rgba(0,0,0,.6);transform:translateX(102%);transition:transform .22s;overflow:auto;padding-bottom:env(safe-area-inset-bottom,0)}
  .bmenu.open{transform:none}
@@ -56,7 +56,7 @@
   <a class="logo" href="/tr/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>
   <nav class="tabs"><a href="/tr/">Oluşturucu</a><a href="/tr/skinler/" class=on>Skinler</a><a href="/tr/blog/">Blog</a><a href="/tr/hakkimizda/">Hakkında</a><button class="tmore" id="tmore" type="button" aria-haspopup="menu" aria-expanded="false"><span>Daha fazla</span><i></i></button></nav>
   <div class="langs"><button class="lbtn" type="button" aria-haspopup="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>TR</span></button><div class="lmenu"><a href="/skiny/cz75-auto-red-astor/" hreflang="ru"><span>Русский</span><small>RU</small></a><a href="/en/skins/cz75-auto-red-astor/" hreflang="en"><span>English</span><small>EN</small></a><a href="/de/skins/cz75-auto-red-astor/" hreflang="de"><span>Deutsch</span><small>DE</small></a><a href="/pt/skins/cz75-auto-red-astor/" hreflang="pt-BR"><span>Português</span><small>PT</small></a><a href="/tr/skinler/cz75-auto-red-astor/" hreflang="tr" class=on><span>Türkçe</span><small>TR</small></a><a href="/pl/skiny/cz75-auto-red-astor/" hreflang="pl"><span>Polski</span><small>PL</small></a></div></div>
-<button class="burger" id="burger" type="button" aria-label="Menü" aria-expanded="false"><i></i><i></i><i></i></button></header>
+<button class="burger" id="burger" type="button" aria-label="Menü" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header>
 <main><article class="wk">
 <nav class="crumbs"><a href="/tr/">Ana sayfa</a> › <a href="/tr/skinler/">CS2 skinleri</a> › CZ75-Auto › Red Astor</nav>
 <span class="sub">CZ75-Auto skini · Restricted</span>

@@ -231,8 +231,8 @@ CSS = r"""
 .mdb .act{display:flex;flex-direction:column;gap:8px;margin-top:14px}
 .mdb .act a{display:flex;justify-content:center;align-items:center;height:44px;font:600 .85rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
 .mdb .act .p{background:var(--pick);color:#fff}.mdb .act .s{border:1px solid var(--line2);color:var(--ink)}
-.allp{margin-top:40px;color:var(--soft)}.allp summary{cursor:pointer;font:600 .85rem var(--hud);letter-spacing:.1em;text-transform:uppercase;padding:10px 0}
-.allp ul{columns:4 220px;list-style:none;padding:0;margin:0;font-size:.85rem}.allp li{padding:2px 0;break-inside:avoid}.allp a{color:var(--soft)}
+.allp{margin-top:40px;color:var(--soft)}.allp summary{cursor:pointer;font:600 .85rem var(--hud);letter-spacing:.1em;text-transform:uppercase;padding:16px 20px}
+.allp ul{columns:4 220px;list-style:none;padding:0 20px 18px;margin:0;font-size:.85rem}.allp li{padding:2px 0;break-inside:avoid}.allp a{color:var(--soft)}
 @media(max-width:980px){
  .lay{grid-template-columns:1fr}
  .cbar .fbtn{display:block}

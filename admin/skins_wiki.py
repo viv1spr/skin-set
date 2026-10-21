@@ -262,7 +262,7 @@ def head(lang, title, desc, canon, alts, ld, extra=""):
 
 
 def header(lang, langlinks):
-    nav = "".join(f'<a href="{h}">{e(n)}</a>' for h, n in NAV[lang]) + f'<a href="{ABOUT[lang]}">{e(ABOUT_LABEL[lang])}</a>'
+    nav = "".join(f'<a href="{h}"{" class=on" if h == WIKI[lang] else ""}>{e(n)}</a>' for h, n in NAV[lang]) + f'<a href="{ABOUT[lang]}">{e(ABOUT_LABEL[lang])}</a>'
     lm = "".join(f'<a href="{langlinks[l]}" hreflang="{HREFLANG[l]}"{" class=on" if l == lang else ""}><span>{LNAMES[l]}</span><small>{l.upper()}</small></a>' for l in LANGS)
     return f"""<header class="hud">
   <a class="logo" href="{HOME[lang]}"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset</a>

@@ -82,7 +82,7 @@ async function hit(env, code, ev) {
 
 /* ---------- розыгрыши ---------- */
 const GW_DEFAULT = [{
-  id: "g1", title: "3 скина за вход через Steam", starts: Date.parse("2026-10-21T17:00:00Z"), ends: Date.parse("2026-11-01T17:00:00Z"), status: "active", code: "",
+  id: "g1", title: "3 скина за вход через Steam", starts: Date.parse("2026-10-21T17:00:00Z"), ends: Date.parse("2026-11-08T17:00:00Z"), status: "active", code: "",
   items: [
     { n: "AK-47 | Nouveau Rouge", w: "WW", f: 0.4292, st: false },
     { n: "M4A1-S | Emphorosaur-S", w: "MW", f: 0.1002, st: true },

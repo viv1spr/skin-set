@@ -17,7 +17,7 @@ TW = "https://www.twitch.tv/viv1stop"
 T = {
  "ru": dict(hl="скины", title="Розыгрыш скинов CS2 от viv1stop — Skinset", desc="Бесплатный розыгрыш скинов CS2: войди через Steam, оставь трейд-ссылку и участвуй.",
    kick="Розыгрыш", h1="Разыгрываем скины CS2", lead="Бесплатно: войди через Steam, оставь трейд-ссылку — и ты в игре. Победителей выбираем в прямом эфире на Twitch.",
-   prizes="Призы", prize="Приз", left="До конца", d="д", h="ч", m="мин", s="с", part="Участников", ended="Розыгрыш завершён", soon="Скоро старт",
+   prizes="Призы", prize="Приз", left="До итогов", d="дней", h="часов", m="минут", s="секунд", part="Участников", ended="Розыгрыш завершён", soon="Скоро старт",
    login="Войти через Steam и участвовать", trade="Твоя трейд-ссылка Steam", tradeHelp="Где взять трейд-ссылку?", code="Кодовое слово со стрима", codeHint="+1 шанс к победе. Слово называю на стримах.",
    go="Участвовать", inn="Ты участвуешь", chances="шансов", addCode="Добавить кодовое слово", saved="Готово! Удачи", winners="Победители", winFor="Приз",
    err=dict(trade="Это не похоже на трейд-ссылку. Скопируй её целиком со страницы Steam.", tradeOwner="Трейд-ссылка от другого аккаунта Steam. Нужна ссылка того аккаунта, с которого ты вошёл.",
@@ -26,7 +26,7 @@ T = {
    tw="Смотреть стрим", twp="Победителей выбираем в прямом эфире на стримах viv1stop.", st="StatTrak™", crumbs="Главная"),
  "en": dict(hl="giveaway", title="CS2 skin giveaway by viv1stop — Skinset", desc="Free CS2 skin giveaway: sign in with Steam, add your trade link and you're in.",
    kick="Giveaway", h1="CS2 skin giveaway", lead="Free: sign in with Steam, add your trade link and you're in. Winners are drawn live on Twitch.",
-   prizes="Prizes", prize="Prize", left="Ends in", d="d", h="h", m="min", s="s", part="Participants", ended="Giveaway ended", soon="Starts soon",
+   prizes="Prizes", prize="Prize", left="Results in", d="days", h="hours", m="min", s="sec", part="Participants", ended="Giveaway ended", soon="Starts soon",
    login="Sign in with Steam to enter", trade="Your Steam trade link", tradeHelp="Where do I find my trade link?", code="Code word from the stream", codeHint="+1 chance to win. I say the word on stream.",
    go="Enter", inn="You're in", chances="chances", addCode="Add code word", saved="Done! Good luck", winners="Winners", winFor="Prize",
    err=dict(trade="That doesn't look like a trade link. Copy the whole link from Steam.", tradeOwner="This trade link belongs to another Steam account. Use the link of the account you signed in with.",
@@ -35,7 +35,7 @@ T = {
    tw="Watch the stream", twp="Winners are drawn live on viv1stop's streams.", st="StatTrak™", crumbs="Home"),
  "de": dict(hl="zu gewinnen", title="CS2-Skin-Gewinnspiel von viv1stop — Skinset", desc="Kostenloses CS2-Skin-Gewinnspiel: mit Steam anmelden, Trade-Link eintragen und dabei sein.",
    kick="Gewinnspiel", h1="CS2-Skins zu gewinnen", lead="Kostenlos: mit Steam anmelden, Trade-Link eintragen — fertig. Die Gewinner werden live auf Twitch gezogen.",
-   prizes="Preise", prize="Preis", left="Endet in", d="T", h="Std", m="Min", s="s", part="Teilnehmer", ended="Gewinnspiel beendet", soon="Startet bald",
+   prizes="Preise", prize="Preis", left="Ergebnis in", d="Tage", h="Std", m="Min", s="Sek", part="Teilnehmer", ended="Gewinnspiel beendet", soon="Startet bald",
    login="Mit Steam anmelden und mitmachen", trade="Dein Steam-Trade-Link", tradeHelp="Wo finde ich meinen Trade-Link?", code="Codewort aus dem Stream", codeHint="+1 Gewinnchance. Das Wort nenne ich im Stream.",
    go="Mitmachen", inn="Du bist dabei", chances="Chancen", addCode="Codewort hinzufügen", saved="Fertig! Viel Glück", winners="Gewinner", winFor="Preis",
    err=dict(trade="Das sieht nicht wie ein Trade-Link aus. Kopiere den ganzen Link aus Steam.", tradeOwner="Der Trade-Link gehört zu einem anderen Steam-Konto.",
@@ -44,7 +44,7 @@ T = {
    tw="Zum Stream", twp="Die Gewinner werden live in den Streams von viv1stop gezogen.", st="StatTrak™", crumbs="Start"),
  "pt": dict(hl="Sorteio", title="Sorteio de skins de CS2 do viv1stop — Skinset", desc="Sorteio grátis de skins de CS2: entre com a Steam, adicione seu link de troca e participe.",
    kick="Sorteio", h1="Sorteio de skins de CS2", lead="Grátis: entre com a Steam, adicione seu link de troca e pronto. Os vencedores são sorteados ao vivo na Twitch.",
-   prizes="Prêmios", prize="Prêmio", left="Termina em", d="d", h="h", m="min", s="s", part="Participantes", ended="Sorteio encerrado", soon="Começa em breve",
+   prizes="Prêmios", prize="Prêmio", left="Resultado em", d="dias", h="horas", m="min", s="seg", part="Participantes", ended="Sorteio encerrado", soon="Começa em breve",
    login="Entrar com a Steam e participar", trade="Seu link de troca da Steam", tradeHelp="Onde encontro meu link de troca?", code="Palavra-código da live", codeHint="+1 chance de ganhar. Digo a palavra nas lives.",
    go="Participar", inn="Você está participando", chances="chances", addCode="Adicionar palavra-código", saved="Pronto! Boa sorte", winners="Vencedores", winFor="Prêmio",
    err=dict(trade="Isso não parece um link de troca. Copie o link inteiro da Steam.", tradeOwner="Esse link de troca é de outra conta Steam.",
@@ -53,7 +53,7 @@ T = {
    tw="Assistir à live", twp="Os vencedores são sorteados ao vivo nas lives do viv1stop.", st="StatTrak™", crumbs="Início"),
  "tr": dict(hl="çekilişi", title="viv1stop CS2 skin çekilişi — Skinset", desc="Ücretsiz CS2 skin çekilişi: Steam ile giriş yap, takas bağlantını ekle ve katıl.",
    kick="Çekiliş", h1="CS2 skin çekilişi", lead="Ücretsiz: Steam ile giriş yap, takas bağlantını ekle — hepsi bu. Kazananlar Twitch'te canlı yayında seçilir.",
-   prizes="Ödüller", prize="Ödül", left="Bitişe", d="g", h="sa", m="dk", s="sn", part="Katılımcı", ended="Çekiliş bitti", soon="Yakında başlıyor",
+   prizes="Ödüller", prize="Ödül", left="Sonuca kalan", d="gün", h="saat", m="dk", s="sn", part="Katılımcı", ended="Çekiliş bitti", soon="Yakında başlıyor",
    login="Steam ile giriş yap ve katıl", trade="Steam takas bağlantın", tradeHelp="Takas bağlantımı nereden bulurum?", code="Yayındaki anahtar kelime", codeHint="+1 kazanma şansı. Kelimeyi yayında söylüyorum.",
    go="Katıl", inn="Katıldın", chances="şans", addCode="Anahtar kelime ekle", saved="Tamam! Bol şans", winners="Kazananlar", winFor="Ödül",
    err=dict(trade="Bu bir takas bağlantısına benzemiyor. Steam'den bağlantının tamamını kopyala.", tradeOwner="Bu takas bağlantısı başka bir Steam hesabına ait.",
@@ -62,7 +62,7 @@ T = {
    tw="Yayını izle", twp="Kazananlar viv1stop yayınlarında canlı seçilir.", st="StatTrak™", crumbs="Ana sayfa"),
  "pl": dict(hl="Konkurs", title="Konkurs skinów CS2 od viv1stop — Skinset", desc="Darmowy konkurs skinów CS2: zaloguj się przez Steam, dodaj link do wymiany i bierz udział.",
    kick="Konkurs", h1="Konkurs skinów CS2", lead="Za darmo: zaloguj się przez Steam, dodaj link do wymiany — i gotowe. Zwycięzców losujemy na żywo na Twitchu.",
-   prizes="Nagrody", prize="Nagroda", left="Do końca", d="d", h="godz", m="min", s="s", part="Uczestników", ended="Konkurs zakończony", soon="Wkrótce start",
+   prizes="Nagrody", prize="Nagroda", left="Wyniki za", d="dni", h="godz", m="min", s="sek", part="Uczestników", ended="Konkurs zakończony", soon="Wkrótce start",
    login="Zaloguj się przez Steam i weź udział", trade="Twój link do wymiany Steam", tradeHelp="Gdzie znaleźć link do wymiany?", code="Hasło ze streama", codeHint="+1 szansa na wygraną. Hasło podaję na streamach.",
    go="Biorę udział", inn="Bierzesz udział", chances="szanse", addCode="Dodaj hasło", saved="Gotowe! Powodzenia", winners="Zwycięzcy", winFor="Nagroda",
    err=dict(trade="To nie wygląda na link do wymiany. Skopiuj cały link ze Steam.", tradeOwner="Ten link do wymiany należy do innego konta Steam.",
@@ -137,6 +137,16 @@ body{background:radial-gradient(900px 520px at 75% -8%,rgba(228,174,57,.22),tran
 .gw-hero .gw-timer .cd{gap:6px}.gw-hero .gw-timer .cd div{min-width:64px;padding:8px 6px;background:rgba(228,174,57,.08);border-color:rgba(228,174,57,.3)}
 .gw-hero .gw-timer .cd b{font-size:1.7rem}
 @media(max-width:560px){.gw-hero .gw-timer{width:100%;gap:10px}.gw-hero .gw-timer .cd{width:100%}.gw-hero .gw-timer .cd div{min-width:0}}
+
+/* таймер v2 */
+.gw-hero .gw-timer{display:flex!important;flex-direction:column;align-items:center;gap:10px;margin-top:26px;padding:18px 34px 16px;background:radial-gradient(120% 140% at 50% 0%,rgba(228,174,57,.16),rgba(14,15,17,.55) 60%);border:0!important;border-radius:0;box-shadow:inset 0 0 0 1px rgba(228,174,57,.28),0 18px 50px rgba(228,174,57,.1);clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px)}
+.gw-hero .gw-timer small{font:600 .78rem/1 var(--hud)!important;letter-spacing:.3em!important;color:#e9cf8f!important;margin:0!important}
+.gw-hero .gw-timer .cd{display:flex;align-items:flex-start;gap:4px}
+.gw-hero .gw-timer .cd div{min-width:0!important;padding:0 6px!important;background:none!important;border:0!important;text-align:center}
+.gw-hero .gw-timer .cd b{font:700 3.1rem/1 var(--hud)!important;letter-spacing:.02em;background:linear-gradient(180deg,#fff3c4,#ffd36a 55%,#d9a12e);-webkit-background-clip:text;background-clip:text;color:transparent!important;text-shadow:none;filter:drop-shadow(0 0 14px rgba(255,200,80,.35));font-variant-numeric:tabular-nums}
+.gw-hero .gw-timer .cd span{display:block;margin-top:6px;font:500 .72rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.gw-hero .gw-timer .cd .sep{font:700 2.4rem/1 var(--hud);color:rgba(255,211,106,.45);font-style:normal;padding-top:.15rem}
+@media(max-width:560px){.gw-hero .gw-timer{width:100%;padding:16px 10px 14px}.gw-hero .gw-timer .cd b{font-size:2.3rem!important}.gw-hero .gw-timer .cd .sep{font-size:1.8rem}.gw-hero .gw-timer .cd div{padding:0 2px!important}}
 @media(max-width:860px){.gw-hero{grid-template-columns:1fr}.gw-prizes{grid-template-columns:1fr}.gw-p .im{height:110px;margin:10px 0 4px}.gw-p img{max-height:110px}.gw{padding:18px 14px 40px}.gw-tw{flex-direction:column;align-items:flex-start}.gw-btn{width:100%}}
 """
 
@@ -153,7 +163,7 @@ function prizes(){const g=G;$("#gwPrizes").innerHTML=g.items.map((it,i)=>{const 
 function timer(){const g=G;if(!g)return;const el=$("#gwCd");const pc="";
  if(!active(g)){el.innerHTML=`<small>${esc(srvNow()<(g.starts||0)?L.soon:L.ended)}</small>`+pc;return}
  let s=Math.max(0,Math.floor((g.ends-srvNow())/1000));const d=Math.floor(s/86400);s%=86400;const h=Math.floor(s/3600);s%=3600;const m=Math.floor(s/60);s%=60;
- el.innerHTML=`<small>${esc(L.left)}</small><div class="cd">${[[d,L.d],[h,L.h],[m,L.m],[s,L.s]].map(([v,u])=>`<div><b>${String(v).padStart(2,"0")}</b><span>${esc(u)}</span></div>`).join("")}</div>`+pc}
+ el.innerHTML=`<small>${esc(L.left)}</small><div class="cd">${[[d,L.d],[h,L.h],[m,L.m],[s,L.s]].map(([v,u],i)=>`${i?'<i class="sep">:</i>':""}<div><b>${String(v).padStart(2,"0")}</b><span>${esc(u)}</span></div>`).join("")}</div>`+pc}
 function box(err){const g=G,b=$("#gwBox");const me=MINE[g.id];
  if(!active(g)){b.innerHTML=`<div class="gw-msg">${esc(L.ended)}</div>`;return}
  if(!tok()){b.innerHTML=`<a class="gw-btn" href="${W}/login?r=${encodeURIComponent(location.origin+location.pathname)}">${STEAM}${esc(L.login)}</a>`;return}

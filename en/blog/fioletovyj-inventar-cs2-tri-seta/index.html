@@ -1373,7 +1373,7 @@ const capL=(id,t)=>CAPRUB&&isFinite(CAPRUB[id])?"≤ "+fmtMoney(Math.round(CAPRU
 const capW=(a,b)=>{if(CAPRUB){const v=active().filter(s=>!s.premium&&isFinite(CAPRUB[s.id])).map(s=>CAPRUB[s.id]);if(v.length)return "≤ "+fmtMoney(Math.round(Math.max(...v)))}return a===b?TIER[a]:TIER[a]+" … "+TIER[b]};
 function allocate(){
   const slots=active();ALLOC={};
-  if(state.budgetRub==null){slots.forEach(s=>ALLOC[s.id]=5);return}
+  if(state.budgetRub==null){slots.forEach(s=>ALLOC[s.id]=5);CAPRUB=null;return}
   const R=state.budgetRub;
   const tiersOf=id=>[...new Set(SKINS.filter(s=>s.slot===id).map(s=>s.tier))].sort((a,b)=>a-b);
   const lockedTier=id=>{const li=state.locked[id];const sk=li!=null?SKINS[li]:null;return sk?sk.tier:null};

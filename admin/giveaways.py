@@ -15,7 +15,7 @@ W = "https://auth.skin-set.com"
 TW = "https://www.twitch.tv/viv1stop"
 
 T = {
- "ru": dict(title="Розыгрыш скинов CS2 от viv1stop — Skinset", desc="Бесплатный розыгрыш скинов CS2: войди через Steam, оставь трейд-ссылку и участвуй.",
+ "ru": dict(hl="скины", title="Розыгрыш скинов CS2 от viv1stop — Skinset", desc="Бесплатный розыгрыш скинов CS2: войди через Steam, оставь трейд-ссылку и участвуй.",
    kick="Розыгрыш", h1="Разыгрываем скины CS2", lead="Бесплатно: войди через Steam, оставь трейд-ссылку — и ты в игре. Победителей выбираем в прямом эфире на Twitch.",
    prizes="Призы", prize="Приз", left="До конца", d="д", h="ч", m="мин", s="с", part="Участников", ended="Розыгрыш завершён", soon="Скоро старт",
    login="Войти через Steam и участвовать", trade="Твоя трейд-ссылка Steam", tradeHelp="Где взять трейд-ссылку?", code="Кодовое слово со стрима", codeHint="+1 шанс к победе. Слово называю на стримах.",
@@ -24,7 +24,7 @@ T = {
             code="Неверное кодовое слово — проверь, что написал как на стриме.", ended="Розыгрыш уже закончился.", auth="Сессия Steam устарела — войди ещё раз.", net="Не получилось связаться с сервером. Попробуй ещё раз."),
    rules_h="Правила", rules=["Участвовать можно один раз с одного аккаунта Steam.", "Трейд-ссылка должна быть от того же аккаунта, с которого ты вошёл.", "Победителей выбираем случайно в прямом эфире после окончания таймера. Один человек — один приз.", "Приз отправляем трейдом в течение 24 часов (если у скина временный запрет на обмен — сразу после его окончания).", "Участие бесплатное. Никаких депозитов и пополнений."],
    tw="Смотреть стрим", twp="Победителей выбираем в прямом эфире на стримах viv1stop.", st="StatTrak™", crumbs="Главная"),
- "en": dict(title="CS2 skin giveaway by viv1stop — Skinset", desc="Free CS2 skin giveaway: sign in with Steam, add your trade link and you're in.",
+ "en": dict(hl="giveaway", title="CS2 skin giveaway by viv1stop — Skinset", desc="Free CS2 skin giveaway: sign in with Steam, add your trade link and you're in.",
    kick="Giveaway", h1="CS2 skin giveaway", lead="Free: sign in with Steam, add your trade link and you're in. Winners are drawn live on Twitch.",
    prizes="Prizes", prize="Prize", left="Ends in", d="d", h="h", m="min", s="s", part="Participants", ended="Giveaway ended", soon="Starts soon",
    login="Sign in with Steam to enter", trade="Your Steam trade link", tradeHelp="Where do I find my trade link?", code="Code word from the stream", codeHint="+1 chance to win. I say the word on stream.",
@@ -33,7 +33,7 @@ T = {
             code="Wrong code word — check it matches the stream.", ended="This giveaway has ended.", auth="Steam session expired — please sign in again.", net="Couldn't reach the server. Try again."),
    rules_h="Rules", rules=["One entry per Steam account.", "The trade link must belong to the account you signed in with.", "Winners are drawn at random live on stream after the timer ends. One person — one prize.", "Prizes are sent via trade within 24 hours (if a skin is trade-locked, right after the lock ends).", "Entry is free. No deposits, no top-ups."],
    tw="Watch the stream", twp="Winners are drawn live on viv1stop's streams.", st="StatTrak™", crumbs="Home"),
- "de": dict(title="CS2-Skin-Gewinnspiel von viv1stop — Skinset", desc="Kostenloses CS2-Skin-Gewinnspiel: mit Steam anmelden, Trade-Link eintragen und dabei sein.",
+ "de": dict(hl="zu gewinnen", title="CS2-Skin-Gewinnspiel von viv1stop — Skinset", desc="Kostenloses CS2-Skin-Gewinnspiel: mit Steam anmelden, Trade-Link eintragen und dabei sein.",
    kick="Gewinnspiel", h1="CS2-Skins zu gewinnen", lead="Kostenlos: mit Steam anmelden, Trade-Link eintragen — fertig. Die Gewinner werden live auf Twitch gezogen.",
    prizes="Preise", prize="Preis", left="Endet in", d="T", h="Std", m="Min", s="s", part="Teilnehmer", ended="Gewinnspiel beendet", soon="Startet bald",
    login="Mit Steam anmelden und mitmachen", trade="Dein Steam-Trade-Link", tradeHelp="Wo finde ich meinen Trade-Link?", code="Codewort aus dem Stream", codeHint="+1 Gewinnchance. Das Wort nenne ich im Stream.",
@@ -42,7 +42,7 @@ T = {
             code="Falsches Codewort.", ended="Das Gewinnspiel ist beendet.", auth="Steam-Sitzung abgelaufen — bitte erneut anmelden.", net="Server nicht erreichbar. Versuch es nochmal."),
    rules_h="Regeln", rules=["Eine Teilnahme pro Steam-Konto.", "Der Trade-Link muss zum angemeldeten Konto gehören.", "Die Gewinner werden nach Ablauf live im Stream zufällig gezogen. Eine Person — ein Preis.", "Preise werden innerhalb von 24 Stunden per Trade verschickt (bei Handelssperre direkt danach).", "Teilnahme kostenlos. Keine Einzahlungen."],
    tw="Zum Stream", twp="Die Gewinner werden live in den Streams von viv1stop gezogen.", st="StatTrak™", crumbs="Start"),
- "pt": dict(title="Sorteio de skins de CS2 do viv1stop — Skinset", desc="Sorteio grátis de skins de CS2: entre com a Steam, adicione seu link de troca e participe.",
+ "pt": dict(hl="Sorteio", title="Sorteio de skins de CS2 do viv1stop — Skinset", desc="Sorteio grátis de skins de CS2: entre com a Steam, adicione seu link de troca e participe.",
    kick="Sorteio", h1="Sorteio de skins de CS2", lead="Grátis: entre com a Steam, adicione seu link de troca e pronto. Os vencedores são sorteados ao vivo na Twitch.",
    prizes="Prêmios", prize="Prêmio", left="Termina em", d="d", h="h", m="min", s="s", part="Participantes", ended="Sorteio encerrado", soon="Começa em breve",
    login="Entrar com a Steam e participar", trade="Seu link de troca da Steam", tradeHelp="Onde encontro meu link de troca?", code="Palavra-código da live", codeHint="+1 chance de ganhar. Digo a palavra nas lives.",
@@ -51,7 +51,7 @@ T = {
             code="Palavra-código errada.", ended="O sorteio já terminou.", auth="Sessão da Steam expirou — entre de novo.", net="Não foi possível contatar o servidor. Tente de novo."),
    rules_h="Regras", rules=["Uma participação por conta Steam.", "O link de troca deve ser da conta com que você entrou.", "Os vencedores são sorteados ao vivo depois do fim do timer. Uma pessoa — um prêmio.", "Os prêmios são enviados por troca em até 24 horas (se houver bloqueio de troca, logo após o fim dele).", "Participação grátis. Sem depósitos."],
    tw="Assistir à live", twp="Os vencedores são sorteados ao vivo nas lives do viv1stop.", st="StatTrak™", crumbs="Início"),
- "tr": dict(title="viv1stop CS2 skin çekilişi — Skinset", desc="Ücretsiz CS2 skin çekilişi: Steam ile giriş yap, takas bağlantını ekle ve katıl.",
+ "tr": dict(hl="çekilişi", title="viv1stop CS2 skin çekilişi — Skinset", desc="Ücretsiz CS2 skin çekilişi: Steam ile giriş yap, takas bağlantını ekle ve katıl.",
    kick="Çekiliş", h1="CS2 skin çekilişi", lead="Ücretsiz: Steam ile giriş yap, takas bağlantını ekle — hepsi bu. Kazananlar Twitch'te canlı yayında seçilir.",
    prizes="Ödüller", prize="Ödül", left="Bitişe", d="g", h="sa", m="dk", s="sn", part="Katılımcı", ended="Çekiliş bitti", soon="Yakında başlıyor",
    login="Steam ile giriş yap ve katıl", trade="Steam takas bağlantın", tradeHelp="Takas bağlantımı nereden bulurum?", code="Yayındaki anahtar kelime", codeHint="+1 kazanma şansı. Kelimeyi yayında söylüyorum.",
@@ -60,7 +60,7 @@ T = {
             code="Yanlış anahtar kelime.", ended="Çekiliş sona erdi.", auth="Steam oturumu sona erdi — tekrar giriş yap.", net="Sunucuya ulaşılamadı. Tekrar dene."),
    rules_h="Kurallar", rules=["Her Steam hesabı bir kez katılabilir.", "Takas bağlantısı giriş yaptığın hesaba ait olmalı.", "Kazananlar süre bitince canlı yayında rastgele seçilir. Kişi başı bir ödül.", "Ödüller 24 saat içinde takasla gönderilir (takas kilidi varsa kilit bitince).", "Katılım ücretsiz. Para yatırma yok."],
    tw="Yayını izle", twp="Kazananlar viv1stop yayınlarında canlı seçilir.", st="StatTrak™", crumbs="Ana sayfa"),
- "pl": dict(title="Konkurs skinów CS2 od viv1stop — Skinset", desc="Darmowy konkurs skinów CS2: zaloguj się przez Steam, dodaj link do wymiany i bierz udział.",
+ "pl": dict(hl="Konkurs", title="Konkurs skinów CS2 od viv1stop — Skinset", desc="Darmowy konkurs skinów CS2: zaloguj się przez Steam, dodaj link do wymiany i bierz udział.",
    kick="Konkurs", h1="Konkurs skinów CS2", lead="Za darmo: zaloguj się przez Steam, dodaj link do wymiany — i gotowe. Zwycięzców losujemy na żywo na Twitchu.",
    prizes="Nagrody", prize="Nagroda", left="Do końca", d="d", h="godz", m="min", s="s", part="Uczestników", ended="Konkurs zakończony", soon="Wkrótce start",
    login="Zaloguj się przez Steam i weź udział", trade="Twój link do wymiany Steam", tradeHelp="Gdzie znaleźć link do wymiany?", code="Hasło ze streama", codeHint="+1 szansa na wygraną. Hasło podaję na streamach.",
@@ -113,6 +113,21 @@ CSS = r"""
 .gw-tw{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:22px;padding:16px 18px;background:linear-gradient(135deg,rgba(145,70,255,.18),rgba(14,15,17,.75) 70%);border:1px solid rgba(145,70,255,.4)}
 .gw-tw p{margin:0;color:var(--soft)}.gw-tw a{flex:none;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:#9146ff;color:#fff;font:600 .85rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
 .gw ol.rules{margin:0;padding-left:20px;color:var(--soft);display:grid;gap:8px}
+
+/* праздничное оформление */
+body{background:radial-gradient(900px 520px at 75% -8%,rgba(228,174,57,.22),transparent 62%),radial-gradient(700px 480px at -10% 30%,rgba(196,22,28,.16),transparent 60%),#0b0c0f}
+.gw{position:relative}
+.gw::before{content:"";position:absolute;inset:0 0 auto 0;height:420px;pointer-events:none;z-index:-1;opacity:.55;
+ background-image:radial-gradient(circle,#ffd36a 1.6px,transparent 2px),radial-gradient(circle,#ff5cb0 1.4px,transparent 2px),radial-gradient(circle,#66c0f4 1.4px,transparent 2px),radial-gradient(circle,#e4ae39 1.2px,transparent 1.8px);
+ background-size:140px 120px,190px 150px,230px 170px,90px 110px;background-position:10px 20px,60px 70px,120px 30px,40px 90px;animation:gwConf 18s linear infinite;-webkit-mask:linear-gradient(#000,transparent);mask:linear-gradient(#000,transparent)}
+@keyframes gwConf{to{background-position:10px 140px,60px 220px,120px 200px,40px 200px}}
+.gw .kick{background:linear-gradient(90deg,#e4ae39,#ffd36a);color:#1a1205}
+.gw h1 em{color:#ffd36a;font-style:normal;text-shadow:0 0 30px rgba(255,200,80,.45)}
+.gw-timer{border-top-color:#e4ae39;box-shadow:0 0 0 1px rgba(228,174,57,.15),0 20px 50px rgba(228,174,57,.08)}
+.gw-timer .cd b{color:#ffe08a}
+.gw h2::before{background:linear-gradient(90deg,#e4ae39,#ffd36a)}
+.gw-p{box-shadow:0 0 0 1px rgba(228,174,57,.08)}.gw-p:hover{transform:translateY(-3px);transition:transform .2s}
+@media (prefers-reduced-motion:reduce){.gw::before{animation:none}}
 @media(max-width:860px){.gw-hero{grid-template-columns:1fr}.gw-prizes{grid-template-columns:1fr}.gw-p .im{height:110px;margin:10px 0 4px}.gw-p img{max-height:110px}.gw{padding:18px 14px 40px}.gw-tw{flex-direction:column;align-items:flex-start}.gw-btn{width:100%}}
 """
 
@@ -170,7 +185,7 @@ def build(lang):
 {header(lang, PATH)}
 <main class="gw">
 <nav class="crumbs"><a href="{HOME[lang]}">{e(t['crumbs'])}</a> › {e(TAB[lang])}</nav>
-<div class="gw-hero"><div><span class="kick">{e(t['kick'])}</span><h1>{e(t['h1'])}</h1><p class="lead">{e(t['lead'])}</p></div><div class="gw-timer" id="gwCd"><small>&nbsp;</small></div></div>
+<div class="gw-hero"><div><span class="kick">{e(t['kick'])}</span><h1>{e(t["h1"]).replace(e(t["hl"]), "<em>" + e(t["hl"]) + "</em>", 1)}</h1><p class="lead">{e(t['lead'])}</p></div><div class="gw-timer" id="gwCd"><small>&nbsp;</small></div></div>
 <h2>{e(t['prizes'])}</h2><div class="gw-prizes" id="gwPrizes"></div>
 <div id="gwWinH" hidden></div>
 <h2>{e(t['go'])}</h2><div class="gw-box" id="gwBox"><div class="gw-msg">…</div></div>

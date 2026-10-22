@@ -95,6 +95,8 @@ async function gwSave(env, list) { await env.KV.put("gw:all", JSON.stringify(lis
 const gwPublic = (g, count) => ({ id: g.id, title: g.title, starts: g.starts, ends: g.ends, status: g.status, items: g.items, hasCode: !!g.code, count: count || 0,
   winners: (g.winners || []).map(w => ({ i: w.i, sid: w.sid, n: w.n, a: w.a, at: w.at })) });
 const gwActive = g => g.status !== "ended" && Date.now() < g.ends && Date.now() >= (g.starts || 0);
+const TW_RE = /^[A-Za-z0-9_]{3,25}$/;
+const twNorm = v => String(v || "").trim().replace(/^@/, "").replace(/^(https?:\/\/)?(www\.|m\.)?twitch\.tv\//i, "").replace(/[/?#].*$/, "");
 const TRADE_RE = /^https:\/\/steamcommunity\.com\/tradeoffer\/new\/\?partner=(\d+)&token=([A-Za-z0-9_-]{6,16})$/;
 async function gwCount(env, id) { return +((await env.KV.get("gwn:" + id)) || 0) }
 async function gwEntries(env, id) {
@@ -180,7 +182,7 @@ export default {
     if (p === "/gw/me") {
       const t = await readToken(env, u.searchParams.get("t")); if (!t) return json({ error: "auth" }, 401);
       const list = await gwAll(env); const mine = {};
-      for (const g of list) { const e = await env.KV.get("gwe:" + g.id + ":" + t.sid, "json"); if (e) mine[g.id] = { tk: e.tk, code: !!e.code, trade: e.trade } }
+      for (const g of list) { const e = await env.KV.get("gwe:" + g.id + ":" + t.sid, "json"); if (e) mine[g.id] = { tk: e.tk, code: !!e.code, trade: e.trade, tw: e.tw || "" } }
       return json({ mine });
     }
     /* участвовать: POST {t,id,trade,code} */
@@ -193,10 +195,11 @@ export default {
       const trade = String(b.trade || "").trim(); const m = trade.match(TRADE_RE);
       if (!m) return json({ error: "trade" }, 400);
       if ((BigInt(m[1]) + 76561197960265728n).toString() !== String(t.sid)) return json({ error: "tradeOwner" }, 400);
+      const tw = twNorm(b.tw); if (!TW_RE.test(tw)) return json({ error: "tw" }, 400);
       const key = "gwe:" + g.id + ":" + t.sid; const old = await env.KV.get(key, "json");
       const codeOk = !!(g.code && String(b.code || "").trim().toLowerCase() === String(g.code).trim().toLowerCase());
       if (b.code && g.code && !codeOk && !(old && old.code)) return json({ error: "code" }, 400);
-      const e = { sid: t.sid, n: t.n, a: t.a, trade, code: codeOk || !!(old && old.code), t: old ? old.t : Date.now() };
+      const e = { sid: t.sid, n: t.n, a: t.a, trade, tw, code: codeOk || !!(old && old.code), t: old ? old.t : Date.now() };
       e.tk = 1 + (e.code ? 1 : 0);
       await env.KV.put(key, JSON.stringify(e));
       if (!old) await env.KV.put("gwn:" + g.id, String((await gwCount(env, g.id)) + 1));
@@ -232,7 +235,7 @@ export default {
       const tot = pool.reduce((a, e) => a + (e.tk || 1), 0);
       const rnd = new Uint32Array(1); crypto.getRandomValues(rnd); let x = rnd[0] / 2 ** 32 * tot, win = pool[0];
       for (const e of pool) { x -= (e.tk || 1); if (x < 0) { win = e; break } }
-      g.winners.push({ i: item, sid: win.sid, n: win.n, a: win.a, trade: win.trade, at: Date.now() });
+      g.winners.push({ i: item, sid: win.sid, n: win.n, a: win.a, trade: win.trade, tw: win.tw || "", at: Date.now() });
       await gwSave(env, list);
       return json({ winner: win, pool: pool.map(e => ({ n: e.n, a: e.a })) });
     }

@@ -70,6 +70,36 @@ T = {
    rules_h="Zasady", rules=["Jedno zgłoszenie na konto Steam.", "Link do wymiany musi należeć do konta, którym się zalogowałeś.", "Zwycięzców losujemy na żywo po końcu odliczania. Jedna osoba — jedna nagroda.", "Nagrody wysyłamy wymianą w ciągu 24 godzin (przy blokadzie wymiany — zaraz po jej końcu).", "Udział darmowy. Bez wpłat."],
    tw="Oglądaj stream", twp="Zwycięzców losujemy na żywo na streamach viv1stop.", st="StatTrak™", crumbs="Start"),
 }
+# подписка на Twitch + ник для проверки
+TWADD = {
+ "ru": dict(lead="Бесплатно: войди через Steam, подпишись на Twitch viv1stop и оставь трейд-ссылку — и ты в игре. Победителей выбираем в прямом эфире.",
+   twStep="Подпишись на Twitch viv1stop", twStepP="Обязательное условие — проверяем подписку перед выдачей приза.", twFollow="Подписаться",
+   twL="Твой ник на Twitch", twPh="например, viv1stop", twHint="Нужен, чтобы проверить подписку. Без подписки приз уйдёт другому участнику.",
+   errTw="Укажи свой ник на Twitch (3–25 символов: буквы, цифры, _).", rule0="Обязательна подписка на Twitch-канал viv1stop. Перед выдачей приза проверяем её по нику, который ты указал."),
+ "en": dict(lead="Free: sign in with Steam, follow viv1stop on Twitch and add your trade link — you're in. Winners are drawn live.",
+   twStep="Follow viv1stop on Twitch", twStepP="Required — we check the follow before sending the prize.", twFollow="Follow",
+   twL="Your Twitch username", twPh="e.g. viv1stop", twHint="Needed to check the follow. No follow — the prize goes to another participant.",
+   errTw="Enter your Twitch username (3–25 characters: letters, digits, _).", rule0="Following the viv1stop Twitch channel is required. We check it by the username you entered before sending the prize."),
+ "de": dict(lead="Kostenlos: mit Steam anmelden, viv1stop auf Twitch folgen und Trade-Link eintragen — fertig. Die Gewinner werden live gezogen.",
+   twStep="Folge viv1stop auf Twitch", twStepP="Pflicht — wir prüfen das Folgen vor der Preisvergabe.", twFollow="Folgen",
+   twL="Dein Twitch-Name", twPh="z. B. viv1stop", twHint="Damit wir das Folgen prüfen können. Ohne Follow geht der Preis an jemand anderen.",
+   errTw="Gib deinen Twitch-Namen ein (3–25 Zeichen: Buchstaben, Ziffern, _).", rule0="Pflicht: dem Twitch-Kanal viv1stop folgen. Wir prüfen es vor der Preisvergabe anhand deines Twitch-Namens."),
+ "pt": dict(lead="Grátis: entre com a Steam, siga viv1stop na Twitch e adicione seu link de troca — pronto. Os vencedores são sorteados ao vivo.",
+   twStep="Siga viv1stop na Twitch", twStepP="Obrigatório — conferimos antes de enviar o prêmio.", twFollow="Seguir",
+   twL="Seu nome na Twitch", twPh="ex.: viv1stop", twHint="Para conferirmos se você segue. Sem seguir, o prêmio vai para outro participante.",
+   errTw="Informe seu nome na Twitch (3–25 caracteres: letras, números, _).", rule0="É obrigatório seguir o canal viv1stop na Twitch. Conferimos pelo nome informado antes de enviar o prêmio."),
+ "tr": dict(lead="Ücretsiz: Steam ile giriş yap, Twitch'te viv1stop'u takip et ve takas bağlantını ekle — hepsi bu. Kazananlar canlı yayında seçilir.",
+   twStep="Twitch'te viv1stop'u takip et", twStepP="Zorunlu — ödülü göndermeden önce takibi kontrol ediyoruz.", twFollow="Takip et",
+   twL="Twitch kullanıcı adın", twPh="ör. viv1stop", twHint="Takibi kontrol etmek için gerekli. Takip yoksa ödül başka katılımcıya gider.",
+   errTw="Twitch kullanıcı adını yaz (3–25 karakter: harf, rakam, _).", rule0="viv1stop Twitch kanalını takip etmek zorunludur. Ödülden önce yazdığın kullanıcı adıyla kontrol ediyoruz."),
+ "pl": dict(lead="Za darmo: zaloguj się przez Steam, zaobserwuj viv1stop na Twitchu i dodaj link do wymiany — gotowe. Zwycięzców losujemy na żywo.",
+   twStep="Zaobserwuj viv1stop na Twitchu", twStepP="Obowiązkowe — sprawdzamy przed wysłaniem nagrody.", twFollow="Obserwuj",
+   twL="Twój nick na Twitchu", twPh="np. viv1stop", twHint="Potrzebny do sprawdzenia obserwacji. Bez niej nagroda trafi do innego uczestnika.",
+   errTw="Podaj swój nick na Twitchu (3–25 znaków: litery, cyfry, _).", rule0="Obowiązkowa obserwacja kanału viv1stop na Twitchu. Sprawdzamy ją po podanym nicku przed wysłaniem nagrody."),
+}
+for _l, _a in TWADD.items():
+    _t = T[_l]; _t["lead"] = _a["lead"]; _t["rules"] = [_a["rule0"]] + _t["rules"]; _t["err"]["tw"] = _a["errTw"]
+    for _k in ("twStep", "twStepP", "twFollow", "twL", "twPh", "twHint"): _t[_k] = _a[_k]
 WEAR = {"FN": "Factory New", "MW": "Minimal Wear", "FT": "Field-Tested", "WW": "Well-Worn", "BS": "Battle-Scarred"}
 RCOL = {"Consumer Grade": "#b0c3d9", "Industrial Grade": "#5e98d9", "Mil-Spec Grade": "#4b69ff", "Restricted": "#8847ff", "Classified": "#d32ce6", "Covert": "#eb4b4b", "Extraordinary": "#e4ae39"}
 
@@ -114,6 +144,12 @@ CSS = r"""
 .gw-tw p{margin:0;color:var(--soft)}.gw-tw a{flex:none;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:#9146ff;color:#fff;font:600 .85rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
 .gw ol.rules{margin:0;padding-left:20px;color:var(--soft);display:grid;gap:8px}
 
+.gw-step{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;margin-bottom:16px;background:linear-gradient(135deg,rgba(145,70,255,.2),rgba(145,70,255,.05));border:1px solid rgba(145,70,255,.5)}
+.gw-step b{display:inline-grid;place-items:center;width:24px;height:24px;margin-right:10px;background:#9146ff;color:#fff;font:700 .8rem/1 var(--hud)}
+.gw-step div{font:600 1rem/1.3 var(--hud);text-transform:uppercase;letter-spacing:.04em}.gw-step small{display:block;margin:6px 0 0 34px;font:400 .85rem/1.35 var(--body);text-transform:none;letter-spacing:0;color:var(--soft)}
+.gw-step a{flex:none;padding:11px 18px;background:#9146ff;color:#fff;font:700 .82rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}.gw-step a:hover{filter:brightness(1.15)}
+@media(max-width:560px){.gw-step{flex-direction:column;align-items:stretch}.gw-step a{text-align:center}}
+
 /* праздничное оформление */
 body{background:radial-gradient(900px 520px at 75% -8%,rgba(228,174,57,.22),transparent 62%),radial-gradient(700px 480px at -10% 30%,rgba(196,22,28,.16),transparent 60%),#0b0c0f}
 .gw{position:relative}
@@ -154,7 +190,7 @@ JS = r"""(()=>{const L=window.GWL,W=__W__,IMG=__IMG__,RC=__RC__;const $=s=>docum
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
 const LS=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};
 try{const m=location.hash.match(/steam=([^&]+)/);if(m){const v=decodeURIComponent(m[1]);if(v!=="cancel"&&v!=="error")LS("skinset_steam",v);history.replaceState(null,"",location.pathname+location.search)}}catch(e){}
-const tok=()=>LS("skinset_steam");let G=null,ME=null,MINE={},now0=0,t0=0;
+const tok=()=>LS("skinset_steam");const TWU=__TW__;let G=null,ME=null,MINE={},now0=0,t0=0;
 const STEAM='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-9.96 9.17l5.35 2.21a2.8 2.8 0 0 1 1.6-.5h.16l2.38-3.45v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.13a2.83 2.83 0 0 1-5.62.47L2.4 14.7A10 10 0 1 0 12 2Zm-4.72 15.2-1.23-.51a2.13 2.13 0 1 0 1.17-2.92l1.27.53a1.57 1.57 0 1 1-1.2 2.9Zm9.5-7.3a2.51 2.51 0 1 0-2.5 2.52 2.52 2.52 0 0 0 2.5-2.52Zm-4.39 0a1.89 1.89 0 1 1 1.89 1.89 1.89 1.89 0 0 1-1.89-1.89Z"/></svg>';
 const active=g=>g.status!=="ended"&&srvNow()<g.ends&&srvNow()>=(g.starts||0);const srvNow=()=>now0+(Date.now()-t0);
 let CAT=null;async function ensureImgs(){if(G.items.every(it=>IMG[it.n])||CAT)return;try{CAT=await (await fetch("/data/catalog.json")).json();const RN=["Consumer Grade","Industrial Grade","Mil-Spec Grade","Restricted","Classified","Covert","Extraordinary","Contraband"];for(const x of CAT)if(!IMG[x.n])IMG[x.n]={i:x.i.startsWith("http")?x.i:"https://community.akamai.steamstatic.com/economy/image/"+x.i+"/360fx360f",r:RN[x.r]};prizes()}catch(e){}}
@@ -167,13 +203,17 @@ function timer(){const g=G;if(!g)return;const el=$("#gwCd");const pc="";
 function box(err){const g=G,b=$("#gwBox");const me=MINE[g.id];
  if(!active(g)){b.innerHTML=`<div class="gw-msg">${esc(L.ended)}</div>`;return}
  if(!tok()){b.innerHTML=`<a class="gw-btn" href="${W}/login?r=${encodeURIComponent(location.origin+location.pathname)}">${STEAM}${esc(L.login)}</a>`;return}
- if(me){b.innerHTML=`<div class="gw-ok"><i>✓</i><div>${esc(L.inn)}<br><small>${esc(L.saved)}</small></div></div>`+(err?`<div class="gw-err">${esc(err)}</div>`:"");bind(me);return}
- b.innerHTML=`<label for="gwTrade">${esc(L.trade)}</label><input id="gwTrade" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=…&token=…" value="${esc(LS("skinset_trade")||"")}" autocomplete="off"><div class="hint"><a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url" target="_blank" rel="noopener">${esc(L.tradeHelp)}</a></div>`
+ if(me&&me.tw){b.innerHTML=`<div class="gw-ok"><i>✓</i><div>${esc(L.inn)}<br><small>${esc(L.saved)} · Twitch: ${esc(me.tw)}</small></div></div>`+(err?`<div class="gw-err">${esc(err)}</div>`:"");bind(me);return}
+ b.innerHTML=`<div class="gw-step"><div><b>1</b>${esc(L.twStep)}<small>${esc(L.twStepP)}</small></div><a href="${TWU}" target="_blank" rel="noopener">${esc(L.twFollow)}</a></div>`
+  +`<label for="gwTw">${esc(L.twL)}</label><input id="gwTw" placeholder="${esc(L.twPh)}" value="${esc((me&&me.tw)||LS("skinset_tw")||"")}" autocomplete="off" maxlength="60"><div class="hint">${esc(L.twHint)}</div>`
+  +`<label for="gwTrade">${esc(L.trade)}</label><input id="gwTrade" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=…&token=…" value="${esc((me&&me.trade)||LS("skinset_trade")||"")}" autocomplete="off"><div class="hint"><a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url" target="_blank" rel="noopener">${esc(L.tradeHelp)}</a></div>`
   +`<button class="gw-btn" id="gwGo">${esc(L.go)}</button>`+(err?`<div class="gw-err">${esc(err)}</div>`:"");bind(null)}
-function bind(me){const go=$("#gwGo");if(!go)return;go.onclick=async()=>{const trade=me?me.trade:($("#gwTrade").value||"").trim();const code=($("#gwCode")||{}).value||"";
- go.disabled=true;try{const r=await fetch(W+"/gw/enter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({t:tok(),id:G.id,trade,code})});const j=await r.json().catch(()=>({}));
+function bind(me){const go=$("#gwGo");if(!go)return;go.onclick=async()=>{const trade=me?me.trade:($("#gwTrade").value||"").trim();const code=($("#gwCode")||{}).value||"";const tw=me?me.tw:(($("#gwTw")||{}).value||"").trim().replace(/^@/,"").replace(/^(https?:\/\/)?(www\.|m\.)?twitch\.tv\//i,"").replace(/[/?#].*$/,"");
+ if(!me){LS("skinset_tw",tw);LS("skinset_trade",trade)}
+ if(!me&&!/^[A-Za-z0-9_]{3,25}$/.test(tw)){box(L.err.tw);return}
+ go.disabled=true;try{const r=await fetch(W+"/gw/enter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({t:tok(),id:G.id,trade,code,tw})});const j=await r.json().catch(()=>({}));
   if(!r.ok){if(j.error==="auth")LS("skinset_steam",null);box(L.err[j.error]||L.err.net);return}
-  LS("skinset_trade",trade);MINE[G.id]={tk:j.tk,code:j.code,trade};G.count=j.count;timer();box()}catch(e){box(L.err.net)}}}
+  LS("skinset_trade",trade);LS("skinset_tw",tw);MINE[G.id]={tk:j.tk,code:j.code,trade,tw};G.count=j.count;timer();box()}catch(e){box(L.err.net)}}}
 function winners(){const ws=(G.winners||[]);$("#gwWinH").hidden=!ws.length}
 async function load(){try{const r=await fetch(W+"/gw");const j=await r.json();now0=j.now||Date.now();t0=Date.now();
   const list=j.list||[];G=list.find(x=>x.status!=="ended"&&now0<x.ends)||list[list.length-1];if(!G){$("#gwBox").innerHTML=`<div class="gw-msg">${esc(L.ended)}</div>`;return}
@@ -196,7 +236,7 @@ def build(lang):
     alts = "".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{PATH[l]}">' for l in PATH) + f'<link rel="alternate" hreflang="x-default" href="{SITE}{PATH["en"]}">'
     ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": t["h1"], "url": canon, "description": t["desc"]}]
     gl = dict(t, wear=WEAR); gl.pop("title"); gl.pop("desc")
-    js = JS.replace("__W__", json.dumps(W)).replace("__IMG__", json.dumps(img, ensure_ascii=False)).replace("__RC__", json.dumps(RCOL))
+    js = JS.replace("__W__", json.dumps(W)).replace("__IMG__", json.dumps(img, ensure_ascii=False)).replace("__RC__", json.dumps(RCOL)).replace("__TW__", json.dumps(TW))
     h = head(lang, t["title"], t["desc"], canon, alts, ld).replace("</head>", f"<style>{CSS}</style></head>")
     tw_svg = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v15h5v3h3l3-3h4l5-5V2H4zm16 13-3 3h-5l-3 3v-3H6V4h14v11zM15 7h2v5h-2V7zm-5 0h2v5h-2V7z"/></svg>'
     page = h + f"""

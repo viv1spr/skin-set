@@ -16,6 +16,7 @@ jobs:
       - run: python3 admin/skins_wiki.py
       - run: python3 admin/budget_pages.py
       - run: python3 admin/color_pages_ru.py
+      - run: python3 admin/color_pages_i18n.py
       - run: python3 admin/price_pages.py
       - name: Commit
         run: |

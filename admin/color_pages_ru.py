@@ -68,7 +68,9 @@ def parse_items(block):
     """[(weapon, skin, color)] из старого .seo-list"""
     out = []
     for m in re.finditer(r'<li style="--c0:([^"]+)">(?:<i></i>|<img[^>]*>)<span><b>(.*?)</b><small>(.*?)</small>', block):
-        out.append((html.unescape(m.group(3)), html.unescape(m.group(2)), m.group(1)))
+        b = m.group(2)
+        for _ in range(3): b = re.sub(r"<[^>]+>", "", html.unescape(b))
+        out.append((html.unescape(m.group(3)), b, m.group(1)))
     return out
 
 

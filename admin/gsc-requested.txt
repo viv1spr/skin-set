@@ -1,0 +1,10 @@
+# URL, отправленные в Google Search Console на индексацию (дата  URL). Ведёт ежедневная задача.
+2026-10-23 https://skin-set.com/nozh-cs2-do-5000-rubley/
+2026-10-23 https://skin-set.com/en/cs2-knife-under-100-dollars/
+2026-10-23 https://skin-set.com/perchatki-cs2-do-5000-rubley/
+2026-10-23 https://skin-set.com/tr/mor-cs2-skinleri/
+2026-10-23 https://skin-set.com/en/purple-cs2-skins/
+2026-10-23 https://skin-set.com/blog/kachestvo-skinov-cs2-fn-mw-ft-ww-bs/
+2026-10-23 https://skin-set.com/fioletovye-skiny-cs2/
+2026-10-23 https://skin-set.com/en/pink-gloves-cs2/
+2026-10-23 https://skin-set.com/en/cs2-gloves-under-75-dollars/

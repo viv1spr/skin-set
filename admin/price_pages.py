@@ -34,7 +34,7 @@ T = {
    desc="Какой нож купить в CS2 до {B}: {N} вариантов от {MIN}. Самые дешёвые {T1}, лучшее качество в бюджете и цены, которые обновляются каждые 4 часа.",
    lead="Нож — самый заметный предмет инвентаря, и купить его можно дешевле, чем кажется. Здесь все ножи CS2, которые сейчас стоят до {B} хотя бы в одном качестве: {N} вариантов, самый дешёвый — {CHEAP} за {MIN}. Для каждого показано лучшее качество, которое укладывается в бюджет.",
    tips_h="Как выбрать нож до {B}", tips=[
-    "<b>Тип ножа важнее раскраски.</b> Самые дешёвые — Navaja, Shadow Daggers, Gut Knife и Falchion: за те же деньги можно взять их в хорошей раскраске, а Karambit или Butterfly в этом бюджете будут разве что в Safari Mesh или Boreal Forest.",
+    "<b>Тип ножа важнее раскраски.</b> Самые дешёвые сейчас — {T1}: за те же деньги можно взять их в хорошей раскраске, а Karambit или Butterfly в этом бюджете будут разве что в Safari Mesh или Boreal Forest.",
     "<b>Field-Tested — лучший баланс.</b> На ноже потёртости видно меньше, чем на AK или AWP, а разница с Minimal Wear по цене бывает двукратной. <a href=\"/blog/kachestvo-skinov-cs2-fn-mw-ft-ww-bs/\">Подробнее о качестве FN, MW, FT, WW, BS</a>.",
     "<b>Подбирай нож под цвет сета.</b> Даже дешёвый нож смотрится дорого, если перчатки и оружие в той же гамме. Конструктор Skinset закрепит выбранный нож и подберёт к нему остальное.",
    ],
@@ -48,7 +48,7 @@ T = {
    lead="Перчатки видно в каждом раунде вместе с ножом, а стоят они нередко дешевле ножа. Здесь все перчатки CS2, которые сейчас можно взять до {B} хотя бы в одном качестве: {N} вариантов, самые дешёвые — {CHEAP} за {MIN}.",
    tips_h="Как выбрать перчатки до {B}", tips=[
     "<b>Бери Field-Tested или Well-Worn.</b> У перчаток износ почти не заметен в игре, а разница в цене между FN и FT бывает в 5–10 раз.",
-    "<b>Самые доступные модели</b> — Hydra Gloves, Bloodhound Gloves, Broken Fang Gloves и Hand Wraps. Sport Gloves и Specialist Gloves стоят заметно дороже даже в простых раскрасках.",
+    "<b>Самые доступные модели</b> сейчас — {T1}. Sport Gloves и Specialist Gloves стоят заметно дороже даже в простых раскрасках.",
     "<b>Перчатки задают цвет сета.</b> Подбирай их вместе с ножом: конструктор Skinset закрепит перчатки и подберёт нож и оружие в той же гамме.",
    ],
    faq=lambda d: [
@@ -66,7 +66,7 @@ T = {
    desc="Which CS2 knife to buy under {B}: {N} options from {MIN}. The cheapest {T1}, the best wear that fits your budget, prices updated every 4 hours.",
    lead="A knife is the most visible item in any loadout, and it can cost less than you think. Here are all CS2 knives that currently sell under {B} in at least one wear: {N} options, the cheapest being {CHEAP} at {MIN}. Each card shows the best wear that fits the budget.",
    tips_h="How to pick a knife under {B}", tips=[
-    "<b>Knife type matters more than finish.</b> Navaja, Shadow Daggers, Gut Knife and Falchion are the cheapest: for the same money you get them in a nice finish, while a Karambit or Butterfly at this budget means Safari Mesh or Boreal Forest at best.",
+    "<b>Knife type matters more than finish.</b> The cheapest right now are {T1}: for the same money you get them in a nice finish, while a Karambit or Butterfly at this budget means Safari Mesh or Boreal Forest at best.",
     "<b>Field-Tested is the sweet spot.</b> Wear shows less on a knife than on an AK or AWP, and Minimal Wear can cost twice as much. <a href=\"/en/blog/kachestvo-skinov-cs2-fn-mw-ft-ww-bs/\">More on FN, MW, FT, WW, BS</a>.",
     "<b>Match the knife to your loadout color.</b> Even a cheap knife looks expensive when the gloves and weapons share its palette. The Skinset builder locks the knife and fills in the rest.",
    ],
@@ -80,7 +80,7 @@ T = {
    lead="Gloves are on screen every round next to your knife, and they are often cheaper than one. Here are all CS2 gloves that currently sell under {B} in at least one wear: {N} options, the cheapest being {CHEAP} at {MIN}.",
    tips_h="How to pick gloves under {B}", tips=[
     "<b>Go for Field-Tested or Well-Worn.</b> Glove wear is barely visible in game, while Factory New can cost 5–10× more than FT.",
-    "<b>The most affordable models</b> are Hydra Gloves, Bloodhound Gloves, Broken Fang Gloves and Hand Wraps. Sport and Specialist Gloves cost much more even in plain finishes.",
+    "<b>The most affordable models</b> right now are {T1}. Sport and Specialist Gloves cost much more even in plain finishes.",
     "<b>Gloves set the color of the loadout.</b> Pick them together with the knife: the Skinset builder locks the gloves and matches a knife and weapons in the same palette.",
    ],
    faq=lambda d: [
@@ -104,7 +104,7 @@ CSS = """
 .pp h2{margin:32px 0 12px;font:700 1.4rem/1.1 var(--hud);text-transform:uppercase}
 .pp h2::before{content:"";display:block;width:40px;height:4px;background:var(--pick,#e8402a);margin-bottom:10px}
 .pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
-.pp-c{display:flex;flex-direction:column;background:linear-gradient(170deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid var(--line2,rgba(255,255,255,.14));border-bottom:3px solid var(--rc,#8847ff);padding:10px 12px 12px;color:var(--ink,#fff);text-decoration:none}
+.pp-c{display:flex;flex-direction:column;min-width:0;overflow:hidden;background:linear-gradient(170deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid var(--line2,rgba(255,255,255,.14));border-bottom:3px solid var(--rc,#8847ff);padding:10px 12px 12px;color:var(--ink,#fff);text-decoration:none}
 .pp-c:hover{border-color:rgba(255,255,255,.35)}
 .pp-c .im{height:96px;display:grid;place-items:center;margin-bottom:6px}.pp-c img{max-width:100%;max-height:96px;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(0,0,0,.55))}
 .pp-c .w{font-size:.78rem;color:var(--soft)}.pp-c b{font:700 1.02rem/1.15 var(--hud);text-transform:uppercase}
@@ -137,7 +137,7 @@ def page(lang, kind, n, cat, date):
         if not fit: continue
         best = fit[0]; low = min(v for _, v in ps)
         rows.append(dict(x=x, best=best, low=low))
-    rows.sort(key=lambda r: r["low"])
+    rows.sort(key=lambda r: (r["best"][1], r["low"]))
     N = len(rows)
     fm = lambda usd: money(lang, usd * RATE[lang])
     nm = lambda r: r["x"]["n"] + (f" ({r['x']['ph']})" if r["x"].get("ph") else "")
@@ -180,7 +180,7 @@ def page(lang, kind, n, cat, date):
 <h2>{e(c['types'])}</h2>
 <table><thead><tr><th>{e(c['type'])}</th><th>{e(c['count'])}</th><th>{e(c['minp'])}</th></tr></thead><tbody>{''.join(f'<tr><td>{e(w)}</td><td>{len(v)}</td><td>{e(fm(min(v)))}</td></tr>' for w, v in types)}</tbody></table>
 <h2>{e(k['tips_h'].format(**fmt))}</h2>
-<ul class="tips">{''.join(f'<li>{x}</li>' for x in k['tips'])}</ul>
+<ul class="tips">{''.join(f'<li>{x.format(**fmt)}</li>' for x in k['tips'])}</ul>
 <a class="cta" href="{builder}">{e(c['cta'] if kind == 'knife' else c['cta_g'])}</a>
 <h2>{e(c['other'])}</h2>
 <ul class="chips">{''.join(f'<li><a href="{u}"{" class=on" if on else ""}>{e(l)}</a></li>' for u, l, on in other_k + other_o)}</ul>

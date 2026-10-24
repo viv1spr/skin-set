@@ -126,10 +126,10 @@ def build(lang):
 DT = {
  "ru": dict(title="Матч CS2: счёт, карты и составы — Skinset", back="← Все матчи", maps="Карты", map="Карта", won="победа", lineups="Составы", watch_h="Трансляции", tour="Турнир", start="Начало", fmt="Формат",
    st={"not_started": "Скоро", "running": "LIVE", "finished": "Завершён", "canceled": "Отменён", "postponed": "Перенесён"}, nomaps="Подробности по картам появятся после начала матча.", nost="Детальная статистика игроков и карт пока недоступна.",
-   h2h="Последние встречи", nf="Матч не найден.", load="Загружаем матч…", forfeit="техническая победа", tbd="Будет известно позже", vs="vs", upd="Обновляется автоматически"),
+   h2h="Последние встречи", nf="Матч не найден.", load="Загружаем матч…", forfeit="техническая победа", tbd="Будет известно позже", vs="vs", upd="Обновляется автоматически", nolineup="Состав пока неизвестен"),
  "en": dict(title="CS2 match: score, maps and lineups — Skinset", back="← All matches", maps="Maps", map="Map", won="win", lineups="Lineups", watch_h="Streams", tour="Tournament", start="Start", fmt="Format",
    st={"not_started": "Upcoming", "running": "LIVE", "finished": "Finished", "canceled": "Canceled", "postponed": "Postponed"}, nomaps="Map details will appear once the match starts.", nost="Detailed player and map stats are not available yet.",
-   h2h="Recent meetings", nf="Match not found.", load="Loading match…", forfeit="forfeit", tbd="To be decided", vs="vs", upd="Updates automatically"),
+   h2h="Recent meetings", nf="Match not found.", load="Loading match…", forfeit="forfeit", tbd="To be decided", vs="vs", upd="Updates automatically", nolineup="Lineup not available yet"),
 }
 DCSS = """
 html,body{overflow-x:clip}
@@ -138,7 +138,7 @@ html,body{overflow-x:clip}
 .mh{position:relative;padding:22px 24px;background:radial-gradient(90% 140% at 50% 0%,rgba(232,64,42,.25),transparent 60%),linear-gradient(160deg,#16171b,#0c0d10);border:1px solid var(--line2,rgba(255,255,255,.14))}
 .mh .ev{display:flex;justify-content:center;align-items:center;gap:8px;font-size:.86rem;color:var(--soft);margin-bottom:16px;text-align:center}.mh .ev img{width:24px;height:24px;object-fit:contain}
 .mh .row{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
-.mh .tm{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;min-width:0}.mh .tm img{width:88px;height:88px;object-fit:contain}.mh .tm .ph{width:88px;height:88px;background:rgba(255,255,255,.06)}
+.mh .tm{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;min-width:0}.mh .tm img{width:88px;height:88px;object-fit:contain}.mh .tm img.flg{width:24px;height:18px;object-fit:cover}.mh .tm .ph{width:88px;height:88px;background:rgba(255,255,255,.06)}
 .mh .tm b{font:700 1.4rem/1.1 var(--hud);text-transform:uppercase;overflow-wrap:anywhere}.mh .tm.lose{opacity:.55}
 .mh .sc{text-align:center}.mh .sc b{display:block;font:700 3.2rem/1 var(--hud)}.mh .sc .w{color:#2bd67b}
 .mh .sc span{display:inline-block;margin-top:8px;padding:5px 10px;font:700 .72rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.08);color:var(--soft)}.mh .sc span.lv{background:#e8402a;color:#fff}
@@ -167,7 +167,7 @@ async function load(){if(!id){$("#md").innerHTML='<div class="msg">'+esc(L.nf)+'
   +'<div class="meta"><span>'+esc(L.start)+': <b>'+esc(fD(m.b))+'</b></span><span>'+esc(L.fmt)+': <b>BO'+(m.bo||"?")+'</b></span>'+(m.tier?'<span>Tier: <b>'+esc(String(m.tier).toUpperCase())+'</b></span>':'')+'</div></div>';
  const gs=(m.g||[]).filter(g=>g.st!=="not_started"||g.map);
  h+='<h2>'+esc(L.maps)+'</h2>'+(gs.length?'<div class="gm">'+gs.map(g=>{const wt=m.t.find(t=>t.id===g.w);return'<div class="g" style="--c:'+(wt?(wt===a?"#e8402a":"#2d73ff"):"#444")+'"><small>'+esc(L.map)+' '+g.p+'</small><b>'+esc(g.map?g.map.n:(wt?(wt.a||wt.n):(g.st==="running"?"LIVE":"—")))+'</b><span>'+(wt?(g.map?esc(wt.n)+" — ":"")+esc(L.won):esc(L.st[g.st]||g.st))+'</span></div>'}).join("")+'</div><p class="note">'+esc(L.nost)+'</p>':'<div class="msg">'+esc(L.nomaps)+'</div>');
- if(m.t.some(t=>t.pl&&t.pl.length))h+='<h2>'+esc(L.lineups)+'</h2><div class="ln">'+m.t.map(t=>'<div class="lt"><h3>'+(t.i?'<img src="'+esc(t.i)+'" alt="">':'')+esc(t.n)+'</h3>'+(t.pl||[]).map(p=>'<div class="pl"><span class="fl">'+flag(p.c)+'</span><b>'+esc(p.n)+'</b><small>'+esc(p.f||"")+'</small></div>').join("")+'</div>').join("")+'</div>';
+ if(m.t.some(t=>t.pl&&t.pl.length))h+='<h2>'+esc(L.lineups)+'</h2><div class="ln">'+m.t.map(t=>'<div class="lt"><h3>'+(t.i?'<img src="'+esc(t.i)+'" alt="">':'')+esc(t.n)+'</h3>'+((t.pl||[]).length?"":'<div class="pl"><small style="margin:0">'+esc(L.nolineup)+'</small></div>')+(t.pl||[]).map(p=>'<div class="pl"><span class="fl">'+flag(p.c)+'</span><b>'+esc(p.n)+'</b><small>'+esc(p.f||"")+'</small></div>').join("")+'</div>').join("")+'</div>';
  if(m.tv&&m.tv.length&&!fin)h+='<h2>'+esc(L.watch_h)+'</h2><div class="tvs">'+m.tv.sort((x,y)=>(y.lg===lang)-(x.lg===lang)||y.m-x.m).map(s=>'<a class="'+(/youtu/.test(s.u)?"yt":/twitch/.test(s.u)?"":"o")+'" href="'+esc(s.u)+'" target="_blank" rel="noopener nofollow">▶ '+esc((s.lg||"").toUpperCase())+(s.o?" · official":"")+'</a>').join("")+'</div>';
  h+='<div id="h2h"></div><p class="note">'+(live?esc(L.upd)+' · ':'')+'PandaScore</p>';$("#md").innerHTML=h;
  if(a&&b){try{const p=await (await fetch(W+"/matches?type=past")).json();const hh=(p.list||[]).filter(x=>x.id!==m.id&&x.t.length===2&&x.t.some(t=>t.id===a.id)&&x.t.some(t=>t.id===b.id)).slice(0,5);

@@ -239,6 +239,50 @@ LIVE_JS = r"""<script>(async()=>{try{const r=await fetch("/data/prices.json",{ca
 document.querySelectorAll("[data-pk]").forEach(td=>{const p=P[td.dataset.pk];const v=p&&p.w&&p.w[td.dataset.w];if(v){td.textContent=td.dataset.pre+f.format(v*90/R)+td.dataset.suf}})}catch(e){}})();</script>"""
 
 
+HIST_CSS = """<style id="ph-css">.ph{margin:10px 0 6px;padding:16px 18px 14px;background:rgba(255,255,255,.035);border:1px solid var(--line,rgba(255,255,255,.1))}
+.ph-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}
+.ph-w,.ph-r{display:flex;gap:4px;flex-wrap:wrap}.ph button{padding:7px 11px;background:rgba(255,255,255,.04);border:1px solid var(--line2,rgba(255,255,255,.14));color:var(--soft);font:600 .74rem/1 var(--hud);letter-spacing:.08em;cursor:pointer}
+.ph button.on{background:#e8402a;border-color:#e8402a;color:#fff}
+.ph-c{position:relative;height:210px}.ph-c svg{width:100%;height:100%;display:block;overflow:visible}
+.ph-tip{position:absolute;top:0;pointer-events:none;padding:6px 9px;background:#0d0e11;border:1px solid var(--line2,rgba(255,255,255,.2));font-size:.8rem;white-space:nowrap;transform:translateX(-50%)}
+.ph-s{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:12px;font-size:.86rem;color:var(--soft)}.ph-s b{font:700 1.05rem var(--hud);color:var(--ink,#fff);margin-left:6px}
+.ph-s .up{color:#2bd67b}.ph-s .dn{color:#ff5d5d}.ph-hint{margin:10px 0 0;font-size:.88rem;color:var(--ink,#fff)}.ph-hint b{color:#ffd36a}
+</style>"""
+HIST_T = {
+ "ru": dict(h="История цены", d7="За 7 дней", d30="За 30 дней", lo="Мин.", hi="Макс.", all="Всё", low="Сейчас {w} дешевле среднего за период на {p}", high="Сейчас {w} дороже среднего за период на {p}", few="История цен собирается с 15 октября 2026 — график будет расти каждый день."),
+ "en": dict(h="Price history", d7="7 days", d30="30 days", lo="Low", hi="High", all="All", low="{w} is {p} below its average for this period", high="{w} is {p} above its average for this period", few="Price history is collected since Oct 15, 2026 — the chart grows every day."),
+ "de": dict(h="Preisverlauf", d7="7 Tage", d30="30 Tage", lo="Tief", hi="Hoch", all="Alle", low="{w} liegt {p} unter dem Durchschnitt", high="{w} liegt {p} über dem Durchschnitt", few="Preisverlauf seit 15.10.2026 — das Diagramm wächst täglich."),
+ "pt": dict(h="Histórico de preço", d7="7 dias", d30="30 dias", lo="Mín.", hi="Máx.", all="Tudo", low="{w} está {p} abaixo da média do período", high="{w} está {p} acima da média do período", few="Histórico coletado desde 15/10/2026 — o gráfico cresce todo dia."),
+ "tr": dict(h="Fiyat geçmişi", d7="7 gün", d30="30 gün", lo="En düşük", hi="En yüksek", all="Tümü", low="{w} dönem ortalamasının {p} altında", high="{w} dönem ortalamasının {p} üstünde", few="Fiyat geçmişi 15.10.2026'dan beri toplanıyor — grafik her gün büyüyor."),
+ "pl": dict(h="Historia ceny", d7="7 dni", d30="30 dni", lo="Min.", hi="Maks.", all="Wszystko", low="{w} jest {p} poniżej średniej z okresu", high="{w} jest {p} powyżej średniej z okresu", few="Historia cen zbierana od 15.10.2026 — wykres rośnie każdego dnia."),
+}
+HIST_JS = r"""<script>(async()=>{const box=document.getElementById("ph");if(!box)return;const n=box.dataset.n,R=+document.body.dataset.rate||1,L=JSON.parse(box.dataset.t),lang=document.documentElement.lang;
+const h=s=>{let x=5381;for(let i=0;i<s.length;i++)x=((x*33)^s.charCodeAt(i))>>>0;return x%64};const B="https://auth.skin-set.com/hist/";
+let meta,sh;try{[meta,sh]=await Promise.all([fetch(B+"meta.json").then(r=>r.json()),fetch(B+String(h(n)).padStart(2,"0")+".json").then(r=>r.json())])}catch(e){return}
+const rec=sh[n];if(!rec||meta.days.length<2)return;const W=["FN","MW","FT","WW","BS"].filter(w=>rec[w]&&rec[w].filter(v=>v!=null).length>1);if(!W.length)return;
+const f=new Intl.NumberFormat(lang,{maximumFractionDigits:R>=50?2:0});const pre=box.dataset.pre,suf=box.dataset.suf;const M=v=>pre+f.format(v*90/R)+suf;
+const pc=x=>(x>0?"+":x<0?"−":"")+Math.abs(x).toFixed(1).replace(".",lang==="en"?".":",")+"%";
+let w=box.dataset.w&&W.includes(box.dataset.w)?box.dataset.w:W[0],rg=30;box.hidden=false;const hh=document.getElementById("ph-h");if(hh)hh.hidden=false;
+box.innerHTML='<div class="ph-top"><div class="ph-w">'+W.map(x=>'<button data-w="'+x+'">'+x+'</button>').join("")+'</div><div class="ph-r"><button data-r="7">7D</button><button data-r="30">30D</button><button data-r="0">'+L.all+'</button></div></div><div class="ph-c"><svg></svg><div class="ph-tip" hidden></div></div><div class="ph-s"></div><p class="ph-hint" hidden></p>'+(meta.days.length<21?'<p class="note" style="margin:8px 0 0">'+L.few+'</p>':'');
+const svg=box.querySelector("svg"),tip=box.querySelector(".ph-tip"),st=box.querySelector(".ph-s"),hint=box.querySelector(".ph-hint");
+function draw(){box.querySelectorAll("[data-w]").forEach(b=>b.classList.toggle("on",b.dataset.w===w));box.querySelectorAll("[data-r]").forEach(b=>b.classList.toggle("on",+b.dataset.r===rg));
+ let pts=meta.days.map((d,i)=>[d,rec[w][i]]).filter(p=>p[1]!=null);if(rg)pts=pts.slice(-rg);if(pts.length<2){svg.innerHTML="";return}
+ const vs=pts.map(p=>p[1]),lo=Math.min(...vs),hi=Math.max(...vs),pad=(hi-lo)*.15||hi*.05,a=lo-pad,b=hi+pad,Wd=svg.clientWidth||600,Hd=200;
+ const X=i=>i*(Wd-2)/(pts.length-1)+1,Y=v=>Hd-((v-a)/(b-a))*(Hd-16)-8;const line=pts.map((p,i)=>(i?"L":"M")+X(i).toFixed(1)+","+Y(p[1]).toFixed(1)).join("");
+ const up=vs[vs.length-1]>=vs[0],c=up?"#2bd67b":"#ff5d5d";svg.setAttribute("viewBox","0 0 "+Wd+" "+Hd);
+ svg.innerHTML='<defs><linearGradient id="phg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="'+c+'" stop-opacity=".28"/><stop offset="1" stop-color="'+c+'" stop-opacity="0"/></linearGradient></defs>'
+  +[0,.5,1].map(k=>{const v=a+(b-a)*k;return '<line x1="0" x2="'+Wd+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="rgba(255,255,255,.06)"/><text x="4" y="'+(Y(v)-4)+'" fill="rgba(255,255,255,.35)" font-size="11">'+M(v)+'</text>'}).join("")
+  +'<path d="'+line+"L"+X(pts.length-1)+","+Hd+"L"+X(0)+","+Hd+'Z" fill="url(#phg)"/><path d="'+line+'" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linejoin="round"/><circle r="4" fill="'+c+'" cx="'+X(pts.length-1)+'" cy="'+Y(vs[vs.length-1])+'"/><circle id="phd" r="5" fill="#fff" hidden/>';
+ const dot=svg.querySelector("#phd");svg.onmousemove=ev=>{const r=svg.getBoundingClientRect(),i=Math.max(0,Math.min(pts.length-1,Math.round((ev.clientX-r.left)/r.width*(pts.length-1))));
+  dot.removeAttribute("hidden");dot.setAttribute("cx",X(i));dot.setAttribute("cy",Y(pts[i][1]));tip.hidden=false;tip.style.left=(X(i)/Wd*100)+"%";tip.textContent=new Date(pts[i][0]).toLocaleDateString(lang,{day:"numeric",month:"short"})+" · "+M(pts[i][1])};
+ svg.onmouseleave=()=>{tip.hidden=true;dot.setAttribute("hidden","")};
+ const all=meta.days.map((d,i)=>rec[w][i]).filter(v=>v!=null),cur=all[all.length-1];const ch=k=>{const s=all.slice(-k-1);return s.length>1?(cur/s[0]-1)*100:null};
+ const c7=ch(7),c30=ch(30);const avg=vs.reduce((x,y)=>x+y,0)/vs.length,dv=(cur/avg-1)*100;
+ st.innerHTML=(c7!=null?'<span>'+L.d7+'<b class="'+(c7>=0?"up":"dn")+'">'+pc(c7)+'</b></span>':"")+(c30!=null&&all.length>30?'<span>'+L.d30+'<b class="'+(c30>=0?"up":"dn")+'">'+pc(c30)+'</b></span>':"")+'<span>'+L.lo+'<b>'+M(lo)+'</b></span><span>'+L.hi+'<b>'+M(hi)+'</b></span>';
+ if(Math.abs(dv)>=3){hint.hidden=false;hint.innerHTML=(dv<0?L.low:L.high).replace("{w}","<b>"+w+"</b>").replace("{p}","<b>"+pc(Math.abs(dv)).replace("+","")+"</b>")}else hint.hidden=true}
+box.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;if(b.dataset.w)w=b.dataset.w;if(b.dataset.r!=null)rg=+b.dataset.r;draw()});draw();addEventListener("resize",draw)})();</script>"""
+
+
 def head(lang, title, desc, canon, alts, ld, extra=""):
     CSSV = CSS_V
     return f"""<!doctype html>
@@ -376,6 +420,7 @@ def page(lang, n):
 <h2>{e(t['price_h'].format(**F))}</h2>
 <table class="pt"><thead><tr><th>{e(t['tab'][0])}</th><th>{e(t['tab'][1])}</th><th></th></tr></thead><tbody>{''.join(rows)}</tbody></table>
 <p class="note">{e(t['live'])}</p>
+<h2 id="ph-h" hidden>{e(HIST_T[lang]['h'])}</h2><div class="ph" id="ph" hidden data-n="{e(n)}" data-w="{cw}" data-pre="{e(pre)}" data-suf="{e(suf)}" data-t="{e(json.dumps(HIST_T[lang], ensure_ascii=False))}"></div>
 <h2>{e(t['sets_h'].format(**F))}</h2><p>{e(t['sets_p'].format(**F))}</p>
 <div class="sets">{setcard(lang, t['cheap'], d['cheap'], n, pi)}{setcard(lang, t['lux'], d['lux'], n, pi)}</div>
 <p><a href="{HOME[lang]}{CP[lang][pi]}/">{e(t['color_set'].format(c=PNAMES[lang][pi]))} →</a></p>
@@ -385,7 +430,7 @@ def page(lang, n):
 <p style="margin-top:36px"><a href="{WIKI[lang]}">← {e(t['all'])}</a></p>
 </article></main>
 <footer><p>{e(FOOT[lang])}</p></footer>
-{LANG_JS}{LIVE_JS}
+{LANG_JS}{LIVE_JS}{HIST_CSS}{HIST_JS}
 </body>
 </html>
 """

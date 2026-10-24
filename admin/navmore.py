@@ -240,17 +240,23 @@ if __name__ == "__main__":
     main()
 
 
-UPD = {"ru": ("/obnovleniya-cs2/", "Обновления CS2"), "en": ("/en/cs2-updates/", "CS2 updates"), "de": ("/de/cs2-updates/", "CS2-Updates"),
-       "pt": ("/pt/atualizacoes-cs2/", "Atualizações CS2"), "tr": ("/tr/cs2-guncellemeleri/", "CS2 güncellemeleri"), "pl": ("/pl/aktualizacje-cs2/", "Aktualizacje CS2")}
+UPD = {"ru": [("/ocenka-inventarya/", "Оценка инвентаря"), ("/rynok-cs2/", "Рынок CS2"), ("/obnovleniya-cs2/", "Обновления CS2")],
+       "en": [("/en/inventory-value/", "Inventory value"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-updates/", "CS2 updates")],
+       "de": [("/en/inventory-value/", "Inventarwert"), ("/en/cs2-market/", "CS2-Markt"), ("/de/cs2-updates/", "CS2-Updates")],
+       "pt": [("/en/inventory-value/", "Valor do inventário"), ("/en/cs2-market/", "Mercado CS2"), ("/pt/atualizacoes-cs2/", "Atualizações CS2")],
+       "tr": [("/en/inventory-value/", "Envanter değeri"), ("/en/cs2-market/", "CS2 pazarı"), ("/tr/cs2-guncellemeleri/", "CS2 güncellemeleri")],
+       "pl": [("/en/inventory-value/", "Wartość ekwipunku"), ("/en/cs2-market/", "Rynek CS2"), ("/pl/aktualizacje-cs2/", "Aktualizacje CS2")]}
 
 
 def updlink(s):
-    """пункт «Обновления CS2» первым в меню «Ещё»"""
+    """«Оценка инвентаря», «Рынок CS2», «Обновления CS2» первыми в меню «Ещё»"""
     i = s.find('<div class="tmenu" id="tmenu"')
     if i < 0: return s
     m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
-    href, lab = UPD[lang]
     j = s.find(">", i) + 1; k = s.find("</div>", j)
-    if f'href="{href}"' in s[j:k]: return s
-    cur = ' class="on"' if f'<link rel="canonical" href="https://skin-set.com{href}' in s else ""
-    return s[:j] + f'<a href="{href}"{cur}>{lab}</a>' + s[j:]
+    menu = s[j:k]; add = ""
+    for href, lab in UPD[lang]:
+        if f'href="{href}"' in menu: continue
+        cur = ' class="on"' if f'<link rel="canonical" href="https://skin-set.com{href}"' in s else ""
+        add += f'<a href="{href}"{cur}>{lab}</a>'
+    return s[:j] + add + s[j:] if add else s

@@ -42,10 +42,20 @@ async function steamProfile(sid) {
   } catch { return { n: "Steam", a: "" } }
 }
 
+async function resolveSid(id) {
+  id = String(id || "").trim().replace(/\/+$/, "");
+  let m = id.match(/(?:profiles\/)?(7656119\d{10})$/); if (m) return m[1];
+  m = id.match(/(?:id\/)?([A-Za-z0-9_-]{2,32})$/); if (!m) return null;
+  try {
+    const r = await fetch(`https://steamcommunity.com/id/${m[1]}/?xml=1`, { headers: { "User-Agent": "Mozilla/5.0" } });
+    const x = await r.text(); const s = x.match(/<steamID64>(\d{17})<\/steamID64>/); return s ? s[1] : null;
+  } catch { return null }
+}
+
 async function inventory(env, sid) {
   const key = "inv:" + sid;
-  if (env.KV) { const c = await env.KV.get(key, "json"); if (c) return c }
-  let names = [], priv = false, err = null;
+  if (env.KV) { const c = await env.KV.get(key, "json"); if (c && c.items) return c }
+  let names = [], items = [], priv = false, err = null;
   try {
     const H = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130 Safari/537.36", "Accept": "application/json", "Referer": `https://steamcommunity.com/profiles/${sid}/inventory` };
     let r = await fetch(`https://steamcommunity.com/inventory/${sid}/730/2?l=english&count=2000`, { headers: H });
@@ -55,10 +65,15 @@ async function inventory(env, sid) {
     else {
       const j = await r.json();
       if (!j || j.success === false) priv = true;
-      else names = [...new Set((j.descriptions || []).filter(d => d.marketable).map(d => d.market_hash_name))];
+      else {
+        const cnt = {}; for (const a of (j.assets || [])) cnt[a.classid + "_" + a.instanceid] = (cnt[a.classid + "_" + a.instanceid] || 0) + 1;
+        const m = new Map();
+        for (const d of (j.descriptions || [])) { if (!d.marketable) continue; m.set(d.market_hash_name, (m.get(d.market_hash_name) || 0) + (cnt[d.classid + "_" + d.instanceid] || 1)) }
+        names = [...m.keys()]; items = [...m.entries()];
+      }
     }
   } catch (e) { err = String(e) }
-  const out = { names, private: priv, error: err, t: Date.now() };
+  const out = { names, items, private: priv, error: err, t: Date.now() };
   if (env.KV && !err) await env.KV.put(key, JSON.stringify(out), { expirationTtl: 900 });
   return out;
 }
@@ -151,6 +166,26 @@ export default {
     }
 
     if (p === "/me") { const t = await readToken(env, u.searchParams.get("t")); return t ? json({ sid: t.sid, n: t.n, a: t.a }) : json({ error: "auth" }, 401) }
+
+    /* история цен (ветка history в GitHub), с кешем */
+    if (p.startsWith("/hist/")) {
+      const f = p.slice(6); if (!/^(meta|\d{2})\.json$/.test(f)) return json({ error: "nf" }, 404);
+      const cache = caches.default, ck = new Request("https://hist.cache/" + f);
+      let r = await cache.match(ck);
+      if (!r) {
+        const g = await fetch("https://raw.githubusercontent.com/viv1spr/skin-set/history/" + f, { cf: { cacheTtl: 600 } });
+        if (!g.ok) return json({ error: "upstream " + g.status }, 502);
+        r = new Response(await g.text(), { headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "public, max-age=1800" } });
+        await cache.put(ck, r.clone());
+      }
+      return r;
+    }
+    /* публичный инвентарь любого профиля: /invp?id=<steamid64|vanity|ссылка> */
+    if (p === "/invp") {
+      const sid = await resolveSid(u.searchParams.get("id")); if (!sid) return json({ error: "profile" }, 404);
+      const [inv, pr] = await Promise.all([inventory(env, sid), steamProfile(sid)]);
+      return json({ ...inv, sid, n: pr.n, a: pr.a });
+    }
 
     if (p === "/inv") {
       const t = await readToken(env, u.searchParams.get("t")); if (!t) return json({ error: "auth" }, 401);

@@ -206,6 +206,36 @@ export default {
       }
       return r;
     }
+    /* один матч: /match?id=123 — карты, составы, трансляции */
+    if (p === "/match") {
+      const id = String(u.searchParams.get("id") || "").replace(/\D/g, ""); if (!id) return json({ error: "id" }, 400);
+      if (!env.PANDASCORE) return json({ error: "notoken" });
+      const cache = caches.default, ck = new Request("https://match.cache/" + id);
+      let r = await cache.match(ck);
+      if (!r) {
+        const H = { headers: { Authorization: "Bearer " + env.PANDASCORE, Accept: "application/json" } };
+        const g = await fetch(`https://api.pandascore.co/matches/${id}`, H);
+        if (!g.ok) return json({ error: "upstream " + g.status }, g.status === 404 ? 404 : 502);
+        const m = await g.json();
+        const ids = (m.opponents || []).map(o => o.opponent && o.opponent.id).filter(Boolean);
+        let teams = [];
+        if (ids.length) { const tr = await fetch(`https://api.pandascore.co/csgo/teams?filter[id]=${ids.join(",")}`, H); if (tr.ok) teams = await tr.json() }
+        let games = m.games || [];
+        try { const gr = await fetch(`https://api.pandascore.co/csgo/matches/${id}/games`, H); if (gr.ok) { const gg = await gr.json(); if (Array.isArray(gg) && gg.length) games = gg } } catch (e) {}
+        const out = {
+          id: m.id, name: m.name, st: m.status, b: m.begin_at, e: m.end_at, bo: m.number_of_games, w: m.winner_id, mt: m.match_type, fw: m.forfeit,
+          t: (m.opponents || []).map(o => o.opponent).filter(Boolean).map(o => { const tm = teams.find(x => x.id === o.id) || {}; return { id: o.id, n: o.name, a: o.acronym, i: o.image_url, c: o.location, pl: (tm.players || []).map(p => ({ n: p.name, f: [p.first_name, p.last_name].filter(Boolean).join(" "), i: p.image_url, c: p.nationality, r: p.role })) } }),
+          s: (m.results || []).map(x => ({ id: x.team_id, s: x.score })),
+          l: m.league ? { n: m.league.name, i: m.league.image_url } : null, se: m.serie ? m.serie.full_name : "", tu: m.tournament ? m.tournament.name : "", tier: (m.tournament && m.tournament.tier) || "",
+          g: games.map(x => ({ p: x.position, st: x.status, w: x.winner && x.winner.id || x.winner_id || null, b: x.begin_at, len: x.length, map: x.map ? { n: x.map.name, i: x.map.image_url } : null,
+            r: (x.rounds_score || x.teams || []).map(z => ({ id: z.team_id || (z.team && z.team.id), s: z.score != null ? z.score : z.round_score })) })),
+          tv: (m.streams_list || []).filter(x => x.raw_url).map(x => ({ u: x.raw_url, lg: x.language, m: !!x.main, o: !!x.official }))
+        };
+        r = new Response(JSON.stringify(out), { headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "public, max-age=" + (m.status === "running" ? 45 : 600) } });
+        await cache.put(ck, r.clone());
+      }
+      return r;
+    }
     /* публичный инвентарь любого профиля: /invp?id=<steamid64|vanity|ссылка> */
     if (p === "/invp") {
       const sid = await resolveSid(u.searchParams.get("id")); if (!sid) return json({ error: "profile" }, 404);

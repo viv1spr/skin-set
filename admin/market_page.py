@@ -200,7 +200,7 @@ def build(d):
                     f'<div class="at"><div class="ar h"><span></span><span>{e(t["cols"][0])}</span><span class="p">{e(t["cols"][1])}</span><span class="c">{e(t["cols"][2])}</span><span class="c c7">{e(t["cols"][3])}</span></div><div id="al"></div></div>'
                     f'<button class="amore" id="am" hidden>{e(t["more"])}</button></section>'
                     + ALLJS.replace("__RATE__", str(RATE[lang])).replace("__CUR__", json.dumps(["", " ₽"] if lang == "ru" else ["$", ""])).replace("__WIKI__", json.dumps(WIKI[lang])).replace("__FOUND__", json.dumps(t["found"]))
-                    + f'<a class="cta" href="{inv}">{e(t["inv"])}</a><p class="note">{e(t["note"])}</p>')
+                    + f'<p class="note">{e(t["note"])}</p>')
             if lang == "ru":
                 out.update(i1=ix["i1"], i7=ix["i7"], up=[(r["n"], r["w"], r["c1"], r["cur"]) for r in sorted([r for r in rows if r["c1"] is not None], key=lambda r: -r["c1"])[:5]],
                            down=[(r["n"], r["w"], r["c1"], r["cur"]) for r in sorted([r for r in rows if r["c1"] is not None], key=lambda r: r["c1"])[:5]])

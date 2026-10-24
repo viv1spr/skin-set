@@ -1796,7 +1796,7 @@ document.addEventListener("click",e=>{const b=e.target.closest(".blog-tags butto
     state.frozen=null;try{render()}catch(e){}
     try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
   go()})();</script>
-<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/cs2-matches/">Mecze CS2</a><a href="/en/inventory-value/">Wartość ekwipunku</a><a href="/en/cs2-market/">Rynek CS2</a><a href="/pl/aktualizacje-cs2/">Aktualizacje CS2</a><a href="/pl/jak-to-dziala/" data-route="how">Jak to działa</a><a href="/pl/zestawy/" data-route="feed">Zestawy</a><a href="/pl/gdzie-kupic/" data-route="shops">Rynki</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
+<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/cs2-matches/">Mecze CS2</a><a href="/en/cs2-market/">Rynek CS2</a><a href="/pl/aktualizacje-cs2/">Aktualizacje CS2</a><a href="/pl/jak-to-dziala/" data-route="how">Jak to działa</a><a href="/pl/zestawy/" data-route="feed">Zestawy</a><a href="/pl/gdzie-kupic/" data-route="shops">Rynki</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
 const p=location.pathname;let on=false;m.querySelectorAll("a").forEach(a=>{if(p.startsWith(a.getAttribute("href"))){a.classList.add("on");on=true}});if(on)b.classList.add("on");
 const place=()=>{const r=b.getBoundingClientRect();const w=m.offsetWidth;m.style.top=(r.bottom+4)+"px";m.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+"px"};
 const close=()=>{m.hidden=true;b.classList.remove("open");b.setAttribute("aria-expanded","false")};

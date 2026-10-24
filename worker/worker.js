@@ -188,7 +188,7 @@ export default {
       const cache = caches.default, ck = new Request("https://matches.cache/" + type);
       let r = await cache.match(ck);
       if (!r) {
-        const q = type === "past" ? "per_page=100&sort=-end_at" : type === "upcoming" ? "per_page=100&sort=begin_at" : "per_page=50";
+        const q = type === "past" ? "per_page=100&sort=-begin_at&filter[status]=finished" : type === "upcoming" ? "per_page=100&sort=begin_at" : "per_page=50";
         const pages = type === "past" ? [1, 2, 3] : [1];
         const H = { headers: { Authorization: "Bearer " + env.PANDASCORE, Accept: "application/json" } };
         const res = await Promise.all(pages.map(pg => fetch(`https://api.pandascore.co/csgo/matches/${type}?${q}&page=${pg}`, H)));

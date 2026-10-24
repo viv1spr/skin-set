@@ -49,7 +49,7 @@ def undo(s):
 
 
 def fix(s):
-    return updlink(_fix(gwfirst(s)))
+    return hideabout(updlink(_fix(gwfirst(s))))
 
 
 def _fix(s):
@@ -260,3 +260,14 @@ def updlink(s):
         cur = ' class="on"' if f'<link rel="canonical" href="https://skin-set.com{href}"' in s else ""
         add += f'<a href="{href}"{cur}>{lab}</a>'
     return s[:j] + add + s[j:] if add else s
+
+
+ABOUTP = ["/o-proekte/", "/en/about/", "/de/ueber-uns/", "/pt/sobre/", "/tr/hakkimizda/", "/pl/o-projekcie/"]
+
+
+def hideabout(s):
+    """«О проекте» убрана из меню (страница остаётся доступной по ссылке)"""
+    nm = re.search(r'<nav class="tabs"[^>]*>.*?</nav>', s, re.S)
+    if not nm: return s
+    nav = re.sub(r'<a href="(?:' + "|".join(map(re.escape, ABOUTP)) + r')"[^>]*>.*?</a>', "", nm.group(0), flags=re.S)
+    return s[:nm.start()] + nav + s[nm.end():] if nav != nm.group(0) else s

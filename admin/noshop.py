@@ -79,7 +79,7 @@ def fix(s):
     if s != o and 'id="noshop-css"' not in s:
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
-    s = navmore.updlink(navmore.gwfirst(s))
+    s = navmore.hideabout(navmore.updlink(navmore.gwfirst(s)))
     return s
 
 

@@ -8,9 +8,9 @@ import glob, os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGOF = {"ru": "ru", "en": "en", "de": "de", "pt-BR": "pt", "pt": "pt", "tr": "tr", "pl": "pl"}
 MORE = {
-    "ru": ["/kak-rabotaet/", "/sety/", "/gde-kupit/"], "en": ["/en/how-it-works/", "/en/loadouts/", "/en/where-to-buy/"],
-    "de": ["/de/so-funktionierts/", "/de/loadouts/", "/de/wo-kaufen/"], "pt": ["/pt/como-funciona/", "/pt/sets/", "/pt/onde-comprar/"],
-    "tr": ["/tr/nasil-calisir/", "/tr/setler/", "/tr/nereden-alinir/"], "pl": ["/pl/jak-to-dziala/", "/pl/zestawy/", "/pl/gdzie-kupic/"],
+    "ru": ["/kak-rabotaet/", "/gde-kupit/"], "en": ["/en/how-it-works/", "/en/where-to-buy/"],
+    "de": ["/de/so-funktionierts/", "/de/wo-kaufen/"], "pt": ["/pt/como-funciona/", "/pt/onde-comprar/"],
+    "tr": ["/tr/nasil-calisir/", "/tr/nereden-alinir/"], "pl": ["/pl/jak-to-dziala/", "/pl/gdzie-kupic/"],
 }
 LABEL = {"ru": "Ещё", "en": "More", "de": "Mehr", "pt": "Mais", "tr": "Daha fazla", "pl": "Więcej"}
 
@@ -49,7 +49,7 @@ def undo(s):
 
 
 def fix(s):
-    return hideabout(updlink(_fix(gwfirst(s))))
+    return setsmain(hideabout(updlink(_fix(gwfirst(s)))))
 
 
 def _fix(s):
@@ -274,3 +274,41 @@ def hideabout(s):
     if not nm: return s
     nav = re.sub(r'<a href="(?:' + "|".join(map(re.escape, ABOUTP)) + r')"[^>]*>.*?</a>', "", nm.group(0), flags=re.S)
     return s[:nm.start()] + nav + s[nm.end():] if nav != nm.group(0) else s
+
+
+SETSP = {"ru": "/sety/", "en": "/en/loadouts/", "de": "/de/loadouts/", "pt": "/pt/sets/", "tr": "/tr/setler/", "pl": "/pl/zestawy/"}
+SKINSP = {"ru": "/skiny/", "en": "/en/skins/", "de": "/de/skins/", "pt": "/pt/skins/", "tr": "/tr/skinler/", "pl": "/pl/skiny/"}
+
+
+def setsmain(s):
+    """«Сеты» — в основном меню сразу после «Скины» (раньше были в «Ещё»)"""
+    m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
+    nm = re.search(r'<nav class="tabs"[^>]*>.*?</nav>', s, re.S)
+    if not nm: return s
+    href = SETSP[lang]
+    a_re = re.compile(r'<a\b[^>]*\shref="' + re.escape(href) + r'"[^>]*>.*?</a>', re.S)
+    nav = nm.group(0)
+    # уже в основном меню (не внутри tmenu)?
+    tm = re.search(r'<div class="tmenu".*?</div>', s, re.S)
+    link = None
+    if tm:
+        a = a_re.search(tm.group(0))
+        if a:
+            link = a.group(0); s = s[:tm.start()] + tm.group(0).replace(link, "", 1) + s[tm.end():]
+            nm = re.search(r'<nav class="tabs"[^>]*>.*?</nav>', s, re.S); nav = nm.group(0)
+    found = a_re.findall(nav)
+    if len(found) > 1:  # дубль от прошлой версии — оставить ссылку с data-route
+        keep = next((x for x in found if "data-route" in x), found[0])
+        nav2 = nav
+        for x in found:
+            if x is not keep: nav2 = nav2.replace(x, "", 1)
+        return s[:nm.start()] + nav2 + s[nm.end():]
+    if found: return s
+    if not link:
+        lab = {"ru": "Сеты", "en": "Loadouts", "de": "Loadouts", "pt": "Sets", "tr": "Setler", "pl": "Zestawy"}[lang]
+        link = f'<a href="{href}">{lab}</a>'
+    link = re.sub(r'\sclass="?on"?', "", link)
+    if f'<link rel="canonical" href="https://skin-set.com{href}"' in s: link = link.replace("<a ", '<a class="on" ', 1)
+    sk = re.search(r'<a href="' + re.escape(SKINSP[lang]) + r'"[^>]*>.*?</a>', nav, re.S)
+    nav2 = nav[:sk.end()] + link + nav[sk.end():] if sk else nav.replace('<button class="tmore"', link + '<button class="tmore"', 1)
+    return s[:nm.start()] + nav2 + s[nm.end():]

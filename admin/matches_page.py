@@ -57,7 +57,7 @@ html,body{overflow-x:clip}
 .m.live{border-color:rgba(232,64,42,.55);background:linear-gradient(90deg,rgba(232,64,42,.12),rgba(255,255,255,.02) 40%)}
 .m .tm{font:700 .95rem var(--hud);color:var(--soft)}.m .tm small{display:block;font:600 .66rem/1 var(--hud);letter-spacing:.1em;color:var(--dim);margin-top:4px}
 .lv{display:inline-flex;align-items:center;gap:6px;color:#ff6a50!important}
-.tt{display:flex;align-items:center;gap:10px;min-width:0}.tt.r{flex-direction:row-reverse;text-align:right}
+.tt{display:flex;align-items:center;gap:10px;min-width:0;flex-direction:row-reverse;text-align:right}.tt.r{flex-direction:row;text-align:left}
 .tt img{width:30px;height:30px;object-fit:contain;flex:none}.tt .ph{width:30px;height:30px;flex:none;background:rgba(255,255,255,.06);border-radius:3px}
 .tt b{font:600 .98rem/1.2 var(--body,inherit);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tt.win b{color:#fff}.tt.lose b{color:var(--dim)}
 .sc{text-align:center;font:700 1.35rem/1 var(--hud)}.sc .w{color:#2bd67b}.sc .l{color:var(--dim)}.sc small{display:block;font:600 .66rem/1 var(--hud);letter-spacing:.1em;color:var(--dim);margin-top:5px}
@@ -71,7 +71,7 @@ html,body{overflow-x:clip}
 @media(max-width:860px){.m{grid-template-columns:52px minmax(0,1fr) 70px minmax(0,1fr);row-gap:8px}.m .ev{grid-column:1/-2}.m .wt{grid-column:-2/-1}}
 .tt .ts{display:none;font-style:normal}
 @media(max-width:600px){.mt{padding:16px 14px 40px}.m{grid-template-columns:50px minmax(0,1fr) auto;grid-template-areas:"tm a w" "tm b w" "ev ev ev";padding:10px;gap:6px 10px}
-.m .tm{grid-area:tm}.m .tt{grid-area:a}.m .tt.r{grid-area:b;flex-direction:row;text-align:left}.m .sc{display:none}.m .ev{grid-area:ev}.m .wt{grid-area:w;align-self:center;padding:8px 10px}
+.m .tm{grid-area:tm}.m .tt{grid-area:a;flex-direction:row;text-align:left}.m .tt.r{grid-area:b;flex-direction:row;text-align:left}.m .sc{display:none}.m .ev{grid-area:ev}.m .wt{grid-area:w;align-self:center;padding:8px 10px}
 .m>span:last-child{display:none}
 .tt img,.tt .ph{width:22px;height:22px}.tt b{font-size:.9rem;flex:1}.tt .ts{display:block;font:700 1rem var(--hud);margin-left:auto}.tt.win .ts{color:#2bd67b}.tt.lose .ts{color:var(--dim)}}
 """

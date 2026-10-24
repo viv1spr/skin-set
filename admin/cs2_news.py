@@ -130,7 +130,9 @@ html,body{overflow-x:clip}
 .cd.pc{flex-direction:row;min-height:0}
 .cd.pc .dt{flex:none;width:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:radial-gradient(120% 100% at 100% 0%,rgba(232,64,42,.45),transparent 60%),#121317;border-right:1px solid var(--line,rgba(255,255,255,.1))}
 .cd.pc .dt b{font:700 2.2rem/1 var(--hud)}.cd.pc .dt small{font:600 .68rem/1 var(--hud);letter-spacing:.12em;color:#ff8a70;text-transform:uppercase}
-.cd.pc h3{font-size:1rem}
+.cd.pc h3{font-size:1rem;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.3em}
+.cd.pc{height:134px}.cd.pc .bd{justify-content:center;overflow:hidden}.cd.pc .chips{flex-wrap:nowrap;overflow:hidden}.cd.pc .chips li{flex:none}
+.cd h3{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .gridn.pl{grid-template-columns:repeat(3,minmax(0,1fr))}
 .nw .note{margin-top:28px;font-size:.8rem;color:var(--dim)}
 /* страница обновления */
@@ -408,7 +410,7 @@ def build(items):
             sec = sections(x["c"]); tot = sum(b for _, b in sec)
             if is_patch(x) and not image_of(x):
                 mo = MON[lang if lang in MON else "en"][d.month - 1]
-                grid.append(f'<a class="cd pc" href="{detail_url(lang, sl[x["gid"]])}" data-k="p"><span class="dt"><b>{d.day}</b><small>{e(mo[:3] if lang != "ru" else mo[:3])}</small></span><div class="bd"><div class="nmeta">{tags_of(x, k)}</div><h3>{e(summ(x, lang)[0])}</h3>'
+                grid.append(f'<a class="cd pc" href="{detail_url(lang, sl[x["gid"]])}" data-k="p"><span class="dt"><b>{d.day}</b><small>{e(mo[:3] if lang != "ru" else mo[:3])}</small></span><div class="bd"><div class="nmeta">{tags_of(x, k)}</div><h3 title="{e(summ(x, lang)[0])}">{e(summ(x, lang)[0])}</h3>'
                             + (chips(sl_lang, sec, 4) if tot else f'<p>{e(plain(x["c"], 110))}</p>') + '</div></a>')
             else:
                 grid.append(f'<a class="cd" href="{detail_url(lang, sl[x["gid"]])}" data-k="{"p" if is_patch(x) else "n"}">{cover(lang, x, tot)}<div class="bd"><div class="nmeta">{tags_of(x, k)}</div><h3>{e(head_of(x))}</h3>'

@@ -31,6 +31,7 @@ html,body{overflow-x:clip}
 .mt-top{display:inline-flex;align-items:center;gap:8px;font-size:.86rem;color:var(--soft);cursor:pointer;user-select:none}.mt-top input{accent-color:#e8402a;width:16px;height:16px}
 .day{margin:22px 0 8px;font:700 .9rem/1 var(--hud);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:12px}.day::after{content:"";flex:1;height:1px;background:var(--line,rgba(255,255,255,.1))}
 .m{display:grid;grid-template-columns:64px minmax(0,1fr) 92px minmax(0,1fr) minmax(0,220px) 124px;gap:12px;align-items:center;padding:12px 14px;margin-bottom:6px;background:rgba(255,255,255,.035);border:1px solid var(--line,rgba(255,255,255,.1))}
+.m{cursor:pointer;transition:border-color .15s}.m:hover{border-color:rgba(255,255,255,.3)}
 .m.live{border-color:rgba(232,64,42,.55);background:linear-gradient(90deg,rgba(232,64,42,.12),rgba(255,255,255,.02) 40%)}
 .m .tm{font:700 .95rem var(--hud);color:var(--soft)}.m .tm small{display:block;font:600 .66rem/1 var(--hud);letter-spacing:.1em;color:var(--dim);margin-top:4px}
 .lv{display:inline-flex;align-items:center;gap:6px;color:#ff6a50!important}
@@ -141,7 +142,7 @@ function team(t,side,res,m){const sv=(m.st==="running"||m.st==="finished")&&res!
 function row(m){const a=m.t[0],b=m.t[1];const sa=a&&(m.s.find(x=>x.id===a.id)||{}).s,sb=b&&(m.s.find(x=>x.id===b.id)||{}).s;
  const live=m.st==="running",fin=m.st==="finished";
  const sc=(live||fin)&&sa!=null?'<span class="'+(fin?(sa>sb?"w":"l"):"")+'">'+sa+'</span> : <span class="'+(fin?(sb>sa?"w":"l"):"")+'">'+sb+'</span>':'<span style="color:var(--dim);font-size:1rem">'+esc(L.vs)+'</span>';
- return'<div class="m'+(live?" live":"")+'"><div class="tm">'+(live?'<span class="lv"><i></i>LIVE</span>':fT(m.b||m.e))+'<small>'+(m.bo?L.bo+m.bo:"")+'</small></div>'+team(a,0,sa,m)+'<div class="sc">'+sc+'</div>'+team(b,1,sb,m)
+ return'<div class="m'+(live?" live":"")+'" data-id="'+m.id+'" tabindex="0" role="link"><div class="tm">'+(live?'<span class="lv"><i></i>LIVE</span>':fT(m.b||m.e))+'<small>'+(m.bo?L.bo+m.bo:"")+'</small></div>'+team(a,0,sa,m)+'<div class="sc">'+sc+'</div>'+team(b,1,sb,m)
   +'<div class="ev">'+(m.l&&m.l.i?'<img src="'+esc(m.l.i)+'" alt="" loading="lazy">':'')+'<span title="'+esc((m.l?m.l.n+" · ":"")+m.se)+'">'+esc(m.l?m.l.n:"")+(m.se?" · "+esc(m.se.replace(m.l?m.l.n:"","").trim()):"")+'</span>'+(m.tier?'<em>'+esc(String(m.tier).toUpperCase())+'</em>':'')+'</div>'+(fin?'<span></span>':stream(m))+'</div>'}
 function draw(){const box=$("#mtList");const d=D[tab];if(!d){box.innerHTML='<div class="mt-msg">'+esc(L.load)+'</div>';return}
  if(d.error==="notoken"){box.innerHTML='<div class="mt-msg">'+esc(L.notoken)+'</div>';return}if(d.error){box.innerHTML='<div class="mt-msg">'+esc(L.err)+'</div>';return}
@@ -150,6 +151,8 @@ function draw(){const box=$("#mtList");const d=D[tab];if(!d){box.innerHTML='<div
  let h=auto?'<p class="mt-auto">'+esc(L.notop)+'</p>':"",cur="";for(const m of list){const dn=tab==="live"?"":dayName(tab==="past"?(m.e||m.b):m.b);if(dn!==cur){cur=dn;if(dn)h+='<div class="day">'+esc(dn)+'</div>'}h+=row(m)}box.innerHTML=h}
 async function load(t,force){const map={live:"running",up:"upcoming",past:"past"};if(D[t]&&!force)return;try{const r=await fetch(W+"/matches?type="+map[t]);D[t]=await r.json()}catch(e){D[t]={error:"net"}}
  if(t==="live"){const n=(D.live.list||[]).filter(m=>!top||TOP(m)).length;$("#mtN").textContent=n?n:"";}if(t===tab)draw()}
+$("#mtList").addEventListener("click",e=>{if(e.target.closest("a"))return;const r=e.target.closest(".m[data-id]");if(r)location.href=location.pathname.replace(/\/$/,"")+"/match/?id="+r.dataset.id});
+$("#mtList").addEventListener("keydown",e=>{if(e.key==="Enter"){const r=e.target.closest(".m[data-id]");if(r)location.href=location.pathname.replace(/\/$/,"")+"/match/?id="+r.dataset.id}});
 $("#mtTabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;tab=b.dataset.t;$("#mtTabs").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));draw();load(tab)});
 const tp=$("#mtTop");tp.checked=top;tp.onchange=()=>{top=tp.checked;LS("mt_top",top?"1":"0");load("live");draw()};
 (async()=>{await load("live");const n=(D.live&&D.live.list||[]).filter(m=>!top||TOP(m)).length;if(n){tab="live";$("#mtTabs").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x.dataset.t==="live"))}draw();load("up");load("past")})();

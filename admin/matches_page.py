@@ -9,6 +9,7 @@ sys.path.insert(0, os.path.join(ROOT, "admin"))
 from skins_wiki import head, header, FOOT, HOME, SITE, HREFLANG, WIKI  # noqa
 from about import LANG_JS  # noqa
 import navmore  # noqa
+from pagegrid import GRID_CSS  # noqa
 
 e = lambda s: html.escape(str(s), quote=True)
 URL = {"ru": "/matchi-cs2/", "en": "/en/cs2-matches/"}
@@ -112,13 +113,13 @@ def build(lang):
     ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": t["h1"], "url": SITE + url, "description": t["desc"]},
           {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}]
     alts = "".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{URL[l]}">' for l in URL) + f'<link rel="alternate" hreflang="x-default" href="{SITE}{URL["en"]}">'
-    body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="mt-kick"><i></i>{e(t["kick"])}</span><h1>{e(t["h1"])}</h1><p class="lead">{e(t["lead"])}</p>'
+    body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="mt-kick pg-eb"><i></i>{e(t["kick"])}</span><h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead"])}</p>'
             f'<div class="mt-bar"><div class="mt-tabs" id="mtTabs"><button data-t="live"><span class="lv"><i></i></span>{e(L["live"])} <b id="mtN"></b></button><button data-t="up" class="on">{e(L["up"])}</button><button data-t="past">{e(L["past"])}</button></div>'
             f'<label class="mt-top"><input type="checkbox" id="mtTop"> {e(L["top"])}</label></div><div id="mtList"><div class="mt-msg">{e(L["load"])}</div></div>'
             f'<h2>{e(t["faq_h"])}</h2><div class="faq">{"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in t["faq"])}</div><p class="note">{e(t["note"])}</p>'
             f'<script>window.MTL={json.dumps(L, ensure_ascii=False)};</script><script>{JS.replace("__W__", json.dumps(W))}</script>')
-    h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}</style></head>")
-    p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) for l in HOME})}\n<main class="mt">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
+    h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}{GRID_CSS}</style></head>")
+    p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) for l in HOME})}\n<main class="mt pg">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
     p = p.replace(f'<a href="{WIKI[lang]}" class=on>', f'<a href="{WIKI[lang]}">', 1)
     return navmore.fix(p.replace("</body>", LANG_JS + "</body>", 1))
 
@@ -180,8 +181,8 @@ def build_detail(lang):
     body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(T[lang]["home"])}</a> › <a href="{URL[lang]}">{e(T[lang]["h1"])}</a></nav>'
             f'<p><a href="{URL[lang]}" style="color:#66c0f4;text-decoration:none">{e(t["back"])}</a></p><div id="md"><div class="msg">{e(t["load"])}</div></div>'
             f'<script>window.MDL={json.dumps(t, ensure_ascii=False)};</script><script>{DJS.replace("__W__", json.dumps(W))}</script>')
-    h = head(lang, t["title"], t["title"], SITE + url, "", []).replace("</head>", f'<meta name="robots" content="noindex,follow"><style>{DCSS}</style></head>')
-    p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) for l in HOME})}\n<main class="md">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
+    h = head(lang, t["title"], t["title"], SITE + url, "", []).replace("</head>", f'<meta name="robots" content="noindex,follow"><style>{DCSS}{GRID_CSS}</style></head>')
+    p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) for l in HOME})}\n<main class="md pg">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
     p = p.replace(f'<a href="{WIKI[lang]}" class=on>', f'<a href="{WIKI[lang]}">', 1)
     return navmore.fix(p.replace("</body>", LANG_JS + "</body>", 1))
 

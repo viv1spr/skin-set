@@ -11,6 +11,7 @@ from skins_wiki import head, header, FOOT, HOME, SITE, HREFLANG, WIKI  # noqa
 from budget_pages import money, wiki_url  # noqa
 from about import LANG_JS  # noqa
 import navmore  # noqa
+from pagegrid import GRID_CSS  # noqa
 from price_history import load  # noqa
 
 e = lambda s: html.escape(str(s), quote=True)
@@ -192,8 +193,8 @@ def build(d):
             js = ('<script>(()=>{const t=document.getElementById("mkt");if(!t)return;t.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;'
                   't.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("[data-cat]").forEach(g=>g.classList.toggle("on",g.dataset.cat===b.dataset.c))})})()</script>')
             inv = "/ocenka-inventarya/" if lang == "ru" else "/en/inventory-value/"
-            body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="mk-kick"><i></i>{e(t["kick"])} · {e(t["upd"].format(D=D))}</span>'
-                    f'<h1>{e(t["h1"])}</h1><p class="lead">{e(t["lead"])}</p>{kpi}<p class="sum">{e(su)}</p>{tabs}{"".join(grids)}{js}'
+            body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="mk-kick pg-eb"><i></i>{e(t["kick"])} · {e(t["upd"].format(D=D))}</span>'
+                    f'<h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead"])}</p>{kpi}<p class="sum">{e(su)}</p>{tabs}{"".join(grids)}{js}'
                     f'<section class="all" id="all"><h2>{e(t["all_h"])}</h2><p>{e(t["all_p"])}</p><div class="af"><input id="aq" type="search" placeholder="{e(t["srch"])}" autocomplete="off">'
                     + '<div class="kd" id="ak">' + "".join(f'<button data-k="{c}"{" class=on" if c == "all" else ""}>{e(l[lang])}</button>' for c, l in CATS) + '</div>'
                     + '<select id="as">' + "".join(f'<option value="{v}">{e(l)}</option>' for v, l in t["sorts"]) + f'</select><span class="cnt" id="an"></span></div>'
@@ -206,8 +207,8 @@ def build(d):
                            down=[(r["n"], r["w"], r["c1"], r["cur"]) for r in sorted([r for r in rows if r["c1"] is not None], key=lambda r: r["c1"])[:5]])
         alts = "".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{URL[l]}">' for l in URL) + f'<link rel="alternate" hreflang="x-default" href="{SITE}{URL["en"]}">'
         ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": t["h1"], "url": SITE + url, "description": t["desc"], "dateModified": now.isoformat(timespec="seconds")}]
-        h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}</style></head>")
-        p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) if l in URL else HOME[l] for l in HOME})}\n<main class="mk">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
+        h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}{GRID_CSS}</style></head>")
+        p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) if l in URL else HOME[l] for l in HOME})}\n<main class="mk pg">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
         p = p.replace(f'<a href="{WIKI[lang]}" class=on>', f'<a href="{WIKI[lang]}">', 1)
         p = navmore.fix(p.replace("</body>", LANG_JS + "</body>", 1))
         f = os.path.join(ROOT, url.strip("/"), "index.html"); os.makedirs(os.path.dirname(f), exist_ok=True)

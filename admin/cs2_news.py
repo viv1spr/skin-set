@@ -11,6 +11,7 @@ sys.path.insert(0, os.path.join(ROOT, "admin"))
 from skins_wiki import head, header, FOOT, HOME, SITE, HREFLANG  # noqa
 from about import LANG_JS  # noqa
 import navmore  # noqa
+from pagegrid import GRID_CSS  # noqa
 
 e = lambda s: html.escape(str(s), quote=True)
 DATA = os.path.join(ROOT, "data/cs2-news.json")
@@ -278,8 +279,8 @@ def summary(lang, x):
 
 
 def page_shell(lang, url, title, desc, ld, body, alts, og=""):
-    h = head(lang, title, desc, SITE + url, alts, ld, og).replace("</head>", f"<style>{CSS}</style></head>")
-    p = h + f"\n<body>\n{header(lang, {l: (url if l == lang else IDX[l]) for l in IDX})}\n<main class=\"nw\">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n"
+    h = head(lang, title, desc, SITE + url, alts, ld, og).replace("</head>", f"<style>{CSS}{GRID_CSS}</style></head>")
+    p = h + f"\n<body>\n{header(lang, {l: (url if l == lang else IDX[l]) for l in IDX})}\n<main class=\"nw pg\">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n"
     from skins_wiki import WIKI
     p = p.replace(f'<a href="{WIKI[lang]}" class=on>', f'<a href="{WIKI[lang]}">', 1)
     return navmore.fix(p.replace("</body>", LANG_JS + "</body>", 1))
@@ -423,7 +424,7 @@ def build(items):
                 '<script>(()=>{const f=document.getElementById("nwf");f.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;f.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));const k=b.dataset.f;'
                 'document.querySelectorAll(".cd,.feat").forEach(c=>c.style.display=!k||c.dataset.k===k?"":"none");document.querySelectorAll(".gridn").forEach(g=>{const v=[...g.children].some(c=>c.style.display!=="none");g.style.display=v?"":"none";g.previousElementSibling.style.display=v?"":"none"})})})()</script>')
         body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav>'
-                f'<div class="nw-hero"><span class="nw-kick"><i></i>{e(u_["kick"])}</span><h1>{e(t["h1"])}</h1><p class="lead">{e(t["lead"])}</p></div>'
+                f'<div class="nw-hero"><span class="nw-kick pg-eb"><i></i>{e(u_["kick"])}</span><h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead"])}</p></div>'
                 + filt + feat + "".join(grid) + f'<p class="note">{e(t["note"])}</p>')
         alts = "".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{IDX[l]}">' for l in IDX) + f'<link rel="alternate" hreflang="x-default" href="{SITE}{IDX["en"]}">'
         out = os.path.join(ROOT, url.strip("/"), "index.html"); os.makedirs(os.path.dirname(out), exist_ok=True)

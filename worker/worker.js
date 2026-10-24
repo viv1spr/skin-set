@@ -53,7 +53,7 @@ async function resolveSid(id) {
 }
 
 async function inventory(env, sid) {
-  const key = "inv:" + sid;
+  const key = "inv2:" + sid;
   if (env.KV) { const c = await env.KV.get(key, "json"); if (c && c.items) return c }
   let names = [], items = [], priv = false, err = null;
   try {
@@ -68,7 +68,7 @@ async function inventory(env, sid) {
       else {
         const cnt = {}; for (const a of (j.assets || [])) cnt[a.classid + "_" + a.instanceid] = (cnt[a.classid + "_" + a.instanceid] || 0) + 1;
         const m = new Map();
-        for (const d of (j.descriptions || [])) { if (!d.marketable) continue; m.set(d.market_hash_name, (m.get(d.market_hash_name) || 0) + (cnt[d.classid + "_" + d.instanceid] || 1)) }
+        for (const d of (j.descriptions || [])) { if (!d.marketable && !/\s\|\s/.test(d.market_hash_name || "")) continue; /* скины в трейд-бане: marketable=0, но это всё равно скины */ m.set(d.market_hash_name, (m.get(d.market_hash_name) || 0) + (cnt[d.classid + "_" + d.instanceid] || 1)) }
         names = [...m.keys()]; items = [...m.entries()];
       }
     }

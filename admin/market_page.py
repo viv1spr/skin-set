@@ -52,7 +52,7 @@ html,body{overflow-x:clip}
 .mk .lead{color:var(--soft);max-width:760px;margin:0}
 .mk-top{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;margin:22px 0}
 .kpi{padding:16px 18px;background:rgba(255,255,255,.04);border:1px solid var(--line,rgba(255,255,255,.1))}
-.kpi small{display:block;font:600 .72rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.kpi small{display:block;font:600 .72rem/1.35 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
 .kpi b{font:700 2.2rem/1 var(--hud)}.kpi span{display:block;margin-top:6px;font-size:.82rem;color:var(--soft)}
 .kpi .row{display:flex;gap:18px;align-items:baseline}.kpi .row em{font-style:normal;font-size:.8rem;color:var(--dim);margin-left:4px}
 .up{color:#2bd67b!important}.dn{color:#ff5d5d!important}

@@ -92,6 +92,18 @@ html,body{overflow-x:clip}
 .cov.gen .g b span{display:block;font-size:.42em;letter-spacing:.12em;color:#ff8a70;margin-top:6px}
 .cov.gen .g em{font-style:normal;font:600 .78rem/1 var(--hud);letter-spacing:.12em;color:rgba(255,255,255,.75);text-transform:uppercase}
 .cov.gen.news{background:radial-gradient(120% 90% at 85% 0%,rgba(228,174,57,.55),transparent 55%),linear-gradient(160deg,#1a1712,#0c0d10)}.cov.gen.news .g b span{color:#ffd36a}
+.cov.pv{background:#0c0d10}
+.cov.pv .bgi,.art-h.gen .bgi{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;filter:saturate(.9) blur(1px);transform:scale(1.04)}
+.cov.pv::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,11,14,.96) 0%,rgba(10,11,14,.82) 55%,rgba(10,11,14,.35) 100%),linear-gradient(0deg,rgba(232,64,42,.25),transparent 40%)}
+.cov.pv .pv-in{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:6% 7%}
+.pv-h{display:flex;flex-direction:column;gap:6px}.pv-h small{font:600 .72rem/1 var(--hud);letter-spacing:.24em;color:#ff8a70;text-transform:uppercase}
+.pv-h b{font:700 clamp(1.8rem,3.4vw,2.6rem)/1 var(--hud);text-transform:uppercase;color:#fff}
+.pv-l{display:flex;flex-direction:column;gap:7px;max-width:92%}
+.pv-l i{font-style:normal;font:500 .86rem/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8dbe0;padding-left:16px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv-l i::before{content:"+";position:absolute;left:0;color:#e8402a;font-weight:700}
+.cov.pv em{font-style:normal;font:600 .76rem/1 var(--hud);letter-spacing:.12em;color:rgba(255,255,255,.6);text-transform:uppercase}
+.art-h.gen{position:relative}.art-h.gen::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,11,14,.95),rgba(10,11,14,.7) 60%,rgba(10,11,14,.4))}.art-h.gen .ov{z-index:1}
+@media(max-width:600px){.pv-l i{font-size:.76rem}.cov.pv .pv-in{gap:10px}}
 .feat{display:grid;grid-template-columns:1.25fr 1fr;gap:0;margin-bottom:26px;background:linear-gradient(170deg,rgba(255,255,255,.07),rgba(255,255,255,.015));border:1px solid var(--line2,rgba(255,255,255,.14));color:var(--ink,#fff);text-decoration:none}
 .feat:hover .cov img{transform:scale(1.03)}
 .feat .bd{padding:26px 28px;display:flex;flex-direction:column;gap:12px}
@@ -276,11 +288,31 @@ def image_of(x):
     return u if u.startswith("http") and not u.lower().endswith(".gif") else None
 
 
+BG = {}  # gid → фоновая картинка «сезона» (последняя обложка Valve на момент патча)
+
+
+def lines(x, n=4):
+    """первые пункты патчноута — для превью"""
+    out = []
+    for m in re.finditer(r"\[\*\]\s*(?:\[p\])?(.*?)(?=\[/p\]|\[/\*\]|\[list\]|\[\*\])", x["c"], re.S):
+        t = plain(m.group(1), 90)
+        if len(t) > 6 and t not in out: out.append(t)
+        if len(out) >= n: break
+    return out
+
+
 def cover(lang, x, tot, big=False):
     im = image_of(x)
     if im: return f'<span class="cov"><img src="{e(im)}" alt="{e(x["t"])}" loading="{"eager" if big else "lazy"}"></span>'
     d = _utc(x["d"]); u = UI[lang]; patch = is_patch(x)
     mon = MON[lang][d.month - 1]
+    if big:
+        bg = BG.get(x["gid"]); ls = lines(x)
+        more = tot - len(ls) if tot > len(ls) else 0
+        return (f'<span class="cov pv">' + (f'<img class="bgi" src="{e(bg)}" alt="" loading="eager">' if bg else "")
+                + f'<span class="pv-in"><span class="pv-h"><small>Patch notes</small><b>{d.day} {e(mon)}</b></span>'
+                + ("<span class=\"pv-l\">" + "".join(f"<i>{e(l)}</i>" for l in ls) + "</span>" if ls else "")
+                + (f'<em>+{more} {e(T[lang].get("items", ""))}</em>' if more else "") + '</span></span>')
     return (f'<span class="cov gen{"" if patch else " news"}"><span class="g"><small>Counter-Strike 2</small>'
             f'<b>{d.day}<span>{e(mon)} {d.year}</span></b><em>{e(u["patch"] if patch else u["newsl"])}{f" · {tot} {e(T[lang].get("items", ""))}" if tot else ""}</em></span></span>')
 
@@ -293,6 +325,12 @@ def chips(lang, sec, n=6):
 def build(items):
     sl = slugs(items); made = []
     items = sorted(items, key=lambda x: -x["d"])
+    BG.clear(); last = None
+    for x in sorted(items, key=lambda x: x["d"]):
+        if image_of(x): last = image_of(x)
+        BG[x["gid"]] = last
+    newest = next((image_of(x) for x in items if image_of(x)), None)
+    for k in BG: BG[k] = BG[k] or newest
     # отдельные страницы обновлений: RU и EN
     for lang in ("ru", "en"):
         t = T[lang]; u_ = UI[lang]
@@ -314,7 +352,7 @@ def build(items):
                   {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": t["home"], "item": SITE + HOME[lang]}, {"@type": "ListItem", "position": 2, "name": t["h1"], "item": SITE + IDX[lang]}, {"@type": "ListItem", "position": 3, "name": h1, "item": SITE + u}]}]
             tags = f'<span class="nt {"ntp" if patch else "nts"}">{e(u_["patch"] if patch else u_["newsl"])}</span>' + (f'<span class="nt nts">{e(t["skins"])}</span>' if sk and patch else "") + (f'<span class="nt ntn">{e(t["last"])}</span>' if k == 0 else "")
             body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › <a href="{IDX[lang]}">{e(t["h1"])}</a> › {e(D)}</nav>'
-                    + (f'<header class="art-h">{cover(lang, x, tot, True)}<div class="ov">' if image_of(x) else '<header class="art-h gen"><div class="ov">')
+                    + (f'<header class="art-h">{cover(lang, x, tot, True)}<div class="ov">' if image_of(x) else f'<header class="art-h gen">' + (f'<img class="bgi" src="{e(BG[x["gid"]])}" alt="" loading="eager">' if BG.get(x["gid"]) else "") + '<div class="ov">')
                     + f'<div class="nmeta">{tags}<span>{e(D)}</span></div><h1>{e(h1)}</h1></div></header>'
                     f'<div class="art"><div><div class="notes" lang="en">{bb(x["c"])}</div><div class="pn">{pn}</div></div>'
                     f'<aside class="side">'

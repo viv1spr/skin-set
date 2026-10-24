@@ -104,6 +104,10 @@ html,body{overflow-x:clip}
 .cov.pv em{font-style:normal;font:600 .76rem/1 var(--hud);letter-spacing:.12em;color:rgba(255,255,255,.6);text-transform:uppercase}
 .art-h.gen{position:relative}.art-h.gen::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,11,14,.95),rgba(10,11,14,.7) 60%,rgba(10,11,14,.4))}.art-h.gen .ov{z-index:1}
 @media(max-width:600px){.pv-l i{font-size:.76rem}.cov.pv .pv-in{gap:10px}}
+.art-h .sub2{margin:10px 0 0;font-size:1.05rem;color:#e9d9c9;max-width:900px}
+.tldr{margin-top:14px;padding:18px 22px;background:linear-gradient(135deg,rgba(232,64,42,.14),rgba(255,255,255,.02));border:1px solid rgba(232,64,42,.45)}
+.tldr h4{margin:0 0 10px;font:700 .9rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:#ff8a70}
+.tldr ul{margin:0;padding-left:20px;display:grid;gap:6px;color:var(--ink,#fff)}
 .feat{display:grid;grid-template-columns:1.25fr 1fr;gap:0;margin-bottom:26px;background:linear-gradient(170deg,rgba(255,255,255,.07),rgba(255,255,255,.015));border:1px solid var(--line2,rgba(255,255,255,.14));color:var(--ink,#fff);text-decoration:none}
 .feat:hover .cov img{transform:scale(1.03)}
 .feat .bd{padding:26px 28px;display:flex;flex-direction:column;gap:12px}
@@ -147,7 +151,7 @@ html,body{overflow-x:clip}
 .box h4{margin:0 0 10px;font:700 .8rem/1 var(--hud);letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
 .box a.src{display:block;padding:11px 12px;background:#171a21;border:1px solid #2a475e;color:#c7d5e0;text-decoration:none;font:600 .82rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-align:center}
 .box a.src:hover{background:#1b2838}
-.box .ol{display:flex;flex-direction:column;gap:2px}.box .ol a{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line,rgba(255,255,255,.07));color:var(--soft);text-decoration:none;font-size:.86rem}.box .ol a:hover{color:#fff}.box .ol a span{color:var(--dim);flex:none}
+.box .ol{display:flex;flex-direction:column;gap:2px}.box .ol a{display:flex;flex-direction:column;gap:3px;padding:8px 0;border-bottom:1px solid var(--line,rgba(255,255,255,.07));color:var(--soft);text-decoration:none;font-size:.86rem}.box .ol a:hover{color:#fff}.box .ol a span{color:var(--dim);font-size:.76rem}
 .box .ln{font-size:.82rem;color:var(--dim);margin:10px 0 0}
 .pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.pn a{padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line,rgba(255,255,255,.1));color:var(--ink,#fff);text-decoration:none}.pn a small{display:block;color:var(--dim);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}.pn a:hover{border-color:rgba(255,255,255,.3)}.pn a.nx{text-align:right;grid-column:2}
 .nw .cta{display:block;margin-top:14px;padding:13px 16px;background:linear-gradient(90deg,#e8402a,#ff6a3d);color:#fff;font:700 .84rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;text-align:center}
@@ -155,6 +159,21 @@ html,body{overflow-x:clip}
 @media(max-width:960px){.gridn{grid-template-columns:repeat(2,minmax(0,1fr))}.feat{grid-template-columns:1fr}.art{grid-template-columns:1fr}.side{position:static}}
 @media(max-width:600px){.nw{padding:16px 14px 40px}.gridn{grid-template-columns:minmax(0,1fr)}.feat .bd{padding:18px}.notes{padding:16px}.art-h .cov{aspect-ratio:16/10}.art-h .ov{padding:40px 16px 16px}.pn{grid-template-columns:1fr}.pn a.nx{grid-column:auto}}
 """
+
+
+SUMF = os.path.join(ROOT, "data/cs2-summaries.json")
+SUM = json.load(open(SUMF)) if os.path.exists(SUMF) else {}
+
+
+def summ(x, lang):
+    """(заголовок, [пункты]) — краткий итог простыми словами; если его ещё нет — заголовок по разделам"""
+    l = "ru" if lang == "ru" else "en"
+    v = (SUM.get(x["gid"]) or {}).get(l)
+    if v: return v["t"], v.get("s", [])
+    if not is_patch(x): return x["t"], []
+    sec = [a for a, b in sections(x["c"]) if b]
+    if sec: return ("Изменения: " if l == "ru" else "Changes: ") + ", ".join(secname(l, a) for a in sec[:3]), []
+    return ("Исправления и улучшения" if l == "ru" else "Fixes and improvements"), []
 
 
 def _utc(ts):
@@ -339,13 +358,14 @@ def build(items):
             patch = is_patch(x); tot = sum(b for _, b in sec)
             S = ", ".join(f"{secname(lang, a).lower() if lang == 'ru' else a.title()} ({b})" for a, b in sec if b) or plain(x["c"], 120)
             title = (t["upd_t"] if patch else t["news_t"]).format(D=D, T=x["t"]); h1 = (t["upd_h"] if patch else t["news_h"]).format(D=D, T=x["t"])
-            desc = (t["upd_desc"] if patch else t["news_desc"]).format(D=D, S=S, T=x["t"])[:300]
+            st_, sb_ = summ(x, lang)
+            desc = ((h1 + ": " + " ".join(sb_)) if sb_ else (t["upd_desc"] if patch else t["news_desc"]).format(D=D, S=S, T=x["t"]))[:300]
             sk = bool(SKIN_RE.search(x["c"] + " " + x["t"]))
             pv = items[k + 1] if k + 1 < len(items) else None; nx = items[k - 1] if k > 0 else None
             pn = ""
             if pv: pn += f'<a href="{detail_url(lang, sl[pv["gid"]])}"><small>← {e(t["prev"])}</small>{e(dstr(lang, pv["d"]))}</a>'
             if nx: pn += f'<a class="nx" href="{detail_url(lang, sl[nx["gid"]])}"><small>{e(t["next"])} →</small>{e(dstr(lang, nx["d"]))}</a>'
-            others = "".join(f'<a href="{detail_url(lang, sl[y["gid"]])}">{e(("Patch" if lang == "en" else "Патч") if is_patch(y) else y["t"])}<span>{e(dstr(lang, y["d"]))}</span></a>' for y in items[:7] if y is not x)[:4000]
+            others = "".join(f'<a href="{detail_url(lang, sl[y["gid"]])}">{e(summ(y, lang)[0])}<span>{e(dstr(lang, y["d"]))}</span></a>' for y in items[:7] if y is not x)[:4000]
             ld = [{"@context": "https://schema.org", "@type": "NewsArticle", "headline": h1, "datePublished": _utc(x["d"]).isoformat() + "Z",
                    "author": {"@type": "Organization", "name": "Valve"}, "publisher": {"@type": "Organization", "name": "Skinset", "url": SITE}, "mainEntityOfPage": SITE + u, "inLanguage": "en", "isBasedOn": x["u"]}
                   | ({"image": image_of(x)} if image_of(x) else {}),
@@ -353,8 +373,10 @@ def build(items):
             tags = f'<span class="nt {"ntp" if patch else "nts"}">{e(u_["patch"] if patch else u_["newsl"])}</span>' + (f'<span class="nt nts">{e(t["skins"])}</span>' if sk and patch else "") + (f'<span class="nt ntn">{e(t["last"])}</span>' if k == 0 else "")
             body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › <a href="{IDX[lang]}">{e(t["h1"])}</a> › {e(D)}</nav>'
                     + (f'<header class="art-h">{cover(lang, x, tot, True)}<div class="ov">' if image_of(x) else f'<header class="art-h gen">' + (f'<img class="bgi" src="{e(BG[x["gid"]])}" alt="" loading="eager">' if BG.get(x["gid"]) else "") + '<div class="ov">')
-                    + f'<div class="nmeta">{tags}<span>{e(D)}</span></div><h1>{e(h1)}</h1></div></header>'
-                    f'<div class="art"><div><div class="notes" lang="en">{bb(x["c"])}</div><div class="pn">{pn}</div></div>'
+                    + f'<div class="nmeta">{tags}<span>{e(D)}</span></div><h1>{e(h1)}</h1>' + (f'<p class="sub2">{e(st_)}</p>' if patch else "") + '</div></header>'
+                    f'<div class="art"><div><div class="notes" lang="en">{bb(x["c"])}</div>'
+                    + (f'<div class="tldr"><h4>{e("Коротко: что изменилось" if lang == "ru" else "In short: what changed")}</h4><ul>' + "".join(f"<li>{e(b)}</li>" for b in sb_) + '</ul></div>' if sb_ else "")
+                    + f'<div class="pn">{pn}</div></div>'
                     f'<aside class="side">'
                     + (f'<div class="box"><h4>{e(u_["sum_h"])}</h4>{chips(lang, sec, 20)}</div>' if tot else "")
                     + f'<div class="box"><a class="src" href="{e(x["u"])}" target="_blank" rel="noopener nofollow">{e(u_["src"])} ↗</a>' + (f'<p class="ln">{e(t["lang_note"])}</p>' if t.get("lang_note") else "")
@@ -374,7 +396,7 @@ def build(items):
             sk = bool(SKIN_RE.search(x["c"] + " " + x["t"])); p = is_patch(x)
             return (f'<span class="nt ntn">{e(t["last"])}</span>' if k == 0 else "") + f'<span class="nt {"ntp" if p else "nts"}">{e(u_["patch"] if p else u_["newsl"])}</span>' + (f'<span class="nt nts">{e(t["skins"])}</span>' if sk and p else "") + (f'<span>{e(dstr(lang, x["d"]))}</span>' if not p or k == 0 else "")
         x0 = items[0]; sec0 = sections(x0["c"]); tot0 = sum(b for _, b in sec0)
-        feat = (f'<a class="feat" href="{detail_url(lang, sl[x0["gid"]])}" data-k="{"p" if is_patch(x0) else "n"}">{cover(lang, x0, tot0, True)}<div class="bd"><div class="nmeta">{tags_of(x0, 0)}</div><h2>{e(head_of(x0))}</h2>'
+        feat = (f'<a class="feat" href="{detail_url(lang, sl[x0["gid"]])}" data-k="{"p" if is_patch(x0) else "n"}">{cover(lang, x0, tot0, True)}<div class="bd"><div class="nmeta">{tags_of(x0, 0)}</div><h2>{e(summ(x0, lang)[0] if is_patch(x0) else head_of(x0))}</h2>'
                 + (chips(sl_lang, sec0, 8) if tot0 else f'<p>{e(plain(x0["c"], 200))}</p>') + f'<span class="go">{e(u_["read"])} →</span></div></a>')
         grid = []; curm = None
         for k, x in enumerate(items[1:60], 1):
@@ -386,7 +408,7 @@ def build(items):
             sec = sections(x["c"]); tot = sum(b for _, b in sec)
             if is_patch(x) and not image_of(x):
                 mo = MON[lang if lang in MON else "en"][d.month - 1]
-                grid.append(f'<a class="cd pc" href="{detail_url(lang, sl[x["gid"]])}" data-k="p"><span class="dt"><b>{d.day}</b><small>{e(mo[:3] if lang != "ru" else mo[:3])}</small></span><div class="bd"><div class="nmeta">{tags_of(x, k)}</div><h3>{e(u_["patchh"])}</h3>'
+                grid.append(f'<a class="cd pc" href="{detail_url(lang, sl[x["gid"]])}" data-k="p"><span class="dt"><b>{d.day}</b><small>{e(mo[:3] if lang != "ru" else mo[:3])}</small></span><div class="bd"><div class="nmeta">{tags_of(x, k)}</div><h3>{e(summ(x, lang)[0])}</h3>'
                             + (chips(sl_lang, sec, 4) if tot else f'<p>{e(plain(x["c"], 110))}</p>') + '</div></a>')
             else:
                 grid.append(f'<a class="cd" href="{detail_url(lang, sl[x["gid"]])}" data-k="{"p" if is_patch(x) else "n"}">{cover(lang, x, tot)}<div class="bd"><div class="nmeta">{tags_of(x, k)}</div><h3>{e(head_of(x))}</h3>'

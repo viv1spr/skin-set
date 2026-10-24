@@ -188,10 +188,12 @@ export default {
       const cache = caches.default, ck = new Request("https://matches.cache/" + type);
       let r = await cache.match(ck);
       if (!r) {
-        const q = type === "past" ? "per_page=60&sort=-end_at" : type === "upcoming" ? "per_page=80&sort=begin_at" : "per_page=50";
-        const g = await fetch(`https://api.pandascore.co/csgo/matches/${type}?${q}`, { headers: { Authorization: "Bearer " + env.PANDASCORE, Accept: "application/json" } });
-        if (!g.ok) return json({ error: "upstream " + g.status, list: [] }, 502);
-        const raw = await g.json();
+        const q = type === "past" ? "per_page=100&sort=-end_at" : type === "upcoming" ? "per_page=100&sort=begin_at" : "per_page=50";
+        const pages = type === "past" ? [1, 2, 3] : [1];
+        const H = { headers: { Authorization: "Bearer " + env.PANDASCORE, Accept: "application/json" } };
+        const res = await Promise.all(pages.map(pg => fetch(`https://api.pandascore.co/csgo/matches/${type}?${q}&page=${pg}`, H)));
+        if (!res[0].ok) return json({ error: "upstream " + res[0].status, list: [] }, 502);
+        const raw = (await Promise.all(res.map(x => x.ok ? x.json() : []))).flat();
         const list = raw.map(m => ({
           id: m.id, name: m.name, st: m.status, b: m.begin_at, e: m.end_at, bo: m.number_of_games, w: m.winner_id,
           t: (m.opponents || []).map(o => o.opponent).filter(Boolean).map(o => ({ id: o.id, n: o.name, a: o.acronym, i: o.image_url, c: o.location })),

@@ -24,7 +24,7 @@ T = {
         ("Как часто обновляется счёт?", "Идущие матчи обновляются примерно раз в минуту, расписание и результаты — раз в несколько минут."),
         ("Какие турниры здесь есть?", "Все профессиональные турниры, которые отслеживает PandaScore: мейджоры, IEM, BLAST, PGL, ESL Pro League и турниры поменьше. Переключатель «Только топ» оставляет турниры уровней S и A.")],
    L=dict(live="Сейчас идут", up="Предстоящие", past="Результаты", top="Только топ-турниры", watch="Смотреть", vs="vs", tbd="TBD", bo="BO", today="Сегодня", tomorrow="Завтра", yesterday="Вчера",
-          empty_live="Сейчас никто не играет — загляни в «Предстоящие».", empty="Матчей не найдено.", load="Загружаем матчи…", notoken="Матчи скоро появятся — подключаем источник данных.", err="Не удалось загрузить матчи, попробуй позже.", all="Показать все турниры")),
+          empty_live="Сейчас никто не играет — загляни в «Предстоящие».", empty="Матчей не найдено.", load="Загружаем матчи…", notoken="Матчи скоро появятся — подключаем источник данных.", err="Не удалось загрузить матчи, попробуй позже.", all="Показать все турниры", notop="Топ-турниров в этом списке сейчас нет — показываем все матчи.")),
  "en": dict(title="CS2 matches today: schedule, results and live scores — Skinset",
    desc="Pro CS2 matches: who's playing now, today's and tomorrow's schedule, and results. Majors, IEM, BLAST, PGL — scores and streams.",
    h1="CS2 matches", kick="Live · auto-updating",
@@ -35,7 +35,7 @@ T = {
         ("How often do scores update?", "Live matches refresh about once a minute; schedule and results every few minutes."),
         ("Which tournaments are covered?", "All pro tournaments tracked by PandaScore: Majors, IEM, BLAST, PGL, ESL Pro League and smaller events. The “Top only” switch keeps S and A tier events.")],
    L=dict(live="Live now", up="Upcoming", past="Results", top="Top tournaments only", watch="Watch", vs="vs", tbd="TBD", bo="BO", today="Today", tomorrow="Tomorrow", yesterday="Yesterday",
-          empty_live="No matches live right now — check “Upcoming”.", empty="No matches found.", load="Loading matches…", notoken="Matches are coming soon — we're connecting the data source.", err="Couldn't load matches, try again later.", all="Show all tournaments")),
+          empty_live="No matches live right now — check “Upcoming”.", empty="No matches found.", load="Loading matches…", notoken="Matches are coming soon — we're connecting the data source.", err="Couldn't load matches, try again later.", all="Show all tournaments", notop="No top-tier matches in this list right now — showing all matches.")),
 }
 CSS = """
 html,body{overflow-x:clip}
@@ -63,6 +63,7 @@ html,body{overflow-x:clip}
 .ev{display:flex;align-items:center;gap:8px;min-width:0;font-size:.8rem;color:var(--soft)}.ev img{width:22px;height:22px;object-fit:contain;flex:none}.ev span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ev em{flex:none;font-style:normal;padding:2px 5px;font:700 .62rem/1 var(--hud);letter-spacing:.06em;background:rgba(228,174,57,.2);color:#ffd36a}
 .wt{justify-self:end;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;padding:9px 12px;background:#9146ff;color:#fff;text-decoration:none;font:700 .74rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase}.wt.yt{background:#e62117}.wt:hover{filter:brightness(1.12)}
+.mt-auto{margin:0 0 6px;font-size:.86rem;color:var(--dim)}
 .mt-msg{padding:22px;text-align:center;color:var(--soft);background:rgba(255,255,255,.03);border:1px solid var(--line,rgba(255,255,255,.1))}
 .mt .faq h3{margin:16px 0 6px;font:600 1.05rem var(--hud)}.mt .faq p{margin:0;color:var(--soft)}.mt h2{margin:34px 0 10px;font:700 1.35rem/1 var(--hud);text-transform:uppercase}
 .mt .note{margin-top:24px;font-size:.8rem;color:var(--dim)}
@@ -92,9 +93,9 @@ function row(m){const a=m.t[0],b=m.t[1];const sa=a&&(m.s.find(x=>x.id===a.id)||{
   +'<div class="ev">'+(m.l&&m.l.i?'<img src="'+esc(m.l.i)+'" alt="" loading="lazy">':'')+'<span title="'+esc((m.l?m.l.n+" · ":"")+m.se)+'">'+esc(m.l?m.l.n:"")+(m.se?" · "+esc(m.se.replace(m.l?m.l.n:"","").trim()):"")+'</span>'+(m.tier?'<em>'+esc(String(m.tier).toUpperCase())+'</em>':'')+'</div>'+(fin?'<span></span>':stream(m))+'</div>'}
 function draw(){const box=$("#mtList");const d=D[tab];if(!d){box.innerHTML='<div class="mt-msg">'+esc(L.load)+'</div>';return}
  if(d.error==="notoken"){box.innerHTML='<div class="mt-msg">'+esc(L.notoken)+'</div>';return}if(d.error){box.innerHTML='<div class="mt-msg">'+esc(L.err)+'</div>';return}
- let list=d.list||[];const all=list.length;if(top)list=list.filter(TOP);
+ let list=d.list||[];const all=list.length;let auto=false;if(top){const f=list.filter(TOP);if(!f.length&&tab!=="live"&&all){auto=true}else list=f}
  if(!list.length){box.innerHTML='<div class="mt-msg">'+esc(tab==="live"?L.empty_live:L.empty)+(top&&all?'<br><br><button class="lnk" id="mtAll" style="background:none;border:0;color:#66c0f4;cursor:pointer;text-decoration:underline;font:inherit">'+esc(L.all)+' ('+all+')</button>':'')+'</div>';const b=$("#mtAll");if(b)b.onclick=()=>{top=false;$("#mtTop").checked=false;LS("mt_top","0");draw()};return}
- let h="",cur="";for(const m of list){const dn=tab==="live"?"":dayName(tab==="past"?(m.e||m.b):m.b);if(dn!==cur){cur=dn;if(dn)h+='<div class="day">'+esc(dn)+'</div>'}h+=row(m)}box.innerHTML=h}
+ let h=auto?'<p class="mt-auto">'+esc(L.notop)+'</p>':"",cur="";for(const m of list){const dn=tab==="live"?"":dayName(tab==="past"?(m.e||m.b):m.b);if(dn!==cur){cur=dn;if(dn)h+='<div class="day">'+esc(dn)+'</div>'}h+=row(m)}box.innerHTML=h}
 async function load(t,force){const map={live:"running",up:"upcoming",past:"past"};if(D[t]&&!force)return;try{const r=await fetch(W+"/matches?type="+map[t]);D[t]=await r.json()}catch(e){D[t]={error:"net"}}
  if(t==="live"){const n=(D.live.list||[]).filter(m=>!top||TOP(m)).length;$("#mtN").textContent=n?n:"";}if(t===tab)draw()}
 $("#mtTabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;tab=b.dataset.t;$("#mtTabs").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));draw();load(tab)});

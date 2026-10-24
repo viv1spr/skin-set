@@ -1780,7 +1780,7 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
     state.frozen=null;try{render()}catch(e){}
     try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
   go()})();</script>
-<div class="tmenu" id="tmenu" role="menu" hidden><a href="/tr/nasil-calisir/" data-route="how">Nasıl çalışır</a><a href="/tr/setler/" data-route="feed">Setler</a><a href="/tr/nereden-alinir/" data-route="shops">Pazar yerleri</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
+<div class="tmenu" id="tmenu" role="menu" hidden><a href="/tr/cs2-guncellemeleri/">CS2 güncellemeleri</a><a href="/tr/nasil-calisir/" data-route="how">Nasıl çalışır</a><a href="/tr/setler/" data-route="feed">Setler</a><a href="/tr/nereden-alinir/" data-route="shops">Pazar yerleri</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
 const p=location.pathname;let on=false;m.querySelectorAll("a").forEach(a=>{if(p.startsWith(a.getAttribute("href"))){a.classList.add("on");on=true}});if(on)b.classList.add("on");
 const place=()=>{const r=b.getBoundingClientRect();const w=m.offsetWidth;m.style.top=(r.bottom+4)+"px";m.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+"px"};
 const close=()=>{m.hidden=true;b.classList.remove("open");b.setAttribute("aria-expanded","false")};

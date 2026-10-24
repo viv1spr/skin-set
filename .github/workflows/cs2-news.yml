@@ -1,0 +1,29 @@
+name: CS2 updates from Steam
+on:
+  schedule:
+    - cron: "41 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [admin/cs2_news.py, .github/workflows/cs2-news.yml]
+permissions:
+  contents: write
+concurrency: { group: cs2-news, cancel-in-progress: false }
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 admin/cs2_news.py
+      - run: python3 admin/noshop.py
+      - name: Commit
+        run: |
+          git config user.name "news-bot"
+          git config user.email "bot@skin-set.com"
+          git add -A data/cs2-news.json obnovleniya-cs2 en/cs2-updates de/cs2-updates pt/atualizacoes-cs2 tr/cs2-guncellemeleri pl/aktualizacje-cs2 sitemap.xml
+          git diff --cached --quiet || git commit -m "CS2 updates $(date -u +%F' '%H:%M)"
+          git pull --rebase -X theirs || true
+          git push

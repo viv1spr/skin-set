@@ -30,7 +30,7 @@ T = {
         ("Почему пишет, что инвентарь скрыт?", "В настройках приватности Steam включи «Инвентарь: открытый». Изменения применяются сразу, иногда до нескольких минут."),
         ("Почему стоимость отличается от других сайтов?", "Мы берём минимальную цену на рынке для каждого износа, а для StatTrak™ — цену обычной версии (поэтому стоимость помечена «≈»). Кейсы, стикеры и агенты в стоимость пока не входят."),
         ("Можно оценить инвентарь друга или стримера?", "Да — вставь ссылку на его профиль Steam. Профиль и инвентарь должны быть открытыми.")],
-   L=dict(addmine="Добавить", addany="Добавить предмет вручную", clr="Сбросить добавленные", search="Поиск: Karambit, Butterfly, AK-47 Redline…", hold="Скины в трейд-бане (защита обмена 7 дней) Steam никому не показывает — добавь их вручную.", login="Войти через Steam", mine="Оценить мой инвентарь", load="Загружаем инвентарь…", priv="Инвентарь скрыт. Открой его в настройках приватности Steam и попробуй ещё раз.", nf="Профиль не найден — проверь ссылку.", err="Steam не ответил, попробуй через минуту.", empty="В инвентаре нет скинов CS2.",
+   L=dict(change="Сменить", addmine="Добавить", addany="Добавить предмет вручную", clr="Сбросить добавленные", search="Поиск: Karambit, Butterfly, AK-47 Redline…", hold="Скины в трейд-бане (защита обмена 7 дней) Steam никому не показывает — добавь их вручную или нажми «Сменить» на слоте.", login="Войти через Steam", mine="Оценить мой инвентарь", load="Загружаем инвентарь…", priv="Инвентарь скрыт. Открой его в настройках приватности Steam и попробуй ещё раз.", nf="Профиль не найден — проверь ссылку.", err="Steam не ответил, попробуй через минуту.", empty="В инвентаре нет скинов CS2.",
           score="Оценка", value="Стоимость скинов", items="Предметов", skins="скинов", palette="Гамма", complete="Комплект", set_h="Твой сет", empty_slot="пусто", off="выбивается",
           improve_h="Как улучшить", improve_p="Что заменить или докупить, чтобы инвентарь выглядел как один сет:", replace="Заменить", add="Добавить", total="Всего ≈", builder="Собрать этот сет в конструкторе →",
           top_h="Самое дорогое", share_h="Поделиться результатом", dl="Скачать картинку", share="Поделиться", copy="Скопировать ссылку", copied="Ссылка скопирована", again="Оценить другой профиль",
@@ -50,7 +50,7 @@ T = {
         ("Why does it say my inventory is private?", "Set “Inventory: Public” in your Steam privacy settings. It applies right away, sometimes within a few minutes."),
         ("Why is the value different from other sites?", "We use the lowest market price for each wear, and the regular-version price for StatTrak™ (hence “≈”). Cases, stickers and agents are not included yet."),
         ("Can I rate a friend's or streamer's inventory?", "Yes, paste a link to their Steam profile. The profile and inventory must be public.")],
-   L=dict(addmine="Add", addany="Add an item manually", clr="Clear added", search="Search: Karambit, Butterfly, AK-47 Redline…", hold="Steam hides trade-protected skins (7-day trade hold) from everyone — add them manually.", login="Sign in with Steam", mine="Rate my inventory", load="Loading inventory…", priv="This inventory is private. Make it public in Steam privacy settings and try again.", nf="Profile not found — check the link.", err="Steam didn't respond, try again in a minute.", empty="No CS2 skins in this inventory.",
+   L=dict(change="Change", addmine="Add", addany="Add an item manually", clr="Clear added", search="Search: Karambit, Butterfly, AK-47 Redline…", hold="Steam hides trade-protected skins (7-day trade hold) from everyone — add them manually or hit “Change” on a slot.", login="Sign in with Steam", mine="Rate my inventory", load="Loading inventory…", priv="This inventory is private. Make it public in Steam privacy settings and try again.", nf="Profile not found — check the link.", err="Steam didn't respond, try again in a minute.", empty="No CS2 skins in this inventory.",
           score="Score", value="Skin value", items="Items", skins="skins", palette="Palette", complete="Loadout", set_h="Your loadout", empty_slot="empty", off="clashes",
           improve_h="How to improve", improve_p="What to swap or add so the inventory looks like one set:", replace="Swap", add="Add", total="Total ≈", builder="Build this set in the builder →",
           top_h="Most valuable", share_h="Share your result", dl="Download image", share="Share", copy="Copy link", copied="Link copied", again="Rate another profile",
@@ -106,6 +106,10 @@ html,body{overflow-x:clip}
 .pk-l{overflow:auto;padding:0 16px 16px;display:grid;gap:6px}
 .pk-i{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:center;padding:8px;background:rgba(255,255,255,.035)}.pk-i img{width:64px;height:46px;object-fit:contain}.pk-i b{display:block;font-size:.9rem;margin-bottom:6px}
 .pk-w{display:flex;flex-wrap:wrap;gap:4px}.pk-w button{padding:5px 7px;background:rgba(255,255,255,.06);border:1px solid var(--line2,rgba(255,255,255,.16));color:var(--soft);font-size:.74rem;cursor:pointer}.pk-w button:hover{background:#e8402a;color:#fff;border-color:#e8402a}
+.sl-ed{position:absolute;top:6px;right:6px;display:flex;gap:4px;opacity:0;transition:opacity .15s;z-index:2}.sl:hover .sl-ed,.sl:focus-within .sl-ed{opacity:1}
+.sl-ch,.sl-rm{padding:5px 8px;background:rgba(10,11,14,.85);border:1px solid rgba(255,255,255,.25);color:#fff;font:600 .68rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.sl-ch:hover{border-color:#e8402a;color:#ff8a70}.sl-rm:hover{background:#c62f22}
+@media(hover:none){.sl-ed{opacity:1}}
+.sl .tg{top:auto!important;bottom:56px}
 .sug{display:grid;gap:8px}
 .sg{display:grid;grid-template-columns:70px 64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 14px;background:rgba(255,255,255,.035);border:1px solid var(--line,rgba(255,255,255,.1));color:var(--ink,#fff);text-decoration:none}
 .sg em{font-style:normal;font:700 .7rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:#2bd67b}.sg em.rp{color:#ffd36a}
@@ -140,8 +144,8 @@ function parse(name){let st=/StatTrak™/.test(name);let n=name.replace(/^★\s*
 function price(n,w){const p=P[n];if(!p||!p.w)return 0;if(w&&p.w[w])return p.w[w];const v=Object.values(p.w);return v.length?Math.min(...v):0}
 function cprice(c){const v=(c.p||[]).filter(Boolean);return v.length?Math.min(...v):0}
 function rate(items){const own=[];let value=0,cnt=0,other=0,st=false;
- for(const[name,k]of items){const q=parse(name);const c=CAT.get(q.n);if(!c){other+=k;continue}const v=price(q.n,q.w)||price(c.n,q.w);value+=v*k;cnt+=k;if(q.st)st=true;own.push({c,w:q.w,v,st:q.st,slot:slotOf(c)})}
- const best={};for(const o of own){if(!o.slot)continue;if(!best[o.slot]||o.v>best[o.slot].v)best[o.slot]=o}
+ for(const[name,k,mi]of items){const q=parse(name);const c=CAT.get(q.n);if(!c){other+=k;continue}const v=price(q.n,q.w)||price(c.n,q.w);value+=v*k;cnt+=k;if(q.st)st=true;own.push({mi,c,w:q.w,v,st:q.st,slot:slotOf(c)})}
+ const best={};for(const o of own){if(!o.slot)continue;const b=best[o.slot],man=o.mi!=null;if(!b||(man&&b.mi==null)||(man&&b.mi!=null&&o.mi>b.mi)||(!man&&b.mi==null&&o.v>b.v))best[o.slot]=o}
  const lo=SLOTS.map(s=>best[s]).filter(Boolean);
  const fw=Array(9).fill(0);for(const o of lo){const h=o.c.h||[];h.forEach((x,i)=>fw[fam(x)]+=(i?.3/(h.length-1||1):.7)*(o.slot==="knife"||o.slot==="gloves"?1.5:1))}
  const nn=fw.slice(0,8);let dom=nn.indexOf(Math.max(...nn));if(Math.max(...nn)<.01)dom=8;
@@ -159,7 +163,7 @@ function rate(items){const own=[];let value=0,cnt=0,other=0,st=false;
 function lv(s){return L.lv[s>=90?4:s>=75?3:s>=60?2:s>=40?1:0]}
 function render(r,u){const fc=FAMC[r.dom];const box=$("#ivRes");const C=2*Math.PI*72;
  const slots=SLOTS.map(s=>{const o=r.best[s];if(!o)return'<div class="sl e"><small>'+esc(L.slots[s])+'</small><div class="im"><button class="sl-add" data-s="'+s+'">+ '+esc(L.addmine)+'</button></div><b>—</b><span>'+esc(L.empty_slot)+'</span></div>';
-  const h=(o.c.h||["#666"])[0];return'<a class="sl'+(o.m<.5?" off":"")+'" style="--c:'+h+';color:inherit;text-decoration:none" href="'+WIKI+o.c.u+'/"><small>'+esc(L.slots[s])+'</small>'+(o.m<.5?'<span class="tg">'+esc(L.off)+'</span>':'')+'<div class="im"><img src="'+esc(IMG(o.c.i))+'" alt="" loading="lazy"></div><b>'+esc(o.c.s)+'</b><span>'+esc(o.c.w)+(o.w?" · "+o.w:"")+(o.v?" · "+M(o.v):"")+'</span></a>'}).join("");
+  const h=(o.c.h||["#666"])[0];return'<a class="sl'+(o.m<.5?" off":"")+'" style="--c:'+h+';color:inherit;text-decoration:none" href="'+WIKI+o.c.u+'/"><small>'+esc(L.slots[s])+'</small><span class="sl-ed"><button class="sl-ch" data-s="'+s+'" title="'+esc(L.change)+'">'+esc(L.change)+'</button>'+(o.mi!=null?'<button class="sl-rm" data-rm="'+o.mi+'" title="×">×</button>':'')+'</span>'+(o.m<.5?'<span class="tg">'+esc(L.off)+'</span>':'')+'<div class="im"><img src="'+esc(IMG(o.c.i))+'" alt="" loading="lazy"></div><b>'+esc(o.c.s)+'</b><span>'+esc(o.c.w)+(o.w?" · "+o.w:"")+(o.v?" · "+M(o.v):"")+'</span></a>'}).join("");
  const sg=r.sugg.map(x=>'<a class="sg" href="'+WIKI+x.c.u+'/"><em class="'+(x.t==="rp"?"rp":"")+'">'+esc(x.t==="rp"?L.replace:L.add)+'</em><img src="'+esc(IMG(x.c.i))+'" alt="" loading="lazy"><span><b>'+esc(x.c.n)+'</b><small>'+esc(L.slots[x.slot])+(x.from?" · ← "+esc(x.from.c.n):"")+'</small></span><strong>'+M(x.v)+'</strong></a>').join("");
  const tot=r.sugg.reduce((a,x)=>a+x.v,0);
  const setq=SLOTS.map(s=>{const sg=r.sugg.find(x=>x.slot===s);const c=sg?sg.c:(r.best[s]&&r.best[s].c);return c?((c.c==="knife"||c.c==="gloves"?"★ ":"")+c.w+"|"+c.s):null}).filter(Boolean).join(";");
@@ -173,7 +177,7 @@ function render(r,u){const fc=FAMC[r.dom];const box=$("#ivRes");const C=2*Math.P
   +'<h2>'+esc(L.share_h)+'</h2><div class="share"><canvas id="ivCv" width="1200" height="630"></canvas><div class="acts"><button class="bt r" id="ivDl">'+esc(L.dl)+'</button><button class="bt g" id="ivSh">'+esc(L.share)+'</button><button class="bt g" id="ivCp">'+esc(L.copy)+'</button><button class="bt g" id="ivAg">'+esc(L.again)+'</button></div></div>';
  box.hidden=false;box.scrollIntoView({behavior:"smooth",block:"start"});card(r,u,fc);
  const qs="?id="+u.sid+(ADD.length?"&add="+encodeURIComponent(ADD.map(a=>a.join("~")).join(";")):"");const link=location.origin+location.pathname+qs;history.replaceState(null,"",location.pathname+qs);
- box.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>picker(b.dataset.s));const cl=$("#ivClr");if(cl)cl.onclick=()=>{ADD=[];saveAdd();rerun()};
+ box.querySelectorAll("[data-s]").forEach(b=>b.onclick=e=>{e.preventDefault();e.stopPropagation();picker(b.dataset.s)});box.querySelectorAll("[data-rm]").forEach(b=>b.onclick=e=>{e.preventDefault();e.stopPropagation();ADD.splice(+b.dataset.rm,1);saveAdd();rerun()});const cl=$("#ivClr");if(cl)cl.onclick=()=>{ADD=[];saveAdd();rerun()};
  $("#ivCp").onclick=async()=>{try{await navigator.clipboard.writeText(link);$("#ivCp").textContent=L.copied}catch(e){}};
  $("#ivAg").onclick=()=>{$("#ivId").focus();scrollTo({top:0,behavior:"smooth"})};
  const blob=()=>new Promise(res=>$("#ivCv").toBlob(res,"image/png"));
@@ -195,20 +199,20 @@ async function card(r,u,fc){const cv=$("#ivCv"),x=cv.getContext("2d");const g=x.
 let ADD=[],LAST=null;const WN={FN:"Factory New",MW:"Minimal Wear",FT:"Field-Tested",WW:"Well-Worn",BS:"Battle-Scarred"};
 function loadAdd(sid){const q=new URLSearchParams(location.search).get("add");if(q){ADD=q.split(";").map(x=>x.split("~")).filter(a=>a[0]);return}try{ADD=JSON.parse(LS("iv_add_"+sid)||"[]")}catch(e){ADD=[]}}
 function saveAdd(){if(LAST)LS("iv_add_"+LAST.sid,JSON.stringify(ADD))}
-function rerun(){if(!LAST)return;const res=rate(LAST.items.concat(ADD.map(a=>[a[0]+(a[1]?" ("+WN[a[1]]+")":""),1])));render(res,LAST.u)}
+function rerun(){if(!LAST)return;const res=rate(LAST.items.concat(ADD.map((a,i)=>[a[0]+(a[1]?" ("+WN[a[1]]+")":""),1,i])));render(res,LAST.u)}
 function picker(slot){let ov=$("#ivPk");if(!ov){ov=document.createElement("div");ov.id="ivPk";ov.className="pk";document.body.appendChild(ov)}
  ov.innerHTML='<div class="pk-in"><div class="pk-h"><b>'+esc(slot?L.slots[slot]:L.addany)+'</b><button class="pk-x">×</button></div><input placeholder="'+esc(L.search)+'" autocomplete="off"><div class="pk-l"></div></div>';ov.hidden=false;
  const inp=ov.querySelector("input"),lst=ov.querySelector(".pk-l");const close=()=>{ov.hidden=true};ov.querySelector(".pk-x").onclick=close;ov.onclick=e=>{if(e.target===ov)close()};
  const show=()=>{const q=inp.value.trim().toLowerCase().split(/\s+/).filter(Boolean);const r=CAT.list.filter(x=>(!slot||slotOf(x)===slot)&&q.every(w=>x.n.toLowerCase().includes(w))).sort((a,b)=>cprice(b)-cprice(a)).slice(0,40);
   lst.innerHTML=r.map((x,i)=>'<div class="pk-i"><img src="'+esc(IMG(x.i))+'" alt="" loading="lazy"><span><b>'+esc(x.n+(x.ph&&!x.n.includes("(")?" ("+x.ph+")":""))+'</b><span class="pk-w">'+["FN","MW","FT","WW","BS"].map((w,k)=>x.p&&x.p[k]?'<button data-i="'+i+'" data-w="'+w+'">'+w+' · '+M(x.p[k])+'</button>':"").join("")+'</span></span></div>').join("");
-  lst.querySelectorAll("button[data-w]").forEach(b=>b.onclick=()=>{const x=r[+b.dataset.i];ADD.push([x.n,b.dataset.w]);saveAdd();close();rerun()})};
+  lst.querySelectorAll("button[data-w]").forEach(b=>b.onclick=()=>{const x=r[+b.dataset.i];if(slot)ADD=ADD.filter(a=>{const c=CAT.get(a[0]);return !c||slotOf(c)!==slot});ADD.push([x.n,b.dataset.w]);saveAdd();close();rerun()})};
  inp.oninput=show;show();setTimeout(()=>inp.focus(),50)}
 async function run(kind,id){const msg=$("#ivMsg");msg.hidden=false;msg.className="iv-msg";msg.textContent=L.load;$("#ivRes").hidden=true;
  try{const url=kind==="me"?W+"/inv?t="+encodeURIComponent(tok()):W+"/invp?id="+encodeURIComponent(id);const[r]=await Promise.all([fetch(url),data()]);const j=await r.json();
   if(r.status===401){LS("skinset_steam",null);msg.textContent="";msg.hidden=true;btns();return}
   if(j.error==="profile"){msg.className="iv-msg err";msg.textContent=L.nf;return}
   if(j.private){msg.className="iv-msg err";msg.textContent=L.priv;return}if(j.error){msg.className="iv-msg err";msg.textContent=L.err;return}
-  const items=j.items&&j.items.length?j.items:(j.names||[]).map(n=>[n,1]);LAST={items,u:null,sid:j.sid};loadAdd(j.sid);const res=rate(items.concat(ADD.map(a=>[a[0]+(a[1]?" ("+WN[a[1]]+")":""),1])));if(!res.cnt){msg.className="iv-msg err";msg.textContent=L.empty;return}
+  const items=j.items&&j.items.length?j.items:(j.names||[]).map(n=>[n,1]);LAST={items,u:null,sid:j.sid};loadAdd(j.sid);const res=rate(items.concat(ADD.map((a,i)=>[a[0]+(a[1]?" ("+WN[a[1]]+")":""),1,i])));if(!res.cnt){msg.className="iv-msg err";msg.textContent=L.empty;return}
   let u={n:j.n,a:j.a,sid:j.sid};if(kind==="me"){try{const m=await (await fetch(W+"/me?t="+encodeURIComponent(tok()))).json();u={n:m.n,a:m.a,sid:m.sid}}catch(e){}}
   LAST.u=u;LAST.sid=u.sid||j.sid;msg.hidden=true;render(res,u)}catch(e){msg.className="iv-msg err";msg.textContent=L.err}}
 function btns(){const a=$("#ivAct");a.innerHTML=tok()?'<button class="bt r" id="ivMe">'+esc(L.mine)+'</button>':'<a class="bt" href="'+W+'/login?r='+encodeURIComponent(location.origin+location.pathname)+'">'+__STEAM__+esc(L.login)+'</a>';const b=$("#ivMe");if(b)b.onclick=()=>run("me")}

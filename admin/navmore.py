@@ -240,12 +240,12 @@ if __name__ == "__main__":
     main()
 
 
-UPD = {"ru": [("/ocenka-inventarya/", "Оценка инвентаря"), ("/rynok-cs2/", "Рынок CS2"), ("/obnovleniya-cs2/", "Обновления CS2")],
-       "en": [("/en/inventory-value/", "Inventory value"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-updates/", "CS2 updates")],
-       "de": [("/en/inventory-value/", "Inventarwert"), ("/en/cs2-market/", "CS2-Markt"), ("/de/cs2-updates/", "CS2-Updates")],
-       "pt": [("/en/inventory-value/", "Valor do inventário"), ("/en/cs2-market/", "Mercado CS2"), ("/pt/atualizacoes-cs2/", "Atualizações CS2")],
-       "tr": [("/en/inventory-value/", "Envanter değeri"), ("/en/cs2-market/", "CS2 pazarı"), ("/tr/cs2-guncellemeleri/", "CS2 güncellemeleri")],
-       "pl": [("/en/inventory-value/", "Wartość ekwipunku"), ("/en/cs2-market/", "Rynek CS2"), ("/pl/aktualizacje-cs2/", "Aktualizacje CS2")]}
+UPD = {"ru": [("/matchi-cs2/", "Матчи CS2"), ("/ocenka-inventarya/", "Оценка инвентаря"), ("/rynok-cs2/", "Рынок CS2"), ("/obnovleniya-cs2/", "Обновления CS2")],
+       "en": [("/en/cs2-matches/", "CS2 matches"), ("/en/inventory-value/", "Inventory value"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-updates/", "CS2 updates")],
+       "de": [("/en/cs2-matches/", "CS2-Matches"), ("/en/inventory-value/", "Inventarwert"), ("/en/cs2-market/", "CS2-Markt"), ("/de/cs2-updates/", "CS2-Updates")],
+       "pt": [("/en/cs2-matches/", "Partidas CS2"), ("/en/inventory-value/", "Valor do inventário"), ("/en/cs2-market/", "Mercado CS2"), ("/pt/atualizacoes-cs2/", "Atualizações CS2")],
+       "tr": [("/en/cs2-matches/", "CS2 maçları"), ("/en/inventory-value/", "Envanter değeri"), ("/en/cs2-market/", "CS2 pazarı"), ("/tr/cs2-guncellemeleri/", "CS2 güncellemeleri")],
+       "pl": [("/en/cs2-matches/", "Mecze CS2"), ("/en/inventory-value/", "Wartość ekwipunku"), ("/en/cs2-market/", "Rynek CS2"), ("/pl/aktualizacje-cs2/", "Aktualizacje CS2")]}
 
 
 def updlink(s):

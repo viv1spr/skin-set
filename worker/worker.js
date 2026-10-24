@@ -180,6 +180,30 @@ export default {
       }
       return r;
     }
+    /* матчи CS2 из PandaScore (токен — секрет PANDASCORE), с кешем: /matches?type=running|upcoming|past */
+    if (p === "/matches") {
+      const type = ["running", "upcoming", "past"].includes(u.searchParams.get("type")) ? u.searchParams.get("type") : "upcoming";
+      if (!env.PANDASCORE) return json({ error: "notoken", list: [] });
+      const ttl = type === "running" ? 45 : 300;
+      const cache = caches.default, ck = new Request("https://matches.cache/" + type);
+      let r = await cache.match(ck);
+      if (!r) {
+        const q = type === "past" ? "per_page=60&sort=-end_at" : type === "upcoming" ? "per_page=80&sort=begin_at" : "per_page=50";
+        const g = await fetch(`https://api.pandascore.co/csgo/matches/${type}?${q}`, { headers: { Authorization: "Bearer " + env.PANDASCORE, Accept: "application/json" } });
+        if (!g.ok) return json({ error: "upstream " + g.status, list: [] }, 502);
+        const raw = await g.json();
+        const list = raw.map(m => ({
+          id: m.id, name: m.name, st: m.status, b: m.begin_at, e: m.end_at, bo: m.number_of_games, w: m.winner_id,
+          t: (m.opponents || []).map(o => o.opponent).filter(Boolean).map(o => ({ id: o.id, n: o.name, a: o.acronym, i: o.image_url, c: o.location })),
+          s: (m.results || []).map(x => ({ id: x.team_id, s: x.score })),
+          l: m.league ? { n: m.league.name, i: m.league.image_url } : null, se: m.serie ? m.serie.full_name : "", tu: m.tournament ? m.tournament.name : "", tier: (m.tournament && m.tournament.tier) || (m.serie && m.serie.tier) || "",
+          tv: (m.streams_list || []).filter(x => x.raw_url).map(x => ({ u: x.raw_url, lg: x.language, m: !!x.main, o: !!x.official }))
+        }));
+        r = new Response(JSON.stringify({ list, t: Date.now() }), { headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "public, max-age=" + ttl } });
+        await cache.put(ck, r.clone());
+      }
+      return r;
+    }
     /* публичный инвентарь любого профиля: /invp?id=<steamid64|vanity|ссылка> */
     if (p === "/invp") {
       const sid = await resolveSid(u.searchParams.get("id")); if (!sid) return json({ error: "profile" }, 404);

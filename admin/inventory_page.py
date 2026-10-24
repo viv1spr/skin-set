@@ -30,7 +30,7 @@ T = {
         ("Почему пишет, что инвентарь скрыт?", "В настройках приватности Steam включи «Инвентарь: открытый». Изменения применяются сразу, иногда до нескольких минут."),
         ("Почему стоимость отличается от других сайтов?", "Мы берём минимальную цену на рынке для каждого износа, а для StatTrak™ — цену обычной версии (поэтому стоимость помечена «≈»). Кейсы, стикеры и агенты в стоимость пока не входят."),
         ("Можно оценить инвентарь друга или стримера?", "Да — вставь ссылку на его профиль Steam. Профиль и инвентарь должны быть открытыми.")],
-   L=dict(login="Войти через Steam", mine="Оценить мой инвентарь", load="Загружаем инвентарь…", priv="Инвентарь скрыт. Открой его в настройках приватности Steam и попробуй ещё раз.", nf="Профиль не найден — проверь ссылку.", err="Steam не ответил, попробуй через минуту.", empty="В инвентаре нет скинов CS2.",
+   L=dict(addmine="Добавить", addany="Добавить предмет вручную", clr="Сбросить добавленные", search="Поиск: Karambit, Butterfly, AK-47 Redline…", hold="Скины в трейд-бане (защита обмена 7 дней) Steam никому не показывает — добавь их вручную.", login="Войти через Steam", mine="Оценить мой инвентарь", load="Загружаем инвентарь…", priv="Инвентарь скрыт. Открой его в настройках приватности Steam и попробуй ещё раз.", nf="Профиль не найден — проверь ссылку.", err="Steam не ответил, попробуй через минуту.", empty="В инвентаре нет скинов CS2.",
           score="Оценка", value="Стоимость скинов", items="Предметов", skins="скинов", palette="Гамма", complete="Комплект", set_h="Твой сет", empty_slot="пусто", off="выбивается",
           improve_h="Как улучшить", improve_p="Что заменить или докупить, чтобы инвентарь выглядел как один сет:", replace="Заменить", add="Добавить", total="Всего ≈", builder="Собрать этот сет в конструкторе →",
           top_h="Самое дорогое", share_h="Поделиться результатом", dl="Скачать картинку", share="Поделиться", copy="Скопировать ссылку", copied="Ссылка скопирована", again="Оценить другой профиль",
@@ -50,7 +50,7 @@ T = {
         ("Why does it say my inventory is private?", "Set “Inventory: Public” in your Steam privacy settings. It applies right away, sometimes within a few minutes."),
         ("Why is the value different from other sites?", "We use the lowest market price for each wear, and the regular-version price for StatTrak™ (hence “≈”). Cases, stickers and agents are not included yet."),
         ("Can I rate a friend's or streamer's inventory?", "Yes, paste a link to their Steam profile. The profile and inventory must be public.")],
-   L=dict(login="Sign in with Steam", mine="Rate my inventory", load="Loading inventory…", priv="This inventory is private. Make it public in Steam privacy settings and try again.", nf="Profile not found — check the link.", err="Steam didn't respond, try again in a minute.", empty="No CS2 skins in this inventory.",
+   L=dict(addmine="Add", addany="Add an item manually", clr="Clear added", search="Search: Karambit, Butterfly, AK-47 Redline…", hold="Steam hides trade-protected skins (7-day trade hold) from everyone — add them manually.", login="Sign in with Steam", mine="Rate my inventory", load="Loading inventory…", priv="This inventory is private. Make it public in Steam privacy settings and try again.", nf="Profile not found — check the link.", err="Steam didn't respond, try again in a minute.", empty="No CS2 skins in this inventory.",
           score="Score", value="Skin value", items="Items", skins="skins", palette="Palette", complete="Loadout", set_h="Your loadout", empty_slot="empty", off="clashes",
           improve_h="How to improve", improve_p="What to swap or add so the inventory looks like one set:", replace="Swap", add="Add", total="Total ≈", builder="Build this set in the builder →",
           top_h="Most valuable", share_h="Share your result", dl="Download image", share="Share", copy="Copy link", copied="Link copied", again="Rate another profile",
@@ -95,6 +95,17 @@ html,body{overflow-x:clip}
 .sl .im{height:84px;display:grid;place-items:center;margin:6px 0}.sl img{max-width:100%;max-height:84px;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(0,0,0,.55))}
 .sl b{display:block;font:600 .86rem/1.2 var(--body,inherit);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sl span{font-size:.78rem;color:var(--soft)}
 .sl .tg{position:absolute;top:8px;right:8px;padding:3px 6px;background:#ff5d5d;color:#fff;font:700 .62rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase}
+.hold{margin:-4px 0 12px;font-size:.88rem;color:var(--soft)}.lnk{background:none;border:0;padding:0;color:#66c0f4;font:inherit;cursor:pointer;text-decoration:underline}
+.sl-add{padding:8px 12px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.3);color:var(--ink,#fff);font:600 .76rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.sl-add:hover{border-color:#e8402a;color:#ff8a70}
+.sl.e{opacity:1}.sl.e b,.sl.e span,.sl.e small{opacity:.6}
+.pk{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.7);display:grid;place-items:center;padding:16px}.pk[hidden]{display:none}
+.pk-in{width:min(640px,100%);max-height:86vh;display:flex;flex-direction:column;background:#131417;border:1px solid var(--line2,rgba(255,255,255,.18))}
+.pk-h{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line,rgba(255,255,255,.1))}.pk-h b{font:700 1rem var(--hud);text-transform:uppercase;letter-spacing:.08em}
+.pk-x{background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer}
+.pk-in input{margin:12px 16px;height:44px;padding:0 12px;background:rgba(255,255,255,.05);border:1px solid var(--line2,rgba(255,255,255,.18));color:#fff;font-size:.95rem;outline:none}
+.pk-l{overflow:auto;padding:0 16px 16px;display:grid;gap:6px}
+.pk-i{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:center;padding:8px;background:rgba(255,255,255,.035)}.pk-i img{width:64px;height:46px;object-fit:contain}.pk-i b{display:block;font-size:.9rem;margin-bottom:6px}
+.pk-w{display:flex;flex-wrap:wrap;gap:4px}.pk-w button{padding:5px 7px;background:rgba(255,255,255,.06);border:1px solid var(--line2,rgba(255,255,255,.16));color:var(--soft);font-size:.74rem;cursor:pointer}.pk-w button:hover{background:#e8402a;color:#fff;border-color:#e8402a}
 .sug{display:grid;gap:8px}
 .sg{display:grid;grid-template-columns:70px 64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 14px;background:rgba(255,255,255,.035);border:1px solid var(--line,rgba(255,255,255,.1));color:var(--ink,#fff);text-decoration:none}
 .sg em{font-style:normal;font:700 .7rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:#2bd67b}.sg em.rp{color:#ffd36a}
@@ -147,7 +158,7 @@ function rate(items){const own=[];let value=0,cnt=0,other=0,st=false;
  return{value,cnt,other,st,best,lo,dom,harmony,complete,score,sugg,top}}
 function lv(s){return L.lv[s>=90?4:s>=75?3:s>=60?2:s>=40?1:0]}
 function render(r,u){const fc=FAMC[r.dom];const box=$("#ivRes");const C=2*Math.PI*72;
- const slots=SLOTS.map(s=>{const o=r.best[s];if(!o)return'<div class="sl e"><small>'+esc(L.slots[s])+'</small><div class="im"></div><b>—</b><span>'+esc(L.empty_slot)+'</span></div>';
+ const slots=SLOTS.map(s=>{const o=r.best[s];if(!o)return'<div class="sl e"><small>'+esc(L.slots[s])+'</small><div class="im"><button class="sl-add" data-s="'+s+'">+ '+esc(L.addmine)+'</button></div><b>—</b><span>'+esc(L.empty_slot)+'</span></div>';
   const h=(o.c.h||["#666"])[0];return'<a class="sl'+(o.m<.5?" off":"")+'" style="--c:'+h+';color:inherit;text-decoration:none" href="'+WIKI+o.c.u+'/"><small>'+esc(L.slots[s])+'</small>'+(o.m<.5?'<span class="tg">'+esc(L.off)+'</span>':'')+'<div class="im"><img src="'+esc(IMG(o.c.i))+'" alt="" loading="lazy"></div><b>'+esc(o.c.s)+'</b><span>'+esc(o.c.w)+(o.w?" · "+o.w:"")+(o.v?" · "+M(o.v):"")+'</span></a>'}).join("");
  const sg=r.sugg.map(x=>'<a class="sg" href="'+WIKI+x.c.u+'/"><em class="'+(x.t==="rp"?"rp":"")+'">'+esc(x.t==="rp"?L.replace:L.add)+'</em><img src="'+esc(IMG(x.c.i))+'" alt="" loading="lazy"><span><b>'+esc(x.c.n)+'</b><small>'+esc(L.slots[x.slot])+(x.from?" · ← "+esc(x.from.c.n):"")+'</small></span><strong>'+M(x.v)+'</strong></a>').join("");
  const tot=r.sugg.reduce((a,x)=>a+x.v,0);
@@ -156,12 +167,13 @@ function render(r,u){const fc=FAMC[r.dom];const box=$("#ivRes");const C=2*Math.P
  box.innerHTML='<div class="r-top"><div class="r-score" style="--fc:'+fc+'"><div class="r-user">'+(u.a?'<img src="'+esc(u.a)+'" alt="">':'')+'<span>'+esc(u.n||"Steam")+'</span></div><div class="ring"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="72" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="12"/><circle cx="80" cy="80" r="72" fill="none" stroke="'+fc+'" stroke-width="12" stroke-linecap="butt" stroke-dasharray="'+C+'" stroke-dashoffset="'+C*(1-r.score/100)+'"/></svg><b>'+r.score+'</b></div><div class="r-lv">'+esc(lv(r.score))+'</div></div>'
   +'<div class="r-kpi"><div class="k"><small>'+esc(L.value)+'</small><b>≈ '+M(r.value)+'</b><span>'+r.cnt+' '+esc(L.skins)+(r.st?' · '+esc(L.st):'')+'</span></div><div class="k"><small>'+esc(L.palette)+'</small><b><i class="sw" style="background:'+fc+'"></i>'+esc(L.fam[r.dom])+'</b><div class="bar" style="--fc:'+fc+'"><i style="width:'+Math.round(r.harmony*100)+'%"></i></div><span>'+Math.round(r.harmony*100)+'%</span></div>'
   +'<div class="k"><small>'+esc(L.complete)+'</small><b>'+r.lo.length+' / 8</b><div class="bar" style="--fc:'+fc+'"><i style="width:'+r.complete*100+'%"></i></div></div><div class="k"><small>'+esc(L.items)+'</small><b>'+(r.cnt+r.other)+'</b><span>'+r.cnt+' '+esc(L.skins)+'</span></div></div></div>'
-  +'<h2>'+esc(L.set_h)+'</h2><div class="slots">'+slots+'</div>'
+  +'<h2>'+esc(L.set_h)+'</h2><p class="hold">'+esc(L.hold)+' <button class="lnk" data-s="">'+esc(L.addany)+'</button>'+(ADD.length?' · <button class="lnk" id="ivClr">'+esc(L.clr)+' ('+ADD.length+')</button>':'')+'</p><div class="slots">'+slots+'</div>'
   +'<h2>'+esc(L.improve_h)+'</h2>'+(r.sugg.length?'<p style="color:var(--soft);margin:0 0 10px">'+esc(L.improve_p)+'</p><div class="sug">'+sg+'</div><div class="tot"><span>'+esc(L.total)+' '+M(tot)+'</span><a class="bt r" href="'+BUILD[r.dom]+'?set='+encodeURIComponent(setq)+'">'+esc(L.builder)+'</a></div>':'<p style="color:var(--soft)">'+esc(L.perfect)+'</p>')
   +(top?'<h2>'+esc(L.top_h)+'</h2><div class="top5">'+top+'</div>':'')
   +'<h2>'+esc(L.share_h)+'</h2><div class="share"><canvas id="ivCv" width="1200" height="630"></canvas><div class="acts"><button class="bt r" id="ivDl">'+esc(L.dl)+'</button><button class="bt g" id="ivSh">'+esc(L.share)+'</button><button class="bt g" id="ivCp">'+esc(L.copy)+'</button><button class="bt g" id="ivAg">'+esc(L.again)+'</button></div></div>';
  box.hidden=false;box.scrollIntoView({behavior:"smooth",block:"start"});card(r,u,fc);
- const link=location.origin+location.pathname+"?id="+u.sid;history.replaceState(null,"",location.pathname+"?id="+u.sid);
+ const qs="?id="+u.sid+(ADD.length?"&add="+encodeURIComponent(ADD.map(a=>a.join("~")).join(";")):"");const link=location.origin+location.pathname+qs;history.replaceState(null,"",location.pathname+qs);
+ box.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>picker(b.dataset.s));const cl=$("#ivClr");if(cl)cl.onclick=()=>{ADD=[];saveAdd();rerun()};
  $("#ivCp").onclick=async()=>{try{await navigator.clipboard.writeText(link);$("#ivCp").textContent=L.copied}catch(e){}};
  $("#ivAg").onclick=()=>{$("#ivId").focus();scrollTo({top:0,behavior:"smooth"})};
  const blob=()=>new Promise(res=>$("#ivCv").toBlob(res,"image/png"));
@@ -180,14 +192,25 @@ async function card(r,u,fc){const cv=$("#ivCv"),x=cv.getContext("2d");const g=x.
  const its=SLOTS.map(s=>r.best[s]).filter(Boolean).slice(0,6);const imgs=await Promise.all(its.map(o=>loadImg(IMG(o.c.i)))).catch(()=>[]);
  its.forEach((o,i)=>{const X=380+i*125,Y=360;x.fillStyle="rgba(255,255,255,.05)";x.fillRect(X,Y,113,100);x.fillStyle=(o.c.h||["#666"])[0];x.fillRect(X,Y+96,113,4);const im=imgs[i];if(im){const s=Math.min(100/im.width,84/im.height);x.drawImage(im,X+(113-im.width*s)/2,Y+8+(84-im.height*s)/2,im.width*s,im.height*s)}});
  const av=u.a?await loadImg(u.a):null;if(av)x.drawImage(av,1060,105,80,80)}
+let ADD=[],LAST=null;const WN={FN:"Factory New",MW:"Minimal Wear",FT:"Field-Tested",WW:"Well-Worn",BS:"Battle-Scarred"};
+function loadAdd(sid){const q=new URLSearchParams(location.search).get("add");if(q){ADD=q.split(";").map(x=>x.split("~")).filter(a=>a[0]);return}try{ADD=JSON.parse(LS("iv_add_"+sid)||"[]")}catch(e){ADD=[]}}
+function saveAdd(){if(LAST)LS("iv_add_"+LAST.sid,JSON.stringify(ADD))}
+function rerun(){if(!LAST)return;const res=rate(LAST.items.concat(ADD.map(a=>[a[0]+(a[1]?" ("+WN[a[1]]+")":""),1])));render(res,LAST.u)}
+function picker(slot){let ov=$("#ivPk");if(!ov){ov=document.createElement("div");ov.id="ivPk";ov.className="pk";document.body.appendChild(ov)}
+ ov.innerHTML='<div class="pk-in"><div class="pk-h"><b>'+esc(slot?L.slots[slot]:L.addany)+'</b><button class="pk-x">×</button></div><input placeholder="'+esc(L.search)+'" autocomplete="off"><div class="pk-l"></div></div>';ov.hidden=false;
+ const inp=ov.querySelector("input"),lst=ov.querySelector(".pk-l");const close=()=>{ov.hidden=true};ov.querySelector(".pk-x").onclick=close;ov.onclick=e=>{if(e.target===ov)close()};
+ const show=()=>{const q=inp.value.trim().toLowerCase().split(/\s+/).filter(Boolean);const r=CAT.list.filter(x=>(!slot||slotOf(x)===slot)&&q.every(w=>x.n.toLowerCase().includes(w))).sort((a,b)=>cprice(b)-cprice(a)).slice(0,40);
+  lst.innerHTML=r.map((x,i)=>'<div class="pk-i"><img src="'+esc(IMG(x.i))+'" alt="" loading="lazy"><span><b>'+esc(x.n+(x.ph&&!x.n.includes("(")?" ("+x.ph+")":""))+'</b><span class="pk-w">'+["FN","MW","FT","WW","BS"].map((w,k)=>x.p&&x.p[k]?'<button data-i="'+i+'" data-w="'+w+'">'+w+' · '+M(x.p[k])+'</button>':"").join("")+'</span></span></div>').join("");
+  lst.querySelectorAll("button[data-w]").forEach(b=>b.onclick=()=>{const x=r[+b.dataset.i];ADD.push([x.n,b.dataset.w]);saveAdd();close();rerun()})};
+ inp.oninput=show;show();setTimeout(()=>inp.focus(),50)}
 async function run(kind,id){const msg=$("#ivMsg");msg.hidden=false;msg.className="iv-msg";msg.textContent=L.load;$("#ivRes").hidden=true;
  try{const url=kind==="me"?W+"/inv?t="+encodeURIComponent(tok()):W+"/invp?id="+encodeURIComponent(id);const[r]=await Promise.all([fetch(url),data()]);const j=await r.json();
   if(r.status===401){LS("skinset_steam",null);msg.textContent="";msg.hidden=true;btns();return}
   if(j.error==="profile"){msg.className="iv-msg err";msg.textContent=L.nf;return}
   if(j.private){msg.className="iv-msg err";msg.textContent=L.priv;return}if(j.error){msg.className="iv-msg err";msg.textContent=L.err;return}
-  const items=j.items&&j.items.length?j.items:(j.names||[]).map(n=>[n,1]);const res=rate(items);if(!res.cnt){msg.className="iv-msg err";msg.textContent=L.empty;return}
+  const items=j.items&&j.items.length?j.items:(j.names||[]).map(n=>[n,1]);LAST={items,u:null,sid:j.sid};loadAdd(j.sid);const res=rate(items.concat(ADD.map(a=>[a[0]+(a[1]?" ("+WN[a[1]]+")":""),1])));if(!res.cnt){msg.className="iv-msg err";msg.textContent=L.empty;return}
   let u={n:j.n,a:j.a,sid:j.sid};if(kind==="me"){try{const m=await (await fetch(W+"/me?t="+encodeURIComponent(tok()))).json();u={n:m.n,a:m.a,sid:m.sid}}catch(e){}}
-  msg.hidden=true;render(res,u)}catch(e){msg.className="iv-msg err";msg.textContent=L.err}}
+  LAST.u=u;LAST.sid=u.sid||j.sid;msg.hidden=true;render(res,u)}catch(e){msg.className="iv-msg err";msg.textContent=L.err}}
 function btns(){const a=$("#ivAct");a.innerHTML=tok()?'<button class="bt r" id="ivMe">'+esc(L.mine)+'</button>':'<a class="bt" href="'+W+'/login?r='+encodeURIComponent(location.origin+location.pathname)+'">'+__STEAM__+esc(L.login)+'</a>';const b=$("#ivMe");if(b)b.onclick=()=>run("me")}
 btns();$("#ivGo").onclick=()=>{const v=$("#ivId").value.trim();if(v)run("id",v)};$("#ivId").addEventListener("keydown",e=>{if(e.key==="Enter")$("#ivGo").click()});
 const q=new URLSearchParams(location.search).get("id");if(q){$("#ivId").value=q;run("id",q)}else if(tok()&&fresh){run("me")}})();"""

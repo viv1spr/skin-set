@@ -28,7 +28,7 @@ SEC_RU = {"MAPS": "Карты", "GAMEPLAY": "Геймплей", "MISC": "Раз�
           "ANTI-CHEAT": "Античит", "CS2 WORKSHOP": "Мастерская", "WORKSHOP": "Мастерская", "PREMIER": "Premier", "COMPETITIVE": "Соревновательный",
           "WEAPONS": "Оружие", "INVENTORY": "Инвентарь", "STEAM DECK": "Steam Deck", "LINUX": "Linux", "MAC": "Mac", "DEMOS": "Демки",
           "SETTINGS": "Настройки", "INPUT": "Управление", "SPECTATING": "Наблюдение", "MOVEMENT": "Передвижение", "BOTS": "Боты", "CASUAL": "Обычный режим",
-          "DEATHMATCH": "Бой насмерть", "WINGMAN": "Напарники", "ARMS RACE": "Гонка вооружений", "RETAKES": "Ретейки"}
+          "DEATHMATCH": "Бой насмерть", "WINGMAN": "Напарники", "ARMS RACE": "Гонка вооружений", "RETAKES": "Ретейки", "CROSSHAIR": "Прицел", "ENGINE": "Движок", "SCRIPTING": "Скрипты", "CS SCRIPT": "Скрипты", "ARMORY": "Арсенал", "MAJOR": "Мейджор", "TOOLS": "Инструменты", "MUSIC KITS": "Наборы музыки", "OTHER": "Другое", "KNOWN ISSUES": "Известные проблемы", "MAP GUIDES": "Гайды по картам", "WORKSHOP MAPS": "Карты мастерской", "ANIMGRAPH 2": "AnimGraph 2"}
 T = {
  "ru": dict(tab="Обновления CS2", h1="Обновления CS2", title="Обновления CS2: последний патч и все патчноуты Valve — Skinset",
    desc="Все обновления Counter-Strike 2 от Valve: последний патч {D}, полные патчноуты, новые кейсы, коллекции и скины. Обновляется автоматически.",
@@ -77,6 +77,7 @@ CSS = """
 .nw-card{display:block;margin:0 0 12px;padding:16px 18px;background:linear-gradient(170deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid var(--line2,rgba(255,255,255,.14));border-left:3px solid #e8402a;color:var(--ink,#fff);text-decoration:none}
 .nw-card:hover{border-color:rgba(255,255,255,.35)}.nw-card.first{border-left-color:#ffd36a;background:linear-gradient(170deg,rgba(228,174,57,.14),rgba(255,255,255,.02))}
 .nw-card .top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.82rem;color:var(--dim)}
+.nw-card h2::before,.nw-card .tag::before,.nw-card .tag::after{display:none!important}
 .nw-card h2{margin:6px 0 6px;font:700 1.25rem/1.15 var(--hud);text-transform:uppercase}
 .nw-card p{margin:0;color:var(--soft);font-size:.92rem}
 .tag{display:inline-block;padding:3px 7px;font:600 .68rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.08);color:var(--soft)}
@@ -111,13 +112,14 @@ def fetch():
 
 def bb(src):
     """BBCode Steam → безопасный HTML"""
+    src = re.sub(r"(?:\[p\]\s*)?\\?\[\s+([A-Z0-9][A-Z0-9 &/\-]{1,38}?)\s+\\?\](?:\s*\[/p\])?", r"[h3]\1[/h3]", src)
     s = e(src).replace("{STEAM_CLAN_IMAGE}", "https://clan.akamai.steamstatic.com/images")
     s = s.replace("\\[", "&#91;").replace("\\]", "&#93;")
     s = re.sub(r"\[img(?: src=&quot;([^&]*)&quot;)?\](.*?)\[/img\]", lambda m: f'<img src="{m.group(1) or m.group(2)}" alt="" loading="lazy">' if (m.group(1) or m.group(2)).startswith("http") else "", s, flags=re.S)
     s = re.sub(r"\[previewyoutube=([\w-]+)[^\]]*\]\[/previewyoutube\]", r'<a class="yt" href="https://www.youtube.com/watch?v=\1" target="_blank" rel="noopener nofollow">▶ YouTube</a>', s)
     s = re.sub(r"\[url=&quot;?(https?://[^\]&]*)&quot;?[^\]]*\](.*?)\[/url\]", r'<a href="\1" target="_blank" rel="noopener nofollow">\2</a>', s, flags=re.S)
     s = re.sub(r"\[url\](https?://[^\[]*)\[/url\]", r'<a href="\1" target="_blank" rel="noopener nofollow">\1</a>', s)
-    for a, b_ in [("h1", "h3"), ("h2", "h3"), ("h3", "h3"), ("b", "b"), ("i", "i"), ("u", "u"), ("strike", "s"), ("p", "p"), ("list", "ul"), ("olist", "ol"), ("code", "code"), ("quote", "blockquote"), ("table", "table"), ("tr", "tr"), ("td", "td"), ("th", "th")]:
+    for a, b_ in [("h1", "h3"), ("h2", "h3"), ("h3", "h3"), ("h4", "h3"), ("h5", "h3"), ("b", "b"), ("i", "i"), ("u", "u"), ("strike", "s"), ("p", "p"), ("list", "ul"), ("olist", "ol"), ("code", "code"), ("quote", "blockquote"), ("table", "table"), ("tr", "tr"), ("td", "td"), ("th", "th")]:
         s = re.sub(rf"\[{a}(?:[^\]]*)\]", f"<{b_}>", s); s = s.replace(f"[/{a}]", f"</{b_}>")
     s = s.replace("[*]", "<li>").replace("[/*]", "</li>").replace("[hr][/hr]", "<hr>").replace("[hr]", "<hr>")
     s = re.sub(r"\[/?[a-z]+[^\]]*\]", "", s)
@@ -131,7 +133,7 @@ def bb(src):
 def sections(c):
     """[(НАЗВАНИЕ, кол-во пунктов верхнего уровня)]"""
     out = []
-    parts = re.split(r"\[p\]\s*\\?\[\s*([A-Z0-9 &/\-]{2,40}?)\s*\\?\]\s*\[/p\]", c)
+    parts = re.split(r"(?:\[p\]\s*)?\\?\[\s+([A-Z0-9][A-Z0-9 &/\-]{1,38}?)\s+\\?\](?:\s*\[/p\])?", c)
     for k in range(1, len(parts), 2):
         body = parts[k + 1]; depth = 0; n = 0
         for m in re.finditer(r"\[(/?)(list|\*)\]", body):

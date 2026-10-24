@@ -67,6 +67,7 @@ def fix(s):
     # всплывашка скина в блоге: вместо кнопки покупки — цена и заглушка
     s = s.replace('`<a class="sp-buy" href="${dm(name,cur)}" target="_blank" rel="noopener sponsored"><span>${T.buy}</span><b>${price}</b></a>',
                   '`<div class="sp-buy sp-price"><span>${T.mk||""}</span><b>${price}</b></div><a class="sp-ad" href="' + ABOUT[lang] + '#partners">' + AD[lang][1] + ' →</a>')
+    s = re.sub(r'buy:"",(?:mk:"[^"]*",)+', 'buy:"",', s)
     s = re.sub(r'(\{q:"[^"]*",)buy:"[^"]*"', lambda m: m.group(1) + 'buy:"",mk:"' + {"ru": "Цена на рынке", "en": "Market price", "de": "Marktpreis", "pt": "Preço de mercado", "tr": "Piyasa fiyatı", "pl": "Cena rynkowa"}[lang] + '"', s)
     # таблицы цен в статьях блога: убрать ссылки DMarket
     s = re.sub(r'<td class="pb"><a href="https://dmarket\.com[^"]*"[^>]*>DMarket</a></td>', '<td class="pb"></td>', s)
@@ -77,6 +78,8 @@ def fix(s):
     s = re.sub(r'<style id="noshop-css">.*?</style>', lambda _: AD_CSS, s, flags=re.S)
     if s != o and 'id="noshop-css"' not in s:
         s = s.replace("</head>", AD_CSS + "</head>", 1)
+    import navmore
+    s = navmore.gwfirst(s)
     return s
 
 

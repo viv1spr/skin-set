@@ -49,6 +49,7 @@ def undo(s):
 
 
 def fix(s):
+    s = gwfirst(s)
     if 'id="tmenu"' in s: return unify(burger(s))
     m = re.search(r'<html lang="([^"]+)"', s)
     lang = LANGOF.get(m.group(1) if m else "ru", "ru")
@@ -116,6 +117,30 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});nav.addEve
 
 
 GWTAB = '<style id="gw-tab">.hud .tabs a[href="/rozygryshi/"],.hud .tabs a[href="/en/giveaways/"],.hud .tabs a[href="/de/gewinnspiele/"],.hud .tabs a[href="/pt/sorteios/"],.hud .tabs a[href="/tr/cekilisler/"],.hud .tabs a[href="/pl/konkursy/"]{color:#ffd36a!important;gap:7px;background:linear-gradient(180deg,rgba(228,174,57,.2),rgba(228,174,57,.04));text-shadow:0 0 14px rgba(255,200,80,.45);overflow:hidden}.hud .tabs a[href="/rozygryshi/"]::before,.hud .tabs a[href="/en/giveaways/"]::before,.hud .tabs a[href="/de/gewinnspiele/"]::before,.hud .tabs a[href="/pt/sorteios/"]::before,.hud .tabs a[href="/tr/cekilisler/"]::before,.hud .tabs a[href="/pl/konkursy/"]::before{content:"";flex:none;width:15px;height:15px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23000\' stroke-width=\'2.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z\'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23000\' stroke-width=\'2.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z\'/%3E%3C/svg%3E") center/contain no-repeat;animation:gwJ 2.4s ease-in-out infinite}.hud .tabs a[href="/rozygryshi/"].on::after,.hud .tabs a[href="/en/giveaways/"].on::after,.hud .tabs a[href="/de/gewinnspiele/"].on::after,.hud .tabs a[href="/pt/sorteios/"].on::after,.hud .tabs a[href="/tr/cekilisler/"].on::after,.hud .tabs a[href="/pl/konkursy/"].on::after{background:linear-gradient(90deg,#e4ae39,#ffe08a,#e4ae39)!important}.hud .tabs a[href="/rozygryshi/"]:hover,.hud .tabs a[href="/en/giveaways/"]:hover,.hud .tabs a[href="/de/gewinnspiele/"]:hover,.hud .tabs a[href="/pt/sorteios/"]:hover,.hud .tabs a[href="/tr/cekilisler/"]:hover,.hud .tabs a[href="/pl/konkursy/"]:hover{color:#fff1c2!important;background:linear-gradient(180deg,rgba(228,174,57,.3),rgba(228,174,57,.08))}.bmenu nav a[href="/rozygryshi/"],.bmenu nav a[href="/en/giveaways/"],.bmenu nav a[href="/de/gewinnspiele/"],.bmenu nav a[href="/pt/sorteios/"],.bmenu nav a[href="/tr/cekilisler/"],.bmenu nav a[href="/pl/konkursy/"]{color:#ffd36a!important}.bmenu nav a[href="/rozygryshi/"]::before,.bmenu nav a[href="/en/giveaways/"]::before,.bmenu nav a[href="/de/gewinnspiele/"]::before,.bmenu nav a[href="/pt/sorteios/"]::before,.bmenu nav a[href="/tr/cekilisler/"]::before,.bmenu nav a[href="/pl/konkursy/"]::before{content:"";width:18px;height:18px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23000\' stroke-width=\'2.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z\'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23000\' stroke-width=\'2.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z\'/%3E%3C/svg%3E") center/contain no-repeat}@keyframes gwJ{0%,70%,100%{transform:none}78%{transform:rotate(-14deg) scale(1.12)}86%{transform:rotate(12deg) scale(1.12)}94%{transform:rotate(-6deg)}}@media (prefers-reduced-motion:reduce){.hud .tabs a::before{animation:none!important}}</style>'
+
+
+GWP = ["/rozygryshi/", "/en/giveaways/", "/de/gewinnspiele/", "/pt/sorteios/", "/tr/cekilisler/", "/pl/konkursy/"]
+GWI_CSS = """<style id="gw-icon">.hud .tabs a.gwi{position:relative;padding-left:16px!important;padding-right:16px!important;gap:0!important;min-width:0}
+.hud .tabs a.gwi .gw-t{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.hud .tabs a.gwi::before{width:20px!important;height:20px!important}</style>"""
+
+
+def gwfirst(s):
+    """вкладка розыгрыша — иконкой без подписи, первой в меню (перед «Конструктором»)"""
+    nm = re.search(r'(<nav class="tabs"[^>]*>)(.*?)(</nav>)', s, re.S)
+    if not nm: return s
+    inner = nm.group(2)
+    a = re.search(r'<a href="(' + "|".join(map(re.escape, GWP)) + r')"([^>]*)>(.*?)</a>', inner, re.S)
+    if not a: return s
+    href, attrs, txt = a.group(1), a.group(2), a.group(3)
+    label = re.sub(r"<[^>]+>", "", txt).strip()
+    on = bool(re.search(r'class="?[^">]*\bon\b', attrs))
+    new = f'<a href="{href}" data-gw class="gwi{" on" if on else ""}" title="{label}" aria-label="{label}"><span class="gw-t">{label}</span></a>'
+    inner2 = inner.replace(a.group(0), "", 1)
+    out = nm.group(1) + new + inner2 + nm.group(3)
+    s = s[:nm.start()] + out + s[nm.end():]
+    if 'id="gw-icon"' not in s and "</head>" in s: s = s.replace("</head>", GWI_CSS + "</head>", 1)
+    return s
 
 
 def burger(s):

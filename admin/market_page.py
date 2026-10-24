@@ -28,7 +28,8 @@ T = {
    up1="Подорожали за сутки", dn1="Подешевели за сутки", up7="Подорожали за неделю", dn7="Подешевели за неделю", upd="Обновлено {D} (МСК)",
    home="Главная", none="Пока мало данных — история цен только начала собираться.", note="Цены — ориентир по открытым данным площадок, не финансовый совет.",
    sum="За сутки сильнее всего вырос {u} ({uc}), сильнее всего подешевел {d} ({dc}). Индекс рынка за неделю: {i}.", tracked="скинов отслеживаем", days="дней истории",
-   inv="Узнай, сколько стоит твой инвентарь →"),
+   inv="Узнай, сколько стоит твой инвентарь →", all_h="Все скины", all_p="Цены и изменения по всем отслеживаемым скинам и износам. Ищи, фильтруй и сортируй.", srch="Поиск: AK-47, Karambit, Asiimov…",
+   sorts=[("c1d","Рост за сутки"), ("c1a","Падение за сутки"), ("c7d","Рост за неделю"), ("c7a","Падение за неделю"), ("pd","Сначала дорогие"), ("pa","Сначала дешёвые")], more="Показать ещё", cols=["Скин", "Цена", "Сутки", "Неделя"], found="Найдено: {n}"),
  "en": dict(h1="CS2 market today", title="CS2 skin market today: biggest risers and fallers — Skinset",
    desc="Which CS2 skins went up and down in the last 24 hours and 7 days: knives, gloves, AK-47, AWP. Market index and price charts, updated every 4 hours.",
    lead="Which skins went up and down over the last day and week. Prices are the lowest market listing for each wear, updated every 4 hours. Skins under $2 and spikes caused by thin supply are excluded.",
@@ -36,7 +37,8 @@ T = {
    up1="Top risers · 24h", dn1="Top fallers · 24h", up7="Top risers · 7 days", dn7="Top fallers · 7 days", upd="Updated {D} UTC",
    home="Home", none="Not enough data yet — price history has just started.", note="Prices are a guide based on public marketplace data, not financial advice.",
    sum="In the last 24h the biggest riser was {u} ({uc}) and the biggest faller was {d} ({dc}). 7-day market index: {i}.", tracked="skins tracked", days="days of history",
-   inv="Check what your inventory is worth →"),
+   inv="Check what your inventory is worth →", all_h="All skins", all_p="Prices and changes for every tracked skin and wear. Search, filter and sort.", srch="Search: AK-47, Karambit, Asiimov…",
+   sorts=[("c1d","Biggest gain · 24h"), ("c1a","Biggest drop · 24h"), ("c7d","Biggest gain · 7d"), ("c7a","Biggest drop · 7d"), ("pd","Price: high to low"), ("pa","Price: low to high")], more="Show more", cols=["Skin", "Price", "24h", "7d"], found="Found: {n}"),
 }
 CSS = """
 html,body{overflow-x:clip}
@@ -56,6 +58,7 @@ html,body{overflow-x:clip}
 .mk .sum{color:var(--soft);margin:0 0 6px}
 .mk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 6px}
 .mk-tabs button{padding:9px 14px;background:rgba(255,255,255,.04);border:1px solid var(--line2,rgba(255,255,255,.14));color:var(--soft);font:600 .78rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.mk-all{margin-left:auto;align-self:center;color:#66c0f4;font:600 .82rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
 .mk-tabs button.on{background:#e8402a;border-color:#e8402a;color:#fff}
 .mk-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
 .lst{background:rgba(255,255,255,.03);border:1px solid var(--line,rgba(255,255,255,.1))}
@@ -71,6 +74,19 @@ html,body{overflow-x:clip}
 .it .ch{text-align:right}.it .ch b{display:block;font:700 .95rem var(--hud)}.it .ch small{color:var(--soft);font-size:.76rem}
 .mk .cta{display:inline-block;margin-top:22px;padding:13px 18px;background:linear-gradient(90deg,#e8402a,#ff6a3d);color:#fff;font:700 .84rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
 .mk .note{margin-top:22px;font-size:.8rem;color:var(--dim)}
+.all{margin-top:30px}.all h2{margin:0 0 6px;font:700 1.5rem/1 var(--hud);text-transform:uppercase}.all>p{color:var(--soft);margin:0 0 14px}
+.af{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.af input,.af select{height:42px;padding:0 12px;background:rgba(255,255,255,.05);border:1px solid var(--line2,rgba(255,255,255,.16));color:var(--ink,#fff);font-size:.92rem;outline:none}
+.af input{flex:1;min-width:200px}.af select option{background:#131417}
+.af .kd{display:flex;gap:4px}.af .kd button{height:42px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--line2,rgba(255,255,255,.14));color:var(--soft);font:600 .74rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.af .kd button.on{background:#e8402a;border-color:#e8402a;color:#fff}
+.af .cnt{font-size:.82rem;color:var(--dim)}
+.at{background:rgba(255,255,255,.03);border:1px solid var(--line,rgba(255,255,255,.1))}
+.ar{display:grid;grid-template-columns:52px minmax(0,1fr) 110px 80px 80px;gap:10px;align-items:center;padding:7px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--ink,#fff);text-decoration:none}
+.ar.h{color:var(--dim);font:600 .72rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;padding:10px 14px}.ar:not(.h):hover{background:rgba(255,255,255,.04)}
+.ar img{width:52px;height:38px;object-fit:contain}.ar b{display:block;font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ar small{color:var(--dim);font-size:.76rem}
+.ar .p,.ar .c{text-align:right;font:700 .92rem var(--hud)}.ar .c.z{color:var(--dim)}
+.amore{display:block;margin:12px auto 0;padding:12px 22px;background:rgba(255,255,255,.06);border:1px solid var(--line2,rgba(255,255,255,.2));color:#fff;font:700 .8rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+@media(max-width:600px){.ar{grid-template-columns:40px minmax(0,1fr) 72px 60px;gap:8px;padding:7px 10px}.ar .c7{display:none}.ar img{width:40px;height:30px}.af input{min-width:0;width:100%}}
 [data-cat]{display:none}[data-cat].on{display:grid}
 @media(max-width:900px){.mk-top{grid-template-columns:1fr 1fr}.mk-top .kpi:first-child{grid-column:1/-1}.kpi b{font-size:1.8rem}.mk-g{grid-template-columns:1fr}}
 @media(max-width:600px){.mk{padding:16px 14px 40px}.it{grid-template-columns:18px 46px minmax(0,1fr) 70px;gap:8px;padding:8px 10px}.it svg{display:none}.it img{width:46px;height:34px}}
@@ -133,6 +149,23 @@ def lst(lang, rows, key, rev, title, cls):
     return f'<div class="lst"><h2 class="{cls}">{e(title)}</h2>{"".join(items)}</div>'
 
 
+ALLJS = r"""<script>(()=>{const R=__RATE__,CUR=__CUR__,WK=__WIKI__,FOUND=__FOUND__,lang=document.documentElement.lang;let D=null,k="all",n=50;const $=s=>document.getElementById(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);const f=new Intl.NumberFormat(lang,{maximumFractionDigits:R>=50?0:2});
+const M=v=>CUR[0]+f.format(R>=50?Math.round(v*R/10)*10:v)+CUR[1];const P=x=>x==null?'<span class="c z">—</span>':Math.abs(x)<.05?'<span class="c z">0%</span>':'<span class="c '+(x>=0?"up":"dn")+'">'+(x>0?"+":x<0?"−":"")+Math.abs(x).toFixed(1).replace(".",lang==="en"?".":",")+"%</span>";
+const IMG=i=>i?(i.startsWith("http")?i:"https://community.akamai.steamstatic.com/economy/image/"+i+"/120fx90f"):"";
+function draw(){if(!D)return;const q=$("aq").value.trim().toLowerCase().split(/\s+/).filter(Boolean),so=$("as").value;
+ let r=D.r.filter(x=>(k==="all"||x[5]===k)&&q.every(w=>x[0].toLowerCase().includes(w)));
+ const key={c1d:x=>-(x[3]??-1e9),c1a:x=>(x[3]??1e9),c7d:x=>-(x[4]??-1e9),c7a:x=>(x[4]??1e9),pd:x=>-x[2],pa:x=>x[2]}[so];r.sort((a,b)=>key(a)-key(b));
+ $("an").textContent=FOUND.replace("{n}",r.length);
+ $("al").innerHTML=r.slice(0,n).map(x=>{const tag=x[6]?'<a class="ar" href="'+WK+x[6]+'/">':'<div class="ar">';return tag+'<img src="'+esc(IMG(D.img[x[0]]))+'" alt="" loading="lazy"><span><b>'+esc(x[0])+'</b><small>'+x[1]+'</small></span><span class="p">'+M(x[2])+'</span>'+P(x[3])+P(x[4]).replace('class="c','class="c c7')+(x[6]?"</a>":"</div>")}).join("");
+ $("am").hidden=r.length<=n}
+async function load(){if(D)return;try{D=await (await fetch("/data/market-all.json")).json()}catch(e){return}draw()}
+$("aq").addEventListener("input",()=>{n=50;load();draw()});$("as").addEventListener("change",()=>{n=50;draw()});
+$("ak").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;k=b.dataset.k;$("ak").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));n=50;draw()});
+$("am").addEventListener("click",()=>{n+=100;draw()});
+const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){load();io.disconnect()}},{rootMargin:"600px"});io.observe($("all"));if(location.hash==="#all")load()})();</script>"""
+
+
 def build(d):
     days, rows, ix = compute(d)
     now = datetime.datetime.now(datetime.timezone.utc)
@@ -143,7 +176,7 @@ def build(d):
         if not rows:
             body = f'<h1>{e(t["h1"])}</h1><p class="lead">{e(t["none"])}</p>'
         else:
-            tabs = '<div class="mk-tabs" id="mkt">' + "".join(f'<button data-c="{c}"{" class=on" if c == "all" else ""}>{e(l[lang])}</button>' for c, l in CATS) + "</div>"
+            tabs = '<div class="mk-tabs" id="mkt">' + "".join(f'<button data-c="{c}"{" class=on" if c == "all" else ""}>{e(l[lang])}</button>' for c, l in CATS) + f'<a class="mk-all" href="#all">{e(t["all_h"])} ({len(rows)}) ↓</a></div>'
             grids = []
             for c, _ in CATS:
                 rr = rows if c == "all" else [r for r in rows if r["kind"] == c]
@@ -161,7 +194,13 @@ def build(d):
             inv = "/ocenka-inventarya/" if lang == "ru" else "/en/inventory-value/"
             body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="mk-kick"><i></i>{e(t["kick"])} · {e(t["upd"].format(D=D))}</span>'
                     f'<h1>{e(t["h1"])}</h1><p class="lead">{e(t["lead"])}</p>{kpi}<p class="sum">{e(su)}</p>{tabs}{"".join(grids)}{js}'
-                    f'<a class="cta" href="{inv}">{e(t["inv"])}</a><p class="note">{e(t["note"])}</p>')
+                    f'<section class="all" id="all"><h2>{e(t["all_h"])}</h2><p>{e(t["all_p"])}</p><div class="af"><input id="aq" type="search" placeholder="{e(t["srch"])}" autocomplete="off">'
+                    + '<div class="kd" id="ak">' + "".join(f'<button data-k="{c}"{" class=on" if c == "all" else ""}>{e(l[lang])}</button>' for c, l in CATS) + '</div>'
+                    + '<select id="as">' + "".join(f'<option value="{v}">{e(l)}</option>' for v, l in t["sorts"]) + f'</select><span class="cnt" id="an"></span></div>'
+                    f'<div class="at"><div class="ar h"><span></span><span>{e(t["cols"][0])}</span><span class="p">{e(t["cols"][1])}</span><span class="c">{e(t["cols"][2])}</span><span class="c c7">{e(t["cols"][3])}</span></div><div id="al"></div></div>'
+                    f'<button class="amore" id="am" hidden>{e(t["more"])}</button></section>'
+                    + ALLJS.replace("__RATE__", str(RATE[lang])).replace("__CUR__", json.dumps(["", " ₽"] if lang == "ru" else ["$", ""])).replace("__WIKI__", json.dumps(WIKI[lang])).replace("__FOUND__", json.dumps(t["found"]))
+                    + f'<a class="cta" href="{inv}">{e(t["inv"])}</a><p class="note">{e(t["note"])}</p>')
             if lang == "ru":
                 out.update(i1=ix["i1"], i7=ix["i7"], up=[(r["n"], r["w"], r["c1"], r["cur"]) for r in sorted([r for r in rows if r["c1"] is not None], key=lambda r: -r["c1"])[:5]],
                            down=[(r["n"], r["w"], r["c1"], r["cur"]) for r in sorted([r for r in rows if r["c1"] is not None], key=lambda r: r["c1"])[:5]])
@@ -174,6 +213,13 @@ def build(d):
         f = os.path.join(ROOT, url.strip("/"), "index.html"); os.makedirs(os.path.dirname(f), exist_ok=True)
         open(f, "w", encoding="utf-8").write(p)
     json.dump(out, open(os.path.join(ROOT, "data/market.json"), "w"), ensure_ascii=False)
+    if rows:
+        img = {}; allr = []
+        for r in rows:
+            img.setdefault(r["n"], r["i"])
+            wu = wiki_url("ru", r["n"]) or ""
+            allr.append([r["n"], r["w"], r["cur"], None if r["c1"] is None else round(r["c1"], 1), None if r["c7"] is None else round(r["c7"], 1), r["kind"], wu[len(WIKI["ru"]):].strip("/") if wu else ""])
+        json.dump({"t": out["t"], "img": img, "r": allr}, open(os.path.join(ROOT, "data/market-all.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     # sitemap
     sm = os.path.join(ROOT, "sitemap.xml"); xml = open(sm, encoding="utf-8").read(); today = now.date().isoformat()
     for u in URL.values():

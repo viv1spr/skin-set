@@ -177,11 +177,11 @@ def do_type(p, c, kind):
     b2, _ = setblock("Премиальный сет", col, lux, f'/{c["stem"]}-skiny-cs2/', None)
     if kind == "nozhi":
         intro = (f"Нож — центр любого инвентаря: его видно в каждом раунде, и именно с него обычно начинают собирать сет. Здесь собраны все {c['pl']} ножи CS2 из базы Skinset — {len(items)} вариантов"
-                 + (f" от {rub(pr[0][1])} до {rub(pr[-1][1])}" if pr else "") + ". Цены — минимальные на рынке по любому износу, обновляются каждые 4 часа.")
+                 + (f" от {rub(pr[0][1])} до {rub(pr[-1][1])}" if pr else "") + ". Все они есть и в КС 2, и были в КС ГО: при переходе на CS2 скины перенеслись без изменений. Цены — минимальные на рынке по любому износу, обновляются каждые 4 часа.")
         how = f"Чтобы нож не выглядел чужим, подбирай перчатки и основное оружие в той же гамме. Проще всего открыть конструктор: он закрепит выбранный нож и распределит остаток бюджета на перчатки, AK-47, M4, AWP и пистолеты. Ниже — два готовых {c['m']} сета с ножом."
     else:
         intro = (f"Перчатки видны в каждом раунде вместе с ножом, поэтому их цвет задаёт тон всего инвентаря. Здесь собраны все {c['pl']} перчатки CS2 из базы Skinset — {len(items)} вариантов"
-                 + (f" от {rub(pr[0][1])} до {rub(pr[-1][1])}" if pr else "") + ". Цены — минимальные на рынке по любому износу; у перчаток разница между Factory New и Battle-Scarred бывает в разы.")
+                 + (f" от {rub(pr[0][1])} до {rub(pr[-1][1])}" if pr else "") + ". Те же перчатки были и в КС ГО — при переходе на КС 2 скины перенеслись без изменений. Цены — минимальные на рынке по любому износу; у перчаток разница между Factory New и Battle-Scarred бывает в разы.")
         how = f"Самое заметное сочетание — перчатки и нож: если они в одной гамме, сет читается сразу. Конструктор закрепит выбранные перчатки и подберёт к ним нож, AK-47, M4, AWP и пистолеты. Ниже — два готовых {c['m']} сета."
     faq = []
     if cheap:
@@ -193,7 +193,7 @@ def do_type(p, c, kind):
                 f"Открой конструктор с {c['m'].replace('ый', 'ым').replace('ий', 'им')} сетом, нажми «Выбрать» на слоте и закрепи {('нож' if kind == 'nozhi' else 'перчатки')} — остальные слоты подберутся в той же гамме под твой бюджет."))
     bl = blog_links("ru", ["samye-deshevye-nozhi-cs2" if kind == "nozhi" else "perchatki-k-nozhu-doppler-po-fazam", "kakie-perchatki-podhodyat-k-fioletovomu-nozhu" if p == 3 else "perchatki-k-nozhu-doppler-po-fazam" if kind == "nozhi" else "samye-deshevye-nozhi-cs2", c["blog"]])
     inner = (f'<nav class="seo-crumbs"><a href="/">Главная</a> › <a href="/{c["stem"]}-skiny-cs2/">{e(c["Set"].split(" КС")[0])}</a> › {e(pl_title)}</nav>\n'
-             f'<h1>{e(pl_title)}: список и цены</h1><div id="seoColor" hidden></div><ul id="seoLinks" hidden></ul>\n'
+             f'<h1>{e(pl_title)} (КС 2 и КС ГО): список и цены</h1><div id="seoColor" hidden></div><ul id="seoLinks" hidden></ul>\n'
              f'<p class="seo-lead">{e(intro)}</p>\n'
              f'<h2>Все {e(c["pl"])} {e(Tpl)} CS2 — от дешёвых к дорогим</h2><div class="seo-list"><ul>{"".join(li(*x) for x in items)}</ul></div>\n'
              f'<h2>С чем сочетать</h2><p>{e(how)}</p>{b1}{b2}\n'
@@ -203,9 +203,9 @@ def do_type(p, c, kind):
              + "".join(f'<li><a href="{h}">{e(t)}</a></li>' for h, t in bl) + "</ul>\n"
              f'<h2>{e(T1)} других цветов</h2><ul class="seo-chips">' + "".join(f'<li><a href="/{d["stem"]}-{kind}-cs2/"{" class=on" if d is c else ""}>{e(d["pl"].capitalize())}</a></li>' for d in C) + "</ul>")
     s = replace_section(s, inner, faq_ld(faq, [("Главная", "/"), (c["Set"].split(" КС")[0], f'/{c["stem"]}-skiny-cs2/'), (pl_title, f'/{c["stem"]}-{kind}-cs2/')]))
-    s = re.sub(r"<title>.*?</title>", f"<title>{e(pl_title)}: список, цены и с чем сочетать — Skinset</title>", s, count=1)
+    s = re.sub(r"<title>.*?</title>", f"<title>{e(pl_title)} и КС ГО: список, цены и с чем сочетать — Skinset</title>", s, count=1)
     if pr:
-        d = f"Все {c['pl']} {Tpl} CS2 с ценами от {rub(pr[0][1])}: {', '.join(nm(x) for x, _ in pr[-3:][::-1])} и другие. Готовые сеты и с чем сочетать."
+        d = f"Все {c['pl']} {Tpl} КС 2 (CS2) и КС ГО с ценами от {rub(pr[0][1])}: {', '.join(nm(x) for x, _ in pr[-3:][::-1])} и другие. Готовые сеты и с чем сочетать."
         for pat in [r'<meta name="description" content="[^"]*">', r'<meta property="og:description" content="[^"]*">']:
             s = re.sub(pat, lambda m: re.sub(r'content="[^"]*"', f'content="{e(d)}"', m.group(0)), s, count=1)
     open(f, "w", encoding="utf-8").write(s)

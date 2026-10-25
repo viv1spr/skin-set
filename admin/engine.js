@@ -55,8 +55,9 @@ function md(src){
     if(/^---+$/.test(l)){flush();out.push("<hr>");continue}
     flushL();flushQ();para.push(l)}
   flush();
-  return out.map(o=>{if(typeof o==="string")return o;const rows=o.table.filter(r=>!/^\|\s*-/.test(r)).map(r=>r.replace(/^\||\|$/g,"").split("|").map(c=>c.trim()));
+  return out.map(o=>{if(typeof o==="string")return o;const rows=o.table.filter(r=>!/^\|\s*-/.test(r)).map(r=>splitRow(r.replace(/^\||\|$/g,"")).map(c=>c.trim()));
     return "<table>"+rows.map((r,i)=>"<tr>"+r.map(c=>(i?"<td>":"<th>")+inline(c)+(i?"</td>":"</th>")).join("")+"</tr>").join("")+"</table>"}).join("\n")}
+function splitRow(r){const out=[];let cur="",d=0;for(let i=0;i<r.length;i++){const ch=r[i];if(ch==="\\"&&r[i+1]==="|"){cur+="|";i++;continue}if(ch==="[")d++;else if(ch==="]")d=Math.max(0,d-1);if(ch==="|"&&!d){out.push(cur);cur="";continue}cur+=ch}out.push(cur);return out}
 function readMin(src){return Math.max(2,Math.round(src.split(/\s+/).length/180))}
 let LANGS=null;function setLangs(l){LANGS=l}
 const MONTHS={ru:["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"],en:["January","February","March","April","May","June","July","August","September","October","November","December"],de:["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],pt:["de janeiro","de fevereiro","de março","de abril","de maio","de junho","de julho","de agosto","de setembro","de outubro","de novembro","de dezembro"],tr:["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"],pl:["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"]};

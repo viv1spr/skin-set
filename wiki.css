@@ -97,7 +97,7 @@ footer a{color:var(--soft)}
 .pt th{font:600 .74rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
 .pt td:nth-child(2){font:600 1.05rem/1 var(--hud);white-space:nowrap}.pt td:last-child{text-align:right}
 .pt small{color:var(--dim);display:block;font-size:.78rem}
-.btns{display:flex;flex-wrap:wrap;gap:10px}.btn.csm{background:linear-gradient(90deg,#ff159a,#e0127f);color:#fff;box-shadow:0 10px 26px rgba(255,21,154,.3)}.btn.csm img{width:24px;height:24px;border-radius:5px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}.btn.csm{background:#16161d;color:#fff;border:1px solid #ff159a;box-shadow:0 10px 26px rgba(255,21,154,.15)}.btn.csm img{width:24px;height:24px;border-radius:5px}
 .csm-l{display:inline-block;padding:6px 10px;border:1px solid rgba(255,21,154,.6);font:600 .72rem/1 var(--hud);letter-spacing:.08em;color:#ff8ccc;text-decoration:none;white-space:nowrap}.csm-l:hover{background:rgba(255,21,154,.18);color:#fff}
 .bb{display:inline-block;padding:8px 12px;border:1px solid var(--line2);font:600 .72rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}.bb:hover{border-color:var(--pick);color:var(--pick)}
 .note{color:var(--dim);font-size:.85rem}

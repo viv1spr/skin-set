@@ -14,7 +14,7 @@
 <link rel="icon" type="image/svg+xml" href="/img/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png"><link rel="apple-touch-icon" href="/img/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#0e1118">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:wght@400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
   --pick:#c4161c; --pick2:#1a1a1a; --on-pick:#fff;
@@ -644,14 +644,14 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 @media(max-width:370px){.hud:has(.burger) .logo{font-size:1.05rem!important}.hud:has(.burger) .logo svg{width:24px;height:24px}
 }
 </style><style id="noshop-css">
-.cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:linear-gradient(90deg,#ff159a,#e0127f)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
-.buy a.ad,.buy a.csm{background:linear-gradient(90deg,#ff159a,#e0127f)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(255,21,154,.35),0 8px 22px rgba(255,21,154,.3)}
+.cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:#16161d!important;color:#fff!important;border:1px solid #ff159a!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(255,21,154,.15)}
+.buy a.ad,.buy a.csm{background:#16161d!important;color:#fff!important;border:1px solid #ff159a!important;box-shadow:0 8px 22px rgba(255,21,154,.18)}
 .buy a.ad .tx small,.buy a.csm .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b,.buy a.csm .tx b{color:#fff!important;font-size:.98rem}
-.buy a.ad .ico,.buy a.ad .lg,.buy a.csm .ico,.buy a.csm .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
+.buy a.ad .ico,.buy a.ad .lg,.buy a.csm .ico,.buy a.csm .lg{background:transparent!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
 .buy a.ad .arr,.buy a.csm .arr{color:#fff!important;opacity:1}
-.buy a.ad:hover,.cb a.ad:hover,.buy a.csm:hover,.cb a.csm:hover{filter:brightness(1.12)}
+.buy a.ad:hover,.cb a.ad:hover,.buy a.csm:hover,.cb a.csm:hover{background:#24121d!important}
 .sp-price{background:rgba(255,255,255,.05)!important;color:var(--ink,#fff)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.14);cursor:default}
-.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#ff159a,#e0127f);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(255,21,154,.3)}
+.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:#16161d;border:1px solid #ff159a;color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(255,21,154,.3)}
 .sp-ad img{width:20px;height:20px;border-radius:4px;margin-right:8px;vertical-align:-5px}
 .sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
 .sp-ad:hover{filter:brightness(1.12)}
@@ -1227,12 +1227,12 @@ const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
 
 /* ===== реальные изображения скинов (работают na своём хостинге или при открытии файла локально) =====
    Источник: открытая база CS2 (ByMykel/CSGO-API). В предпросмотре claude.ai внешние картинки заблокированы, там останутся силуэты. */
-const IMG_SRC="https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json";
+const IMG_SRC="/data/skin-img.json";
 const IMAGES=new Map();
 const stripPhase=n=>n.replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)/i,"").trim();
 const baseName=s=>s.weapon+" | "+stripPhase(s.skin);
 async function loadImages(){
-  try{const r=await fetch(IMG_SRC);if(!r.ok)throw 0;const list=await r.json();
+  try{const r=await fetch(IMG_SRC);if(!r.ok)throw 0;const list=(await r.json()).map(a=>Array.isArray(a)?{name:a[0],image:"https://community.akamai.steamstatic.com/economy/image/"+a[1]+"/360fx270f",phase:a[2]}:a);
     const byWeapon=new Map();
     for(const it of list){ if(!it.name||!it.image)continue; if(!IMAGES.has(it.name))IMAGES.set(it.name,it.image);
       const [w,...rest]=it.name.split(" | ");const sk=(rest.join(" | ")||"").toLowerCase();if(!byWeapon.has(w))byWeapon.set(w,[]);byWeapon.get(w).push({sk,img:it.image,phase:(it.phase||"").toLowerCase()}) }
@@ -1252,7 +1252,7 @@ async function loadImages(){
 
 /* дополнительная база скинов из админки: /data/skins-extra.json (новые кейсы, перчатки, ножи) */
 async function loadExtraSkins(){
-  try{const r=await fetch("/data/skins-extra.json",{cache:"no-store"});if(!r.ok)return;const list=await r.json();if(!Array.isArray(list))return;
+  try{const r=await fetch("/data/skins-extra.json");if(!r.ok)return;const list=await r.json();if(!Array.isArray(list))return;
     const have=new Set(SKINS.map(s=>(s.weapon.replace("★ ","")+" | "+s.skin).toLowerCase()));let added=0;
     for(const row of list){const [slot,weapon,skin,tier,colors,img]=row;if(!slot||!weapon||!skin||!colors||!colors.length)continue;
       const key=(weapon.replace("★ ","")+" | "+skin).toLowerCase();if(have.has(key))continue;have.add(key);

@@ -30,14 +30,14 @@ WHERE = {  # абзац «где купить» и ответ FAQ
     "pl": "Skinset pokazuje orientacyjne ceny każdego przedmiotu i całego zestawu, aktualizowane co 4 godziny. Strona nic nie sprzedaje i nie ma nic wspólnego ze skrzynkami: złóż zestaw tutaj, a skiny kup na dowolnym rynku.",
 }
 AD_CSS = """<style id="noshop-css">
-.cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:linear-gradient(90deg,#ff159a,#e0127f)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
-.buy a.ad,.buy a.csm{background:linear-gradient(90deg,#ff159a,#e0127f)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(255,21,154,.35),0 8px 22px rgba(255,21,154,.3)}
+.cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:#16161d!important;color:#fff!important;border:1px solid #ff159a!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(255,21,154,.15)}
+.buy a.ad,.buy a.csm{background:#16161d!important;color:#fff!important;border:1px solid #ff159a!important;box-shadow:0 8px 22px rgba(255,21,154,.18)}
 .buy a.ad .tx small,.buy a.csm .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b,.buy a.csm .tx b{color:#fff!important;font-size:.98rem}
-.buy a.ad .ico,.buy a.ad .lg,.buy a.csm .ico,.buy a.csm .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
+.buy a.ad .ico,.buy a.ad .lg,.buy a.csm .ico,.buy a.csm .lg{background:transparent!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
 .buy a.ad .arr,.buy a.csm .arr{color:#fff!important;opacity:1}
-.buy a.ad:hover,.cb a.ad:hover,.buy a.csm:hover,.cb a.csm:hover{filter:brightness(1.12)}
+.buy a.ad:hover,.cb a.ad:hover,.buy a.csm:hover,.cb a.csm:hover{background:#24121d!important}
 .sp-price{background:rgba(255,255,255,.05)!important;color:var(--ink,#fff)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.14);cursor:default}
-.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#ff159a,#e0127f);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(255,21,154,.3)}
+.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:#16161d;border:1px solid #ff159a;color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(255,21,154,.3)}
 .sp-ad img{width:20px;height:20px;border-radius:4px;margin-right:8px;vertical-align:-5px}
 .sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
 .sp-ad:hover{filter:brightness(1.12)}
@@ -60,6 +60,54 @@ def shops_js(lang):
     return ('const SHOPS = [ { id:"csm", label:' + repr(lb) + ', kick:' + repr(k) + ', long:"CS.MONEY", mark:"CS", about:' + repr(ab)
             + ', url:(q,s) => { const n=s?(s.weapon.replace("★ ","")+" | "+s.skin.replace(/\\s*\\(.*\\)/,"")+(s.wearShown?" ("+WEAR_FULL[s.wearShown]+")":"")):""; '
             + 'return n?"' + CSM_SEARCH + '"+encodeURIComponent(n)+"&' + csmoney.UTM + '":"' + csmoney.MARKET + '"; } } ];')
+
+
+FONT_RE = re.compile(r'(?<!<noscript>)<link href="(https://fonts\.googleapis\.com/css2\?[^"]+)" rel="stylesheet">')
+STEAM_IMG = "https://community.akamai.steamstatic.com/economy/image/"
+
+
+def perf(s):
+    """Скорость: шрифты не блокируют отрисовку, картинки скинов в нужном размере, локальная база картинок."""
+    s = FONT_RE.sub(lambda m: f'<link rel="preload" as="style" href="{m.group(1)}" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link href="{m.group(1)}" rel="stylesheet"></noscript>', s)
+    # превью скинов (ленивые картинки) — 360px вместо 512px
+    s = re.sub(r'(<img\b[^>]*?src="' + re.escape(STEAM_IMG) + r'[A-Za-z0-9_-]+)("[^>]*\bloading="lazy")', r'\1/360fx270f\2', s)
+    # конструктор: своя компактная база картинок вместо 4,7 МБ с GitHub
+    s = s.replace('const IMG_SRC="https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json";', 'const IMG_SRC="/data/skin-img.json";')
+    s = s.replace('try{const r=await fetch(IMG_SRC);if(!r.ok)throw 0;const list=await r.json();',
+                  'try{const r=await fetch(IMG_SRC);if(!r.ok)throw 0;const list=(await r.json()).map(a=>Array.isArray(a)?{name:a[0],image:"' + STEAM_IMG + '"+a[1]+"/360fx270f",phase:a[2]}:a);')
+    s = s.replace('fetch("/data/skins-extra.json",{cache:"no-store"})', 'fetch("/data/skins-extra.json")')
+    return s
+
+
+HOMES = {"https://skin-set.com/": "ru", "https://skin-set.com/en/": "en", "https://skin-set.com/de/": "de", "https://skin-set.com/pt/": "pt", "https://skin-set.com/tr/": "tr", "https://skin-set.com/pl/": "pl"}
+HOME_TITLE = {"ru": ("Skinset — подбор скинов CS2 по цвету:", "Skinset CS2 — подбор скинов по цвету:"),
+              "en": ("Skinset — CS2 skins by color:", "Skinset CS2 — skins by color:"),
+              "de": ("Skinset — CS2-Skins nach Farbe:", "Skinset CS2 — Skins nach Farbe:"),
+              "pt": ("Skinset — skins de CS2 por cor:", "Skinset CS2 — skins por cor:"),
+              "tr": ("Skinset — renge göre CS2 skinleri:", "Skinset CS2 — renge göre skinler:"),
+              "pl": ("Skinset — skiny CS2 według koloru:", "Skinset CS2 — skiny według koloru:")}
+
+
+def brand(s):
+    """Бренд для Google: «Skinset CS2» (по слову «skinset» в выдаче — косметологическая клиника)."""
+    m = re.search(r'<link rel="canonical" href="([^"]+)"', s)
+    lang = HOMES.get(m.group(1)) if m else None
+    if not lang: return s
+    a, b = HOME_TITLE[lang]
+    s = s.replace("<title>" + a, "<title>" + b).replace('content="' + a, 'content="' + b)
+    s = s.replace('og:site_name" content="Skinset"', 'og:site_name" content="Skinset CS2"')
+    if 'id="ld-site"' not in s:
+        url = m.group(1)
+        ld = {"@context": "https://schema.org", "@graph": [
+            {"@type": "WebSite", "@id": "https://skin-set.com/#website", "url": url, "name": "Skinset CS2",
+             "alternateName": ["Skinset", "Skin Set CS2", "skin-set.com"], "inLanguage": lang,
+             "publisher": {"@id": "https://skin-set.com/#org"}},
+            {"@type": "Organization", "@id": "https://skin-set.com/#org", "name": "Skinset CS2", "alternateName": "skin-set.com",
+             "url": "https://skin-set.com/", "logo": "https://skin-set.com/img/apple-touch-icon.png",
+             "sameAs": ["https://www.twitch.tv/viv1stop"]}]}
+        import json as _j
+        s = s.replace("</head>", '<script type="application/ld+json" id="ld-site">' + _j.dumps(ld, ensure_ascii=False) + "</script></head>", 1)
+    return s
 
 
 def fix(s):
@@ -99,6 +147,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))
+    s = perf(brand(s))
     return s
 
 

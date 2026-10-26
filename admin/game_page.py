@@ -89,7 +89,8 @@ body{background:#07080c}
 .gm-score .fl{font-size:1.5rem;filter:drop-shadow(0 0 8px rgba(255,120,30,.8));opacity:0;transform:scale(.4);transition:opacity .25s,transform .25s}
 .gm-score.hot .fl{opacity:1;transform:none;animation:gmFl 1s ease-in-out infinite alternate}
 .gm-score .bs{display:flex;flex-direction:column;align-items:center;gap:3px;padding-left:16px;border-left:1px solid rgba(255,255,255,.1)}
-.gm-score .bs small{color:#8f8a7f}.gm-score #gb{font:700 1.3rem/1 var(--hud);color:#ffcf4a;height:3rem;display:flex;align-items:center}
+.gm-score .bs small{color:#8f8a7f}.gm-score #gb{font:700 3rem/1 var(--hud);color:#ffcf4a;height:3rem;display:flex;align-items:center;font-variant-numeric:tabular-nums;text-shadow:0 0 22px rgba(255,200,60,.45),0 2px 0 #000}
+.gm-score .bs small{font:700 .6rem/1 var(--hud)!important;letter-spacing:.32em!important;color:#ffcf4a!important}
 .gm-score .cur small,.gm-score .bs small{height:.7rem;display:flex;align-items:center;margin-bottom:3px}.gm-score .bs{gap:0;justify-content:flex-start}
 .gm-hud .r{display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:0 14px 0 16px}
 .gm-rank{display:flex;align-items:center;gap:12px;min-width:0}
@@ -173,10 +174,10 @@ body{background:#07080c}
 @media(max-width:640px){.gm-stage{padding:10px 8px 18px;min-height:0;height:auto}.gm-arena{flex:none}.gm-card .im{max-height:none}.gm-arena{grid-template-columns:1fr;border-radius:14px}.gm-card{min-height:0;padding:14px 12px 16px;flex-direction:row;flex-wrap:wrap;text-align:left;align-items:center;gap:0 12px}
  .gm-card .im{width:42%;max-width:none;flex:none;aspect-ratio:4/3;min-height:0}.gm-card .tx{flex:1;min-width:0}.gm-card .nm{font-size:1.15rem}.gm-card .was{margin-top:8px;font-size:.66rem}.gm-card .pr{font-size:1.9rem}
  .gm-card .bt{max-width:none;grid-template-columns:1fr 1fr;margin-top:12px;flex-basis:100%}.gm-card .bt button{height:56px;font-size:1rem}.gm-card .bt kbd{display:none}.gm-card .by{flex-basis:100%;text-align:center;margin-top:10px}
- .gm-vs{width:50px;height:50px;font-size:.95rem;top:var(--vsy,50%);left:21%}.gm-ladder{display:none}.gm-score #gs{font-size:2.1rem}.gm-score{gap:10px;padding:6px 26px 6px 12px}.gm-score .bs{padding-left:10px}.gm-rank .em{width:34px;height:40px}.gm-rank .tx small,.gm-rank #grx{display:none}.gm-xp{width:72px}.gm-rank b{max-width:96px;font-size:.7rem}.gm-hud .r{gap:6px;padding:0 8px}.gm-snd{width:32px;height:32px}.gm-hud .l button{padding:0 10px;font-size:.66rem}#gfs{display:none}.gm-score .bs small{font-size:.5rem;letter-spacing:.18em;white-space:nowrap}.gm-xp{width:64px}.gm-keys{display:none}}
+ .gm-vs{width:50px;height:50px;font-size:.95rem;top:var(--vsy,50%);left:21%}.gm-ladder{display:none}.gm-score #gs{font-size:2.1rem}.gm-score{gap:10px;padding:6px 26px 6px 12px}.gm-score .bs{padding-left:10px}.gm-rank .em{width:34px;height:40px}.gm-rank .tx small,.gm-rank #grx{display:none}.gm-xp{width:72px}.gm-rank b{max-width:96px;font-size:.7rem}.gm-hud .r{gap:6px;padding:0 8px}.gm-snd{width:32px;height:32px}.gm-hud .l button{padding:0 10px;font-size:.66rem}#gfs{display:none}.gm-xp{width:64px}.gm-keys{display:none}}
 @media(max-width:640px){
  .gm-stage{height:calc(100vh - 56px);height:calc(100svh - 56px);min-height:540px;padding:8px 8px 10px}
- .gm-hud{min-height:0;margin-bottom:8px}.gm-score{padding:6px 26px 6px 12px}.gm-score #gs{font-size:1.9rem;height:1.9rem;display:flex;align-items:center}.gm-score #gb{height:1.9rem}
+ .gm-hud{min-height:0;margin-bottom:8px}.gm-score{padding:6px 26px 6px 12px}.gm-score #gs{font-size:1.9rem;height:1.9rem;display:flex;align-items:center}.gm-score #gb{height:1.9rem;font-size:1.9rem}
  .gm-arena{flex:1;min-height:0;grid-template-columns:1fr;grid-template-rows:1fr 1fr}
  .gm-card{flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:center;text-align:center;padding:10px 12px 12px;gap:0;min-height:0}
  .gm-card .im{width:100%;max-width:none;flex:1 1 auto;min-height:56px;aspect-ratio:auto}
@@ -293,7 +294,7 @@ def build():
         ladder = "".join(f'<span style="color:{RCOL[i]}">{e(r[1])} · {r[0]}</span>' for i, r in enumerate(rk))
         game = (f'<section class="gm-stage"><div class="gm-in">'
                 '<div class="gm-hud"><div class="l">' + "".join(f'<button data-m="{k}"{" class=on" if k == "all" else ""}>{e(l)}</button>' for k, l in t["cats"]) + '</div>'
-                f'<div class="gm-score" id="gsc"><span class="fl">🔥</span><div class="cur"><small>{e(t["streak"])}</small><b id="gs">0</b></div><div class="bs"><small>🏆 {e(t["best"])}</small><b id="gb">0</b></div></div>'
+                f'<div class="gm-score" id="gsc"><span class="fl">🔥</span><div class="cur"><small>{e(t["streak"])}</small><b id="gs">0</b></div><div class="bs"><small>{e(t["best"])}</small><b id="gb">0</b></div></div>'
                 f'<div class="r"><div class="gm-rank" id="grk" title="{e(t["rank"])}"><svg class="em" viewBox="0 0 46 52" aria-hidden="true"><path class="sh" d="M23 2 43 10v18c0 11-8 18-20 22C11 46 3 39 3 28V10z"/><g id="grc"></g></svg>'
                 f'<div class="tx"><small>{e(t["rank"])}</small><b id="grn">{e(rk[0][1])}</b><div class="gm-xp" id="grp"></div><span id="grx"></span></div></div>'
                 f'<button class="gm-snd" id="gsnd" aria-label="{e(t["sound"])}">🔊</button><button class="gm-snd" id="gfs" aria-label="{e(t["fs"])}" title="{e(t["fs"])}">⛶</button></div></div>'

@@ -136,15 +136,17 @@ body{background:#07080c}
 .gm-arena.slide .gm-card.a,.gm-arena.slide .gm-card.b{animation:gmIn .4s ease}
 .gm-start,.gm-over{position:absolute;inset:0;z-index:6;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:rgba(5,6,10,.82);backdrop-filter:blur(8px)}
 .gm-start.on,.gm-over.on{display:flex}
-.gm-start .tg{font:600 .78rem/1 var(--hud);letter-spacing:.3em;text-transform:uppercase;color:#ff8a1f;margin-bottom:10px}
-.gm-start h1{margin:0;font:700 clamp(2.6rem,7vw,5rem)/.95 var(--hud);text-transform:uppercase;background:linear-gradient(90deg,#6aa6ff,#fff 45%,#ffb15c);-webkit-background-clip:text;background-clip:text;color:transparent}
-.gm-start .su{font:600 1rem/1.2 var(--hud);letter-spacing:.2em;text-transform:uppercase;color:#c9c4b8;margin:8px 0 14px}
-.gm-start p{max-width:520px;color:#b9b4a7;margin:0 0 20px;font-size:1.02rem}
+.gm-start>*,.gm-over>*{flex-shrink:0}.gm-start,.gm-over{overflow:auto;justify-content:safe center}
+@media(max-height:780px){.gm-start .gm-ladder{display:none}.gm-start p{margin-bottom:26px}}
+.gm-start .tg{font:600 .78rem/1 var(--hud);letter-spacing:.3em;text-transform:uppercase;color:#ff8a1f;margin-bottom:18px}
+.gm-start h1{margin:0;font:700 clamp(2.6rem,7vw,5rem)/1.05 var(--hud);text-transform:uppercase;background:linear-gradient(90deg,#6aa6ff,#fff 45%,#ffb15c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gm-start .su{font:600 1rem/1.2 var(--hud);letter-spacing:.2em;text-transform:uppercase;color:#c9c4b8;margin:14px 0 22px}
+.gm-start p{max-width:540px;color:#b9b4a7;margin:0 0 34px;font-size:1.05rem;line-height:1.6}
 .gm-go{height:64px;padding:0 54px;border:0;border-radius:14px;background:linear-gradient(180deg,#ff6a3d,#e8402a);color:#fff;font:700 1.35rem/1 var(--hud);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 0 #8f1f12,0 20px 50px rgba(232,64,42,.45);transition:transform .12s}
 .gm-go:hover{transform:translateY(-2px)}.gm-go:active{transform:translateY(5px);box-shadow:0 5px 0 #8f1f12}
-.gm-ladder{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:22px;max-width:640px}
-.gm-ladder span{padding:5px 10px;border-radius:999px;border:1px solid currentColor;font:600 .66rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
-.gm-start .bst{margin-top:14px;color:#ffcf4a;font:600 .9rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase}
+.gm-ladder{display:flex;gap:10px 8px;flex-wrap:wrap;justify-content:center;margin-top:34px;max-width:680px}
+.gm-ladder span{padding:7px 12px;border-radius:999px;border:1px solid currentColor;font:600 .66rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.gm-start .bst{margin-top:24px;color:#ffcf4a;font:600 .9rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase}
 .gm-over h2::before,.gm-over h2::after{display:none!important}.gm-over .st{border:0!important;padding:0!important;background:none!important}
 .gm-over h2{margin:0;font:700 clamp(2.6rem,7vw,4.4rem)/1 var(--hud);text-transform:uppercase;color:var(--bad);text-shadow:0 0 30px rgba(255,59,74,.5)}
 .gm-over .st{font:700 1.6rem/1 var(--hud);margin:12px 0 4px;color:#fff}
@@ -251,7 +253,7 @@ def side(t, k):
     b = k == "b"
     return (f'<div class="gm-card {k}" id="c{k}"><div class="im"></div><div class="tx"><div class="wp"></div><div class="nm"></div><span class="wr"></span>'
             f'<div class="was">{e(t["was"])}</div><div class="pr"></div></div>'
-            + (f'<div class="bt"><button class="h" data-g="h">▲ {e(t["hi"])} <kbd>↑</kbd></button><button class="l" data-g="l">▼ {e(t["lo"])} <kbd>↓</kbd></button></div>' if b else "")
+            + (f'<div class="bt"><button class="h" data-g="h">▲ {e(t["hi"])}</button><button class="l" data-g="l">▼ {e(t["lo"])}</button></div>' if b else "")
             + f'<a class="by" target="_blank" rel="noopener sponsored">{e(t["buy"])} →</a><span class="rar"></span></div>')
 
 

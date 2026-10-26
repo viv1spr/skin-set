@@ -1,0 +1,20 @@
+name: Fetch promo images
+on:
+  push:
+    paths: ["admin/promo-images.txt"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p img/promo
+          while read n u; do [ -n "$n" ] && curl -sfL -o "img/promo/$n.png" "$u"; done < admin/promo-images.txt
+          ls -la img/promo
+      - run: |
+          git config user.name "price-bot"; git config user.email "bot@skin-set.com"
+          git add img/promo; git diff --cached --quiet || git commit -m "promo images"
+          git pull --rebase -X theirs || true; git push

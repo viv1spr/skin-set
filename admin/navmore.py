@@ -324,7 +324,11 @@ GM_CSS = ('<style id="gm-tab">.hud .tabs a.gmi{position:relative;padding-left:16
           '.hud .tabs a.gmi:hover{color:#c9ffe0!important;background:linear-gradient(180deg,rgba(40,220,120,.32),rgba(40,220,120,.08))}'
           '.hud .tabs a.gmi.on::after{background:linear-gradient(90deg,#1fbf5a,#7dffb4,#1fbf5a)!important}'
           '.hud .tabs a.gmi .gm-new{position:absolute;top:7px;right:5px;width:7px;height:7px;border-radius:50%;background:#ff3b5c;box-shadow:0 0 8px #ff3b5c}'
-          '.bmenu nav a.gmi{color:#5dffa0!important}.bmenu nav a.gmi .gm-new{display:none}'
+          '.bmenu nav a[href="/igra-chto-dorozhe/"],.bmenu nav a[href="/en/higher-or-lower-cs2/"]{position:relative;margin:6px 12px;padding-left:14px!important;border-radius:10px;color:#eafff2!important;font-weight:700!important;'
+          'background:linear-gradient(90deg,rgba(40,220,120,.28),rgba(40,220,120,.06))!important;border:1px solid rgba(60,255,140,.45);box-shadow:0 0 18px rgba(40,220,120,.18)}'
+          '.bmenu nav a[href="/igra-chto-dorozhe/"]::before,.bmenu nav a[href="/en/higher-or-lower-cs2/"]::before{content:"";flex:none;width:22px;height:22px;margin-right:10px;background:#5dffa0;-webkit-mask:url("data:image/svg+xml,' + PAD + '") center/contain no-repeat;mask:url("data:image/svg+xml,' + PAD + '") center/contain no-repeat}'
+          '.bmenu nav a[href="/igra-chto-dorozhe/"]::after,.bmenu nav a[href="/en/higher-or-lower-cs2/"]::after{content:"NEW";margin-left:auto;padding:3px 7px;border-radius:5px;background:#ff3b5c;color:#fff;font:700 .62rem/1 var(--hud,sans-serif);letter-spacing:.1em}'
+          '.bmenu nav a[href="/igra-chto-dorozhe/"] .gm-new,.bmenu nav a[href="/en/higher-or-lower-cs2/"] .gm-new{display:none}'
           '@keyframes gmP{0%,75%,100%{transform:none}82%{transform:translateY(-2px) rotate(-8deg)}90%{transform:translateY(0) rotate(6deg)}}'
           '@media (prefers-reduced-motion:reduce){.hud .tabs a.gmi::before{animation:none}}</style>')
 
@@ -337,7 +341,7 @@ def gametab(s):
         menu = re.sub(r'<a href="(?:/igra-chto-dorozhe/|/en/higher-or-lower-cs2/)"[^>]*>.*?</a>', "", s[j:k])
         s = s[:j] + menu + s[k:]
     nm = re.search(r'(<nav class="tabs"[^>]*>)(.*?)(</nav>)', s, re.S)
-    if not nm or 'class="gmi' in nm.group(2): return s
+    if not nm or 'class="gmi' in nm.group(2): return gamecss(s)
     m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     href, lab = GAMEP[lang]
     on = f'<link rel="canonical" href="https://skin-set.com{href}"' in s
@@ -347,4 +351,9 @@ def gametab(s):
     inner2 = inner[:g.end()] + a + inner[g.end():] if g else a + inner
     s = s[:nm.start()] + nm.group(1) + inner2 + nm.group(3) + s[nm.end():]
     if 'id="gm-tab"' not in s and "</head>" in s: s = s.replace("</head>", GM_CSS + "</head>", 1)
+    return s
+
+
+def gamecss(s):
+    if 'id="gm-tab"' in s: s = re.sub(r'<style id="gm-tab">.*?</style>', lambda m: GM_CSS, s, count=1, flags=re.S)
     return s

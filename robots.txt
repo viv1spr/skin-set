@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /promo/
 Disallow: /blog/_
 Sitemap: https://skin-set.com/sitemap.xml
 Sitemap: https://skin-set.com/sitemap-skins.xml

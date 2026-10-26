@@ -126,6 +126,21 @@ body{background:#07080c}
  .gm-card .im{width:42%;max-width:none;flex:none;aspect-ratio:4/3;min-height:0}.gm-card .tx{flex:1;min-width:0}.gm-card .nm{font-size:1.15rem}.gm-card .was{margin-top:8px;font-size:.66rem}.gm-card .pr{font-size:1.9rem}
  .gm-card .bt{max-width:none;grid-template-columns:1fr 1fr;margin-top:12px;flex-basis:100%}.gm-card .bt button{height:56px;font-size:1rem}.gm-card .bt kbd{display:none}.gm-card .by{flex-basis:100%;text-align:center;margin-top:10px}
  .gm-vs{width:50px;height:50px;font-size:.95rem;top:var(--vsy,50%);left:21%}.gm-ladder{display:none}.gm-score #gs{font-size:2.1rem}.gm-score{gap:10px;padding:6px 26px 6px 12px}.gm-score .bs{padding-left:10px}.gm-rank .em{width:34px;height:40px}.gm-rank .tx small,.gm-rank #grx{display:none}.gm-xp{width:72px}.gm-rank b{max-width:96px;font-size:.7rem}.gm-hud .r{gap:6px;padding:0 8px}.gm-snd{width:32px;height:32px}.gm-hud .l button{padding:0 10px;font-size:.66rem}#gfs{display:none}.gm-score .bs small{font-size:.5rem;letter-spacing:.18em;white-space:nowrap}.gm-xp{width:64px}.gm-keys{display:none}}
+@media(max-width:640px){
+ .gm-stage{height:calc(100vh - 56px);height:calc(100dvh - 56px);min-height:540px;padding:8px 8px 10px}
+ .gm-hud{min-height:0;margin-bottom:8px}.gm-score{padding:6px 26px 6px 12px}.gm-score #gs{font-size:1.9rem}
+ .gm-arena{flex:1;min-height:0;grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+ .gm-card{flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:center;text-align:center;padding:10px 12px 12px;gap:0;min-height:0}
+ .gm-card .im{width:100%;max-width:none;flex:1 1 auto;min-height:56px;aspect-ratio:auto}
+ .gm-card .tx{flex:none;width:100%}
+ .gm-card .wp{font-size:.62rem;margin-top:2px;letter-spacing:.18em}.gm-card .nm{font-size:1.15rem;margin:2px 0 4px}.gm-card .wr{font-size:.6rem;padding:3px 8px}
+ .gm-card .was{display:none}.gm-card .pr{font-size:1.9rem;margin-top:6px}
+ .gm-card .bt{flex:none;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;max-width:none}.gm-card .bt button{height:50px;font-size:.95rem}
+ .gm-card .by{position:absolute;top:8px;right:10px;margin:0;font-size:.58rem;z-index:2}.gm-card.b:not(.shown) .by{display:none}
+ .gm-vs{left:50%;top:var(--vsy,50%);width:46px;height:46px;font-size:.85rem;border-width:2px}
+ .gm-start h1{font-size:2.6rem}.gm-start .su{font-size:.8rem;margin:10px 0 16px}.gm-start p{font-size:.95rem;margin-bottom:24px}.gm-go{height:58px;padding:0 40px;font-size:1.15rem}
+ .gm-over h2{font-size:2.6rem}.gm-over .ans{font-size:.85rem}.gm-over .sh,.gm-over .gm-go{height:54px}
+}
 @media (prefers-reduced-motion:reduce){.gm *{animation:none!important;transition:none!important}}
 </style><style id="gw-icon">.hud .tabs a.gwi{position:relative;padding-left:16px!important;padding-right:16px!important;gap:0!important;min-width:0}
 .hud .tabs a.gwi .gw-t{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}

@@ -34,7 +34,7 @@ T = {
   play="Играть", hi="Дороже", lo="Дешевле", vs="VS", streak="Серия", best="Рекорд", rank="Звание", next="до",
   again="Ещё раз", over="Мимо!", res="Серия: {n}", newbest="🏆 Новый рекорд!", rankup="Новое звание", share="Поделиться", copied="Скопировано!",
   buy="Купить на CS.MONEY", sharetxt="Угадал {n} цен скинов CS2 подряд и дошёл до звания «{r}» в игре «Что дороже?» 🔥 Побьёшь? ",
-  loading="Загружаю скины…", fs="На весь экран", keys="Клавиши: ↑ дороже, ↓ дешевле", sound="Звук",
+  loading="Загружаю скины…", fs="На весь экран", gate_h="Войди, чтобы играть дальше", gate_p="Бесплатные попытки закончились. Войди через Steam — это бесплатно и занимает 10 секунд, а игра станет безлимитной.", gate_b="Войти через Steam", keys="Клавиши: ↑ дороже, ↓ дешевле", sound="Звук",
   cats=[("all", "Все"), ("knife", "Ножи"), ("gloves", "Перчатки"), ("guns", "Пушки")],
   cur=["", " ₽"], rate=90, was="стоит", ladder="Звания",
   how_h="Как играть", how=["Слева скин с известной ценой, справа — с неизвестной.", "Нажми «Дороже» или «Дешевле» (или стрелки ↑/↓ на клавиатуре).", "Угадал — правый скин переезжает налево и появляется новый. Ошибся — серия обнуляется.", "Чем длиннее серия, тем ближе цены и выше звание: от Серебра до Всемирной элиты за 20 ответов подряд."],
@@ -50,7 +50,7 @@ T = {
   play="Play", hi="Higher", lo="Lower", vs="VS", streak="Streak", best="Best", rank="Rank", next="to",
   again="Play again", over="Miss!", res="Streak: {n}", newbest="🏆 New record!", rankup="Rank up", share="Share", copied="Copied!",
   buy="Buy on CS.MONEY", sharetxt="I guessed {n} CS2 skin prices in a row and hit {r} in Higher or Lower 🔥 Can you beat it? ",
-  loading="Loading skins…", fs="Fullscreen", keys="Keys: ↑ higher, ↓ lower", sound="Sound",
+  loading="Loading skins…", fs="Fullscreen", gate_h="Sign in to keep playing", gate_p="Your free tries are used up. Sign in with Steam — it's free and takes 10 seconds — and play without limits.", gate_b="Sign in with Steam", keys="Keys: ↑ higher, ↓ lower", sound="Sound",
   cats=[("all", "All"), ("knife", "Knives"), ("gloves", "Gloves"), ("guns", "Guns")],
   cur=["$", ""], rate=1, was="costs", ladder="Ranks",
   how_h="How to play", how=["The left skin's price is shown, the right one is hidden.", "Press Higher or Lower (or the ↑/↓ keys).", "Right — the right skin moves left and a new one appears. Wrong — your streak resets.", "The longer the streak, the closer the prices and the higher your rank: Silver to Global Elite in 20 in a row."],
@@ -155,6 +155,8 @@ body{background:#07080c}
 .gm-over .ans{color:#b9b4a7;margin:6px 0 18px;max-width:560px}
 .gm-over .acts{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .gm-over .sh{height:64px;padding:0 26px;border-radius:14px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;font:700 1rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.gm-gate h2{color:#fff!important;text-shadow:none!important;font-size:clamp(1.8rem,4.5vw,3rem)!important}.gm-gate .gi{font-size:2.6rem;margin-bottom:10px}
+.gm-stm{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:linear-gradient(180deg,#2a8fd8,#1a5fa8)!important;box-shadow:0 10px 0 #0f3a66,0 20px 50px rgba(42,143,216,.4)!important}
 .gm-ld{position:absolute;inset:0;display:grid;place-items:center;color:#b9b4a7;z-index:7;background:#07080c}
 .gm-keys{text-align:center;color:#6f6a60;font-size:.8rem;margin-top:8px}
 .gm-info{max-width:900px;margin:0 auto;padding:40px 20px 60px}
@@ -193,6 +195,10 @@ JS = r"""<script>(()=>{
 const L=__L__,RK=__RK__,RC=__RCOL__,CUR=__CUR__,RATE=__RATE__,UTM="__UTM__",IMG="https://community.akamai.steamstatic.com/economy/image/",WN=__WN__,RAR=["#b0c3d9","#5e98d9","#4b69ff","#8847ff","#d32ce6","#eb4b4b","#e4ae39","#e4ae39"];
 const $=s=>document.querySelector(s),ar=$("#gma");let D=[],pool=[],A=null,B=null,streak=0,best=0,busy=false,mode="all",snd=true,ac=null;
 try{best=+localStorage.getItem("gm_best")||0;snd=localStorage.getItem("gm_snd")!=="0"}catch(e){}
+const FREE=2,logged=()=>{try{const m=location.hash.match(/steam=([^&]+)/);if(m&&!/^(cancel|error)$/.test(m[1]))return true;return !!localStorage.getItem("skinset_steam")}catch(e){return false}};
+const lost=v=>{try{if(v!==undefined)localStorage.setItem("gm_lost",v);return +localStorage.getItem("gm_lost")||0}catch(e){return 0}};
+const gated=()=>!logged()&&lost()>=FREE;
+function gate(){$("#gstm").href="https://auth.skin-set.com/login?r="+encodeURIComponent(location.origin+location.pathname);$("#gso").classList.remove("on");$("#gst").classList.remove("on");$("#ggate").classList.add("on")}
 const fmt=v=>{v=v*RATE;const n=v>=100?Math.round(v):Math.round(v*100)/100;return CUR[0]+n.toLocaleString(RATE===1?"en-US":"ru-RU")+CUR[1]};
 const rIdx=n=>{let i=0;RK.forEach((r,k)=>{if(n>=r[0])i=k});return i};
 const csm=x=>"https://cs.money/market/buy/?search="+encodeURIComponent(x[0].replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,"")+" ("+WN[x[1]]+")")+"&"+UTM;
@@ -214,10 +220,10 @@ function hud(bump){const c=$("#gs");c.textContent=streak;$("#gb").textContent=be
   $("#grx").textContent=nx?L.next+" «"+nx[1]+"»: "+(nx[0]-streak):"MAX";$("#gsc").classList.toggle("hot",streak>=3)}
 function draw(slide){card($("#ca"),A,true);card($("#cb"),B,false);$("#gmv").className="gm-vs";$("#gmv").textContent=L.vs;
   $("#cb .bt").querySelectorAll("button").forEach(b=>b.disabled=false);ar.style.setProperty("--vsy",$("#ca").offsetHeight+"px");if(slide){ar.classList.remove("slide");void ar.offsetWidth;ar.classList.add("slide")}}
-function start(){streak=0;setPool();A=pick();B=pick(A);$("#gso").classList.remove("on");$("#gst").classList.remove("on");hud();draw(true)}
+function start(){if(gated()){gate();return}streak=0;setPool();A=pick();B=pick(A);$("#gso").classList.remove("on");$("#gst").classList.remove("on");hud();draw(true)}
 function count(el,to,cb){const t0=performance.now(),d=650;const f=t=>{const k=Math.min(1,(t-t0)/d);el.textContent=fmt(to*(0.15+0.85*(1-Math.pow(1-k,3))));if(k<1)requestAnimationFrame(f);else{el.textContent=fmt(to);cb()}};requestAnimationFrame(f)}
 function toast(t){const d=document.createElement("div");d.className="gm-toast";d.textContent=t;ar.appendChild(d);setTimeout(()=>d.remove(),2300)}
-function guess(hi){if(busy||!A)return;busy=true;$("#cb .bt").querySelectorAll("button").forEach(b=>b.disabled=true);
+function guess(hi){if(busy||!A||$("#ggate").classList.contains("on"))return;busy=true;$("#cb .bt").querySelectorAll("button").forEach(b=>b.disabled=true);
   const p=$("#cb .pr");p.classList.remove("q");$("#cb").classList.add("shown");beep(440,.05,"square");
   count(p,B[2],()=>{const ok=hi?B[2]>=A[2]:B[2]<=A[2];$("#cb").classList.add(ok?"ok":"bad");const v=$("#gmv");v.className="gm-vs "+(ok?"ok":"bad");v.textContent=ok?"✓":"✕";
     if(ok){sOk();const pl=document.createElement("div");pl.className="gm-plus";pl.textContent="+1";ar.appendChild(pl);setTimeout(()=>pl.remove(),850);
@@ -225,7 +231,7 @@ function guess(hi){if(busy||!A)return;busy=true;$("#cb .bt").querySelectorAll("b
       if(rIdx(streak)>r0){setTimeout(sUp,200);toast(L.rankup+": "+RK[rIdx(streak)][1])}else if(streak%5===0)toast("🔥 x"+streak);
       setTimeout(()=>{busy=false;A=B;B=pick(A);draw(true)},800)}
     else{sBad();ar.classList.remove("shake");void ar.offsetWidth;ar.classList.add("shake");
-      setTimeout(()=>{busy=false;const nb=streak>0&&streak>=best;const i=rIdx(streak);$("#gor").textContent=L.res.replace("{n}",streak);
+      setTimeout(()=>{busy=false;if(!logged())lost(lost()+1);const nb=streak>0&&streak>=best;const i=rIdx(streak);$("#gor").textContent=L.res.replace("{n}",streak);
         const rk=$("#gok");rk.textContent=RK[i][1];rk.style.color=RC[i];$("#gob").textContent=nb?L.newbest:"";
         $("#goa").textContent=B[0]+" ("+WN[B[1]]+") — "+fmt(B[2])+" · "+A[0]+" ("+WN[A[1]]+") — "+fmt(A[2]);$("#gso").classList.add("on");$("#gagain").focus()},900)}})}
 document.querySelector(".gm").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
@@ -235,7 +241,7 @@ document.querySelector(".gm").addEventListener("click",e=>{const b=e.target.clos
   else if(b.id==="gsnd"){snd=!snd;b.textContent=snd?"🔊":"🔇";try{localStorage.setItem("gm_snd",snd?"1":"0")}catch(e){}}
   else if(b.id==="gshare"){const txt=L.sharetxt.replace("{n}",streak).replace("{r}",RK[rIdx(streak)][1])+location.href;if(navigator.share){navigator.share({text:txt}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>{b.textContent=L.copied})}}});
 document.addEventListener("keydown",e=>{if(e.target.closest&&e.target.closest("input,textarea"))return;
-  if($("#gso").classList.contains("on")||$("#gst").classList.contains("on")){if(e.key==="Enter"||e.key===" "){e.preventDefault();start()}return}
+  if($("#ggate").classList.contains("on"))return;if($("#gso").classList.contains("on")||$("#gst").classList.contains("on")){if(e.key==="Enter"||e.key===" "){e.preventDefault();start()}return}
   if(e.key==="ArrowUp"){e.preventDefault();guess(true)}else if(e.key==="ArrowDown"){e.preventDefault();guess(false)}});
 $("#gsnd").textContent=snd?"🔊":"🔇";$("#gb").textContent=best;$("#gstb").textContent=best?L.best+": "+best:"";
 fetch("/data/game.json").then(r=>r.json()).then(j=>{D=j.d.map(x=>(x[3]=j.i[x[3]],x));setPool();A=pick();B=pick(A);hud();draw();$("#gld").remove()}).catch(()=>{$("#gld").textContent="—"});
@@ -291,6 +297,7 @@ def build():
                 f'<button class="gm-go" id="ggo">▶ {e(t["play"])}</button><div class="bst" id="gstb"></div><div class="gm-ladder">{ladder}</div></div>'
                 f'<div class="gm-over" id="gso"><h2>{e(t["over"])}</h2><div class="st" id="gor"></div><div class="rk" id="gok"></div><div class="nb" id="gob"></div><div class="ans" id="goa"></div>'
                 f'<div class="acts"><button class="gm-go" id="gagain">↻ {e(t["again"])}</button><button class="sh" id="gshare">{e(t["share"])}</button></div></div>'
+                f'<div class="gm-over gm-gate" id="ggate"><div class="gi">🔒</div><h2>{e(t["gate_h"])}</h2><p class="ans">{e(t["gate_p"])}</p><div class="acts"><a class="gm-go gm-stm" id="gstm" href="https://auth.skin-set.com/login">{e(t["gate_b"])}</a></div></div>'
                 f'<div class="gm-ld" id="gld">{e(t["loading"])}</div></div>'
                 f'<div class="gm-keys">{e(t["keys"])}</div></div></section>')
         info = (f'<section class="gm-info"><h2>{e(t["how_h"])}</h2><ol>' + "".join(f"<li>{e(x)}</li>" for x in t["how"]) + "</ol>"

@@ -49,7 +49,7 @@ def undo(s):
 
 
 def fix(s):
-    return setsmain(hideabout(updlink(_fix(gwfirst(s)))))
+    return gametab(setsmain(hideabout(updlink(_fix(gwfirst(s))))))
 
 
 def _fix(s):
@@ -240,12 +240,12 @@ if __name__ == "__main__":
     main()
 
 
-UPD = {"ru": [("/igra-chto-dorozhe/", "Игра: что дороже?"), ("/matchi-cs2/", "Матчи CS2"), ("/rynok-cs2/", "Рынок CS2"), ("/obnovleniya-cs2/", "Обновления CS2")],
-       "en": [("/en/higher-or-lower-cs2/", "Higher or Lower game"), ("/en/cs2-matches/", "CS2 matches"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-updates/", "CS2 updates")],
-       "de": [("/en/higher-or-lower-cs2/", "Spiel: Higher or Lower"), ("/en/cs2-matches/", "CS2-Matches"), ("/en/cs2-market/", "CS2-Markt"), ("/de/cs2-updates/", "CS2-Updates")],
-       "pt": [("/en/higher-or-lower-cs2/", "Jogo: Higher or Lower"), ("/en/cs2-matches/", "Partidas CS2"), ("/en/cs2-market/", "Mercado CS2"), ("/pt/atualizacoes-cs2/", "Atualizações CS2")],
-       "tr": [("/en/higher-or-lower-cs2/", "Oyun: Higher or Lower"), ("/en/cs2-matches/", "CS2 maçları"), ("/en/cs2-market/", "CS2 pazarı"), ("/tr/cs2-guncellemeleri/", "CS2 güncellemeleri")],
-       "pl": [("/en/higher-or-lower-cs2/", "Gra: Higher or Lower"), ("/en/cs2-matches/", "Mecze CS2"), ("/en/cs2-market/", "Rynek CS2"), ("/pl/aktualizacje-cs2/", "Aktualizacje CS2")]}
+UPD = {"ru": [("/matchi-cs2/", "Матчи CS2"), ("/rynok-cs2/", "Рынок CS2"), ("/obnovleniya-cs2/", "Обновления CS2")],
+       "en": [("/en/cs2-matches/", "CS2 matches"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-updates/", "CS2 updates")],
+       "de": [("/en/cs2-matches/", "CS2-Matches"), ("/en/cs2-market/", "CS2-Markt"), ("/de/cs2-updates/", "CS2-Updates")],
+       "pt": [("/en/cs2-matches/", "Partidas CS2"), ("/en/cs2-market/", "Mercado CS2"), ("/pt/atualizacoes-cs2/", "Atualizações CS2")],
+       "tr": [("/en/cs2-matches/", "CS2 maçları"), ("/en/cs2-market/", "CS2 pazarı"), ("/tr/cs2-guncellemeleri/", "CS2 güncellemeleri")],
+       "pl": [("/en/cs2-matches/", "Mecze CS2"), ("/en/cs2-market/", "Rynek CS2"), ("/pl/aktualizacje-cs2/", "Aktualizacje CS2")]}
 
 
 def updlink(s):
@@ -312,3 +312,39 @@ def setsmain(s):
     sk = re.search(r'<a href="' + re.escape(SKINSP[lang]) + r'"[^>]*>.*?</a>', nav, re.S)
     nav2 = nav[:sk.end()] + link + nav[sk.end():] if sk else nav.replace('<button class="tmore"', link + '<button class="tmore"', 1)
     return s[:nm.start()] + nav2 + s[nm.end():]
+
+
+GAMEP = {"ru": ("/igra-chto-dorozhe/", "Игра: что дороже?"), "en": ("/en/higher-or-lower-cs2/", "Game: Higher or Lower"), "de": ("/en/higher-or-lower-cs2/", "Spiel: Higher or Lower"),
+         "pt": ("/en/higher-or-lower-cs2/", "Jogo: Higher or Lower"), "tr": ("/en/higher-or-lower-cs2/", "Oyun: Higher or Lower"), "pl": ("/en/higher-or-lower-cs2/", "Gra: Higher or Lower")}
+PAD = "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 11h4M8 9v4M15 12h.01M18 10h.01'/%3E%3Cpath d='M17.32 5H6.68a4 4 0 0 0-3.98 3.59l-.6 6.06A3 3 0 0 0 5.08 18c.9 0 1.74-.45 2.24-1.2L8.5 15h7l1.18 1.8c.5.75 1.34 1.2 2.24 1.2a3 3 0 0 0 2.98-3.35l-.6-6.06A4 4 0 0 0 17.32 5z'/%3E%3C/svg%3E"
+GM_CSS = ('<style id="gm-tab">.hud .tabs a.gmi{position:relative;padding-left:16px!important;padding-right:16px!important;gap:0!important;min-width:0;color:#5dffa0!important;'
+          'background:linear-gradient(180deg,rgba(40,220,120,.2),rgba(40,220,120,.04));text-shadow:0 0 12px rgba(60,255,140,.5)}'
+          '.hud .tabs a.gmi .gm-t{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}'
+          '.hud .tabs a.gmi::before{content:"";flex:none;width:22px;height:22px;background:currentColor;-webkit-mask:url("data:image/svg+xml,' + PAD + '") center/contain no-repeat;mask:url("data:image/svg+xml,' + PAD + '") center/contain no-repeat;animation:gmP 2.8s ease-in-out infinite}'
+          '.hud .tabs a.gmi:hover{color:#c9ffe0!important;background:linear-gradient(180deg,rgba(40,220,120,.32),rgba(40,220,120,.08))}'
+          '.hud .tabs a.gmi.on::after{background:linear-gradient(90deg,#1fbf5a,#7dffb4,#1fbf5a)!important}'
+          '.hud .tabs a.gmi .gm-new{position:absolute;top:7px;right:5px;width:7px;height:7px;border-radius:50%;background:#ff3b5c;box-shadow:0 0 8px #ff3b5c}'
+          '.bmenu nav a.gmi{color:#5dffa0!important}.bmenu nav a.gmi .gm-new{display:none}'
+          '@keyframes gmP{0%,75%,100%{transform:none}82%{transform:translateY(-2px) rotate(-8deg)}90%{transform:translateY(0) rotate(6deg)}}'
+          '@media (prefers-reduced-motion:reduce){.hud .tabs a.gmi::before{animation:none}}</style>')
+
+
+def gametab(s):
+    """мини-игра — иконкой-геймпадом в главном меню, сразу после розыгрыша"""
+    i = s.find('<div class="tmenu" id="tmenu"')
+    if i >= 0:
+        j = s.find(">", i) + 1; k = s.find("</div>", j)
+        menu = re.sub(r'<a href="(?:/igra-chto-dorozhe/|/en/higher-or-lower-cs2/)"[^>]*>.*?</a>', "", s[j:k])
+        s = s[:j] + menu + s[k:]
+    nm = re.search(r'(<nav class="tabs"[^>]*>)(.*?)(</nav>)', s, re.S)
+    if not nm or 'class="gmi' in nm.group(2): return s
+    m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
+    href, lab = GAMEP[lang]
+    on = f'<link rel="canonical" href="https://skin-set.com{href}"' in s
+    a = f'<a href="{href}" class="gmi{" on" if on else ""}" title="{lab}" aria-label="{lab}"><span class="gm-t">{lab}</span><i class="gm-new" aria-hidden="true"></i></a>'
+    inner = nm.group(2)
+    g = re.search(r'<a [^>]*data-gw[^>]*>.*?</a>', inner, re.S)
+    inner2 = inner[:g.end()] + a + inner[g.end():] if g else a + inner
+    s = s[:nm.start()] + nm.group(1) + inner2 + nm.group(3) + s[nm.end():]
+    if 'id="gm-tab"' not in s and "</head>" in s: s = s.replace("</head>", GM_CSS + "</head>", 1)
+    return s

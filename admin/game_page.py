@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Мини-игра «Что дороже?» (higher or lower по ценам скинов CS2).
+"""Мини-игра «Что дороже?» (higher or lower по ценам скинов CS2) — отдельная «игровая» страница.
 python3 admin/game_page.py — пишет data/game.json и страницы /igra-chto-dorozhe/, /en/higher-or-lower-cs2/.
-Данные: data/catalog.json (цены по качеству в $, картинки Steam)."""
+Данные: data/catalog.json + data/prices.json (цены по качеству в $, картинки Steam)."""
 import json, os, sys, html, random
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -9,7 +9,6 @@ sys.path.insert(0, os.path.join(ROOT, "admin"))
 from skins_wiki import head, header, FOOT, HOME, SITE, HREFLANG, WIKI  # noqa
 from about import LANG_JS  # noqa
 import navmore  # noqa
-from pagegrid import GRID_CSS  # noqa
 import csmoney  # noqa
 
 e = lambda s: html.escape(str(s), quote=True)
@@ -17,112 +16,195 @@ URL = {"ru": "/igra-chto-dorozhe/", "en": "/en/higher-or-lower-cs2/"}
 WEARS = ["Factory New", "Minimal Wear", "Field-Tested", "Well-Worn", "Battle-Scarred"]
 MINP = 0.5  # $
 
+# звания по длине серии (как ранги в CS:GO)
+RANKS = {
+ "ru": [(0, "Серебро"), (2, "Серебро — Элита"), (4, "Золотая звезда"), (6, "Магистр золотой звезды"), (8, "Магистр-хранитель"),
+        (11, "Заслуженный магистр-хранитель"), (14, "Легендарный беркут"), (17, "Великий магистр высшего ранга"), (20, "Всемирная элита")],
+ "en": [(0, "Silver"), (2, "Silver Elite"), (4, "Gold Nova"), (6, "Gold Nova Master"), (8, "Master Guardian"),
+        (11, "Distinguished Master Guardian"), (14, "Legendary Eagle"), (17, "Supreme Master First Class"), (20, "Global Elite")],
+}
+RCOL = ["#9aa4b1", "#c0c8d2", "#e4ae39", "#ffcf4a", "#4b9bff", "#62b6ff", "#a970ff", "#d24bff", "#ff4b6e"]
+
 T = {
  "ru": dict(
   title="Что дороже? Игра по скинам CS2 — угадай, какой скин дороже | Skinset",
-  desc="Мини-игра по скинам CS2: два скина — какой дороже? Угадывай цены ножей, перчаток и пушек подряд и ставь рекорд. Реальные цены рынка, обновляются каждые 4 часа.",
-  kick="Мини-игра", h1="Что дороже?", lead="Перед тобой два скина CS2. Цена первого известна — угадай, второй дороже или дешевле. Каждый правильный ответ — +1 к серии, ошибка — игра заново. Чем дальше, тем ближе цены.",
-  hi="Дороже", lo="Дешевле", vs="или", streak="Серия", best="Рекорд", start="Играть", again="Ещё раз", over="Мимо!",
-  res="Твоя серия: {n}", newbest="Новый рекорд!", share="Поделиться", copied="Скопировано!", buy="Купить на CS.MONEY",
-  sharetxt="Угадал {n} цен скинов CS2 подряд в игре «Что дороже?» 🔥 Побьёшь? ", loading="Загружаю скины…",
-  cats=[("all", "Все скины"), ("knife", "Ножи"), ("gloves", "Перчатки"), ("guns", "Оружие")], mode="Режим",
-  cur=["", " ₽"], rate=90,
-  how_h="Как играть", how=["Слева скин с известной ценой, справа — с неизвестной.", "Нажми «Дороже» или «Дешевле» — угадай, сколько стоит второй скин.", "Угадал — второй скин становится первым и появляется новый. Ошибся — серия обнуляется.", "С каждым правильным ответом цены становятся ближе друг к другу — играть сложнее."],
+  desc="Мини-игра по скинам CS2: два скина — какой дороже? Угадывай цены ножей, перчаток и пушек подряд, поднимай звание до Всемирной элиты и ставь рекорд. Реальные цены рынка.",
+  h1="Что дороже?", sub="Угадай цену скина CS2", tag="Мини-игра Skinset",
+  intro="Цена левого скина известна. Правый — дороже или дешевле? Угадывай подряд, поднимай звание от Серебра до Всемирной элиты.",
+  play="Играть", hi="Дороже", lo="Дешевле", vs="VS", streak="Серия", best="Рекорд", rank="Звание", next="до",
+  again="Ещё раз", over="Мимо!", res="Серия: {n}", newbest="🏆 Новый рекорд!", rankup="Новое звание", share="Поделиться", copied="Скопировано!",
+  buy="Купить на CS.MONEY", sharetxt="Угадал {n} цен скинов CS2 подряд и дошёл до звания «{r}» в игре «Что дороже?» 🔥 Побьёшь? ",
+  loading="Загружаю скины…", keys="Клавиши: ↑ дороже, ↓ дешевле", sound="Звук",
+  cats=[("all", "Все"), ("knife", "Ножи"), ("gloves", "Перчатки"), ("guns", "Пушки")],
+  cur=["", " ₽"], rate=90, was="стоит", ladder="Звания",
+  how_h="Как играть", how=["Слева скин с известной ценой, справа — с неизвестной.", "Нажми «Дороже» или «Дешевле» (или стрелки ↑/↓ на клавиатуре).", "Угадал — правый скин переезжает налево и появляется новый. Ошибся — серия обнуляется.", "Чем длиннее серия, тем ближе цены и выше звание: от Серебра до Всемирной элиты за 20 ответов подряд."],
   faq=[("Откуда цены?", "Это минимальные цены на рынке для указанного качества (Factory New, Field-Tested и т. д.). Они обновляются каждые 4 часа — те же цены, что в конструкторе Skinset."),
        ("Где сохраняется рекорд?", "В твоём браузере. Если почистить данные сайта или зайти с другого устройства, рекорд начнётся заново."),
        ("Почему один и тот же скин стоит по-разному?", "Цена сильно зависит от качества: Factory New часто в разы дороже Battle-Scarred. Поэтому в игре всегда указано качество.")],
-  more="Собери свой сет", more_p="Понравились скины? Собери из них инвентарь в одном цвете в конструкторе.", home="Главная"),
+  more="Собери свой сет", more_p="Понравились скины? Собери из них инвентарь в одном цвете в конструкторе."),
  "en": dict(
   title="Higher or Lower: CS2 skin price game — which skin costs more? | Skinset",
-  desc="A CS2 skin price game: two skins — which one is more expensive? Guess knife, glove and gun prices in a row and set a record. Real market prices, updated every 4 hours.",
-  kick="Mini-game", h1="Higher or Lower", lead="Two CS2 skins. You know the price of the first one — guess whether the second costs more or less. Every right answer adds +1 to your streak, a miss starts over. The further you go, the closer the prices.",
-  hi="Higher", lo="Lower", vs="or", streak="Streak", best="Best", start="Play", again="Play again", over="Miss!",
-  res="Your streak: {n}", newbest="New record!", share="Share", copied="Copied!", buy="Buy on CS.MONEY",
-  sharetxt="I guessed {n} CS2 skin prices in a row in Higher or Lower 🔥 Can you beat it? ", loading="Loading skins…",
-  cats=[("all", "All skins"), ("knife", "Knives"), ("gloves", "Gloves"), ("guns", "Guns")], mode="Mode",
-  cur=["$", ""], rate=1,
-  how_h="How to play", how=["The left skin's price is shown, the right one is hidden.", "Press Higher or Lower to guess the second skin's price.", "Right — the second skin moves left and a new one appears. Wrong — your streak resets.", "With every right answer the prices get closer, so it gets harder."],
+  desc="A CS2 skin price game: two skins — which one costs more? Guess knife, glove and gun prices in a row, rank up from Silver to Global Elite and set a record. Real market prices.",
+  h1="Higher or Lower", sub="Guess the CS2 skin price", tag="Skinset mini-game",
+  intro="You know the left skin's price. Is the right one higher or lower? Guess in a row and rank up from Silver to Global Elite.",
+  play="Play", hi="Higher", lo="Lower", vs="VS", streak="Streak", best="Best", rank="Rank", next="to",
+  again="Play again", over="Miss!", res="Streak: {n}", newbest="🏆 New record!", rankup="Rank up", share="Share", copied="Copied!",
+  buy="Buy on CS.MONEY", sharetxt="I guessed {n} CS2 skin prices in a row and hit {r} in Higher or Lower 🔥 Can you beat it? ",
+  loading="Loading skins…", keys="Keys: ↑ higher, ↓ lower", sound="Sound",
+  cats=[("all", "All"), ("knife", "Knives"), ("gloves", "Gloves"), ("guns", "Guns")],
+  cur=["$", ""], rate=1, was="costs", ladder="Ranks",
+  how_h="How to play", how=["The left skin's price is shown, the right one is hidden.", "Press Higher or Lower (or the ↑/↓ keys).", "Right — the right skin moves left and a new one appears. Wrong — your streak resets.", "The longer the streak, the closer the prices and the higher your rank: Silver to Global Elite in 20 in a row."],
   faq=[("Where do the prices come from?", "They're the lowest market prices for the stated wear (Factory New, Field-Tested, etc.), updated every 4 hours — the same prices as in the Skinset builder."),
        ("Where is my record saved?", "In your browser. Clearing site data or switching devices resets it."),
        ("Why does the same skin have different prices?", "Wear matters a lot: Factory New is often several times pricier than Battle-Scarred, so the game always shows the wear.")],
-  more="Build your set", more_p="Like these skins? Build a matching loadout from them in the builder.", home="Home"),
+  more="Build your set", more_p="Like these skins? Build a matching loadout from them in the builder."),
 }
 
-CSS = """
-.gm .modes{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
-.gm .modes button{padding:9px 14px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);font:600 .78rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-.gm .modes button.on{background:var(--pick,#e8402a);border-color:var(--pick,#e8402a);color:#fff}
-.gm .bar{display:flex;gap:18px;align-items:center;margin:0 0 14px;font:600 .9rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
-.gm .bar b{font-size:1.6rem;color:#fff;margin-left:6px;letter-spacing:0}
-.gm .bar .bs b{color:#ffcf4a}
-.gm .arena{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:stretch}
-.gm .card{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));padding:16px;min-height:380px;transition:border-color .2s,transform .2s}
-.gm .card .im{flex:1;display:grid;place-items:center;min-height:180px;background:radial-gradient(ellipse at center,var(--rc,#e8402a)22 0%,transparent 70%)}
-.gm .card img{width:100%;max-width:330px;aspect-ratio:4/3;object-fit:contain;filter:drop-shadow(0 10px 18px rgba(0,0,0,.5))}
-.gm .card .wp{font:500 .78rem/1.2 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-top:10px}
-.gm .card .nm{font:600 1.3rem/1.15 var(--hud);margin:4px 0 2px}
-.gm .card .wr{font-size:.85rem;color:var(--dim)}
-.gm .card .pr{margin-top:12px;font:700 2rem/1 var(--hud);min-height:2rem}
-.gm .card .pr.q{color:var(--dim)}
-.gm .card .bt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.gm .card .bt button{height:52px;border:0;font:700 1rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:#fff;cursor:pointer;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
-.gm .card .bt .h{background:#1f9d55}.gm .card .bt .l{background:#c4161c}
-.gm .card .bt button:hover{filter:brightness(1.15)}.gm .card .bt button:disabled{opacity:.5;cursor:default}
-.gm .card .by{display:none;margin-top:10px;font:600 .72rem/1 var(--hud);letter-spacing:.08em;color:#ff8ccc;text-decoration:none}
-.gm .card.shown .by{display:inline-block}
-.gm .card.ok{border-color:#1f9d55}.gm .card.bad{border-color:#c4161c}
-.gm .vs{display:grid;place-items:center}
-.gm .vs span{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#16161d;border:1px solid var(--line);font:700 .8rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
-.gm .ov{display:none;margin:18px 0 0;padding:22px;border:1px solid #c4161c;background:rgba(196,22,28,.08);text-align:center}
-.gm .ov.on{display:block}
-.gm .ov h2{margin:0 0 6px;font:700 1.8rem/1 var(--hud);text-transform:uppercase}
-.gm .ov p{margin:6px 0;color:var(--soft);font-size:1.05rem}.gm .ov .nb{color:#ffcf4a;font-weight:700}
-.gm .ov .acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
-.gm .ov button,.gm .ov a{height:48px;padding:0 22px;display:inline-flex;align-items:center;border:0;font:700 .9rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--pick,#e8402a);cursor:pointer;text-decoration:none}
-.gm .ov .sh{background:#16161d;border:1px solid var(--line)}
-.gm .ld{padding:60px 0;text-align:center;color:var(--soft)}
-.gm .info{margin-top:40px}.gm .info h2{font:600 1.2rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;margin:28px 0 10px}
-.gm .info ol{padding-left:20px;color:var(--soft)}.gm .info h3{font-size:1rem;margin:16px 0 4px}.gm .info p{color:var(--soft);margin:0}
-@keyframes gmIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}.gm .card.new{animation:gmIn .35s ease}
-@media(max-width:760px){.gm .arena{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.gm .card{min-width:0;overflow:hidden}.gm .vs{display:none}.gm .card{min-height:0;padding:10px}.gm .card .im{min-height:0}.gm .card img{max-width:170px}.gm .card .wp{font-size:.64rem;margin-top:6px}.gm .card .nm{font-size:.98rem}.gm .card .wr{font-size:.74rem}.gm .card .pr{font-size:1.25rem;margin-top:8px;min-height:1.25rem}.gm .card .bt{grid-template-columns:1fr;gap:6px;margin-top:8px}.gm .card .bt button{height:44px;font-size:.86rem}.gm .card .by{font-size:.62rem}.gm .modes button{padding:8px 10px;font-size:.7rem}}
+CSS = r"""
+body{background:#07080c}
+.gm{--ct:#3a7bff;--t:#ff8a1f;--ok:#2bd673;--bad:#ff3b4a;max-width:none!important;padding:0!important}
+.gm-stage{position:relative;overflow:hidden;min-height:calc(100vh - 64px);padding:18px 16px 28px;background:
+ radial-gradient(900px 500px at 15% 40%,rgba(58,123,255,.18),transparent 60%),radial-gradient(900px 500px at 85% 40%,rgba(255,138,31,.16),transparent 60%),
+ linear-gradient(180deg,#0b0d14,#07080c)}
+.gm-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);pointer-events:none}
+.gm-in{position:relative;max-width:1180px;margin:0 auto}
+.gm-hud{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-bottom:14px}
+.gm-hud .l{display:flex;gap:6px;flex-wrap:wrap}
+.gm-hud .l button{padding:8px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#c9c4b8;font:600 .74rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:999px}
+.gm-hud .l button.on{background:#fff;color:#0b0d14;border-color:#fff}
+.gm-score{display:flex;align-items:center;gap:18px;padding:8px 22px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.45);border-radius:999px;backdrop-filter:blur(6px)}
+.gm-score .s{display:flex;flex-direction:column;align-items:center;line-height:1}
+.gm-score small{font:600 .62rem/1 var(--hud);letter-spacing:.18em;text-transform:uppercase;color:#8d887d;margin-bottom:4px}
+.gm-score b{font:700 2rem/1 var(--hud);color:#fff;font-variant-numeric:tabular-nums}
+.gm-score .cur b{color:#fff;text-shadow:0 0 18px rgba(255,120,60,.6)}
+.gm-score .bs b{color:#ffcf4a}
+.gm-score b.bump{animation:gmBump .45s ease}
+.gm-hud .r{display:flex;justify-content:flex-end;align-items:center;gap:10px}
+.gm-rank{display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.45);border-radius:999px;min-width:0}
+.gm-rank i{width:30px;height:30px;flex:none;border-radius:50%;background:var(--rk,#9aa4b1);box-shadow:0 0 14px var(--rk,#9aa4b1);display:grid;place-items:center;font:700 .8rem/1 var(--hud);color:#0b0d14;font-style:normal}
+.gm-rank div{min-width:0}.gm-rank b{display:block;font:600 .82rem/1.1 var(--hud);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+.gm-rank .pb{height:4px;margin-top:5px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;width:150px}.gm-rank .pb span{display:block;height:100%;background:var(--rk,#9aa4b1);transition:width .4s}
+.gm-snd{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.45);color:#c9c4b8;cursor:pointer;font-size:1rem}
+.gm-arena{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.gm-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 26px 26px;min-height:470px;transition:background .25s}
+.gm-card.a{background:linear-gradient(160deg,rgba(58,123,255,.22),rgba(12,16,30,.95) 60%)}
+.gm-card.b{background:linear-gradient(200deg,rgba(255,138,31,.2),rgba(30,16,10,.95) 60%)}
+.gm-card .rar{position:absolute;inset:auto 0 0 0;height:4px;background:var(--rc,#e8402a);box-shadow:0 0 20px var(--rc,#e8402a)}
+.gm-card .im{width:100%;max-width:420px;aspect-ratio:4/3;display:grid;place-items:center;position:relative}
+.gm-card .im::before{content:"";position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle,var(--rc,#e8402a) 0%,transparent 65%);opacity:.35;filter:blur(18px)}
+.gm-card img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 24px rgba(0,0,0,.6));transition:transform .3s}
+.gm-card:hover img{transform:scale(1.04) rotate(-2deg)}
+.gm-card .wp{font:600 .8rem/1 var(--hud);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:6px}
+.gm-card .nm{font:700 clamp(1.4rem,2.6vw,2.1rem)/1.05 var(--hud);text-transform:uppercase;margin:6px 0 8px;color:#fff}
+.gm-card .wr{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.1);font:600 .72rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:#ddd}
+.gm-card .was{margin-top:16px;font:500 .8rem/1 var(--hud);letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.gm-card .pr{font:700 clamp(2.2rem,4.6vw,3.6rem)/1 var(--hud);color:#ffd36a;text-shadow:0 0 24px rgba(255,200,80,.35);margin-top:6px;font-variant-numeric:tabular-nums;min-height:1em}
+.gm-card .pr.q{color:rgba(255,255,255,.25);text-shadow:none}
+.gm-card .bt{display:grid;gap:10px;width:100%;max-width:300px;margin-top:16px}
+.gm-card .bt button{height:58px;border:0;border-radius:12px;font:700 1.15rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s,filter .12s;box-shadow:0 8px 0 rgba(0,0,0,.35)}
+.gm-card .bt .h{background:linear-gradient(180deg,#33e07f,#16a957)}.gm-card .bt .l{background:linear-gradient(180deg,#ff5868,#d01f31)}
+.gm-card .bt button:hover{filter:brightness(1.1);transform:translateY(-2px)}.gm-card .bt button:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.35)}
+.gm-card .bt button:disabled{opacity:.45;pointer-events:none}
+.gm-card .bt kbd{font:600 .72rem/1 var(--hud);padding:3px 6px;border-radius:5px;background:rgba(0,0,0,.25);opacity:.8}
+.gm-card .by{margin-top:14px;font:600 .72rem/1 var(--hud);letter-spacing:.08em;color:#ff8ccc;text-decoration:none;opacity:.85}
+.gm-card.b:not(.shown) .by{visibility:hidden}
+.gm-card.ok{background:linear-gradient(200deg,rgba(43,214,115,.35),rgba(8,30,18,.95) 60%)}
+.gm-card.bad{background:linear-gradient(200deg,rgba(255,59,74,.38),rgba(34,8,10,.95) 60%)}
+.gm-vs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:#0b0d14;border:3px solid rgba(255,255,255,.9);font:700 1.5rem/1 var(--hud);color:#fff;box-shadow:0 0 0 8px rgba(0,0,0,.35),0 0 40px rgba(255,255,255,.25);animation:gmPulse 2s ease-in-out infinite;transition:background .2s,border-color .2s}
+.gm-vs.ok{background:var(--ok);border-color:#fff;animation:none}.gm-vs.bad{background:var(--bad);border-color:#fff;animation:none}
+.gm-plus{position:absolute;left:50%;top:38%;transform:translateX(-50%);font:700 2.4rem/1 var(--hud);color:var(--ok);text-shadow:0 0 20px rgba(43,214,115,.7);pointer-events:none;z-index:4;animation:gmUp .8s ease forwards}
+.gm-toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:5;padding:10px 18px;border-radius:999px;background:linear-gradient(90deg,#ffcf4a,#ff8a1f);color:#1a1205;font:700 .9rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 10px 30px rgba(255,160,40,.45);animation:gmToast 2.2s ease forwards;white-space:nowrap}
+.gm-arena.shake{animation:gmShake .45s ease}
+.gm-arena.slide .gm-card.a,.gm-arena.slide .gm-card.b{animation:gmIn .4s ease}
+.gm-start,.gm-over{position:absolute;inset:0;z-index:6;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:rgba(5,6,10,.82);backdrop-filter:blur(8px)}
+.gm-start.on,.gm-over.on{display:flex}
+.gm-start .tg{font:600 .78rem/1 var(--hud);letter-spacing:.3em;text-transform:uppercase;color:#ff8a1f;margin-bottom:10px}
+.gm-start h1{margin:0;font:700 clamp(2.6rem,7vw,5rem)/.95 var(--hud);text-transform:uppercase;background:linear-gradient(90deg,#6aa6ff,#fff 45%,#ffb15c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gm-start .su{font:600 1rem/1.2 var(--hud);letter-spacing:.2em;text-transform:uppercase;color:#c9c4b8;margin:8px 0 14px}
+.gm-start p{max-width:520px;color:#b9b4a7;margin:0 0 20px;font-size:1.02rem}
+.gm-go{height:64px;padding:0 54px;border:0;border-radius:14px;background:linear-gradient(180deg,#ff6a3d,#e8402a);color:#fff;font:700 1.35rem/1 var(--hud);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 0 #8f1f12,0 20px 50px rgba(232,64,42,.45);transition:transform .12s}
+.gm-go:hover{transform:translateY(-2px)}.gm-go:active{transform:translateY(5px);box-shadow:0 5px 0 #8f1f12}
+.gm-ladder{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:22px;max-width:640px}
+.gm-ladder span{padding:5px 10px;border-radius:999px;border:1px solid currentColor;font:600 .66rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.gm-start .bst{margin-top:14px;color:#ffcf4a;font:600 .9rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase}
+.gm-over h2::before,.gm-over h2::after{display:none!important}.gm-over .st{border:0!important;padding:0!important;background:none!important}
+.gm-over h2{margin:0;font:700 clamp(2.6rem,7vw,4.4rem)/1 var(--hud);text-transform:uppercase;color:var(--bad);text-shadow:0 0 30px rgba(255,59,74,.5)}
+.gm-over .st{font:700 1.6rem/1 var(--hud);margin:12px 0 4px;color:#fff}
+.gm-over .rk{font:600 1rem/1.2 var(--hud);letter-spacing:.1em;text-transform:uppercase;margin:4px 0}
+.gm-over .nb{color:#ffcf4a;font:700 1.1rem/1 var(--hud);margin:8px 0;min-height:1.1rem}
+.gm-over .ans{color:#b9b4a7;margin:6px 0 18px;max-width:560px}
+.gm-over .acts{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.gm-over .sh{height:64px;padding:0 26px;border-radius:14px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;font:700 1rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.gm-ld{position:absolute;inset:0;display:grid;place-items:center;color:#b9b4a7;z-index:7;background:#07080c}
+.gm-keys{text-align:center;color:#6f6a60;font-size:.8rem;margin-top:12px}
+.gm-info{max-width:900px;margin:0 auto;padding:40px 20px 60px}
+.gm-info h2{font:600 1.25rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px}
+.gm-info ol{padding-left:20px;color:var(--soft)}.gm-info h3{font-size:1.02rem;margin:16px 0 4px}.gm-info p{color:var(--soft);margin:0}
+@keyframes gmPulse{0%,100%{box-shadow:0 0 0 8px rgba(0,0,0,.35),0 0 30px rgba(255,255,255,.2)}50%{box-shadow:0 0 0 8px rgba(0,0,0,.35),0 0 55px rgba(255,255,255,.45)}}
+@keyframes gmBump{0%{transform:scale(1)}40%{transform:scale(1.45)}100%{transform:scale(1)}}
+@keyframes gmUp{from{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,-60px)}}
+@keyframes gmToast{0%{opacity:0;transform:translate(-50%,-14px)}12%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-10px)}}
+@keyframes gmShake{0%,100%{transform:none}20%{transform:translateX(-12px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+@keyframes gmIn{from{opacity:.2;transform:translateX(30px)}to{opacity:1;transform:none}}
+@media(max-width:860px){.gm-hud{grid-template-columns:1fr auto;grid-template-areas:"s r" "l l"}.gm-hud .l{grid-area:l;justify-content:center}.gm-score{grid-area:s;justify-self:start;padding:6px 16px;gap:14px}.gm-hud .r{grid-area:r}.gm-rank .pb{width:90px}.gm-rank b{max-width:110px;font-size:.7rem}}
+@media(max-width:640px){.gm-stage{padding:10px 8px 18px;min-height:0}.gm-arena{grid-template-columns:1fr;border-radius:14px}.gm-card{min-height:0;padding:14px 12px 16px;flex-direction:row;flex-wrap:wrap;text-align:left;align-items:center;gap:0 12px}
+ .gm-card .im{width:42%;max-width:none;flex:none}.gm-card .tx{flex:1;min-width:0}.gm-card .nm{font-size:1.15rem}.gm-card .was{margin-top:8px;font-size:.66rem}.gm-card .pr{font-size:1.9rem}
+ .gm-card .bt{max-width:none;grid-template-columns:1fr 1fr;margin-top:12px;flex-basis:100%}.gm-card .bt button{height:56px;font-size:1rem}.gm-card .bt kbd{display:none}.gm-card .by{flex-basis:100%;text-align:center;margin-top:10px}
+ .gm-vs{width:50px;height:50px;font-size:.95rem;top:var(--vsy,50%);left:21%}.gm-ladder{display:none}.gm-score b{font-size:1.5rem}.gm-rank i{width:24px;height:24px}.gm-rank .pb{width:70px}.gm-snd{width:32px;height:32px}.gm-keys{display:none}}
+@media (prefers-reduced-motion:reduce){.gm *{animation:none!important;transition:none!important}}
 """
 
 JS = r"""<script>(()=>{
-const L=__L__,CUR=__CUR__,RATE=__RATE__,UTM="__UTM__",IMG="https://community.akamai.steamstatic.com/economy/image/",WN=__WN__,RC=["#b0c3d9","#5e98d9","#4b69ff","#8847ff","#d32ce6","#eb4b4b","#e4ae39","#e4ae39"];
-const $=s=>document.querySelector(s);let D=[],pool=[],A=null,B=null,streak=0,best=0,busy=false,mode="all";
-try{best=+localStorage.getItem("gm_best")||0}catch(e){}
+const L=__L__,RK=__RK__,RC=__RCOL__,CUR=__CUR__,RATE=__RATE__,UTM="__UTM__",IMG="https://community.akamai.steamstatic.com/economy/image/",WN=__WN__,RAR=["#b0c3d9","#5e98d9","#4b69ff","#8847ff","#d32ce6","#eb4b4b","#e4ae39","#e4ae39"];
+const $=s=>document.querySelector(s),ar=$("#gma");let D=[],pool=[],A=null,B=null,streak=0,best=0,busy=false,mode="all",snd=true,ac=null;
+try{best=+localStorage.getItem("gm_best")||0;snd=localStorage.getItem("gm_snd")!=="0"}catch(e){}
 const fmt=v=>{v=v*RATE;const n=v>=100?Math.round(v):Math.round(v*100)/100;return CUR[0]+n.toLocaleString(RATE===1?"en-US":"ru-RU")+CUR[1]};
-const name=x=>x[0]+" ("+WN[x[1]]+")";
+const rIdx=n=>{let i=0;RK.forEach((r,k)=>{if(n>=r[0])i=k});return i};
 const csm=x=>"https://cs.money/market/buy/?search="+encodeURIComponent(x[0].replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,"")+" ("+WN[x[1]]+")")+"&"+UTM;
+function beep(f,d,t){if(!snd)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type=t||"sine";o.frequency.value=f;g.gain.setValueAtTime(.0001,ac.currentTime);g.gain.exponentialRampToValueAtTime(.12,ac.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+const sOk=()=>{beep(660,.12);setTimeout(()=>beep(990,.16),90)},sBad=()=>{beep(180,.35,"sawtooth")},sUp=()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.15,"triangle"),i*90));
 function setPool(){pool=mode==="all"?D:D.filter(x=>mode==="guns"?!["knife","gloves"].includes(x[4]):x[4]===mode)}
-function pick(ref){// чем длиннее серия, тем ближе цены
-  const minR=Math.max(1.12,3-streak*0.18),maxR=Math.max(2.2,25-streak*1.5);
-  for(let t=0;t<400;t++){const c=pool[Math.random()*pool.length|0];if(!ref)return c;if(c[0]===ref[0])continue;const r=Math.max(c[2],ref[2])/Math.min(c[2],ref[2]);if(r>=minR&&r<=maxR)return c}
-  for(let t=0;t<400;t++){const c=pool[Math.random()*pool.length|0];if(c[0]!==ref[0]&&Math.abs(c[2]-ref[2])/ref[2]>0.05)return c}
-  return pool[0]}
-function card(el,x,show){el.className="card new";el.style.setProperty("--rc",RC[x[5]]||"#e8402a");
-  const [w,...s]=x[0].split(" | ");el.querySelector(".im").innerHTML=`<img src="${IMG+x[3]}/360fx270f" alt="${x[0]}" width="330" height="248">`;
+function pick(ref){const minR=Math.max(1.1,3-streak*0.16),maxR=Math.max(2,25-streak*1.4);
+  for(let t=0;t<500;t++){const c=pool[Math.random()*pool.length|0];if(!ref)return c;if(c[0]===ref[0])continue;const r=Math.max(c[2],ref[2])/Math.min(c[2],ref[2]);if(r>=minR&&r<=maxR)return c}
+  for(let t=0;t<500;t++){const c=pool[Math.random()*pool.length|0];if(c[0]!==ref[0]&&Math.abs(c[2]-ref[2])/ref[2]>0.05)return c}return pool[0]}
+function card(el,x,show){el.classList.remove("ok","bad");el.classList.toggle("shown",!!show);el.style.setProperty("--rc",RAR[x[5]]||"#e8402a");
+  const [w,...s]=x[0].split(" | ");el.querySelector(".im").innerHTML=`<img src="${IMG+x[3]}/360fx270f" alt="${x[0]}" width="360" height="270">`;
   el.querySelector(".wp").textContent=w.replace("★ ","");el.querySelector(".nm").textContent=s.join(" | ")||x[0];el.querySelector(".wr").textContent=WN[x[1]];
-  const p=el.querySelector(".pr");p.textContent=show?fmt(x[2]):"?";p.classList.toggle("q",!show);el.classList.toggle("shown",!!show);el.querySelector(".by").href=csm(x);
-  setTimeout(()=>el.classList.remove("new"),400)}
-function draw(){$("#gs").textContent=streak;$("#gb").textContent=best;card($("#ca"),A,true);card($("#cb"),B,false);$("#cb .bt").hidden=false;$("#cb .bt").querySelectorAll("button").forEach(b=>b.disabled=false)}
-function start(){streak=0;setPool();A=pick();B=pick(A);$("#ov").classList.remove("on");draw()}
-function count(el,to,cb){const t0=performance.now(),d=700;const f=t=>{const k=Math.min(1,(t-t0)/d);el.textContent=fmt(to*(0.2+0.8*k*k));if(k<1)requestAnimationFrame(f);else{el.textContent=fmt(to);cb()}};requestAnimationFrame(f)}
-function guess(hi){if(busy)return;busy=true;$("#cb .bt").querySelectorAll("button").forEach(b=>b.disabled=true);
-  const p=$("#cb .pr");p.classList.remove("q");$("#cb").classList.add("shown");
-  count(p,B[2],()=>{const ok=hi?B[2]>=A[2]:B[2]<=A[2];$("#cb").classList.add(ok?"ok":"bad");
-    setTimeout(()=>{busy=false;if(ok){streak++;if(streak>best){best=streak;try{localStorage.setItem("gm_best",best)}catch(e){}}A=B;B=pick(A);draw()}
-      else{const nb=streak>0&&streak>=best;$("#ovr").textContent=L.res.replace("{n}",streak);$("#ovb").textContent=nb?L.newbest:"";$("#ov").classList.add("on");$("#cb .bt").hidden=true;$("#ov").scrollIntoView({behavior:"smooth",block:"nearest"})}},ok?650:300)})}
+  const p=el.querySelector(".pr");p.textContent=show?fmt(x[2]):"???";p.classList.toggle("q",!show);el.querySelector(".by").href=csm(x)}
+function hud(bump){const c=$("#gs");c.textContent=streak;$("#gb").textContent=best;if(bump){c.classList.remove("bump");void c.offsetWidth;c.classList.add("bump")}
+  const i=rIdx(streak),nx=RK[i+1];document.documentElement.style.setProperty("--rk",RC[i]);$("#grn").textContent=RK[i][1];$("#gri").textContent=i+1;
+  $("#grp").style.width=nx?((streak-RK[i][0])/(nx[0]-RK[i][0])*100)+"%":"100%";$("#grx").textContent=nx?L.next+" «"+nx[1]+"»: "+(nx[0]-streak):"MAX"}
+function draw(slide){card($("#ca"),A,true);card($("#cb"),B,false);$("#gmv").className="gm-vs";$("#gmv").textContent=L.vs;
+  $("#cb .bt").querySelectorAll("button").forEach(b=>b.disabled=false);ar.style.setProperty("--vsy",$("#ca").offsetHeight+"px");if(slide){ar.classList.remove("slide");void ar.offsetWidth;ar.classList.add("slide")}}
+function start(){streak=0;setPool();A=pick();B=pick(A);$("#gso").classList.remove("on");$("#gst").classList.remove("on");hud();draw(true)}
+function count(el,to,cb){const t0=performance.now(),d=650;const f=t=>{const k=Math.min(1,(t-t0)/d);el.textContent=fmt(to*(0.15+0.85*(1-Math.pow(1-k,3))));if(k<1)requestAnimationFrame(f);else{el.textContent=fmt(to);cb()}};requestAnimationFrame(f)}
+function toast(t){const d=document.createElement("div");d.className="gm-toast";d.textContent=t;ar.appendChild(d);setTimeout(()=>d.remove(),2300)}
+function guess(hi){if(busy||!A)return;busy=true;$("#cb .bt").querySelectorAll("button").forEach(b=>b.disabled=true);
+  const p=$("#cb .pr");p.classList.remove("q");$("#cb").classList.add("shown");beep(440,.05,"square");
+  count(p,B[2],()=>{const ok=hi?B[2]>=A[2]:B[2]<=A[2];$("#cb").classList.add(ok?"ok":"bad");const v=$("#gmv");v.className="gm-vs "+(ok?"ok":"bad");v.textContent=ok?"✓":"✕";
+    if(ok){sOk();const pl=document.createElement("div");pl.className="gm-plus";pl.textContent="+1";ar.appendChild(pl);setTimeout(()=>pl.remove(),850);
+      const r0=rIdx(streak);streak++;if(streak>best){best=streak;try{localStorage.setItem("gm_best",best)}catch(e){}}hud(true);
+      if(rIdx(streak)>r0){setTimeout(sUp,200);toast(L.rankup+": "+RK[rIdx(streak)][1])}else if(streak%5===0)toast("🔥 x"+streak);
+      setTimeout(()=>{busy=false;A=B;B=pick(A);draw(true)},800)}
+    else{sBad();ar.classList.remove("shake");void ar.offsetWidth;ar.classList.add("shake");
+      setTimeout(()=>{busy=false;const nb=streak>0&&streak>=best;const i=rIdx(streak);$("#gor").textContent=L.res.replace("{n}",streak);
+        const rk=$("#gok");rk.textContent=RK[i][1];rk.style.color=RC[i];$("#gob").textContent=nb?L.newbest:"";
+        $("#goa").textContent=B[0]+" ("+WN[B[1]]+") — "+fmt(B[2])+" · "+A[0]+" ("+WN[A[1]]+") — "+fmt(A[2]);$("#gso").classList.add("on");$("#gagain").focus()},900)}})}
 document.querySelector(".gm").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
-  if(b.dataset.g)guess(b.dataset.g==="h");else if(b.id==="again")start();else if(b.dataset.m){mode=b.dataset.m;document.querySelectorAll(".modes button").forEach(x=>x.classList.toggle("on",x===b));start()}
-  else if(b.id==="share"){const txt=L.sharetxt.replace("{n}",streak)+location.href;if(navigator.share){navigator.share({text:txt}).catch(()=>{})}else{navigator.clipboard&&navigator.clipboard.writeText(txt).then(()=>{b.textContent=L.copied})}}});
-fetch("/data/game.json").then(r=>r.json()).then(j=>{D=j.d.map(x=>(x[3]=j.i[x[3]],x));$("#ld").remove();$("#ar").hidden=false;start()}).catch(()=>{$("#ld").textContent="—"});
+  if(b.dataset.g)guess(b.dataset.g==="h");else if(b.id==="gagain"||b.id==="ggo")start();
+  else if(b.dataset.m){mode=b.dataset.m;document.querySelectorAll("[data-m]").forEach(x=>x.classList.toggle("on",x===b));if(D.length)start()}
+  else if(b.id==="gsnd"){snd=!snd;b.textContent=snd?"🔊":"🔇";try{localStorage.setItem("gm_snd",snd?"1":"0")}catch(e){}}
+  else if(b.id==="gshare"){const txt=L.sharetxt.replace("{n}",streak).replace("{r}",RK[rIdx(streak)][1])+location.href;if(navigator.share){navigator.share({text:txt}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>{b.textContent=L.copied})}}});
+document.addEventListener("keydown",e=>{if(e.target.closest&&e.target.closest("input,textarea"))return;
+  if($("#gso").classList.contains("on")||$("#gst").classList.contains("on")){if(e.key==="Enter"||e.key===" "){e.preventDefault();start()}return}
+  if(e.key==="ArrowUp"){e.preventDefault();guess(true)}else if(e.key==="ArrowDown"){e.preventDefault();guess(false)}});
+$("#gsnd").textContent=snd?"🔊":"🔇";$("#gb").textContent=best;$("#gstb").textContent=best?L.best+": "+best:"";
+fetch("/data/game.json").then(r=>r.json()).then(j=>{D=j.d.map(x=>(x[3]=j.i[x[3]],x));setPool();A=pick();B=pick(A);hud();draw();$("#gld").remove()}).catch(()=>{$("#gld").textContent="—"});
 })()</script>"""
 
 
 def data():
     cat = json.load(open(os.path.join(ROOT, "data/catalog.json")))
-    prices = {}
     try:
         P = json.load(open(os.path.join(ROOT, "data/prices.json")))
     except Exception:
@@ -136,44 +218,54 @@ def data():
         wp = [(k, live.get(w) or x["p"][k]) for k, w in enumerate(["FN", "MW", "FT", "WW", "BS"])]
         wp = [(k, v) for k, v in wp if v and v >= MINP]
         if not wp: continue
-        # до 2 качеств на скин — больше разнообразия цен
-        for k, v in rnd.sample(wp, min(2, len(wp))):
+        for k, v in rnd.sample(wp, min(2, len(wp))):  # до 2 качеств на скин
             if x["i"] not in ii: ii[x["i"]] = len(imgs); imgs.append(x["i"])
             out.append([n, k, round(v, 2), ii[x["i"]], x["c"], x.get("r", 0)])
     json.dump({"i": imgs, "d": out}, open(os.path.join(ROOT, "data/game.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     return len(out)
 
 
+def side(t, k):
+    b = k == "b"
+    return (f'<div class="gm-card {k}" id="c{k}"><div class="im"></div><div class="tx"><div class="wp"></div><div class="nm"></div><span class="wr"></span>'
+            f'<div class="was">{e(t["was"])}</div><div class="pr"></div></div>'
+            + (f'<div class="bt"><button class="h" data-g="h">▲ {e(t["hi"])} <kbd>↑</kbd></button><button class="l" data-g="l">▼ {e(t["lo"])} <kbd>↓</kbd></button></div>' if b else "")
+            + f'<a class="by" target="_blank" rel="noopener sponsored">{e(t["buy"])} →</a><span class="rar"></span></div>')
+
+
 def build():
     n = data()
     for lang, url in URL.items():
-        t = T[lang]
-        L = {k: t[k] for k in ("res", "newbest", "copied", "sharetxt")}
-        js = (JS.replace("__L__", json.dumps(L, ensure_ascii=False)).replace("__CUR__", json.dumps(t["cur"], ensure_ascii=False))
-              .replace("__RATE__", str(t["rate"])).replace("__UTM__", csmoney.UTM).replace("__WN__", json.dumps(WEARS)))
-        side = lambda i, hidden: (f'<div class="card" id="c{i}"><div class="im"></div><div class="wp"></div><div class="nm"></div><div class="wr"></div><div class="pr"></div>'
-                                  + (f'<div class="bt"><button class="h" data-g="h">▲ {e(t["hi"])}</button><button class="l" data-g="l">▼ {e(t["lo"])}</button></div>' if hidden else "")
-                                  + f'<a class="by" target="_blank" rel="noopener sponsored">{e(t["buy"])} →</a></div>')
-        body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="pg-eb"><i></i>{e(t["kick"])}</span>'
-                f'<h1 class="pg-h">{e(t["h1"])}</h1><p class="pg-l">{e(t["lead"])}</p>'
-                '<div class="modes">' + "".join(f'<button data-m="{k}"{" class=on" if k == "all" else ""}>{e(l)}</button>' for k, l in t["cats"]) + '</div>'
-                f'<div class="bar"><span>{e(t["streak"])}<b id="gs">0</b></span><span class="bs">{e(t["best"])}<b id="gb">0</b></span></div>'
-                f'<div class="ld" id="ld">{e(t["loading"])}</div>'
-                f'<div class="arena" id="ar" hidden>{side("a", False)}<div class="vs"><span>{e(t["vs"])}</span></div>{side("b", True)}</div>'
-                f'<div class="ov" id="ov"><h2>{e(t["over"])}</h2><p id="ovr"></p><p class="nb" id="ovb"></p><div class="acts"><button id="again">{e(t["again"])}</button><button class="sh" id="share">{e(t["share"])}</button></div></div>'
-                f'<section class="info"><h2>{e(t["how_h"])}</h2><ol>' + "".join(f"<li>{e(x)}</li>" for x in t["how"]) + "</ol>"
+        t = T[lang]; rk = RANKS[lang]
+        L = {k: t[k] for k in ("res", "newbest", "copied", "sharetxt", "rankup", "vs", "next", "best")}
+        js = (JS.replace("__L__", json.dumps(L, ensure_ascii=False)).replace("__RK__", json.dumps(rk, ensure_ascii=False)).replace("__RCOL__", json.dumps(RCOL))
+              .replace("__CUR__", json.dumps(t["cur"], ensure_ascii=False)).replace("__RATE__", str(t["rate"])).replace("__UTM__", csmoney.UTM).replace("__WN__", json.dumps(WEARS)))
+        ladder = "".join(f'<span style="color:{RCOL[i]}">{e(r[1])} · {r[0]}</span>' for i, r in enumerate(rk))
+        game = (f'<section class="gm-stage"><div class="gm-in">'
+                '<div class="gm-hud"><div class="l">' + "".join(f'<button data-m="{k}"{" class=on" if k == "all" else ""}>{e(l)}</button>' for k, l in t["cats"]) + '</div>'
+                f'<div class="gm-score"><div class="s cur"><small>{e(t["streak"])}</small><b id="gs">0</b></div><div class="s bs"><small>{e(t["best"])}</small><b id="gb">0</b></div></div>'
+                f'<div class="r"><div class="gm-rank" title="{e(t["rank"])}"><i id="gri">1</i><div><b id="grn">{e(rk[0][1])}</b><div class="pb"><span id="grp" style="width:0"></span></div><small id="grx" style="font-size:.62rem;color:#8d887d"></small></div></div>'
+                f'<button class="gm-snd" id="gsnd" aria-label="{e(t["sound"])}">🔊</button></div></div>'
+                f'<div class="gm-arena" id="gma">{side(t, "a")}{side(t, "b")}<div class="gm-vs" id="gmv">{e(t["vs"])}</div>'
+                f'<div class="gm-start on" id="gst"><div class="tg">{e(t["tag"])}</div><h1>{e(t["h1"])}</h1><div class="su">{e(t["sub"])}</div><p>{e(t["intro"])}</p>'
+                f'<button class="gm-go" id="ggo">▶ {e(t["play"])}</button><div class="bst" id="gstb"></div><div class="gm-ladder">{ladder}</div></div>'
+                f'<div class="gm-over" id="gso"><h2>{e(t["over"])}</h2><div class="st" id="gor"></div><div class="rk" id="gok"></div><div class="nb" id="gob"></div><div class="ans" id="goa"></div>'
+                f'<div class="acts"><button class="gm-go" id="gagain">↻ {e(t["again"])}</button><button class="sh" id="gshare">{e(t["share"])}</button></div></div>'
+                f'<div class="gm-ld" id="gld">{e(t["loading"])}</div></div>'
+                f'<div class="gm-keys">{e(t["keys"])}</div></div></section>')
+        info = (f'<section class="gm-info"><h2>{e(t["how_h"])}</h2><ol>' + "".join(f"<li>{e(x)}</li>" for x in t["how"]) + "</ol>"
+                + f'<h2>{e(t["ladder"])}</h2><p>' + " → ".join(f"{e(r[1])} ({r[0]})" for r in rk) + "</p>"
                 + "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in t["faq"])
-                + f'<h2>{e(t["more"])}</h2><p>{e(t["more_p"])} <a href="{HOME[lang]}">{e(t["more"])} →</a></p></section>' + js)
+                + f'<h2>{e(t["more"])}</h2><p>{e(t["more_p"])} <a href="{HOME[lang]}">{e(t["more"])} →</a></p></section>')
         alts = "".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{URL[l]}">' for l in URL) + f'<link rel="alternate" hreflang="x-default" href="{SITE}{URL["en"]}">'
         ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": t["h1"], "url": SITE + url, "description": t["desc"]},
               {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}]
-        h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}{GRID_CSS}</style></head>")
-        p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) for l in HOME})}\n<main class="gm pg">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
+        h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}</style></head>")
+        p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) for l in HOME})}\n<main class="gm">\n{game}{info}{js}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
         p = p.replace(f'<a href="{WIKI[lang]}" class=on>', f'<a href="{WIKI[lang]}">', 1)
         p = navmore.fix(p.replace("</body>", LANG_JS + "</body>", 1))
         d = os.path.join(ROOT, url.strip("/")); os.makedirs(d, exist_ok=True)
         open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(p)
-    # sitemap
     sp = os.path.join(ROOT, "sitemap.xml"); s = open(sp, encoding="utf-8").read()
     for url in URL.values():
         if f"<loc>{SITE}{url}</loc>" not in s:

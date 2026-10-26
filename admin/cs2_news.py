@@ -362,6 +362,8 @@ def build(items):
             S = ", ".join(f"{secname(lang, a).lower() if lang == 'ru' else a.title()} ({b})" for a, b in sec if b) or plain(x["c"], 120)
             title = (t["upd_t"] if patch else t["news_t"]).format(D=D, T=x["t"]); h1 = (t["upd_h"] if patch else t["news_h"]).format(D=D, T=x["t"])
             st_, sb_ = summ(x, lang)
+            if patch and (SUM.get(x["gid"]) or {}).get("ru" if lang == "ru" else "en"):
+                title = f"{st_} — " + ("обновление CS2 от " if lang == "ru" else "CS2 update ") + D + " — Skinset"
             desc = ((h1 + ": " + " ".join(sb_)) if sb_ else (t["upd_desc"] if patch else t["news_desc"]).format(D=D, S=S, T=x["t"]))[:300]
             sk = bool(SKIN_RE.search(x["c"] + " " + x["t"]))
             pv = items[k + 1] if k + 1 < len(items) else None; nx = items[k - 1] if k > 0 else None

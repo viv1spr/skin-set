@@ -12,6 +12,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import sys; sys.path.insert(0, os.path.join(ROOT, "admin"))
 from about import NAV, HOME, HREFLANG, CP, PCOL, PNAMES, CSS as BASE_CSS, LANG_JS, LNAMES, ABOUT_LABEL, PATHS as ABOUT  # noqa
 from budget_pages import money, BUD, path as bpath  # noqa
+import csmoney  # noqa
 
 e = lambda s: html.escape(str(s), quote=True)
 SITE = "https://skin-set.com"
@@ -212,6 +213,8 @@ CSS = BASE_CSS + r"""
 .pt th{font:600 .74rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
 .pt td:nth-child(2){font:600 1.05rem/1 var(--hud);white-space:nowrap}.pt td:last-child{text-align:right}
 .pt small{color:var(--dim);display:block;font-size:.78rem}
+.btns{display:flex;flex-wrap:wrap;gap:10px}.btn.csm{background:linear-gradient(90deg,#06bfff,#2d73ff);color:#fff;box-shadow:0 10px 26px rgba(45,115,255,.3)}
+.csm-l{display:inline-block;padding:6px 10px;border:1px solid rgba(45,115,255,.6);font:600 .72rem/1 var(--hud);letter-spacing:.08em;color:#8fc6ff;text-decoration:none;white-space:nowrap}.csm-l:hover{background:rgba(45,115,255,.18);color:#fff}
 .bb{display:inline-block;padding:8px 12px;border:1px solid var(--line2);font:600 .72rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}.bb:hover{border-color:var(--pick);color:var(--pick)}
 .note{color:var(--dim);font-size:.85rem}
 .sets{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -386,7 +389,7 @@ def page(lang, n):
         v = pw.get(k)
         nm = f"{wname(lang, k)}" + (f"<small>{WEARN['*'][k]}</small>" if lang == "ru" else f"<small>{k}</small>")
         if v:
-            rows.append(f'<tr><td>{nm}</td><td data-pk="{e(n)}" data-w="{k}" data-pre="{e(pre)}" data-suf="{e(suf)}">{e(lp(lang, v * 90))}</td><td></td></tr>')
+            rows.append(f'<tr><td>{nm}</td><td data-pk="{e(n)}" data-w="{k}" data-pre="{e(pre)}" data-suf="{e(suf)}">{e(lp(lang, v * 90))}</td><td><a class="csm-l" href="{e(csmoney.url(n, k))}" {csmoney.REL}>CS.MONEY</a></td></tr>')
     # пара для FAQ
     pair = [r for r in d["lux"] if r[0] in ("knife", "gloves") and f"{r[1].replace('★ ', '')} | {r[2]}" != n]
     pair_s = (" и " if lang == "ru" else " and " if lang == "en" else " und " if lang == "de" else " e " if lang == "pt" else " ve " if lang == "tr" else " i ").join(f"{r[1].replace('★ ', '')} | {r[2]}" for r in pair[:2]) or "—"
@@ -415,7 +418,7 @@ def page(lang, n):
 <h1>{e(n)}</h1>
 <div class="top"><div class="pic" style="--rc:{RCOL.get(rar_en, '#c4161c')}"><img src="{e(im)}" alt="{e(n)}" width="512" height="384"></div>
 <div><ul class="facts"><li><span>{e(t['typ'])}</span><b>{e(w)}</b></li><li><span>{e(t['rarL'])}</span><b style="color:{RCOL.get(rar_en, '#fff')}">{e(rar)}</b></li>{f'<li><span>{e(t["coll"])}</span><b>{e(coll)}</b></li>' if coll else ''}<li><span>{e(t['colL'])}</span><b><span class="sw">{sw}</span> {e(colsn)}</b></li><li><span>{e(t['tab'][1])}</span><b>{e(lp(lang, cp))}</b></li></ul>
-<div class="btns" style="margin-top:16px"><a class="btn p" href="{HOME[lang]}{CP[lang][pi]}/?set={setq}">{e(t['cta'])}</a></div></div></div>
+<div class="btns" style="margin-top:16px"><a class="btn p" href="{HOME[lang]}{CP[lang][pi]}/?set={setq}">{e(t['cta'])}</a><a class="btn csm" href="{e(csmoney.url(n))}" {csmoney.REL}>{e(csmoney.LABEL[lang])}</a></div></div></div>
 <p class="lead2">{e(intro)}</p>{f'<p class="note">{e(ratio)}</p>' if ratio else ''}
 <h2>{e(t['price_h'].format(**F))}</h2>
 <table class="pt"><thead><tr><th>{e(t['tab'][0])}</th><th>{e(t['tab'][1])}</th><th></th></tr></thead><tbody>{''.join(rows)}</tbody></table>

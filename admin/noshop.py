@@ -3,7 +3,9 @@
 python3 admin/noshop.py   — идемпотентно, по всем страницам и шаблонам блога.
 Чтобы вернуть площадку: поменять SHOP_JS ниже (url/label) и перезапустить.
 """
-import glob, os, re
+import glob, os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import csmoney
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGOF = {"ru": "ru", "en": "en", "de": "de", "pt-BR": "pt", "pt": "pt", "tr": "tr", "pl": "pl"}
@@ -28,12 +30,12 @@ WHERE = {  # абзац «где купить» и ответ FAQ
     "pl": "Skinset pokazuje orientacyjne ceny każdego przedmiotu i całego zestawu, aktualizowane co 4 godziny. Strona nic nie sprzedaje i nie ma nic wspólnego ze skrzynkami: złóż zestaw tutaj, a skiny kup na dowolnym rynku.",
 }
 AD_CSS = """<style id="noshop-css">
-.cb a.ad{grid-column:1/-1;width:100%;background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
-.buy a.ad{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 8px 22px rgba(45,115,255,.35)}
-.buy a.ad .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b{color:#fff!important;font-size:.98rem}
-.buy a.ad .ico,.buy a.ad .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
-.buy a.ad .arr{color:#fff!important;opacity:1}
-.buy a.ad:hover,.cb a.ad:hover{filter:brightness(1.12)}
+.cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
+.buy a.ad,.buy a.csm{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 8px 22px rgba(45,115,255,.35)}
+.buy a.ad .tx small,.buy a.csm .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b,.buy a.csm .tx b{color:#fff!important;font-size:.98rem}
+.buy a.ad .ico,.buy a.ad .lg,.buy a.csm .ico,.buy a.csm .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
+.buy a.ad .arr,.buy a.csm .arr{color:#fff!important;opacity:1}
+.buy a.ad:hover,.cb a.ad:hover,.buy a.csm:hover,.cb a.csm:hover{filter:brightness(1.12)}
 .sp-price{background:rgba(255,255,255,.05)!important;color:var(--ink,#fff)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.14);cursor:default}
 .sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#06bfff,#2d73ff);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(45,115,255,.35)}
 .sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
@@ -41,10 +43,22 @@ AD_CSS = """<style id="noshop-css">
 </style>"""
 
 
+CSM = {  # (кнопка, маленькая подпись, описание для «Площадок»)
+    "ru": ("Купить на CS.MONEY", "Купить на", "Маркетплейс скинов CS2: покупка, обмен и моментальная продажа скинов."),
+    "en": ("Buy on CS.MONEY", "Buy on", "CS2 skin marketplace: buy, trade and instantly sell skins."),
+    "de": ("Bei CS.MONEY kaufen", "Kaufen bei", "CS2-Skin-Marktplatz: Skins kaufen, tauschen und sofort verkaufen."),
+    "pt": ("Comprar na CS.MONEY", "Comprar na", "Marketplace de skins de CS2: compre, troque e venda skins na hora."),
+    "tr": ("CS.MONEY'de satın al", "Satın al", "CS2 skin pazarı: skin al, takas et ve anında sat."),
+    "pl": ("Kup na CS.MONEY", "Kup na", "Marketplace skinów CS2: kupuj, wymieniaj i sprzedawaj skiny od ręki."),
+}
+CSM_SEARCH = "https://cs.money/market/buy/?search="
+
+
 def shops_js(lang):
-    k, lg, sh, ab = AD[lang]
-    return ('const SHOPS = [ { id:"ad", label:' + repr(sh) + ', kick:' + repr(k) + ', long:' + repr(lg) + ', about:' + repr(ab)
-            + ', url:q => "' + ABOUT[lang] + '#partners" } ];')
+    lb, k, ab = CSM[lang]
+    return ('const SHOPS = [ { id:"csm", label:' + repr(lb) + ', kick:' + repr(k) + ', long:"CS.MONEY", mark:"CS", about:' + repr(ab)
+            + ', url:(q,s) => { const n=s?(s.weapon.replace("★ ","")+" | "+s.skin.replace(/\\s*\\(.*\\)/,"")+(s.wearShown?" ("+WEAR_FULL[s.wearShown]+")":"")):""; '
+            + 'return n?"' + CSM_SEARCH + '"+encodeURIComponent(n)+"&' + csmoney.UTM + '":"' + csmoney.MARKET + '"; } } ];')
 
 
 def fix(s):
@@ -52,13 +66,15 @@ def fix(s):
     o = s
     # конструктор
     s = re.sub(r'const SHOPS = \[.*?\}\s*\];', lambda _: shops_js(lang), s, count=1, flags=re.S)
-    s = re.sub(r'(\$\{SHOPS\.map\(sh=>`<a class="\$\{sh\.id\}" target="_blank") rel="noopener sponsored"', r'\1 rel="noopener"', s)
     s = re.sub(r'data-buy title="[^"]*\$\{sh\.label\}"', 'data-buy title="${sh.long||sh.label}"', s)
     s = re.sub(r'<span class="tx"><small>[^<]*</small><b>\$\{sh\.label\}</b></span>', '<span class="tx"><small>${sh.kick||""}</small><b>${sh.long||sh.label}</b></span>', s)
     s = s.replace('${mark(sh.id,sh.label.slice(0,2).toUpperCase())}', '${mark(sh.id,sh.id==="ad"?"+":sh.label.slice(0,2).toUpperCase())}')
     s = s.replace('target="_blank" rel="noopener sponsored" href="${sh.url("")}">', 'href="${sh.url("")}">')
     if lang != "ru":
         s = s.replace("</svg>Картинка сета</button>", "</svg>" + {"en": "Set image", "de": "Set-Bild", "pt": "Imagem do set", "tr": "Set görseli", "pl": "Obraz zestawu"}[lang] + "</button>")
+    s = s.replace('${mark(sh.id,sh.id==="ad"?"+":sh.label.slice(0,2).toUpperCase())}', '${mark(sh.id,sh.mark||sh.label.slice(0,2).toUpperCase())}')
+    s = s.replace('${mark(sh.id,sh.label.slice(0,2).toUpperCase(),"ico")}', '${mark(sh.id,sh.mark||sh.label.slice(0,2).toUpperCase(),"ico")}')
+    s = re.sub(r'target="_blank" rel="noopener(?: sponsored)?" href="\$\{sh\.url\(queryW\(s\)(?:,s)?\)\}"', lambda m: 'target="_blank" rel="noopener sponsored" href="${sh.url(queryW(s),s)}"', s)
     for x in STEP4_OLD: s = s.replace(f"<span>{x}</span>", f"<span>{STEP4[lang]}</span>")
     s = re.sub(r'<li><b>4</b><span>[^<]*DMarket[^<]*</span>', f'<li><b>4</b><span>{STEP4[lang]}</span>', s)
     # тексты «где купить»
@@ -74,7 +90,7 @@ def fix(s):
     # списки скинов на цветовых страницах и прочие прямые ссылки на DMarket/Lis-Skins
     s = re.sub(r'<a href="https://(?:dmarket\.com|lis-skins\.com)[^"]*"[^>]*>(?:DMarket|Lis-Skins)</a>', "", s)
     s = re.sub(r'<a href="https://dmarket\.com[^"]*"[^>]*>(.*?)</a>', r"\1", s)
-    s = re.sub(r'<a class="sp-ad" href="([^"]*)">.*?</a>', lambda m: '<a class="sp-ad" href="' + m.group(1) + '"><span><small>' + AD[lang][0] + '</small>' + AD[lang][1] + '</span><span>→</span></a>', s)
+    s = re.sub(r'<a class="sp-ad"[^>]*>.*?</a>', lambda m: '<a class="sp-ad" ' + csmoney.REL + ' href="' + CSM_SEARCH + '${encodeURIComponent(name.replace(/★\\s*/,"").replace(/\\s*\\((Phase \\d|Ruby|Sapphire|Emerald|Black Pearl)\\)$/,"")+(cur?" ("+WF[cur]+")":""))}&' + csmoney.UTM + '"><span><small>' + CSM[lang][1] + '</small>CS.MONEY</span><span>→</span></a>', s)
     s = re.sub(r'<style id="noshop-css">.*?</style>', lambda _: AD_CSS, s, flags=re.S)
     if s != o and 'id="noshop-css"' not in s:
         s = s.replace("</head>", AD_CSS + "</head>", 1)

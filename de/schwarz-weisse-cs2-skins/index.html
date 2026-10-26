@@ -664,12 +664,12 @@ footer .contact a.tw{color:#c9a6ff;border-color:#9146ff;margin-left:4px}
 @media(max-width:370px){.hud:has(.burger) .logo{font-size:1.05rem!important}.hud:has(.burger) .logo svg{width:24px;height:24px}
 }
 </style><style id="noshop-css">
-.cb a.ad{grid-column:1/-1;width:100%;background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
-.buy a.ad{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 8px 22px rgba(45,115,255,.35)}
-.buy a.ad .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b{color:#fff!important;font-size:.98rem}
-.buy a.ad .ico,.buy a.ad .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
-.buy a.ad .arr{color:#fff!important;opacity:1}
-.buy a.ad:hover,.cb a.ad:hover{filter:brightness(1.12)}
+.cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
+.buy a.ad,.buy a.csm{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 8px 22px rgba(45,115,255,.35)}
+.buy a.ad .tx small,.buy a.csm .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b,.buy a.csm .tx b{color:#fff!important;font-size:.98rem}
+.buy a.ad .ico,.buy a.ad .lg,.buy a.csm .ico,.buy a.csm .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
+.buy a.ad .arr,.buy a.csm .arr{color:#fff!important;opacity:1}
+.buy a.ad:hover,.cb a.ad:hover,.buy a.csm:hover,.cb a.csm:hover{filter:brightness(1.12)}
 .sp-price{background:rgba(255,255,255,.05)!important;color:var(--ink,#fff)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.14);cursor:default}
 .sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#06bfff,#2d73ff);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(45,115,255,.35)}
 .sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
@@ -860,7 +860,7 @@ const LOGOS = {
 const logoImg=(id,cls)=>{const L=LOGOS[id]||[];if(!L.length)return"";return `<img class="mlogo ${cls||""}" src="${L[0]}" data-alt="${L.slice(1).join("|")}" alt="" loading="lazy" onerror="var a=this.dataset.alt?this.dataset.alt.split('|'):[];if(a.length){this.dataset.alt=a.slice(1).join('|');this.src=a[0]}else this.remove()">`};
 const mark=(id,txt,cls="lg")=>`<span class="${cls}">${logoImg(id)}<b>${txt}</b></span>`;
 const enc = encodeURIComponent;
-const SHOPS = [ { id:"ad", label:'Kaufen · Ihr Marktplatz', kick:'Kaufen', long:'Ihr Marktplatz', about:'Für Marktplätze und Marken: ein Kauf-Button auf jeder Skin-Karte. Schreiben Sie uns.', url:q => "/de/ueber-uns/#partners" } ];
+const SHOPS = [ { id:"csm", label:'Bei CS.MONEY kaufen', kick:'Kaufen bei', long:"CS.MONEY", mark:"CS", about:'CS2-Skin-Marktplatz: Skins kaufen, tauschen und sofort verkaufen.', url:(q,s) => { const n=s?(s.weapon.replace("★ ","")+" | "+s.skin.replace(/\s*\(.*\)/,"")+(s.wearShown?" ("+WEAR_FULL[s.wearShown]+")":"")):""; return n?"https://cs.money/market/buy/?search="+encodeURIComponent(n)+"&utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=link":"https://cs.money/market/buy/?utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=link"; } } ];
 
 const RAW = [
  // Messer
@@ -1453,7 +1453,7 @@ function render(){if(typeof drawPicker==="function"&&document.getElementById("pk
     if(!c){cards.push(`<div class="card empty ${on?"on":""}" role="button" tabindex="0" data-sel="${slot.id}" style="--c0:#555"><span class="sl">${slot.label}</span><div class="pic">${art(slot.shape,["#666","#444"],"e"+slot.id,0)}</div><div class="rb"></div><div class="cap"><b>Über Budget</b><span>Limit erhöhen</span></div></div>`);continue}
     found++;const s=c.s;maxTier=Math.max(maxTier,s.tier);names.push(`${slot.label}: ${s.weapon} | ${s.skin}`);
     const rm=`<button class="rm" data-rm="${slot.id}" aria-label="Aus dem Set entfernen" title="Aus dem Set entfernen">×</button>`;
-    cards.push(`<div class="card ${on?"on":""}" role="button" tabindex="0" data-sel="${slot.id}" style="--c0:${s.colors[0]}"><span class="sl">${slot.label}</span>${rm}${state.locked[slot.id]!=null?`<span class="lk">${ICON.lock}</span>`:""}<div class="pic">${s.owned?`<span class="own">${ST.own}</span>`:""}${pic(slot,s,"c"+slot.id+s.i)}</div><div class="rb"></div><button class="swap choose" data-choose="${slot.id}">${ICON.pick}<span>Wählen</span></button><button class="swap" data-swap="${slot.id}" title="Andere Option für diesen Slot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"/></svg><span>Tauschen</span></button><div class="cap"><b>${s.skin}</b><span>${s.weapon}</span>${s.priceRub?`<em class="pr">${wearBadge(s)}${fmtMoney(s.priceRub)}</em>`:""}</div><div class="cb">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener" href="${sh.url(queryW(s))}" data-buy title="${sh.long||sh.label}">${logoImg(sh.id,"s")}${sh.label}</a>`).join("")}</div></div>`);
+    cards.push(`<div class="card ${on?"on":""}" role="button" tabindex="0" data-sel="${slot.id}" style="--c0:${s.colors[0]}"><span class="sl">${slot.label}</span>${rm}${state.locked[slot.id]!=null?`<span class="lk">${ICON.lock}</span>`:""}<div class="pic">${s.owned?`<span class="own">${ST.own}</span>`:""}${pic(slot,s,"c"+slot.id+s.i)}</div><div class="rb"></div><button class="swap choose" data-choose="${slot.id}">${ICON.pick}<span>Wählen</span></button><button class="swap" data-swap="${slot.id}" title="Andere Option für diesen Slot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"/></svg><span>Tauschen</span></button><div class="cap"><b>${s.skin}</b><span>${s.weapon}</span>${s.priceRub?`<em class="pr">${wearBadge(s)}${fmtMoney(s.priceRub)}</em>`:""}</div><div class="cb">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener sponsored" href="${sh.url(queryW(s),s)}" data-buy title="${sh.long||sh.label}">${logoImg(sh.id,"s")}${sh.label}</a>`).join("")}</div></div>`);
   }
   $("#slots").innerHTML=cards.join("");{const h=(state.hidden||[]).length;const rb=$("#restoreBtn");if(rb){rb.hidden=!h;$("#restoreN").textContent=h?"("+h+")":""}}$("#cnt").textContent=`${found} / ${act.length}`;
   $("#dTitle").textContent=`${found} Items`;$("#dSub").textContent=found?`≈ ${fmtMoney(state._est||0)}`:"Budget ändern";
@@ -1472,7 +1472,7 @@ function render(){if(typeof drawPicker==="function"&&document.getElementById("pk
       <div class="bar" style="--c0:${s.colors[0]};--c1:${s.colors[1]||s.colors[0]}"></div>
       <div class="kv"><div><small>Preis</small><b>${wearBadge(s)}${priceLabel(s)}</b></div><div><small>Treffer</small><b class="${c.d<32?"good":""}">${fitText(c.d)}</b></div></div>
       ${wearRow(slot,s)}
-      <div class="buy">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener" href="${sh.url(queryW(s))}">${mark(sh.id,sh.id==="ad"?"+":sh.label.slice(0,2).toUpperCase())}<span class="tx"><small>${sh.kick||""}</small><b>${sh.long||sh.label}</b></span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>`).join("")}</div>
+      <div class="buy">${SHOPS.map(sh=>`<a class="${sh.id}" target="_blank" rel="noopener sponsored" href="${sh.url(queryW(s),s)}">${mark(sh.id,sh.mark||sh.label.slice(0,2).toUpperCase())}<span class="tx"><small>${sh.kick||""}</small><b>${sh.long||sh.label}</b></span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>`).join("")}</div>
       <div class="acts"><button id="undoBtn" class="undo" title="Vorheriger Skin" ${((state.hist||{})[state.sel]||[]).length?"":"disabled"}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>Zurück</button><button id="altBtn" ${locked?"disabled":""}>${ICON.next}Anderer</button><button id="lockBtn" aria-pressed="${locked}">${ICON.lock}${locked?"Fixiert":"Fixieren"}</button></div>`;
   }else{ha.style.setProperty("--c0","#555");$("#bigArt").innerHTML=art(slot.shape,["#666","#444"],"bige",0);$("#reflArt").innerHTML="";
     $("#info").innerHTML=`<div class="slotname">${slot.label}</div><p class="h1">Keine Optionen</p><div class="wp">In diesem Budget ${slot.label.toLowerCase()} nicht zu finden. Erhöhe das Limit.</div>`}
@@ -1480,7 +1480,7 @@ function render(){if(typeof drawPicker==="function"&&document.getElementById("pk
 }
 /* контролы */
 $("#colors").innerHTML=PRESETS.map((p,i)=>`<button class="sw" data-p="${i}" title="${p.name}" aria-label="${p.name}" style="background:${p.c.length>1?`linear-gradient(135deg,${p.c[0]} 50%,${p.c[1]} 50%)`:p.c[0]}"></button>`).join("")+`<span class="sw custom" id="customwrap" title="Eigene Farbe"><input type="color" id="custom" aria-label="Eigene Farbe"></span>`;
-$("#markets").innerHTML=SHOPS.map(sh=>`<div class="mk ${sh.id}">${mark(sh.id,sh.label.slice(0,2).toUpperCase(),"ico")}<div><b>${sh.label}</b><p>${sh.about}</p><a class="hudbtn ghost" href="${sh.url("")}">Öffnen</a></div></div>`).join("");
+$("#markets").innerHTML=SHOPS.map(sh=>`<div class="mk ${sh.id}">${mark(sh.id,sh.mark||sh.label.slice(0,2).toUpperCase(),"ico")}<div><b>${sh.label}</b><p>${sh.about}</p><a class="hudbtn ghost" href="${sh.url("")}">Öffnen</a></div></div>`).join("");
 $("#seoLinks").addEventListener("click",e=>{const b=e.target.closest("[data-seo]");if(!b)return;state.preset=+b.dataset.seo;state.colors=[...PRESETS[state.preset].c];state.offset={};state.frozen=null;state.hist={};state.locked={};render();window.scrollTo({top:0,behavior:"smooth"})});
 $("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;state.preset=+b.dataset.p;state.colors=[...PRESETS[state.preset].c];state.offset={};state.frozen=null;state.hist={};state.locked={};render()});
 $("#custom").addEventListener("input",e=>{state.preset=-1;state.colors[0]=e.target.value;state.offset={};state.frozen=null;state.hist={};state.locked={};render()});

@@ -63,7 +63,7 @@ T = {
 CSS = r"""
 body{background:#07080c}
 .gm{--ct:#3a7bff;--t:#ff8a1f;--ok:#2bd673;--bad:#ff3b4a;max-width:none!important;padding:0!important}
-.gm-stage{position:relative;overflow:hidden;height:calc(100vh - 64px);height:calc(100dvh - 64px);min-height:560px;display:flex;flex-direction:column;padding:14px 18px 12px;background:
+.gm-stage{position:relative;overflow:hidden;height:calc(100vh - 64px);height:calc(100svh - 64px);min-height:560px;display:flex;flex-direction:column;padding:14px 18px 12px;background:
  radial-gradient(900px 500px at 15% 40%,rgba(58,123,255,.18),transparent 60%),radial-gradient(900px 500px at 85% 40%,rgba(255,138,31,.16),transparent 60%),
  linear-gradient(180deg,#0b0d14,#07080c)}
 .gm-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);pointer-events:none}
@@ -174,7 +174,7 @@ body{background:#07080c}
  .gm-card .bt{max-width:none;grid-template-columns:1fr 1fr;margin-top:12px;flex-basis:100%}.gm-card .bt button{height:56px;font-size:1rem}.gm-card .bt kbd{display:none}.gm-card .by{flex-basis:100%;text-align:center;margin-top:10px}
  .gm-vs{width:50px;height:50px;font-size:.95rem;top:var(--vsy,50%);left:21%}.gm-ladder{display:none}.gm-score #gs{font-size:2.1rem}.gm-score{gap:10px;padding:6px 26px 6px 12px}.gm-score .bs{padding-left:10px}.gm-rank .em{width:34px;height:40px}.gm-rank .tx small,.gm-rank #grx{display:none}.gm-xp{width:72px}.gm-rank b{max-width:96px;font-size:.7rem}.gm-hud .r{gap:6px;padding:0 8px}.gm-snd{width:32px;height:32px}.gm-hud .l button{padding:0 10px;font-size:.66rem}#gfs{display:none}.gm-score .bs small{font-size:.5rem;letter-spacing:.18em;white-space:nowrap}.gm-xp{width:64px}.gm-keys{display:none}}
 @media(max-width:640px){
- .gm-stage{height:calc(100vh - 56px);height:calc(100dvh - 56px);min-height:540px;padding:8px 8px 10px}
+ .gm-stage{height:calc(100vh - 56px);height:calc(100svh - 56px);min-height:540px;padding:8px 8px 10px}
  .gm-hud{min-height:0;margin-bottom:8px}.gm-score{padding:6px 26px 6px 12px}.gm-score #gs{font-size:1.9rem}
  .gm-arena{flex:1;min-height:0;grid-template-columns:1fr;grid-template-rows:1fr 1fr}
  .gm-card{flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:center;text-align:center;padding:10px 12px 12px;gap:0;min-height:0}

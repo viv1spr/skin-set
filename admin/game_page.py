@@ -34,7 +34,7 @@ T = {
   play="Играть", hi="Дороже", lo="Дешевле", vs="VS", streak="Серия", best="Рекорд", rank="Звание", next="до",
   again="Ещё раз", over="Мимо!", res="Серия: {n}", newbest="🏆 Новый рекорд!", rankup="Новое звание", share="Поделиться", copied="Скопировано!",
   buy="Купить на CS.MONEY", sharetxt="Угадал {n} цен скинов CS2 подряд и дошёл до звания «{r}» в игре «Что дороже?» 🔥 Побьёшь? ",
-  loading="Загружаю скины…", keys="Клавиши: ↑ дороже, ↓ дешевле", sound="Звук",
+  loading="Загружаю скины…", fs="На весь экран", keys="Клавиши: ↑ дороже, ↓ дешевле", sound="Звук",
   cats=[("all", "Все"), ("knife", "Ножи"), ("gloves", "Перчатки"), ("guns", "Пушки")],
   cur=["", " ₽"], rate=90, was="стоит", ladder="Звания",
   how_h="Как играть", how=["Слева скин с известной ценой, справа — с неизвестной.", "Нажми «Дороже» или «Дешевле» (или стрелки ↑/↓ на клавиатуре).", "Угадал — правый скин переезжает налево и появляется новый. Ошибся — серия обнуляется.", "Чем длиннее серия, тем ближе цены и выше звание: от Серебра до Всемирной элиты за 20 ответов подряд."],
@@ -50,7 +50,7 @@ T = {
   play="Play", hi="Higher", lo="Lower", vs="VS", streak="Streak", best="Best", rank="Rank", next="to",
   again="Play again", over="Miss!", res="Streak: {n}", newbest="🏆 New record!", rankup="Rank up", share="Share", copied="Copied!",
   buy="Buy on CS.MONEY", sharetxt="I guessed {n} CS2 skin prices in a row and hit {r} in Higher or Lower 🔥 Can you beat it? ",
-  loading="Loading skins…", keys="Keys: ↑ higher, ↓ lower", sound="Sound",
+  loading="Loading skins…", fs="Fullscreen", keys="Keys: ↑ higher, ↓ lower", sound="Sound",
   cats=[("all", "All"), ("knife", "Knives"), ("gloves", "Gloves"), ("guns", "Guns")],
   cur=["$", ""], rate=1, was="costs", ladder="Ranks",
   how_h="How to play", how=["The left skin's price is shown, the right one is hidden.", "Press Higher or Lower (or the ↑/↓ keys).", "Right — the right skin moves left and a new one appears. Wrong — your streak resets.", "The longer the streak, the closer the prices and the higher your rank: Silver to Global Elite in 20 in a row."],
@@ -63,11 +63,12 @@ T = {
 CSS = r"""
 body{background:#07080c}
 .gm{--ct:#3a7bff;--t:#ff8a1f;--ok:#2bd673;--bad:#ff3b4a;max-width:none!important;padding:0!important}
-.gm-stage{position:relative;overflow:hidden;min-height:calc(100vh - 64px);padding:18px 16px 28px;background:
+.gm-stage{position:relative;overflow:hidden;height:calc(100vh - 64px);height:calc(100dvh - 64px);min-height:560px;display:flex;flex-direction:column;padding:14px 18px 12px;background:
  radial-gradient(900px 500px at 15% 40%,rgba(58,123,255,.18),transparent 60%),radial-gradient(900px 500px at 85% 40%,rgba(255,138,31,.16),transparent 60%),
  linear-gradient(180deg,#0b0d14,#07080c)}
 .gm-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);pointer-events:none}
-.gm-in{position:relative;max-width:1180px;margin:0 auto}
+.gm-in{position:relative;width:100%;max-width:none;margin:0;flex:1;display:flex;flex-direction:column;min-height:0}
+.gm-stage:fullscreen{height:100vh;padding:18px 24px 14px}
 .gm-hud{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-bottom:14px}
 .gm-hud .l{display:flex;gap:6px;flex-wrap:wrap}
 .gm-hud .l button{padding:8px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#c9c4b8;font:600 .74rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:999px}
@@ -85,22 +86,22 @@ body{background:#07080c}
 .gm-rank div{min-width:0}.gm-rank b{display:block;font:600 .82rem/1.1 var(--hud);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
 .gm-rank .pb{height:4px;margin-top:5px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;width:150px}.gm-rank .pb span{display:block;height:100%;background:var(--rk,#9aa4b1);transition:width .4s}
 .gm-snd{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.45);color:#c9c4b8;cursor:pointer;font-size:1rem}
-.gm-arena{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.gm-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 26px 26px;min-height:470px;transition:background .25s}
+.gm-arena{position:relative;flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.gm-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 26px 22px;min-height:0;transition:background .25s}
 .gm-card.a{background:linear-gradient(160deg,rgba(58,123,255,.22),rgba(12,16,30,.95) 60%)}
 .gm-card.b{background:linear-gradient(200deg,rgba(255,138,31,.2),rgba(30,16,10,.95) 60%)}
-.gm-card .rar{position:absolute;inset:auto 0 0 0;height:4px;background:var(--rc,#e8402a);box-shadow:0 0 20px var(--rc,#e8402a)}
-.gm-card .im{width:100%;max-width:420px;aspect-ratio:4/3;display:grid;place-items:center;position:relative}
+.gm-card .rar{pointer-events:none;position:absolute;inset:auto 0 0 0;height:4px;background:var(--rc,#e8402a);box-shadow:0 0 20px var(--rc,#e8402a)}
+.gm-card .im{width:100%;max-width:640px;flex:1 1 auto;min-height:90px;display:grid;place-items:center;position:relative}
 .gm-card .im::before{content:"";position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle,var(--rc,#e8402a) 0%,transparent 65%);opacity:.35;filter:blur(18px)}
-.gm-card img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 24px rgba(0,0,0,.6));transition:transform .3s}
+.gm-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 24px rgba(0,0,0,.6));transition:transform .3s}
 .gm-card:hover img{transform:scale(1.04) rotate(-2deg)}
 .gm-card .wp{font:600 .8rem/1 var(--hud);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:6px}
 .gm-card .nm{font:700 clamp(1.4rem,2.6vw,2.1rem)/1.05 var(--hud);text-transform:uppercase;margin:6px 0 8px;color:#fff}
 .gm-card .wr{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.1);font:600 .72rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:#ddd}
 .gm-card .was{margin-top:16px;font:500 .8rem/1 var(--hud);letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-.gm-card .pr{font:700 clamp(2.2rem,4.6vw,3.6rem)/1 var(--hud);color:#ffd36a;text-shadow:0 0 24px rgba(255,200,80,.35);margin-top:6px;font-variant-numeric:tabular-nums;min-height:1em}
+.gm-card .pr{font:700 clamp(2.2rem,5vw,4.4rem)/1 var(--hud);color:#ffd36a;text-shadow:0 0 24px rgba(255,200,80,.35);margin-top:6px;font-variant-numeric:tabular-nums;min-height:1em}
 .gm-card .pr.q{color:rgba(255,255,255,.25);text-shadow:none}
-.gm-card .bt{display:grid;gap:10px;width:100%;max-width:300px;margin-top:16px}
+.gm-card .bt{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:520px;margin-top:16px}
 .gm-card .bt button{height:58px;border:0;border-radius:12px;font:700 1.15rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s,filter .12s;box-shadow:0 8px 0 rgba(0,0,0,.35)}
 .gm-card .bt .h{background:linear-gradient(180deg,#33e07f,#16a957)}.gm-card .bt .l{background:linear-gradient(180deg,#ff5868,#d01f31)}
 .gm-card .bt button:hover{filter:brightness(1.1);transform:translateY(-2px)}.gm-card .bt button:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.35)}
@@ -136,7 +137,7 @@ body{background:#07080c}
 .gm-over .acts{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .gm-over .sh{height:64px;padding:0 26px;border-radius:14px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;font:700 1rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
 .gm-ld{position:absolute;inset:0;display:grid;place-items:center;color:#b9b4a7;z-index:7;background:#07080c}
-.gm-keys{text-align:center;color:#6f6a60;font-size:.8rem;margin-top:12px}
+.gm-keys{text-align:center;color:#6f6a60;font-size:.8rem;margin-top:8px}
 .gm-info{max-width:900px;margin:0 auto;padding:40px 20px 60px}
 .gm-info h2{font:600 1.25rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px}
 .gm-info ol{padding-left:20px;color:var(--soft)}.gm-info h3{font-size:1.02rem;margin:16px 0 4px}.gm-info p{color:var(--soft);margin:0}
@@ -147,8 +148,8 @@ body{background:#07080c}
 @keyframes gmShake{0%,100%{transform:none}20%{transform:translateX(-12px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
 @keyframes gmIn{from{opacity:.2;transform:translateX(30px)}to{opacity:1;transform:none}}
 @media(max-width:860px){.gm-hud{grid-template-columns:1fr auto;grid-template-areas:"s r" "l l"}.gm-hud .l{grid-area:l;justify-content:center}.gm-score{grid-area:s;justify-self:start;padding:6px 16px;gap:14px}.gm-hud .r{grid-area:r}.gm-rank .pb{width:90px}.gm-rank b{max-width:110px;font-size:.7rem}}
-@media(max-width:640px){.gm-stage{padding:10px 8px 18px;min-height:0}.gm-arena{grid-template-columns:1fr;border-radius:14px}.gm-card{min-height:0;padding:14px 12px 16px;flex-direction:row;flex-wrap:wrap;text-align:left;align-items:center;gap:0 12px}
- .gm-card .im{width:42%;max-width:none;flex:none}.gm-card .tx{flex:1;min-width:0}.gm-card .nm{font-size:1.15rem}.gm-card .was{margin-top:8px;font-size:.66rem}.gm-card .pr{font-size:1.9rem}
+@media(max-width:640px){.gm-stage{padding:10px 8px 18px;min-height:0;height:auto}.gm-arena{flex:none}.gm-card .im{max-height:none}.gm-arena{grid-template-columns:1fr;border-radius:14px}.gm-card{min-height:0;padding:14px 12px 16px;flex-direction:row;flex-wrap:wrap;text-align:left;align-items:center;gap:0 12px}
+ .gm-card .im{width:42%;max-width:none;flex:none;aspect-ratio:4/3;min-height:0}.gm-card .tx{flex:1;min-width:0}.gm-card .nm{font-size:1.15rem}.gm-card .was{margin-top:8px;font-size:.66rem}.gm-card .pr{font-size:1.9rem}
  .gm-card .bt{max-width:none;grid-template-columns:1fr 1fr;margin-top:12px;flex-basis:100%}.gm-card .bt button{height:56px;font-size:1rem}.gm-card .bt kbd{display:none}.gm-card .by{flex-basis:100%;text-align:center;margin-top:10px}
  .gm-vs{width:50px;height:50px;font-size:.95rem;top:var(--vsy,50%);left:21%}.gm-ladder{display:none}.gm-score b{font-size:1.5rem}.gm-rank i{width:24px;height:24px}.gm-rank .pb{width:70px}.gm-snd{width:32px;height:32px}.gm-keys{display:none}}
 @media (prefers-reduced-motion:reduce){.gm *{animation:none!important;transition:none!important}}
@@ -193,6 +194,7 @@ function guess(hi){if(busy||!A)return;busy=true;$("#cb .bt").querySelectorAll("b
 document.querySelector(".gm").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
   if(b.dataset.g)guess(b.dataset.g==="h");else if(b.id==="gagain"||b.id==="ggo")start();
   else if(b.dataset.m){mode=b.dataset.m;document.querySelectorAll("[data-m]").forEach(x=>x.classList.toggle("on",x===b));if(D.length)start()}
+  else if(b.id==="gfs"){const st=document.querySelector(".gm-stage");if(document.fullscreenElement)document.exitFullscreen();else if(st.requestFullscreen)st.requestFullscreen().catch(()=>{});else if(st.webkitRequestFullscreen)st.webkitRequestFullscreen()}
   else if(b.id==="gsnd"){snd=!snd;b.textContent=snd?"🔊":"🔇";try{localStorage.setItem("gm_snd",snd?"1":"0")}catch(e){}}
   else if(b.id==="gshare"){const txt=L.sharetxt.replace("{n}",streak).replace("{r}",RK[rIdx(streak)][1])+location.href;if(navigator.share){navigator.share({text:txt}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>{b.textContent=L.copied})}}});
 document.addEventListener("keydown",e=>{if(e.target.closest&&e.target.closest("input,textarea"))return;
@@ -245,7 +247,7 @@ def build():
                 '<div class="gm-hud"><div class="l">' + "".join(f'<button data-m="{k}"{" class=on" if k == "all" else ""}>{e(l)}</button>' for k, l in t["cats"]) + '</div>'
                 f'<div class="gm-score"><div class="s cur"><small>{e(t["streak"])}</small><b id="gs">0</b></div><div class="s bs"><small>{e(t["best"])}</small><b id="gb">0</b></div></div>'
                 f'<div class="r"><div class="gm-rank" title="{e(t["rank"])}"><i id="gri">1</i><div><b id="grn">{e(rk[0][1])}</b><div class="pb"><span id="grp" style="width:0"></span></div><small id="grx" style="font-size:.62rem;color:#8d887d"></small></div></div>'
-                f'<button class="gm-snd" id="gsnd" aria-label="{e(t["sound"])}">🔊</button></div></div>'
+                f'<button class="gm-snd" id="gsnd" aria-label="{e(t["sound"])}">🔊</button><button class="gm-snd" id="gfs" aria-label="{e(t["fs"])}" title="{e(t["fs"])}">⛶</button></div></div>'
                 f'<div class="gm-arena" id="gma">{side(t, "a")}{side(t, "b")}<div class="gm-vs" id="gmv">{e(t["vs"])}</div>'
                 f'<div class="gm-start on" id="gst"><div class="tg">{e(t["tag"])}</div><h1>{e(t["h1"])}</h1><div class="su">{e(t["sub"])}</div><p>{e(t["intro"])}</p>'
                 f'<button class="gm-go" id="ggo">▶ {e(t["play"])}</button><div class="bst" id="gstb"></div><div class="gm-ladder">{ladder}</div></div>'

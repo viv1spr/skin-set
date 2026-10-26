@@ -30,14 +30,15 @@ WHERE = {  # абзац «где купить» и ответ FAQ
     "pl": "Skinset pokazuje orientacyjne ceny każdego przedmiotu i całego zestawu, aktualizowane co 4 godziny. Strona nic nie sprzedaje i nie ma nic wspólnego ze skrzynkami: złóż zestaw tutaj, a skiny kup na dowolnym rynku.",
 }
 AD_CSS = """<style id="noshop-css">
-.cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
-.buy a.ad,.buy a.csm{background:linear-gradient(90deg,#06bfff,#2d73ff)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(102,192,244,.35),0 8px 22px rgba(45,115,255,.35)}
+.cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:linear-gradient(90deg,#ff159a,#e0127f)!important;color:#fff!important;border:0!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(45,115,255,.35)}
+.buy a.ad,.buy a.csm{background:linear-gradient(90deg,#ff159a,#e0127f)!important;color:#fff!important;border:0!important;box-shadow:0 0 0 1px rgba(255,21,154,.35),0 8px 22px rgba(255,21,154,.3)}
 .buy a.ad .tx small,.buy a.csm .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b,.buy a.csm .tx b{color:#fff!important;font-size:.98rem}
 .buy a.ad .ico,.buy a.ad .lg,.buy a.csm .ico,.buy a.csm .lg{background:rgba(255,255,255,.18)!important;color:#fff!important;border-color:rgba(255,255,255,.35)!important}
 .buy a.ad .arr,.buy a.csm .arr{color:#fff!important;opacity:1}
 .buy a.ad:hover,.cb a.ad:hover,.buy a.csm:hover,.cb a.csm:hover{filter:brightness(1.12)}
 .sp-price{background:rgba(255,255,255,.05)!important;color:var(--ink,#fff)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.14);cursor:default}
-.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#06bfff,#2d73ff);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(45,115,255,.35)}
+.sp-ad{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px 14px;background:linear-gradient(90deg,#ff159a,#e0127f);color:#fff;font:700 .82rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(255,21,154,.3)}
+.sp-ad img{width:20px;height:20px;border-radius:4px;margin-right:8px;vertical-align:-5px}
 .sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
 .sp-ad:hover{filter:brightness(1.12)}
 </style>"""
@@ -75,6 +76,8 @@ def fix(s):
     s = s.replace('${mark(sh.id,sh.id==="ad"?"+":sh.label.slice(0,2).toUpperCase())}', '${mark(sh.id,sh.mark||sh.label.slice(0,2).toUpperCase())}')
     s = s.replace('${mark(sh.id,sh.label.slice(0,2).toUpperCase(),"ico")}', '${mark(sh.id,sh.mark||sh.label.slice(0,2).toUpperCase(),"ico")}')
     s = re.sub(r'target="_blank" rel="noopener(?: sponsored)?" href="\$\{sh\.url\(queryW\(s\)(?:,s)?\)\}"', lambda m: 'target="_blank" rel="noopener sponsored" href="${sh.url(queryW(s),s)}"', s)
+    if "const LOGOS = {" in s and 'csm:["/img/csmoney.png"]' not in s:
+        s = s.replace("const LOGOS = {", 'const LOGOS = {\n  csm:["/img/csmoney.png"],', 1)
     for x in STEP4_OLD: s = s.replace(f"<span>{x}</span>", f"<span>{STEP4[lang]}</span>")
     s = re.sub(r'<li><b>4</b><span>[^<]*DMarket[^<]*</span>', f'<li><b>4</b><span>{STEP4[lang]}</span>', s)
     # тексты «где купить»
@@ -90,7 +93,7 @@ def fix(s):
     # списки скинов на цветовых страницах и прочие прямые ссылки на DMarket/Lis-Skins
     s = re.sub(r'<a href="https://(?:dmarket\.com|lis-skins\.com)[^"]*"[^>]*>(?:DMarket|Lis-Skins)</a>', "", s)
     s = re.sub(r'<a href="https://dmarket\.com[^"]*"[^>]*>(.*?)</a>', r"\1", s)
-    s = re.sub(r'<a class="sp-ad"[^>]*>.*?</a>', lambda m: '<a class="sp-ad" ' + csmoney.REL + ' href="' + CSM_SEARCH + '${encodeURIComponent(name.replace(/★\\s*/,"").replace(/\\s*\\((Phase \\d|Ruby|Sapphire|Emerald|Black Pearl)\\)$/,"")+(cur?" ("+WF[cur]+")":""))}&' + csmoney.UTM + '"><span><small>' + CSM[lang][1] + '</small>CS.MONEY</span><span>→</span></a>', s)
+    s = re.sub(r'<a class="sp-ad"[^>]*>.*?</a>', lambda m: '<a class="sp-ad" ' + csmoney.REL + ' href="' + CSM_SEARCH + '${encodeURIComponent(name.replace(/★\\s*/,"").replace(/\\s*\\((Phase \\d|Ruby|Sapphire|Emerald|Black Pearl)\\)$/,"")+(cur?" ("+WF[cur]+")":""))}&' + csmoney.UTM + '"><span><img src="/img/csmoney.png" alt=""><small>' + CSM[lang][1] + '</small>CS.MONEY</span><span>→</span></a>', s)
     s = re.sub(r'<style id="noshop-css">.*?</style>', lambda _: AD_CSS, s, flags=re.S)
     if s != o and 'id="noshop-css"' not in s:
         s = s.replace("</head>", AD_CSS + "</head>", 1)

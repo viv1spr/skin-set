@@ -134,11 +134,15 @@ GATE_CSS = """<style id="stm-gate2">
 </style>"""
 
 
+GATE_LIMIT = "Infinity"  # вернуть обязательный вход: поставить, например, "5"
+
+
 def gate(s):
     """окно входа в конструкторе: после 5 смен цвета/скинов, короче и дружелюбнее"""
-    if "const LIM=3;let GC=" not in s and "const LIM=5;let GC=" not in s: return s
-    s = s.replace("/* без входа: 3 смены цвета и 3 смены скинов, дальше предложение войти */", "/* без входа: 5 смен цвета и 5 смен скинов, дальше предложение войти */")
-    s = s.replace("const LIM=3;let GC=", "const LIM=5;let GC=")
+    if not re.search(r"const LIM=(?:\d+|Infinity);let GC=", s): return s
+    # GATE_LIMIT: сколько смен цвета/скинов без входа; "Infinity" — вход не требуется (сейчас выключено)
+    s = re.sub(r"/\* без входа: [^*]*\*/", "/* без входа: лимит смен цвета и скинов = GATE_LIMIT, дальше предложение войти */", s, count=1)
+    s = re.sub(r"const LIM=(?:\d+|Infinity);let GC=", "const LIM=" + GATE_LIMIT + ";let GC=", s, count=1)
     for lg, (t, p, l) in GATE_TXT.items():
         s = re.sub(lg + r':\{gateT:"[^"]*",gateP:"[^"]*",later:"[^"]*"', lambda m: lg + ':{gateT:' + json.dumps(t, ensure_ascii=False) + ',gateP:' + json.dumps(p, ensure_ascii=False) + ',later:' + json.dumps(l, ensure_ascii=False), s, count=1)
     if 'id="stm-gate2"' in s: s = re.sub(r'<style id="stm-gate2">.*?</style>', lambda m: GATE_CSS, s, count=1, flags=re.S)

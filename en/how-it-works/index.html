@@ -1752,8 +1752,8 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
   async function start(){if(!tok){draw();return}
     try{const r=await fetch(W+"/me?t="+encodeURIComponent(tok));if(!r.ok){LS("skinset_steam",null);draw();return}ME=await r.json()}catch(e){draw();return}
     state.useInv=LS("skinset_useinv")!=="0";if(!LS("skinset_nick")&&ME.n)LS("skinset_nick",ME.n);draw();loadInv()}
-  /* без входа: 5 смен цвета и 5 смен скинов, дальше предложение войти */
-  const LIM=5;let GC={c:0,s:0};try{GC=JSON.parse(LS("skinset_gate")||"null")||GC}catch(e){}
+  /* без входа: лимит смен цвета и скинов = GATE_LIMIT, дальше предложение войти */
+  const LIM=Infinity;let GC={c:0,s:0};try{GC=JSON.parse(LS("skinset_gate")||"null")||GC}catch(e){}
   function gateModal(){let m=document.getElementById("stmGate");if(!m){m=document.createElement("div");m.id="stmGate";m.className="stm-gate";document.body.appendChild(m)}
     m.innerHTML=`<div class="stm-gbox" role="dialog" aria-modal="true"><button class="stm-gx" aria-label="×">×</button><div class="stm-gi">${STEAM_SVG}</div><h3>${esc(STL.gateT)}</h3><p>${esc(STL.gateP)}</p><button class="stm-gin">${STEAM_SVG}<span>${esc(STL.login)}</span></button><button class="stm-glater">${esc(STL.later)}</button></div>`;
     m.hidden=false;const close=()=>{m.hidden=true};m.onclick=e=>{if(e.target===m)close()};m.querySelector(".stm-gx").onclick=close;m.querySelector(".stm-glater").onclick=close;

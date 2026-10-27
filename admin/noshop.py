@@ -3,7 +3,7 @@
 python3 admin/noshop.py   — идемпотентно, по всем страницам и шаблонам блога.
 Чтобы вернуть площадку: поменять SHOP_JS ниже (url/label) и перезапустить.
 """
-import glob, os, re, sys
+import glob, os, re, sys, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import csmoney
 
@@ -110,6 +110,40 @@ def brand(s):
     return s
 
 
+
+GATE_TXT = {
+    "ru": ("Нравится? Продолжим со Steam", "Бесплатно и безопасно: входишь на сайте Steam, пароль мы не видим. Бонус — соберём сет из твоих скинов.", "Позже"),
+    "en": ("Enjoying it? Continue with Steam", "Free and safe: you sign in on Steam's own site, we never see your password. Bonus — we'll build a set from your skins.", "Maybe later"),
+    "de": ("Gefällt's dir? Weiter mit Steam", "Kostenlos und sicher: Du meldest dich direkt bei Steam an, dein Passwort sehen wir nie. Bonus — ein Set aus deinen Skins.", "Später"),
+    "pt": ("Curtindo? Continue com a Steam", "Grátis e seguro: você entra no site da própria Steam, nunca vemos sua senha. Bônus — um set com as suas skins.", "Depois"),
+    "tr": ("Beğendin mi? Steam ile devam et", "Ücretsiz ve güvenli: Steam'in kendi sitesinde giriş yaparsın, şifreni görmeyiz. Bonus — skinlerinle set kurarız.", "Sonra"),
+    "pl": ("Podoba się? Kontynuuj ze Steam", "Za darmo i bezpiecznie: logujesz się na stronie Steam, nie widzimy hasła. Bonus — zestaw z twoich skinów.", "Później"),
+}
+GATE_CSS = """<style id="stm-gate2">
+.stm-gate{background:rgba(5,6,10,.7)!important;backdrop-filter:blur(6px)}
+.stm-gbox{width:min(380px,100%)!important;border:1px solid rgba(102,192,244,.25)!important;border-radius:18px!important;padding:30px 26px 18px!important;
+ background:radial-gradient(420px 200px at 50% -40px,rgba(102,192,244,.22),transparent 70%),#12151d!important;box-shadow:0 30px 80px rgba(0,0,0,.6)!important;animation:stmIn .28s ease}
+.stm-gi{width:68px;height:68px;margin:0 auto;border-radius:50%;display:grid;place-items:center;background:rgba(102,192,244,.12);box-shadow:0 0 0 8px rgba(102,192,244,.05)}
+.stm-gi svg{width:38px!important;height:38px!important}
+.stm-gbox h3{margin:16px 0 8px!important;font-size:1.3rem!important;text-transform:none!important;letter-spacing:.01em!important}
+.stm-gbox p{margin:0 0 20px!important;font-size:.92rem!important;line-height:1.5!important}
+.stm-gin{height:50px!important;border-radius:12px!important;font-size:.9rem!important;box-shadow:0 8px 24px rgba(45,115,255,.35)}
+.stm-glater{margin-top:8px!important;font-size:.78rem!important}
+.stm-gx{top:10px!important;right:12px!important}
+@keyframes stmIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+</style>"""
+
+
+def gate(s):
+    """окно входа в конструкторе: после 5 смен цвета/скинов, короче и дружелюбнее"""
+    if "const LIM=3;let GC=" not in s and "const LIM=5;let GC=" not in s: return s
+    s = s.replace("/* без входа: 3 смены цвета и 3 смены скинов, дальше предложение войти */", "/* без входа: 5 смен цвета и 5 смен скинов, дальше предложение войти */")
+    s = s.replace("const LIM=3;let GC=", "const LIM=5;let GC=")
+    for lg, (t, p, l) in GATE_TXT.items():
+        s = re.sub(lg + r':\{gateT:"[^"]*",gateP:"[^"]*",later:"[^"]*"', lambda m: lg + ':{gateT:' + json.dumps(t, ensure_ascii=False) + ',gateP:' + json.dumps(p, ensure_ascii=False) + ',later:' + json.dumps(l, ensure_ascii=False), s, count=1)
+    if 'id="stm-gate2"' not in s and "</head>" in s: s = s.replace("</head>", GATE_CSS + "</head>", 1)
+    return s
+
 def fix(s):
     m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     o = s
@@ -147,7 +181,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s)))))
-    s = perf(brand(s))
+    s = gate(perf(brand(s)))
     return s
 
 

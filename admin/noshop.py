@@ -185,7 +185,7 @@ def fix(s):
     if s != o and 'id="noshop-css"' not in s:
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
-    s = navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s)))))
+    s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
     s = gate(perf(brand(s)))
     return s
 

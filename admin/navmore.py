@@ -49,7 +49,7 @@ def undo(s):
 
 
 def fix(s):
-    return gametab(setsmain(hideabout(updlink(_fix(gwfirst(s))))))
+    return nogw(gametab(setsmain(hideabout(updlink(_fix(gwfirst(s)))))))
 
 
 def _fix(s):
@@ -331,6 +331,15 @@ GM_CSS = ('<style id="gm-tab">.hud .tabs a.gmi{position:relative;padding-left:16
           '.bmenu nav a[href="/igra-chto-dorozhe/"] .gm-new,.bmenu nav a[href="/en/higher-or-lower-cs2/"] .gm-new{display:none}'
           '@keyframes gmP{0%,75%,100%{transform:none}82%{transform:translateY(-2px) rotate(-8deg)}90%{transform:translateY(0) rotate(6deg)}}'
           '@media (prefers-reduced-motion:reduce){.hud .tabs a.gmi::before{animation:none}}</style>')
+
+
+GW_OFF = True  # розыгрыши убраны из меню; вернуть — поставить False
+
+
+def nogw(s):
+    """убирает ссылки на розыгрыши из меню"""
+    if not GW_OFF: return s
+    return re.sub(r'<a [^>]*href="(?:' + "|".join(map(re.escape, GWP)) + r')"[^>]*>.*?</a>', "", s, flags=re.S)
 
 
 def gametab(s):

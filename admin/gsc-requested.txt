@@ -69,3 +69,12 @@
 2026-10-28 https://skin-set.com/en/pink-knives-cs2/ indexed
 2026-10-28 https://skin-set.com/en/purple-gloves-cs2/
 2026-10-28 https://skin-set.com/en/purple-knives-cs2/
+2026-10-29 https://skin-set.com/obnovleniya-cs2/2026-10-28/ indexed
+2026-10-29 https://skin-set.com/biryuzovye-nozhi-cs2/ indexed
+2026-10-29 https://skin-set.com/biryuzovye-perchatki-cs2/ indexed
+2026-10-29 https://skin-set.com/biryuzovye-skiny-cs2/ indexed
+2026-10-29 https://skin-set.com/cherno-belye-nozhi-cs2/ indexed
+2026-10-29 https://skin-set.com/cherno-belye-perchatki-cs2/ indexed
+2026-10-29 https://skin-set.com/cherno-belye-skiny-cs2/ indexed
+2026-10-29 https://skin-set.com/en/red-black-cs2-skins/ indexed
+2026-10-29 https://skin-set.com/en/red-knives-cs2/

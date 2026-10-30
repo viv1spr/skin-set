@@ -78,3 +78,27 @@
 2026-10-29 https://skin-set.com/cherno-belye-skiny-cs2/ indexed
 2026-10-29 https://skin-set.com/en/red-black-cs2-skins/ indexed
 2026-10-29 https://skin-set.com/en/red-knives-cs2/
+2026-10-30 https://skin-set.com/en/cs2-updates/2026-10-28/ indexed
+2026-10-30 https://skin-set.com/en/cs2-updates/2026-10-02/ indexed
+2026-10-30 https://skin-set.com/obnovleniya-cs2/2026-09-30/ indexed
+2026-10-30 https://skin-set.com/en/cs2-updates/2026-09-30/ indexed
+2026-10-30 https://skin-set.com/en/red-gloves-cs2/
+2026-10-30 https://skin-set.com/en/teal-cs2-skins/ indexed
+2026-10-30 https://skin-set.com/en/turquoise-gloves-cs2/
+2026-10-30 https://skin-set.com/en/turquoise-knives-cs2/ indexed
+2026-10-30 https://skin-set.com/fioletovye-nozhi-cs2/ indexed
+2026-10-30 https://skin-set.com/fioletovye-perchatki-cs2/
+2026-10-30 https://skin-set.com/krasnye-nozhi-cs2/ indexed
+2026-10-30 https://skin-set.com/krasnye-perchatki-cs2/
+2026-10-30 https://skin-set.com/krasnye-skiny-cs2/ indexed
+2026-10-30 https://skin-set.com/oranzhevye-perchatki-cs2/
+2026-10-30 https://skin-set.com/rozovye-perchatki-cs2/
+2026-10-30 https://skin-set.com/sinie-perchatki-cs2/ indexed
+2026-10-30 https://skin-set.com/tr/kirmizi-cs2-skinleri/ indexed
+2026-10-30 https://skin-set.com/skiny/karambit-marble-fade/ indexed
+2026-10-30 https://skin-set.com/skiny/awp-dragon-lore/
+2026-10-30 https://skin-set.com/skiny/ak-47-fire-serpent/
+2026-10-30 https://skin-set.com/skiny/butterfly-knife-marble-fade/ indexed
+2026-10-30 https://skin-set.com/skiny/m9-bayonet-fade/
+2026-10-30 https://skin-set.com/skiny/karambit-doppler-phase-2/ indexed
+2026-10-30 https://skin-set.com/skiny/m4a1-s-printstream/ indexed

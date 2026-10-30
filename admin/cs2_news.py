@@ -110,6 +110,7 @@ html,body{overflow-x:clip}
 .tldr h4{margin:0 0 10px;font:700 .9rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:#ff8a70}
 .tldr ul{margin:0;padding-left:20px;display:grid;gap:6px;color:var(--ink,#fff)}
 .feat{display:grid;grid-template-columns:1.25fr 1fr;gap:0;margin-bottom:26px;background:linear-gradient(170deg,rgba(255,255,255,.07),rgba(255,255,255,.015));border:1px solid var(--line2,rgba(255,255,255,.14));color:var(--ink,#fff);text-decoration:none}
+.feat>.cov{aspect-ratio:auto;height:100%;min-height:280px}
 .feat:hover .cov img{transform:scale(1.03)}
 .feat .bd{padding:26px 28px;display:flex;flex-direction:column;gap:12px}
 .feat h2{margin:0;font:700 clamp(1.5rem,2.6vw,2.1rem)/1.05 var(--hud);text-transform:uppercase}
@@ -159,7 +160,7 @@ html,body{overflow-x:clip}
 .pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.pn a{padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line,rgba(255,255,255,.1));color:var(--ink,#fff);text-decoration:none}.pn a small{display:block;color:var(--dim);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}.pn a:hover{border-color:rgba(255,255,255,.3)}.pn a.nx{text-align:right;grid-column:2}
 .nw .cta{display:block;margin-top:14px;padding:13px 16px;background:linear-gradient(90deg,#e8402a,#ff6a3d);color:#fff;font:700 .84rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;text-align:center}
 .feat h2::before,.cd h3::before,.nw-hero h1::before{display:none!important}
-@media(max-width:960px){.gridn{grid-template-columns:repeat(2,minmax(0,1fr))}.feat{grid-template-columns:1fr}.art{grid-template-columns:1fr}.side{position:static}}
+@media(max-width:960px){.gridn{grid-template-columns:repeat(2,minmax(0,1fr))}.feat{grid-template-columns:1fr}.feat>.cov{aspect-ratio:16/9;height:auto;min-height:0}.art{grid-template-columns:1fr}.side{position:static}}
 @media(max-width:600px){.nw{padding:16px 14px 40px}.gridn{grid-template-columns:minmax(0,1fr)}.feat .bd{padding:18px}.notes{padding:16px}.art-h .cov{aspect-ratio:16/10}.art-h .ov{padding:40px 16px 16px}.pn{grid-template-columns:1fr}.pn a.nx{grid-column:auto}}
 """
 

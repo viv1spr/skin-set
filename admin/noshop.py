@@ -41,6 +41,7 @@ AD_CSS = """<style id="noshop-css">
 .sp-ad img{width:20px;height:20px;border-radius:4px;margin-right:8px;vertical-align:-5px}
 .sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
 .sp-ad:hover{filter:brightness(1.12)}
+.hero-art .refl{display:none!important}
 </style>"""
 
 

@@ -1532,7 +1532,7 @@ function applyBudget(rub,announce){
   const nr=rub==null||rub===""?null:Math.max(0,toRub(+rub));const same=nr===state.budgetRub;state.budgetRub=nr;state.budget=tierFor(state.budgetRub);
   if(!same){state.offset={};state.frozen=null;state.hist={};if(active().every(s=>state.locked[s.id]!=null))state.locked={};allocate();render();flashCards()}if(announce)toast(state.budgetRub==null?"Limit cleared":`Loadout budget: ${fmtMoney(state.budgetRub)}`);
 }
-document.querySelectorAll(".bq").forEach(q=>{q.type="button";q.addEventListener("mousedown",e=>e.preventDefault());q.addEventListener("click",()=>{clearTimeout(bT);applyBudget(q.dataset.v===""?null:+q.dataset.v,true)})});
+document.querySelectorAll(".bq").forEach(q=>{q.type="button";q.addEventListener("mousedown",e=>e.preventDefault());q.addEventListener("click",()=>{clearTimeout(bT);if(q.getAttribute("aria-pressed")==="true"&&typeof reroll==="function"){reroll();return}applyBudget(q.dataset.v===""?null:+q.dataset.v,true)})});
 $("#budgetClear").addEventListener("click",()=>{clearTimeout(bT);applyBudget(null,true)});
 var bT;$("#budgetRub").addEventListener("input",e=>{applyBudget(e.target.value===""?null:e.target.value,false)});
 $("#budgetRub").addEventListener("change",e=>{applyBudget(e.target.value===""?null:e.target.value,true)});

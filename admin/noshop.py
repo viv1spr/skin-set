@@ -154,7 +154,12 @@ SHOPS_LEAD = {"на две площадки": "на CS.MONEY", "lead to two mark
               "iki pazar yerine götürür": "CS.MONEY'ye götürür", "prowadzą na dwa rynki": "prowadzą na CS.MONEY"}
 
 
+BQ_OLD = 'q.addEventListener("click",()=>{clearTimeout(bT);applyBudget(q.dataset.v===""?null:+q.dataset.v,true)})'
+BQ_NEW = 'q.addEventListener("click",()=>{clearTimeout(bT);if(q.getAttribute("aria-pressed")==="true"&&typeof reroll==="function"){reroll();return}applyBudget(q.dataset.v===""?null:+q.dataset.v,true)})'
+
+
 def shopsfix(s):
+    s = s.replace(BQ_OLD, BQ_NEW)  # повторный клик по выбранному бюджету — перемешать сет
     """страница «Где покупать»: убрать устаревшую таблицу DMarket / Lis-Skins"""
     s = re.sub(r'<div class="tablewrap"><table class="cmp">.*?</table></div>\s*', "", s, flags=re.S)
     for a, b in SHOPS_LEAD.items(): s = s.replace(a, b)

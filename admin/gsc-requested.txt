@@ -102,3 +102,26 @@
 2026-10-30 https://skin-set.com/skiny/m9-bayonet-fade/
 2026-10-30 https://skin-set.com/skiny/karambit-doppler-phase-2/ indexed
 2026-10-30 https://skin-set.com/skiny/m4a1-s-printstream/ indexed
+2026-10-31 https://skin-set.com/blog/inventar-cs2-za-10000-i-30000-rubley/
+2026-10-31 https://skin-set.com/en/blog/inventar-cs2-za-10000-i-30000-rubley/
+2026-10-31 https://skin-set.com/blog/samye-deshevye-perchatki-cs2/
+2026-10-31 https://skin-set.com/en/blog/samye-deshevye-perchatki-cs2/
+2026-10-31 https://skin-set.com/blog/krasnyj-inventar-cs2-tri-seta/
+2026-10-31 https://skin-set.com/en/blog/krasnyj-inventar-cs2-tri-seta/
+2026-10-31 https://skin-set.com/blog/s-chem-sochetat-ak-47-redline/ indexed
+2026-10-31 https://skin-set.com/en/blog/s-chem-sochetat-ak-47-redline/
+2026-10-31 https://skin-set.com/blog/krasivyj-inventar-cs2-za-5000-rubley/ indexed
+2026-10-31 https://skin-set.com/en/blog/krasivyj-inventar-cs2-za-5000-rubley/ indexed
+2026-10-31 https://skin-set.com/obnovleniya-cs2/2026-09-28/ indexed
+2026-10-31 https://skin-set.com/en/cs2-updates/2026-09-28/ indexed
+2026-10-31 https://skin-set.com/tr/mavi-cs2-skinleri/ indexed
+2026-10-31 https://skin-set.com/tr/pembe-cs2-skinleri/ indexed
+2026-10-31 https://skin-set.com/tr/siyah-beyaz-cs2-skinleri/ indexed
+2026-10-31 https://skin-set.com/tr/turkuaz-cs2-skinleri/ indexed
+2026-10-31 https://skin-set.com/tr/turuncu-cs2-skinleri/ indexed
+2026-10-31 https://skin-set.com/tr/yesil-cs2-skinleri/ indexed
+2026-10-31 https://skin-set.com/oranzhevye-nozhi-cs2/
+2026-10-31 https://skin-set.com/oranzhevye-skiny-cs2/ indexed
+2026-10-31 https://skin-set.com/rozovye-nozhi-cs2/
+2026-10-31 https://skin-set.com/rozovye-skiny-cs2/ indexed
+2026-10-31 https://skin-set.com/sinie-nozhi-cs2/

@@ -149,6 +149,18 @@ def gate(s):
     elif "</head>" in s: s = s.replace("</head>", GATE_CSS + "</head>", 1)
     return s
 
+SHOPS_LEAD = {"на две площадки": "на CS.MONEY", "lead to two marketplaces": "lead to CS.MONEY",
+              "führen zu zwei Marktplätzen": "führen zu CS.MONEY", "levam a duas lojas": "levam à CS.MONEY",
+              "iki pazar yerine götürür": "CS.MONEY'ye götürür", "prowadzą na dwa rynki": "prowadzą na CS.MONEY"}
+
+
+def shopsfix(s):
+    """страница «Где покупать»: убрать устаревшую таблицу DMarket / Lis-Skins"""
+    s = re.sub(r'<div class="tablewrap"><table class="cmp">.*?</table></div>\s*', "", s, flags=re.S)
+    for a, b in SHOPS_LEAD.items(): s = s.replace(a, b)
+    return s
+
+
 def fix(s):
     m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     o = s
@@ -186,7 +198,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = gate(perf(brand(s)))
+    s = shopsfix(gate(perf(brand(s))))
     return s
 
 

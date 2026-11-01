@@ -3,7 +3,7 @@
 python3 admin/noshop.py   — идемпотентно, по всем страницам и шаблонам блога.
 Чтобы вернуть площадку: поменять SHOP_JS ниже (url/label) и перезапустить.
 """
-import glob, os, re, sys, json
+import glob, os, re, sys, json, html
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import csmoney
 
@@ -42,6 +42,7 @@ AD_CSS = """<style id="noshop-css">
 .sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
 .sp-ad:hover{filter:brightness(1.12)}
 .hero-art .refl{display:none!important}
+#feedCount{display:none!important}
 </style>"""
 
 
@@ -106,7 +107,7 @@ def brand(s):
             {"@type": "Organization", "@id": "https://skin-set.com/#org", "name": "Skinset CS2", "alternateName": "skin-set.com",
              "url": "https://skin-set.com/", "logo": "https://skin-set.com/img/apple-touch-icon.png",
              "sameAs": ["https://www.twitch.tv/viv1stop"]}]}
-        import json as _j
+        import json, html as _j
         s = s.replace("</head>", '<script type="application/ld+json" id="ld-site">' + _j.dumps(ld, ensure_ascii=False) + "</script></head>", 1)
     return s
 
@@ -196,6 +197,35 @@ def shopsfix(s):
     return s
 
 
+BB_T = {"ru": ("Подборки под бюджет", "Инвентарь за {B}", "Нож до {B}", "Перчатки до {B}"),
+        "en": ("Picks by budget", "Loadout under {B}", "Knife under {B}", "Gloves under {B}")}
+BB_CSS = ('<style id="bb-css">.post-bud{margin:34px 0 0;padding:20px 22px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03)}'
+          '.post-bud h3{margin:0 0 12px;font:700 1.05rem/1 var(--hud,sans-serif);letter-spacing:.12em;text-transform:uppercase}'
+          '.post-bud div{display:flex;flex-wrap:wrap;gap:8px}.post-bud a{padding:8px 12px;border:1px solid rgba(255,255,255,.16);color:var(--ink,#fff);text-decoration:none;font:500 .86rem/1 var(--hud,sans-serif)}'
+          '.post-bud a:hover{border-color:#e8402a;color:#fff;background:rgba(232,64,42,.12)}</style>')
+_BB = {}
+
+
+def _bbline(lang):
+    if lang not in _BB:
+        import budget_pages as bp, price_pages as pp
+        h, inv, kn, gl = BB_T[lang]
+        items = [(bp.path(lang, m), inv.format(B=bp.money(lang, m))) for m in bp.BUD[lang][1] if m >= (3000 if lang == "ru" else 25)]
+        items += [(pp.slug(lang, "knife", m), kn.format(B=bp.money(lang, m))) for m in pp.LIST[(lang, "knife")]]
+        items += [(pp.slug(lang, "gloves", m), gl.format(B=bp.money(lang, m))) for m in pp.LIST[(lang, "gloves")]]
+        _BB[lang] = (f'<section class="post-bud"><h3>{h}</h3><div>' + "".join(f'<a href="{u}">{html.escape(l)}</a>' for u, l in items) + "</div></section>")
+    return _BB[lang]
+
+
+def blogbud(s, lang):
+    """блок ссылок на бюджетные страницы в каждой статье блога (RU/EN)"""
+    s = re.sub(r'<section class="post-bud">.*?</section>', "", s, flags=re.S)
+    if lang not in BB_T or '<div class="post-more"' not in s: return s
+    s = s.replace('<div class="post-more"', _bbline(lang) + '<div class="post-more"', 1)
+    if 'id="bb-css"' not in s: s = s.replace("</head>", BB_CSS + "</head>", 1)
+    return s
+
+
 def fix(s):
     m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     o = s
@@ -233,7 +263,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = halloween(shopsfix(gate(perf(brand(s)))))
+    s = blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)
     return s
 
 

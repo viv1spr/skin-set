@@ -68,7 +68,7 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
 <body>
 <header class="top">
   <a class="logo" href="/"><svg viewBox="0 0 32 32"><path d="M4 26 L12 6 H20 L28 26 H22 L16 12 L10 26 Z" fill="#e8402a"/><path d="M11 20 H21 L23 26 H9 Z" fill="#fff" opacity=".9"/></svg>Skinset · админка</a>
-  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="links">Ссылки</button><button data-v="steam">Steam</button><button data-v="gw">Розыгрыши</button><button data-v="skins">База скинов</button><button data-v="help">Справка</button></nav>
+  <nav id="nav"><button data-v="posts" class="on">Посты</button><button data-v="edit">Редактор</button><button data-v="feed">Лента</button><button data-v="settings">Настройки</button><button data-v="stats">Статистика</button><button data-v="links">Ссылки</button><button data-v="clicks">Клики «Купить»</button><button data-v="steam">Steam</button><button data-v="gw">Розыгрыши</button><button data-v="skins">База скинов</button><button data-v="help">Справка</button></nav>
   <div class="st"><span class="dot" id="ghDot"></span><span id="ghSt">GitHub</span><button class="btn ghost" id="tokenBtn" style="padding:6px 10px">Токен</button></div>
 </header>
 <main>
@@ -181,6 +181,18 @@ pre{background:var(--panel2);border:1px solid var(--line);padding:12px;overflow:
   <div class="card"><table id="lkTable"><thead><tr><th>Название</th><th>Ссылка</th><th>Переходы</th><th>Клики «Купить»</th><th>Сеты</th><th>Конверсия</th><th>7 дней</th><th></th></tr></thead><tbody></tbody></table></div>
 </section>
 
+<section class="view" id="v-clicks">
+  <h1>Клики «Купить на CS.MONEY»</h1>
+  <div class="row" style="margin-bottom:12px"><button class="btn ghost" id="ckReload">Обновить</button><span class="hint" id="ckSt">Ключ берётся из вкладки «Ссылки»</span></div>
+  <div class="kv" id="ckKv"></div>
+  <h2>Клики за 30 дней</h2>
+  <div class="card"><div id="ckChart" style="display:flex;gap:3px;align-items:flex-end;height:120px"></div><div class="hint" id="ckAxis" style="display:flex;justify-content:space-between;margin-top:6px"></div></div>
+  <h2>Откуда кликают (30 дней)</h2>
+  <div class="card"><table id="ckPl"><thead><tr><th>Место</th><th>Клики</th><th>Доля</th></tr></thead><tbody></tbody></table></div>
+  <h2>Топ скинов (30 дней)</h2>
+  <div class="card"><table id="ckTop"><thead><tr><th>Скин</th><th>Клики</th></tr></thead><tbody></tbody></table></div>
+</section>
+
 <section class="view" id="v-steam">
   <h1>Входы через Steam</h1>
   <div class="row" style="margin-bottom:12px"><button class="btn ghost" id="stReload">Обновить</button><span class="hint" id="stSt">Ключ берётся из вкладки «Ссылки»</span></div>
@@ -267,7 +279,7 @@ const toast=(t,err)=>{const e=$("#toast");e.textContent=t;e.className="toast sho
 /* ---- nav ---- */
 document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.v)));
 function show(v){document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));
-  if(v==="feed"||v==="stats")loadFeed();if(v==="skins")skinsInit();if(v==="settings")loadCfg();if(v==="posts")loadPosts();if(v==="links")loadLinks();if(v==="steam")loadSteam();if(v==="gw")loadGw()}
+  if(v==="feed"||v==="stats")loadFeed();if(v==="skins")skinsInit();if(v==="settings")loadCfg();if(v==="posts")loadPosts();if(v==="links")loadLinks();if(v==="steam")loadSteam();if(v==="clicks")loadClicks();if(v==="gw")loadGw()}
 /* ---- github ---- */
 let TOKEN=localStorage.getItem("ss_admin_gh")||"";
 function ghStatus(){$("#ghDot").className="dot"+(TOKEN?" ok":"");$("#ghSt").textContent=TOKEN?"GitHub: токен есть":"GitHub: нет токена"}
@@ -407,6 +419,22 @@ async function loadSteam(){if(!lkKey()){$("#stSt").textContent="Сначала �
     $("#stTable tbody").innerHTML=U.length?U.map(u=>`<tr><td>${u.a?`<img src="${lkEsc(u.a)}" width="32" height="32" alt="">`:""}</td><td><b>${lkEsc(u.n)}</b></td><td><a href="https://steamcommunity.com/profiles/${lkEsc(u.sid)}" target="_blank" rel="noopener">${lkEsc(u.sid)}</a></td><td>${dt(u.first)}</td><td>${dt(u.last)}</td><td>${u.c||1}</td></tr>`).join(""):`<tr><td colspan="6" class="hint">Пока никто не входил</td></tr>`;
   }catch(e){$("#stSt").textContent=e.message;toast("Steam: "+e.message,true)}}
 $("#stReload").onclick=loadSteam;
+
+/* ---- клики «Купить» (воркер) ---- */
+const CKN={builder:"Конструктор",card:"Карточки сета",wiki:"Страницы скинов",blog:"Блог","blog-popup":"Блог — всплывашка",game:"Игра",market:"Рынок",budget:"Бюджетные страницы",pages:"Цветовые и др. страницы",other:"Другое"};
+async function loadClicks(){if(!lkKey()){$("#ckSt").textContent="Сначала впиши ключ во вкладке «Ссылки»";return}
+  try{$("#ckSt").textContent="Загрузка…";const r=await fetch((await wk())+"/api/clicks",{headers:{Authorization:"Bearer "+lkKey()}});const j=await r.json();if(!r.ok)throw new Error(j.error||r.status);$("#ckSt").textContent="Ок";
+    const D=j.days||{};const ks=[];for(let i=29;i>=0;i--)ks.push(new Date(Date.now()+3*3600e3-i*864e5).toISOString().slice(0,10));
+    const t=k=>(D[k]||{}).t||0,sum=n=>ks.slice(-n).reduce((a,k)=>a+t(k),0);
+    $("#ckKv").innerHTML=`<div><b>${t(ks[29])}</b><small>сегодня</small></div><div><b>${t(ks[28])}</b><small>вчера</small></div><div><b>${sum(7)}</b><small>за 7 дней</small></div><div><b>${sum(30)}</b><small>за 30 дней</small></div>`;
+    const m=Math.max(1,...ks.map(t));$("#ckChart").innerHTML=ks.map(k=>`<i title="${k}: ${t(k)}" style="flex:1;display:block;height:${Math.max(2,Math.round(t(k)/m*120))}px;background:var(--pick)"></i>`).join("");
+    $("#ckAxis").innerHTML=`<span>${ks[0]}</span><span>${ks[29]}</span>`;
+    const P={},I={};for(const k of ks){const d=D[k];if(!d)continue;for(const[a,b]of Object.entries(d.s||{}))P[a]=(P[a]||0)+b;for(const[a,b]of Object.entries(d.i||{}))I[a]=(I[a]||0)+b}
+    const tot=Object.values(P).reduce((a,b)=>a+b,0)||1;
+    $("#ckPl tbody").innerHTML=Object.entries(P).sort((a,b)=>b[1]-a[1]).map(([a,b])=>`<tr><td>${lkEsc(CKN[a]||a)}</td><td><b>${b}</b></td><td>${Math.round(b/tot*100)}%</td></tr>`).join("")||`<tr><td colspan="3" class="hint">Пока кликов нет</td></tr>`;
+    $("#ckTop tbody").innerHTML=Object.entries(I).sort((a,b)=>b[1]-a[1]).slice(0,30).map(([a,b])=>`<tr><td>${lkEsc(a)}</td><td><b>${b}</b></td></tr>`).join("")||`<tr><td colspan="2" class="hint">Пока кликов нет</td></tr>`;
+  }catch(e){$("#ckSt").textContent=e.message;toast("Клики: "+e.message,true)}}
+$("#ckReload").onclick=loadClicks;
 
 /* ---- розыгрыши (воркер) ---- */
 let GW=[];

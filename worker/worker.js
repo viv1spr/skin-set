@@ -95,6 +95,14 @@ async function hit(env, code, ev) {
   await env.KV.put("link:" + code, JSON.stringify(l)); return true;
 }
 
+/* ---------- клики «Купить» по сайту ---------- */
+async function clk(env, place, name) {
+  const k = "clk:" + day(); const o = (await env.KV.get(k, "json")) || { t: 0, s: {}, i: {} };
+  o.t++; o.s[place] = (o.s[place] || 0) + 1;
+  if (name) { o.i[name] = (o.i[name] || 0) + 1; const ks = Object.keys(o.i); if (ks.length > 400) { ks.sort((a, b) => o.i[a] - o.i[b]).slice(0, ks.length - 300).forEach(x => delete o.i[x]) } }
+  await env.KV.put(k, JSON.stringify(o), { expirationTtl: 120 * 86400 });
+}
+
 /* ---------- розыгрыши ---------- */
 const GW_DEFAULT = [{
   id: "g1", title: "3 скина за вход через Steam", starts: Date.parse("2026-10-21T17:00:00Z"), ends: Date.parse("2026-11-08T17:00:00Z"), status: "active", code: "",
@@ -246,6 +254,19 @@ export default {
     if (p === "/inv") {
       const t = await readToken(env, u.searchParams.get("t")); if (!t) return json({ error: "auth" }, 401);
       return json(await inventory(env, t.sid));
+    }
+
+    /* клик «Купить»: /c?s=PLACE&n=NAME */
+    if (p === "/c") {
+      const place = (u.searchParams.get("s") || "other").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 24) || "other";
+      const name = (u.searchParams.get("n") || "").replace(/[\u0000-\u001f<>"]/g, "").slice(0, 80);
+      if (env.KV) { try { await clk(env, place, name) } catch (e) {} }
+      return new Response(null, { status: 204, headers: cors });
+    }
+    if (p === "/api/clicks") {
+      if (!isAdmin(req, env)) return json({ error: "unauthorized" }, 401);
+      const out = {}; for (let i = 0; i < 30; i++) { const d = new Date(Date.now() + 3 * 3600e3 - i * 864e5).toISOString().slice(0, 10); const v = env.KV ? await env.KV.get("clk:" + d, "json") : null; if (v) out[d] = v }
+      return json({ days: out });
     }
 
     /* счётчик: /hit?l=CODE&e=v|b|p */

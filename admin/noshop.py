@@ -197,6 +197,23 @@ def shopsfix(s):
     return s
 
 
+CLK_JS = ('<script id="clk-js">(function(){var W="https://auth.skin-set.com";'
+  'document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||!/cs\\.money/.test(a.href))return;'
+  'var p=location.pathname,s=a.closest(".buy")?"builder":a.closest(".cb")?"card":a.closest(".sp-ad")?"blog-popup":a.closest(".post-body,.post-cta")?"blog":'
+  '/\\/(skiny|skins|skinler|skiny)\\//.test(p)?"wiki":/igra-chto-dorozhe|higher-or-lower/.test(p)?"game":/rynok|market|mercado|pazar|rynek/.test(p)?"market":'
+  '/\\/blog\\//.test(p)?"blog":/(nozh|perchatki|inventar|knife|gloves|loadout)/.test(p)?"budget":p==="/"||/^\\/(en|de|pt|tr|pl)\\/$/.test(p)?"builder":"pages";'
+  'var n="";try{n=(new URL(a.href).searchParams.get("search")||"").slice(0,80)}catch(x){}'
+  'var u=W+"/c?s="+encodeURIComponent(s)+"&n="+encodeURIComponent(n);try{if(!(navigator.sendBeacon&&navigator.sendBeacon(u)))fetch(u,{mode:"no-cors",keepalive:true})}catch(x){}},true)})()</script>')
+
+
+def clicks(s):
+    s = re.sub(r'<script id="clk-js">.*?</script>', "", s, flags=re.S)
+    s = s.replace('/dmarket\\.com|lis-skins\\.com/.test(a.href)', '/cs\\.money|dmarket\\.com|lis-skins\\.com/.test(a.href)')
+    if "</body>" in s:
+        i = s.rfind("</body>"); s = s[:i] + CLK_JS + s[i:]
+    return s
+
+
 BB_T = {"ru": ("Подборки под бюджет", "Инвентарь за {B}", "Нож до {B}", "Перчатки до {B}"),
         "en": ("Picks by budget", "Loadout under {B}", "Knife under {B}", "Gloves under {B}")}
 BB_CSS = ('<style id="bb-css">.post-bud{margin:34px 0 0;padding:20px 22px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03)}'
@@ -263,7 +280,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)
+    s = clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))
     return s
 
 

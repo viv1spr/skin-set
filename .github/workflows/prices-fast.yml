@@ -24,4 +24,4 @@ jobs:
           cd /tmp/out && git init -q && git checkout -q -b prices
           git config user.name "price-bot" && git config user.email "bot@skin-set.com"
           git add . && git commit -q -m "prices $(date -u +%FT%TZ)"
-          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" prices
+          for i in 1 2 3; do git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" prices && break; sleep 15; done

@@ -1,15 +1,15 @@
 {
- "started": "2026-11-04T05:04:53.782Z",
+ "started": "2026-11-04T09:02:45.315Z",
  "ls": {
   "url": "https://lis-skins.com/market_export_json/csgo.json",
-  "items": 27418,
-  "names": 13852
+  "items": 27439,
+  "names": 13854
  },
  "sp": {
-  "items": 37220,
-  "names": 13103
+  "items": 37221,
+  "names": 13100
  },
- "finished": "2026-11-04T05:04:56.091Z",
+ "finished": "2026-11-04T09:02:47.904Z",
  "names": 2120,
  "priced": 2034
 }

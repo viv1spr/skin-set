@@ -234,7 +234,14 @@ def _bbline(lang):
         items = [(bp.path(lang, m), inv.format(B=bp.money(lang, m))) for m in bp.BUD[lang][1] if m >= (3000 if lang == "ru" else 25)]
         items += [(pp.slug(lang, "knife", m), kn.format(B=bp.money(lang, m))) for m in pp.LIST[(lang, "knife")]]
         items += [(pp.slug(lang, "gloves", m), gl.format(B=bp.money(lang, m))) for m in pp.LIST[(lang, "gloves")]]
-        _BB[lang] = (f'<section class="post-bud"><h3>{h}</h3><div>' + "".join(f'<a href="{u}">{html.escape(l)}</a>' for u, l in items) + "</div></section>")
+        if lang == "ru":
+            cols = [(f"/{sl}-skiny-cs2/", f"{nm} сет КС 2") for sl, nm in [("krasnye", "Красный"), ("sinie", "Синий"), ("rozovye", "Розовый"), ("fioletovye", "Фиолетовый"), ("zelenye", "Зелёный"), ("zolotye", "Золотой"), ("oranzhevye", "Оранжевый"), ("biryuzovye", "Бирюзовый"), ("cherno-belye", "Чёрно-белый")]]
+            ch = "Сеты по цвету"
+        else:
+            cols = [(f"/en/{sl}-cs2-skins/", f"{nm} CS2 loadout") for sl, nm in [("red-black", "Red & black"), ("blue", "Blue"), ("pink", "Pink"), ("purple", "Purple"), ("green", "Green"), ("gold", "Gold"), ("orange", "Orange"), ("teal", "Teal"), ("black-white", "Black & white")]]
+            ch = "Loadouts by color"
+        _BB[lang] = (f'<section class="post-bud"><h3>{h}</h3><div>' + "".join(f'<a href="{u}">{html.escape(l)}</a>' for u, l in items) + "</div>"
+                     f'<h3 style="margin-top:18px">{ch}</h3><div>' + "".join(f'<a href="{u}">{html.escape(l)}</a>' for u, l in cols) + "</div></section>")
     return _BB[lang]
 
 

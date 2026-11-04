@@ -11,7 +11,7 @@ function curOf(){return ((LANGS||{})[CUR_LANG]||{}).ui&&LANGS[CUR_LANG].ui.cur||
 function priceSpan(name,wear){const cur=curOf();let v=null;if(wear){const r=PRICES[name]||{};v=(r.w||{})[wear]||null}else{const p=priceOf(name);v=p?p.min:null}if(!v&&/\((Ruby|Sapphire|Emerald|Black Pearl)\)$/.test(name)){const ui=((LANGS||{})[CUR_LANG]||{}).ui||{};return '<span class="lp gem">'+esc(ui.gem||'')+'</span>'}return '<span class="lp" data-skin="'+esc(name)+'" data-cur="'+cur+'"'+(wear?' data-src="'+esc(wear)+'"':'')+'>'+(v?esc(fmtPrice(v,cur)):"…")+'</span>'}
 function setSkins(m){SKINS=Array.isArray(m)?Object.fromEntries(m.map(r=>[r[0]+(r[5]?" ("+r[5]+")":""),r[1]])):(m||{})}
 function skinImg(name){if(!name)return null;const n=name.replace(/★\s*/,"").trim();if(SKINS[n])return SKINS[n];const k=Object.keys(SKINS).find(x=>x.toLowerCase()===n.toLowerCase())||Object.keys(SKINS).find(x=>x.toLowerCase().startsWith(n.toLowerCase()));return k?SKINS[k]:null}
-function skinFig(name,cap,small){const img=skinImg(name);if(!img)return "";USED.push(name);return '<figure class="post-skin'+(small?" sm":"")+'"><img src="'+esc(img)+'" alt="'+esc(name)+'" loading="lazy"><figcaption>'+esc(cap||name)+' · '+priceSpan(name)+'</figcaption></figure>'}
+function skinFig(name,cap,small){const img=skinImg(name);if(!img)return "";USED.push(name);return '<figure class="post-skin'+(small?" sm":"")+'"><img src="'+esc(img)+'" alt="'+esc(name)+'" loading="lazy"><figcaption>'+esc(cap||name)+' · '+priceSpan(name)+'</figcaption><a class="pf-csm" href="'+csm(name)+'" target="_blank" rel="noopener sponsored">CS.MONEY</a></figure>'}
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 function translit(s){const m={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"c",ч:"ch",ш:"sh",щ:"sch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya"};
   return s.toLowerCase().split("").map(c=>m[c]!==undefined?m[c]:c).join("").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,70)}
@@ -28,6 +28,7 @@ function shortcode(line){
   let m;
   if((m=line.match(/^\[skin\s+([^\]]*)\]$/))){const a=attrs(m[1]);return skinFig(a.name||"",a.caption,false)||'<p><i>[картинка не найдена: '+esc(a.name||"")+']</i></p>'}
   if((m=line.match(/^\[skins\s+([^\]]*)\]$/))){const a=attrs(m[1]);const names=(a.names||"").split(";").map(x=>x.trim()).filter(Boolean);return '<div class="post-skins">'+names.map(n=>skinFig(n,null,true)).join("")+'</div>'}
+  if((m=line.match(/^\[buy\s+([^\]]*)\]$/))){const a=attrs(m[1]);const names=(a.names||a.name||"").split(";").map(x=>x.trim()).filter(Boolean);const w=a.wear||"";return '<div class="post-buy">'+names.map(n=>{USED.push(n);return '<a href="'+csm(n,w)+'" target="_blank" rel="noopener sponsored"><img src="/img/csmoney.png" alt="" width="20" height="20"><span>'+esc(buyLbl())+' CS.MONEY</span><b>'+esc(n.replace(/^★\s*/,""))+(w?' · '+esc(w):'')+'</b></a>'}).join("")+'</div>'}
   // [cta color=3 budget=10000 text="..."]  [cta url=/... text="..."]
   m=line.match(/^\[cta\s+([^\]]*)\]$/);if(!m)return null;
   const a=attrs(m[1]);
@@ -46,7 +47,7 @@ function md(src){
     if(!l.trim()){flush();continue}
     let m;
     if((m=l.match(/^(#{1,4})\s+(.*)$/))){flush();const n=Math.min(4,Math.max(2,m[1].length));out.push("<h"+n+">"+inline(m[2])+"</h"+n+">");continue}
-    if(/^\[(cta|skin|skins)\s/.test(l)){flush();const h=shortcode(l.trim());if(h!==null){out.push(h);continue}}
+    if(/^\[(cta|skin|skins|buy)\s/.test(l)){flush();const h=shortcode(l.trim());if(h!==null){out.push(h);continue}}
     if((m=l.match(/^>\s?(.*)$/))){flushP();flushL();quote.push(m[1]);continue}
     if((m=l.match(/^[-*]\s+(.*)$/))){flushP();flushQ();if(!list||list.t!=="ul"){flushL();list={t:"ul",items:[]}}list.items.push(m[1]);continue}
     if((m=l.match(/^\d+[.)]\s+(.*)$/))){flushP();flushQ();if(!list||list.t!=="ol"){flushL();list={t:"ol",items:[]}}list.items.push(m[1]);continue}
@@ -57,7 +58,8 @@ function md(src){
   flush();
   return out.map(o=>{if(typeof o==="string")return o;const rows=o.table.filter(r=>!/^\|\s*-/.test(r)).map(r=>splitRow(r.replace(/^\||\|$/g,"")).map(c=>c.trim()));
     return "<table>"+rows.map((r,i)=>"<tr>"+r.map(c=>(i?"<td>":"<th>")+inline(c)+(i?"</td>":"</th>")).join("")+"</tr>").join("")+"</table>"}).join("\n")}
-const CSM_UTM="utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=link";function csm(n){return "https://cs.money/market/buy/?search="+encodeURIComponent(String(n).replace(/★\s*/,"").replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,""))+"&amp;"+CSM_UTM.replace(/&/g,"&amp;")}
+const CSM_UTM="utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=link";const WEARF={FN:"Factory New",MW:"Minimal Wear",FT:"Field-Tested",WW:"Well-Worn",BS:"Battle-Scarred"};function csm(n,w){return "https://cs.money/market/buy/?search="+encodeURIComponent(String(n).replace(/★\s*/,"").replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,"")+(w&&WEARF[w]?" ("+WEARF[w]+")":""))+"&amp;"+CSM_UTM.replace(/&/g,"&amp;")}
+function buyLbl(){return CUR_LANG==="ru"?"Купить на":"Buy on"}
 function splitRow(r){const out=[];let cur="",d=0;for(let i=0;i<r.length;i++){const ch=r[i];if(ch==="\\"&&r[i+1]==="|"){cur+="|";i++;continue}if(ch==="[")d++;else if(ch==="]")d=Math.max(0,d-1);if(ch==="|"&&!d){out.push(cur);cur="";continue}cur+=ch}out.push(cur);return out}
 function readMin(src){return Math.max(2,Math.round(src.split(/\s+/).length/180))}
 let LANGS=null;function setLangs(l){LANGS=l}

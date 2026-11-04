@@ -108,6 +108,32 @@ const tp=$("#mtTop");tp.checked=top;tp.onchange=()=>{top=tp.checked;LS("mt_top",
 setInterval(()=>{load("live",true)},60000);setInterval(()=>{load("up",true)},300000)})();"""
 
 
+import csmoney  # noqa
+PRO_SKINS = ["AWP | Asiimov", "M4A1-S | Printstream", "Desert Eagle | Blaze", "USP-S | Kill Confirmed", "AK-47 | Bloodsport", "★ Butterfly Knife | Doppler (Phase 2)"]
+PRO_T = {"ru": ("Скины, которыми играют про-игроки", "Что у s1mple, NiKo, ZywOo, donk и других — в нашем разборе", "/blog/skiny-pro-igrokov-cs2/", "Купить на CS.MONEY"),
+         "en": ("Skins the pros play with", "What s1mple, NiKo, ZywOo, donk and others use — full breakdown", "/en/blog/skiny-pro-igrokov-cs2/", "Buy on CS.MONEY")}
+PRO_CSS = (".pro{margin:30px 0 8px}.pro h2{margin:0 0 6px}.pro p.sub{margin:0 0 14px;color:var(--soft)}.pro p.sub a{color:var(--ink,#fff)}"
+           ".pro .gr{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}@media(max-width:1000px){.pro .gr{grid-template-columns:repeat(3,minmax(0,1fr))}}"
+           ".pro .it{display:flex;flex-direction:column;gap:8px;padding:12px;background:rgba(255,255,255,.04);border:1px solid var(--line,rgba(255,255,255,.1))}"
+           ".pro .it img{width:100%;aspect-ratio:4/3;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(0,0,0,.5))}.pro .it b{font:700 .86rem/1.15 var(--hud);text-transform:uppercase}"
+           ".pro .it a.cm{margin-top:auto;padding:8px;text-align:center;font:700 .72rem/1 var(--hud);letter-spacing:.06em;text-transform:uppercase;color:#fff;text-decoration:none;background:linear-gradient(90deg,rgba(255,21,154,.25),#16161d);border:1px solid #ff159a}"
+           ".pro .it a.cm:hover{background:rgba(255,21,154,.4)}@media(max-width:700px){.pro .gr{grid-template-columns:repeat(2,minmax(0,1fr))}}")
+
+
+def pro_block(lang):
+    h, sub, blog, buy = PRO_T.get(lang, PRO_T["en"])
+    if lang not in ("ru", "en"): blog = PRO_T["en"][2]
+    imgs = {}
+    for r in json.load(open(os.path.join(ROOT, "data/skin-img.json"))):
+        k = r[0] + (f" ({r[2]})" if len(r) > 2 and r[2] else ""); imgs.setdefault(k, r[1])
+    items = ""
+    for n in PRO_SKINS:
+        hsh = imgs.get(n) or imgs.get(n.split(" (")[0])
+        img = f'<img src="https://community.akamai.steamstatic.com/economy/image/{hsh}/360fx270f" alt="{e(n)}" loading="lazy">' if hsh else ""
+        items += f'<div class="it">{img}<b>{e(n.replace("★ ", ""))}</b><a class="cm" href="{csmoney.url(n)}" {csmoney.REL}>{e(buy)}</a></div>'
+    return f'<section class="pro"><h2>{e(h)}</h2><p class="sub"><a href="{blog}">{e(sub)} →</a></p><div class="gr">{items}</div></section>'
+
+
 def build(lang):
     t = T[lang]; url = URL[lang]; L = t["L"]
     ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": t["h1"], "url": SITE + url, "description": t["desc"]},
@@ -116,9 +142,9 @@ def build(lang):
     body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="mt-kick pg-eb"><i></i>{e(t["kick"])}</span><h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead"])}</p>'
             f'<div class="mt-bar"><div class="mt-tabs" id="mtTabs"><button data-t="live"><span class="lv"><i></i></span>{e(L["live"])} <b id="mtN"></b></button><button data-t="up" class="on">{e(L["up"])}</button><button data-t="past">{e(L["past"])}</button></div>'
             f'<label class="mt-top"><input type="checkbox" id="mtTop"> {e(L["top"])}</label></div><div id="mtList"><div class="mt-msg">{e(L["load"])}</div></div>'
-            f'<h2>{e(t["faq_h"])}</h2><div class="faq">{"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in t["faq"])}</div><p class="note">{e(t["note"])}</p>'
+            + pro_block(lang) + f'<h2>{e(t["faq_h"])}</h2><div class="faq">{"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in t["faq"])}</div><p class="note">{e(t["note"])}</p>'
             f'<script>window.MTL={json.dumps(L, ensure_ascii=False)};</script><script>{JS.replace("__W__", json.dumps(W))}</script>')
-    h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}{GRID_CSS}</style></head>")
+    h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}{GRID_CSS}{PRO_CSS}</style></head>")
     p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) for l in HOME})}\n<main class="mt pg">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
     p = p.replace(f'<a href="{WIKI[lang]}" class=on>', f'<a href="{WIKI[lang]}">', 1)
     return navmore.fix(p.replace("</body>", LANG_JS + "</body>", 1))

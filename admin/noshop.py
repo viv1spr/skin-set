@@ -42,6 +42,10 @@ AD_CSS = """<style id="noshop-css">
 .sp-ad small{font:500 .7rem/1 var(--hud,sans-serif);opacity:.85;margin-right:6px}
 .sp-ad:hover{filter:brightness(1.12)}
 .hero-art .refl{display:none!important}
+.post-skin{position:relative}.post-skin .pf-csm{display:block;align-self:stretch;width:100%;box-sizing:border-box;margin-top:6px;padding:7px 8px;text-align:center;font:700 .74rem/1 var(--hud,sans-serif);letter-spacing:.08em;color:#fff!important;text-decoration:none;background:linear-gradient(90deg,rgba(255,21,154,.25),#16161d);border:1px solid #ff159a}
+.post-skin .pf-csm:hover{background:rgba(255,21,154,.4)}
+.post-buy{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.post-buy a{display:flex;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(90deg,rgba(255,21,154,.24),#16161d 70%);border:1px solid #ff159a;color:#fff!important;text-decoration:none;box-shadow:0 6px 18px rgba(255,21,154,.22);font:500 .82rem/1.1 var(--hud,sans-serif)}
+.post-buy a span{opacity:.8;text-transform:uppercase;letter-spacing:.06em;font-size:.7rem}.post-buy a b{font-weight:700}.post-buy a:hover{background:rgba(255,21,154,.38)}
 #feedCount{display:none!important}
 </style>"""
 

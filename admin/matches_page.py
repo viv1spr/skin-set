@@ -93,7 +93,7 @@ html,body{overflow-x:clip}
 .mx-feat .tm b{font:700 1.35rem/1.1 var(--hud);text-transform:uppercase;overflow-wrap:break-word;word-break:normal;max-width:100%}
 .mx-feat .mid{text-align:center;max-width:300px}.mx-feat .mid b{display:block;font:700 2.4rem/1 var(--hud)}.mx-feat .mid small{display:block;margin-top:8px;font:600 .72rem/1.3 var(--hud);letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
 .mx-feat .mid .cd{color:#ffd36a}.mx-feat .ft{display:flex;justify-content:center;gap:10px;margin-top:16px}
-.mx-tr{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.mx-tr{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.25) transparent}.mx-tr::-webkit-scrollbar{height:6px}.mx-tr::-webkit-scrollbar-track{background:transparent}.mx-tr::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22);border-radius:3px}
 .mx-tr button{flex:none;min-width:190px;max-width:230px;text-align:left;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid var(--line,rgba(255,255,255,.1));color:var(--ink,#fff);cursor:pointer;font:inherit}
 .mx-tr button:hover,.mx-tr button.on{border-color:#e8402a;background:rgba(232,64,42,.1)}
 .mx-tr .tn{display:flex;align-items:center;gap:8px}.mx-tr .tn img,.mx-tr .tn .lg{width:26px;height:26px;object-fit:contain;flex:none}.mx-tr .tn .lg{display:grid;place-items:center;background:rgba(255,255,255,.08);font:700 .7rem var(--hud)}

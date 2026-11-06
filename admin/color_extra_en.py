@@ -1,0 +1,47 @@
+EXTRA = {
+ "red-black": dict(
+  knife="Red knives split into two families. Crimson Web and Slaughter are the classic picks: they look loud even in Field-Tested, and on a Gut, Navaja or Shadow Daggers they stay affordable. Doppler Ruby and Autotronic are the premium end, and the price jumps a lot. If you want red without paying for Ruby, a Crimson Web Huntsman or Falchion is the usual sweet spot.",
+  gloves="Red gloves are rare, which makes them a strong flex. Specialist Crimson Kimono and Driver Gloves Crimson Weave are the premium red picks; Hand Wraps Slaughter and Moto Gloves Blood Pressure are where most players land. Dark gloves with small red details work better than full red gloves if your knife is already loud.",
+  budget="On a small budget, put the money into the AK-47 (Redline, Bloodsport-style picks) and pistols, then add a cheap Crimson Web knife later. Battle-Scarred and Well-Worn Crimson Web often look almost the same in hand as Field-Tested and cost much less. Red is one of the cheapest colors to build at full coverage because so many Mil-Spec and Restricted skins are red.",
+  mist="The most common mistake is too many shades of red: a cherry AK, a brick-red AWP and an orange-red Desert Eagle look random together. Pick one red (bright scarlet or dark crimson), keep everything else black or dark grey, and let the knife carry the brightest red."),
+ "blue": dict(
+  knife="Blue knives range from cheap to extreme. Bright Water and Blue Steel are the budget-friendly blue knives, and Doppler Phase 4 is the most popular mid-to-high pick because it shows blue with a little purple. Doppler Sapphire is the top: one of the most expensive finishes in the game. A Blue Steel Navaja or Gut is the cheapest way to get a clean blue knife.",
+  gloves="Blue gloves are easy to find at every price: Hand Wraps Cobalt Skulls, Driver Gloves Imperial Plaid, blue Moto Gloves and, at the top, Sport Gloves Superconductor. Cold, dark blue gloves pair with almost any blue knife; bright sky-blue gloves only work with a matching bright knife like Bright Water.",
+  budget="Blue is forgiving for small budgets: Blue Laminate, Royal Blue and Blue Ply skins are cheap and look clean. Spend first on the AK-47 or M4 you use most, then on the knife. If you plan to upgrade, start with a Blue Steel knife: it matches both cheap and expensive blue weapon skins.",
+  mist="Mixing navy, teal and purple is what makes most blue sets look off. Teal reads as green next to dark blue, and purple pulls the set warmer. Keep one temperature of blue and use black or white as the neutral color."),
+ "pink": dict(
+  knife="Pink knives come in two looks. Fade is warm pink into orange and yellow, the most iconic pink knife. Doppler Phase 2 is cold pink-magenta with purple. Fade on a Gut, Navaja or Flip is the cheapest way into a pink knife; Karambit and Butterfly Fade are the premium dream items.",
+  gloves="Pink gloves are limited, which is why pink sets often use neutral gloves. Sport Gloves Pandora's Box and Vice are the dream picks but very expensive; Specialist Fade is a more realistic warm pink-orange option. White or black gloves also work well and let the pink knife and AK stand out.",
+  budget="Pink is cheap to start: Pink DDPAT, Neon Revolution-style picks and pink Glock and USP skins cost little. Build the guns first, then buy the knife that matches the shade you chose. A Battle-Scarred Fade still shows most of the gradient on many knives.",
+  mist="Don't mix warm and cold pinks: Fade's orange next to Doppler magenta looks like two different sets. Also avoid putting too many full-pink skins on pistols: one or two strong pink items plus neutral pistols looks better on stream."),
+ "purple": dict(
+  knife="Purple knives are mostly Doppler: Phase 2 for pink-purple, Phase 4 for blue-purple, and Sapphire for the deepest blue-violet. Ultraviolet is the cheapest dark purple knife and works well with black-purple sets. A Doppler Phase 2 Gut or Navaja is the budget way to get a bright purple knife.",
+  gloves="The most famous purple gloves are Sport Gloves Pandora's Box, and they are expensive. Cheaper options: Moto Gloves in purple tones and Hand Wraps Cobalt Skulls, which lean blue-violet. If the gloves budget is low, pick dark gloves and let the knife bring the purple.",
+  budget="Purple is cheap at the bottom: AWP Lightning Strike-style picks, Glock-18 Moonrise and USP-S Purple DDPAT are affordable. Start with an Ultraviolet knife and purple guns, and upgrade to a Doppler later. Purple sets look more expensive than they cost, which is why they are popular on small budgets.",
+  mist="Purple breaks easily with green and yellow, and too much pink turns the set into a pink set. Keep purple as the main color, add black, and use one pink or blue accent at most."),
+ "green": dict(
+  knife="Gamma Doppler Emerald is the top green knife and very expensive; regular Gamma Doppler phases are more affordable and still clearly green. For a military look, Boreal Forest, Forest DDPAT and Safari Mesh knives are among the cheapest knives in the game. Pick one style before you buy.",
+  gloves="Green gloves have a strong lineup: Hydra Gloves Emerald, Driver Gloves Racing Green, Specialist Emerald Web and Sport Gloves Hedge Maze. Emerald Web and Hydra fit bright green sets; khaki and olive gloves fit military sets.",
+  budget="Military green is the cheapest full set you can build: camo knives and camo guns cost very little and look consistent. For bright green, put money into the knife or the gloves first, because cheap acid-green weapon skins are easy to find later.",
+  mist="The main mistake is mixing acid green with khaki camo. They are two different styles and look random together. The second mistake is adding teal: it reads as blue next to green."),
+ "gold": dict(
+  knife="Lore and Tiger Tooth are the gold knives. Tiger Tooth is gold-orange and costs less on cheaper knives; Lore has the classic gold-and-black look. Most gold sets are built around one of these two. A Tiger Tooth Navaja or Gut is the cheapest way to start.",
+  gloves="For gold sets, warm brown and gold gloves work best: Driver Gloves King Snake, Bloodhound Gloves Bronzed and Hand Wraps Leather. Black gloves also work and make gold weapons look more expensive.",
+  budget="Gold looks premium, but the guns don't have to be: there are cheap yellow and gold skins for every slot. Get the AK and AWP in gold tones first, then save for a Lore or Tiger Tooth knife. Dragon Lore is the dream item, but the set works perfectly without it.",
+  mist="Silver and cold blue kill a gold set. Also watch for yellow that is too lemon-bright: it looks cheap next to deep gold. Keep the palette warm: gold, black and dark brown."),
+ "orange": dict(
+  knife="Orange knives are Fade, Tiger Tooth, Asiimov and Slaughter. Asiimov knives match an Asiimov weapon set directly; Tiger Tooth gives a warmer orange-gold. Fade is technically pink-orange-yellow and works if the rest of the set is orange and white.",
+  gloves="Sport Gloves Omega and Specialist Fade are the classic orange picks; cheaper orange-tone Moto and Driver Gloves also work. White gloves are a safe pick because Asiimov is as much white as orange.",
+  budget="Battle-Scarred Asiimov is the cheapest way to get the look on the AWP and AK. Spend on the AWP first, it is the most visible Asiimov. Pistols can be cheap white or black skins; a knife can come later.",
+  mist="Red next to orange is the classic mistake: the set gets too warm and loses the clean Asiimov contrast. Too many white skins without orange also make it look like a black-and-white set."),
+ "teal": dict(
+  knife="Teal knives are Gamma Doppler Phase 1–2, Bright Water and some Doppler and Case Hardened patterns with cyan tones. Bright Water is the cheapest real teal knife. Gamma Doppler is more expensive and leans green, so compare the phase before buying.",
+  gloves="Sport Gloves Superconductor is the iconic teal-cyan pick but expensive; Moto Gloves Cool Mint is the cheaper mint-teal option. White or grey gloves also work with a teal set.",
+  budget="Teal weapon skins are fewer than red or blue ones, so plan the set around what exists: Ice Coaled, Aquamarine Revenge-style picks, Water Elemental. Start with the guns you use most, then match the knife to their exact shade.",
+  mist="Teal drifts into green or blue very easily, and the set then looks like three colors. Compare skins side by side in the builder before buying, and use white or black as the neutral."),
+ "black-white": dict(
+  knife="Black and white knives include Stained, Black Laminate, Damascus Steel, Ultraviolet and Night. They are often among the cheaper knife finishes, which makes this the easiest color to get a knife in. A Damascus Steel or Black Laminate Gut or Navaja is very affordable.",
+  gloves="Sport Gloves Nocts, Driver Gloves Black Tie and other dark gloves all fit. Black and white sets are the easiest to match gloves with: almost any dark glove works.",
+  budget="Printstream is the signature skin here, but it is not cheap. On a small budget use Vulcan-style, Black Laminate and white skins, then upgrade the Desert Eagle or M4A1-S to Printstream later. The set looks clean at every price.",
+  mist="Black and white looks flat without contrast: if every skin is matte black, nothing stands out. Use white on the knife or the main rifle, and add at most one color accent."),
+}

@@ -9,6 +9,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import sys; sys.path.insert(0, os.path.join(ROOT, "admin"))
 from budget_pages import wiki_url, img, SETS, money, path as bpath, blog_links, BUD  # noqa
 from color_pages_ru import parse_items, replace_section, faq_ld, PRICES  # noqa
+from color_extra_en import EXTRA  # noqa
 
 e = lambda s: html.escape(str(s), quote=True)
 SITE = "https://skin-set.com"
@@ -143,8 +144,32 @@ def setblock(lang, name, color, s, href_base, budget):
             f'<div class="est"><span>{t["total"]}: <b>≈ {e(money(lang, tot / rate))}</b></span><a href="{e(href)}">{e(t["open"])}</a></div></div>'), tot
 
 
+def gallery(lang, picks):
+    out = []
+    for g, (w, sk, _) in picks:
+        im = img(w, sk)
+        if not im: continue
+        n = f"{w.replace('★ ', '')} | {sk}"; p = usd(w, sk); wu = wiki_url(lang, n)
+        pr = ("from " + mon(lang, p)) if p else ""
+        tag = "a" if wu else "div"; hr = f' href="{wu}"' if wu else ""
+        out.append(f'<{tag} class="sg"{hr}><img src="{e(im)}" alt="{e(n)}" loading="lazy" width="240" height="180"><b>{e(sk)}</b><small>{e(w.replace("★ ", ""))}{" · " + e(pr) if pr else ""}</small></{tag}>')
+    return '<div class="seo-gal">' + "".join(out) + "</div>" if out else ""
+
+
 def url_color(lang, c):
     return f"/en/{c['page']}-cs2-skins/" if lang == "en" else f"/tr/{c['page']}-cs2-skinleri/"
+
+
+def extra_color(lang, c, groups):
+    x = EXTRA.get(c["page"]) if lang == "en" else None
+    if not x: return ""
+    picks = [(g, parse_items(uu)[0]) for g, uu in groups if parse_items(uu)]
+    A = c["adj"]
+    return (f'<h2>Best {e(A)} CS2 skins at a glance</h2><p>The closest {e(A)} match in every slot, with the current lowest market price. Click any skin for wears, float and price history.</p>' + gallery(lang, picks) +
+            f'\n<h2>{e(c["name"])} knives: what to pick</h2><p>{e(x["knife"])}</p>'
+            f'\n<h2>{e(c["name"])} gloves: what to pick</h2><p>{e(x["gloves"])}</p>'
+            f'\n<h2>A {e(A)} loadout on a budget</h2><p>{e(x["budget"])}</p>'
+            f'\n<h2>Common mistakes with {e(A)} sets</h2><p>{e(x["mist"])}</p>\n')
 
 
 def do_color(lang, p, c, CC):
@@ -171,7 +196,7 @@ def do_color(lang, p, c, CC):
              f'<h1 id="seoH2">{e(t["h1"].format(**fmt))}</h1><div id="seoColor" class="seo-dyn" hidden></div>\n'
              f'<p class="seo-lead">{e(c["intro"])}</p>\n'
              f'<h2>{e(t["sets_h"].format(**fmt))}</h2><p>{e(t["sets_p"])}</p>\n' + "".join(b for b, _, _ in sets) +
-             f'\n<h2>{e(t["how_h"].format(**fmt))}</h2><p>{e(c["how"])}</p>\n'
+             f'\n<h2>{e(t["how_h"].format(**fmt))}</h2><p>{e(c["how"])}</p>\n' + extra_color(lang, c, groups) +
              f'<div class="seo-list"><h2>{e(t["list_h"].format(**fmt))}</h2><p>{e(t["list_p"])}</p>{lists}</div>\n' + kg +
              f'<h2>{e(t["faq_h"])}</h2>' + "".join(f"<h3>{e(q)}</h3><p>{a if '<a ' in a else e(a)}</p>" for q, a in faq) +
              (f'\n<h2>{e(t["blog_h"])}</h2><ul class="seo-chips">' + "".join(f'<li><a href="{h}">{e(tt)}</a></li>' for h, tt in bl) + "</ul>" if bl else "") +
@@ -214,8 +239,10 @@ def do_type_en(p, c, kind):
     inner = (f'<nav class="seo-crumbs"><a href="/en/">Home</a> › <a href="{url_color(lang, c)}">{e(c["name"])}</a> › {e(title_n)}</nav>\n'
              f'<h1>{e(title_n)}: full list with prices</h1><div id="seoColor" hidden></div><ul id="seoLinks" hidden></ul>\n'
              f'<p class="seo-lead">{e(intro)}</p>\n'
-             f'<h2>All {e(c["adj"])} CS2 {kind} — cheapest first</h2><div class="seo-list"><ul>{"".join(li(lang, *x) for x in items)}</ul></div>\n'
+             f'<h2>All {e(c["adj"])} CS2 {kind} — cheapest first</h2><div class="seo-list"><ul>{"".join(li(lang, *x) for x in items)}</ul></div>\n' +
+             (f'<h2>Which {e(c["adj"])} {"knife" if kind == "knives" else "gloves"} to choose</h2><p>{e(EXTRA[c["page"]]["knife" if kind == "knives" else "gloves"])}</p>\n' if c["page"] in EXTRA else "") +
              f'<h2>What to pair them with</h2><p>{e(how)}</p>{b1}{b2}\n'
+             + (f'<h2>Avoid these mistakes</h2><p>{e(EXTRA[c["page"]]["mist"])}</p>\n' if c["page"] in EXTRA else "") +
              f'<p><a class="seo-cta" href="{url_color(lang, c)}">Build a {e(c["adj"])} loadout →</a></p>\n'
              f'<h2>FAQ</h2>' + "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faq) +
              f'\n<h2>See also</h2><ul class="seo-chips"><li><a href="/en/{c["kp"]}-{other}-cs2/">{e(c["name"])} CS2 {other}</a></li><li><a href="{url_color(lang, c)}">{e(c["name"])} CS2 skins</a></li>'

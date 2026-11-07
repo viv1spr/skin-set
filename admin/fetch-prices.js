@@ -15,10 +15,14 @@ async function lis(){const m=new Map();for(const u of["https://lis-skins.com/mar
 async function skinport(){const m=new Map();try{const r=await fetch("https://api.skinport.com/v1/items?app_id=730&currency=USD&tradable=0",{headers:{...UA,"Accept-Encoding":"br"}});if(!r.ok){META.sp_status=r.status;return m}
   const list=await r.json();for(const it of list){const p=parseName(it.market_hash_name);if(p)add(m,p.n,p.w,+it.min_price)}META.sp={items:list.length,names:m.size}}catch(e){META.sp_err=String(e)}return m}
 // обычные фазы Doppler/Gamma Doppler стоят примерно одинаково — берём общую цену; «камни» (Ruby, Sapphire, Emerald, Black Pearl) стоят в разы дороже, площадки их не различают в выгрузке — цену не подставляем
+const GEM={"Ruby":5,"Sapphire":6,"Emerald":6,"Black Pearl":3};
 const stripPhase=n=>n.replace(/\s*\((Phase \d)\)$/,"");
 (async()=>{
   const [L,S]=await Promise.all([lis(),skinport()]);const now=Date.now();const out={};
-  for(const n of names){const a=L.get(n)||L.get(stripPhase(n)),b=S.get(n)||S.get(stripPhase(n));if(!a&&!b)continue;
+  for(const n of names){const gm=n.match(/\s*\((Ruby|Sapphire|Emerald|Black Pearl)\)$/);const base=gm?n.slice(0,gm.index):null;
+    if(gm){/* камни: площадки не отличают их от обычного Doppler — оцениваем как множитель к цене обычной фазы (примерно по рынку) */const m=GEM[gm[1]];const a=L.get(base),b=S.get(base);if(!a&&!b)continue;
+      const rec={t:now,est:1};const w={};for(const k of["FN","MW","FT","WW","BS"]){const v=(a&&a.w[k])||(b&&b.w[k])||Infinity;if(isFinite(v))w[k]=+(v*m).toFixed(2)}if(!Object.keys(w).length)continue;rec.w=w;rec.ls=Math.min(...Object.values(w));out[n]=rec;continue}
+    const a=L.get(n)||L.get(stripPhase(n)),b=S.get(n)||S.get(stripPhase(n));if(!a&&!b)continue;
     const rec={t:now};if(a)rec.ls=+a.min.toFixed(2);if(b)rec.sp=+b.min.toFixed(2);const w={};for(const k of["FN","MW","FT","WW","BS"]){/* Lis-Skins в приоритете, Skinport только если на Lis нет этого износа */const v=(a&&a.w[k])||(b&&b.w[k])||Infinity;if(isFinite(v))w[k]=+v.toFixed(2)}if(Object.keys(w).length)rec.w=w;out[n]=rec}
   fs.writeFileSync(path.join(root,"data/prices.json"),JSON.stringify(out));
   META.finished=new Date().toISOString();META.names=names.length;META.priced=Object.keys(out).length;fs.writeFileSync(path.join(root,"data/prices-meta.json"),JSON.stringify(META,null,1));

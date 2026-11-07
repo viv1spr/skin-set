@@ -10,6 +10,9 @@ from skins_wiki import head, header, FOOT, HOME, SITE  # noqa
 from budget_pages import money, wiki_url, path as bpath, blog_links  # noqa
 from about import LANG_JS  # noqa
 import navmore  # noqa
+import csmoney  # noqa
+from urllib.parse import quote
+SETL = {"ru": "Собрать сет с ним", "en": "Build a set with it", "de": "Set damit bauen", "pt": "Montar set com ela", "tr": "Bununla set kur", "pl": "Zbuduj zestaw"}
 
 e = lambda s: html.escape(str(s), quote=True)
 RATE = {"ru": 90, "en": 1}
@@ -106,9 +109,13 @@ CSS = """
 .pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
 .pp-c{display:flex;flex-direction:column;min-width:0;overflow:hidden;background:linear-gradient(170deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid var(--line2,rgba(255,255,255,.14));border-bottom:3px solid var(--rc,#8847ff);padding:10px 12px 12px;color:var(--ink,#fff);text-decoration:none}
 .pp-c:hover{border-color:rgba(255,255,255,.35)}
+.pp-l{display:flex;flex-direction:column;flex:1;color:inherit;text-decoration:none;min-width:0}
+.pp-btn{display:grid;gap:6px;margin-top:10px}.pp-btn a{display:flex;align-items:center;justify-content:center;min-height:32px;padding:6px 8px;font:600 .72rem/1.1 var(--hud);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;text-align:center}
+.pp-btn .b-csm{background:linear-gradient(90deg,#ff159a,#c40f78);color:#fff;border:1px solid #ff159a}.pp-btn .b-csm:hover{filter:brightness(1.15)}
+.pp-btn .b-set{background:transparent;color:var(--ink,#fff);border:1px solid var(--line2,rgba(255,255,255,.22))}.pp-btn .b-set:hover{border-color:#fff}
 .pp-c .im{height:96px;display:grid;place-items:center;margin-bottom:6px}.pp-c img{max-width:100%;max-height:96px;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(0,0,0,.55))}
 .pp-c .w{font-size:.78rem;color:var(--soft)}.pp-c b{font:700 1.02rem/1.15 var(--hud);text-transform:uppercase}
-.pp-c .pr{margin-top:auto;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-size:.82rem;color:var(--soft)}
+.pp-l .pr{margin-top:auto;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-size:.82rem;color:var(--soft)}
 .pp-c .pr em{font:700 1.05rem var(--hud);font-style:normal;color:#ffd36a}
 .pp table{width:100%;border-collapse:collapse;font-size:.92rem}.pp th,.pp td{padding:8px 10px;border-bottom:1px solid var(--line,rgba(255,255,255,.08));text-align:left}.pp th{color:var(--dim);font-weight:500}
 .pp ul.tips{padding-left:20px;color:var(--soft);display:grid;gap:8px;max-width:900px}.pp ul.tips a,.pp .faq a{color:#66c0f4}
@@ -153,8 +160,11 @@ def page(lang, kind, n, cat, date):
         inner = (f'<div class="im"><img src="{e(imgurl(x["i"]))}" alt="{e(nm(r))}" loading="lazy" width="160" height="96"></div>'
                  f'<span class="w">{e(x["w"])}</span><b>{e(x["s"] + (" · " + x["ph"] if x.get("ph") else ""))}</b>'
                  f'<div class="pr"><span title="{e(WEARN[lang][w])}">{w}</span><em>{e(fm(v))}</em></div>')
-        tag = f'<a class="pp-c" href="{wu}"' if wu else '<div class="pp-c"'
-        cards.append(f'{tag} style="--rc:{RC[min(x.get("r", 6), 7)]}">{inner}</{"a" if wu else "div"}>')
+        lk = f'<a class="pp-l" href="{wu}">{inner}</a>' if wu else f'<div class="pp-l">{inner}</div>'
+        sq = quote(f"★ {x['w']}|{x['s']}" + (f" ({x['ph']})" if x.get("ph") else ""), safe="")
+        btns = (f'<div class="pp-btn"><a class="b-csm" href="{e(csmoney.url(nm(r), w))}" {csmoney.REL}>{e(csmoney.LABEL[lang])}</a>'
+                f'<a class="b-set" href="{HOME[lang]}?set={sq}">{e(SETL[lang])}</a></div>')
+        cards.append(f'<div class="pp-c" style="--rc:{RC[min(x.get("r", 6), 7)]}">{lk}{btns}</div>')
     d = dict(B=B, N=N, cheap=(nm(rows[0]), fm(rows[0]["low"])), next=[(nm(r), fm(r["low"])) for r in rows[1:4]], types=tnames)
     faq = k["faq"](d)
     other_k = [(slug(lang, kind, m), (t["short_k"] if kind == "knife" else t["short_g"]).format(B=money(lang, m)), m == n) for m in LIST[(lang, kind)]]

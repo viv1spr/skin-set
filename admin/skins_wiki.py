@@ -43,7 +43,7 @@ SLOTN = {
 
 T = {
 "ru": dict(
- title="{name} — цена, качество и с чем сочетать | Skinset", desc="{name}: цены по качеству от {pmin}, редкость «{rar}», цвета и готовые сеты с ножом и перчатками в тон.",
+ title="{name} — цена от {pmin}, все качества и где купить | Skinset", desc="{name}: цена от {pmin}{pmaxs} — FN, MW, FT, WW и BS. Где купить, редкость «{rar}», с чем сочетать и готовые сеты с ножом и перчатками в тон.",
  crumbs=("Главная", "Скины CS2"), h1="{name}", sub="Скин для {w} · {rar}", coll="Коллекция", typ="Тип", rarL="Редкость", colL="Цвета",
  intro="{name} — скин для {w} редкости «{rar}»{coll}. Основные цвета — {cols}. Самый доступный вариант на рынке сейчас — {cw} от {cp}{fn}.",
  fn=", в Factory New — от {p}", ratio="Разница между самым дешёвым и самым дорогим качеством — примерно в {x} раза, поэтому выбор износа сильно влияет на цену сета.",
@@ -59,7 +59,7 @@ T = {
  idx_h="Скины CS2", idx_p="Справочник скинов из конструктора Skinset: у каждого — цены по качеству, цвета, похожие скины и готовые сеты с ножом и перчатками в тон.",
  color_set="Сет «{c}»"),
 "en": dict(
- title="{name} — price, wear and what to pair it with | Skinset", desc="{name}: prices by wear from {pmin}, {rar} rarity, colors and ready loadouts with a matching knife and gloves.",
+ title="{name} price — from {pmin}, all wears, where to buy | Skinset", desc="{name} price from {pmin}{pmaxs} across FN, MW, FT, WW and BS. Where to buy, {rar} rarity, what to pair it with and ready loadouts.",
  crumbs=("Home", "CS2 skins"), h1="{name}", sub="{w} skin · {rar}", coll="Collection", typ="Type", rarL="Rarity", colL="Colors",
  intro="{name} is a {rar} skin for the {w}{coll}. Main colors: {cols}. The cheapest version on the market right now is {cw} from {cp}{fn}.",
  fn=", Factory New starts at {p}", ratio="The gap between the cheapest and the most expensive wear is about {x}×, so the wear you pick changes the set price a lot.",
@@ -75,7 +75,7 @@ T = {
  idx_h="CS2 skins", idx_p="Skin guide from the Skinset builder: each skin has prices by wear, colors, similar skins and ready sets with a matching knife and gloves.",
  color_set="{c} set"),
 "de": dict(
- title="{name} — Preis, Zustand und Kombinationen | Skinset", desc="{name}: Preise nach Zustand ab {pmin}, Seltenheit {rar}, Farben und fertige Loadouts mit passendem Messer und Handschuhen.",
+ title="{name} Preis — ab {pmin}, alle Zustände, wo kaufen | Skinset", desc="{name}: Preise nach Zustand ab {pmin}{pmaxs}, Seltenheit {rar}, Farben und fertige Loadouts mit passendem Messer und Handschuhen.",
  crumbs=("Start", "CS2-Skins"), h1="{name}", sub="{w}-Skin · {rar}", coll="Kollektion", typ="Typ", rarL="Seltenheit", colL="Farben",
  intro="{name} ist ein {rar}-Skin für die {w}{coll}. Hauptfarben: {cols}. Die günstigste Variante auf dem Markt ist gerade {cw} ab {cp}{fn}.",
  fn=", Factory New ab {p}", ratio="Zwischen dem günstigsten und dem teuersten Zustand liegt etwa Faktor {x} — der Zustand verändert den Set-Preis stark.",
@@ -91,7 +91,7 @@ T = {
  idx_h="CS2-Skins", idx_p="Skin-Guide aus dem Skinset-Builder: zu jedem Skin Preise nach Zustand, Farben, ähnliche Skins und fertige Sets mit passendem Messer und Handschuhen.",
  color_set="Set „{c}“"),
 "pt": dict(
- title="{name} — preço, desgaste e com o que combinar | Skinset", desc="{name}: preços por desgaste a partir de {pmin}, raridade {rar}, cores e sets prontos com faca e luvas combinando.",
+ title="{name} preço — a partir de {pmin}, todos os desgastes, onde comprar | Skinset", desc="{name}: preços por desgaste a partir de {pmin}{pmaxs}, raridade {rar}, cores e sets prontos com faca e luvas combinando.",
  crumbs=("Início", "Skins de CS2"), h1="{name}", sub="Skin de {w} · {rar}", coll="Coleção", typ="Tipo", rarL="Raridade", colL="Cores",
  intro="{name} é uma skin {rar} para a {w}{coll}. Cores principais: {cols}. A versão mais barata no mercado agora é {cw} a partir de {cp}{fn}.",
  fn=", Factory New a partir de {p}", ratio="A diferença entre o desgaste mais barato e o mais caro é de cerca de {x}×, então o desgaste muda muito o preço do set.",
@@ -107,7 +107,7 @@ T = {
  idx_h="Skins de CS2", idx_p="Guia de skins do montador Skinset: cada skin tem preços por desgaste, cores, skins parecidas e sets prontos com faca e luvas combinando.",
  color_set="Set {c}"),
 "tr": dict(
- title="{name} — fiyat, aşınma ve neyle uyumlu | Skinset", desc="{name}: aşınmaya göre fiyatlar {pmin}'den başlar, nadirlik {rar}, renkler ve uyumlu bıçak ile eldivenli hazır setler.",
+ title="{name} fiyatı — {pmin}'den başlayan, tüm aşınmalar, nereden alınır | Skinset", desc="{name}: aşınmaya göre fiyatlar {pmin}'den başlar, nadirlik {rar}, renkler ve uyumlu bıçak ile eldivenli hazır setler.",
  crumbs=("Ana sayfa", "CS2 skinleri"), h1="{name}", sub="{w} skini · {rar}", coll="Koleksiyon", typ="Tür", rarL="Nadirlik", colL="Renkler",
  intro="{name}, {w} için {rar} nadirlikte bir skin{coll}. Ana renkler: {cols}. Şu an piyasadaki en ucuz sürüm {cw}, {cp} fiyattan başlıyor{fn}.",
  fn="; Factory New {p}'den başlıyor", ratio="En ucuz ve en pahalı aşınma arasındaki fark yaklaşık {x} kat — aşınma seçimi set fiyatını çok etkiler.",
@@ -123,7 +123,7 @@ T = {
  idx_h="CS2 skinleri", idx_p="Skinset oluşturucusundan skin rehberi: her skin için aşınmaya göre fiyatlar, renkler, benzer skinler ve uyumlu bıçak ile eldivenli hazır setler.",
  color_set="{c} set"),
 "pl": dict(
- title="{name} — cena, stan i z czym łączyć | Skinset", desc="{name}: ceny według stanu od {pmin}, rzadkość {rar}, kolory i gotowe zestawy z pasującym nożem i rękawicami.",
+ title="{name} cena — od {pmin}, wszystkie stany, gdzie kupić | Skinset", desc="{name}: ceny według stanu od {pmin}{pmaxs}, rzadkość {rar}, kolory i gotowe zestawy z pasującym nożem i rękawicami.",
  crumbs=("Start", "Skiny CS2"), h1="{name}", sub="Skin do {w} · {rar}", coll="Kolekcja", typ="Typ", rarL="Rzadkość", colL="Kolory",
  intro="{name} to skin {rar} do {w}{coll}. Główne kolory: {cols}. Najtańsza wersja na rynku to teraz {cw} od {cp}{fn}.",
  fn=", Factory New od {p}", ratio="Różnica między najtańszym a najdroższym stanem to około {x}×, więc wybór stanu mocno zmienia cenę zestawu.",
@@ -380,7 +380,8 @@ def page(lang, n):
     fnp = dict(wp).get("FN")
     pi = d["preset"]; colorname = PNAMES[lang][pi].lower() if lang not in ("de",) else PNAMES[lang][pi]
     F = dict(name=n, w=w, rar=rar, pmin=lp(lang, cp), cw=wname(lang, cw) if lang == "ru" else WEARN["*"][cw], cp=lp(lang, cp),
-             cols=colsn, coll=COLLW[lang].format(c=coll) if coll else "", color=colorname)
+             cols=colsn, coll=COLLW[lang].format(c=coll) if coll else "", color=colorname,
+             pmaxs=({'ru': ' до ', 'en': ' to ', 'de': ' bis ', 'pt': ' até ', 'tr': ' – ', 'pl': ' do '}[lang] + lp(lang, mx)) if len(wp) > 1 and mx > cp * 1.05 else "")
     intro = t["intro"].format(**F, fn=t["fn"].format(p=lp(lang, fnp)) if fnp and cw != "FN" else "")
     ratio = t["ratio"].format(x=f"{mx / cp:.1f}".replace(".", "," if lang != "en" else ".")) if len(wp) > 1 and mx / cp >= 1.5 else ""
     pre, suf = money_parts(lang)

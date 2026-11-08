@@ -383,3 +383,22 @@
 2026-11-07 https://skin-set.com/skiny/sport-gloves-superconductor/ indexed
 2026-11-07 https://skin-set.com/skiny/m4a4-howl/ indexed
 2026-11-07 https://skin-set.com/skiny/moto-gloves-spearmint/ indexed
+2026-11-08 https://skin-set.com/skiny/karambit-doppler-sapphire/
+2026-11-08 https://skin-set.com/skiny/karambit-doppler-ruby/
+2026-11-08 https://skin-set.com/skiny/karambit-gamma-doppler-emerald/
+2026-11-08 https://skin-set.com/skiny/butterfly-knife-doppler-sapphire/
+2026-11-08 https://skin-set.com/skiny/butterfly-knife-gamma-doppler-emerald/
+2026-11-08 https://skin-set.com/skiny/m9-bayonet-doppler-sapphire/
+2026-11-08 https://skin-set.com/skiny/m9-bayonet-gamma-doppler-emerald/
+2026-11-08 https://skin-set.com/skiny/talon-knife-doppler-ruby/
+2026-11-08 https://skin-set.com/skiny/specialist-gloves-crimson-kimono/ indexed
+2026-11-08 https://skin-set.com/skiny/sport-gloves-vice/ indexed
+2026-11-08 https://skin-set.com/skiny/specialist-gloves-emerald-web/ indexed
+2026-11-08 https://skin-set.com/skiny/bayonet-gamma-doppler-emerald/
+2026-11-08 https://skin-set.com/skiny/sport-gloves-slingshot/ indexed
+2026-11-08 https://skin-set.com/skiny/sport-gloves-nocts/ indexed
+2026-11-08 https://skin-set.com/skiny/sport-gloves-amphibious/ indexed
+2026-11-08 https://skin-set.com/skiny/huntsman-knife-gamma-doppler-emerald/ indexed
+2026-11-08 https://skin-set.com/skiny/driver-gloves-king-snake/ indexed
+2026-11-08 https://skin-set.com/skiny/specialist-gloves-foundation/ indexed
+2026-11-08 https://skin-set.com/skiny/shadow-daggers-gamma-doppler-emerald/

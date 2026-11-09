@@ -402,3 +402,32 @@
 2026-11-08 https://skin-set.com/skiny/driver-gloves-king-snake/ indexed
 2026-11-08 https://skin-set.com/skiny/specialist-gloves-foundation/ indexed
 2026-11-08 https://skin-set.com/skiny/shadow-daggers-gamma-doppler-emerald/
+2026-11-09 https://skin-set.com/skiny/glock-18-fade/ indexed
+2026-11-09 https://skin-set.com/skiny/flip-knife-doppler-phase-2/ indexed
+2026-11-09 https://skin-set.com/skiny/skeleton-knife-crimson-web/ indexed
+2026-11-09 https://skin-set.com/skiny/m4a4-poseidon/ indexed
+2026-11-09 https://skin-set.com/skiny/specialist-gloves-fade/ indexed
+2026-11-09 https://skin-set.com/skiny/specialist-gloves-marble-fade/ indexed
+2026-11-09 https://skin-set.com/skiny/specialist-gloves-cloud-chaser/ indexed
+2026-11-09 https://skin-set.com/skiny/driver-gloves-crimson-weave/ indexed
+2026-11-09 https://skin-set.com/skiny/aug-akihabara-accept/ indexed
+2026-11-09 https://skin-set.com/skiny/negev-mj-lnir/ indexed
+2026-11-09 https://skin-set.com/skiny/mp9-wild-lily/ indexed
+2026-11-09 https://skin-set.com/skiny/driver-gloves-snow-leopard/ indexed
+2026-11-09 https://skin-set.com/skiny/p250-nuclear-threat/ indexed
+2026-11-09 https://skin-set.com/skiny/moto-gloves-cool-mint/ indexed
+2026-11-09 https://skin-set.com/skiny/driver-gloves-brocade-flowers/ indexed
+2026-11-09 https://skin-set.com/skiny/specialist-gloves-blackbook/ indexed
+2026-11-09 https://skin-set.com/skiny/tec-9-nuclear-threat/ indexed
+2026-11-09 https://skin-set.com/skiny/glock-18-gamma-doppler-emerald/ indexed
+2026-11-09 https://skin-set.com/en/skins/shadow-daggers-doppler-sapphire/ indexed
+2026-11-09 https://skin-set.com/en/skins/karambit-doppler-sapphire/
+2026-11-09 https://skin-set.com/skiny/shadow-daggers-doppler-sapphire/
+2026-11-09 https://skin-set.com/en/skins/karambit-doppler-ruby/
+2026-11-09 https://skin-set.com/en/skins/karambit-gamma-doppler-emerald/
+2026-11-09 https://skin-set.com/en/skins/butterfly-knife-doppler-sapphire/
+2026-11-09 https://skin-set.com/en/skins/butterfly-knife-gamma-doppler-emerald/
+2026-11-09 https://skin-set.com/en/skins/m9-bayonet-doppler-sapphire/
+2026-11-09 https://skin-set.com/en/skins/m9-bayonet-gamma-doppler-emerald/
+2026-11-09 https://skin-set.com/en/skins/talon-knife-doppler-ruby/
+2026-11-09 https://skin-set.com/en/skins/shadow-daggers-gamma-doppler-emerald/

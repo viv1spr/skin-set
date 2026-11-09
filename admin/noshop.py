@@ -85,6 +85,10 @@ def perf(s):
     s = s.replace('try{const r=await fetch(IMG_SRC);if(!r.ok)throw 0;const list=await r.json();',
                   'try{const r=await fetch(IMG_SRC);if(!r.ok)throw 0;const list=(await r.json()).map(a=>Array.isArray(a)?{name:a[0],image:"' + STEAM_IMG + '"+a[1]+"/360fx270f",phase:a[2]}:a);')
     s = s.replace('fetch("/data/skins-extra.json",{cache:"no-store"})', 'fetch("/data/skins-extra.json")')
+    # картинки скинов идут со Steam CDN — соединение заранее
+    s = s.replace('<link rel="preconnect" href="https://community.akamai.steamstatic.com" crossorigin>', '<link rel="preconnect" href="https://community.akamai.steamstatic.com">')
+    if "steamstatic.com/economy/image" in s and 'rel="preconnect" href="https://community.akamai.steamstatic.com"' not in s and "</head>" in s:
+        s = s.replace("</head>", '<link rel="preconnect" href="https://community.akamai.steamstatic.com"><link rel="dns-prefetch" href="https://community.akamai.steamstatic.com">\n</head>', 1)
     return s
 
 

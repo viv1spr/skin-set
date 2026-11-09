@@ -12,11 +12,25 @@ RAR = {"ru": ["Ширпотреб", "Промышленное", "Армейск�
        "en": ["Consumer", "Industrial", "Mil-Spec", "Restricted", "Classified", "Covert", "Extraordinary", "Contraband"]}
 WEAPONS = [("AK-47", "ak-47"), ("AWP", "awp"), ("M4A4", "m4a4"), ("M4A1-S", "m4a1-s"), ("Desert Eagle", "desert-eagle"), ("USP-S", "usp-s"),
            ("Glock-18", "glock-18"), ("Karambit", "karambit"), ("Butterfly Knife", "butterfly"), ("M9 Bayonet", "m9-bayonet"), ("Sport Gloves", "sport-gloves")]
-EXTRA_CSS = """.gp-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}.gp-tabs a{padding:7px 12px;border:1px solid var(--line2,rgba(255,255,255,.18));color:var(--ink,#fff);text-decoration:none;font:600 .78rem/1 var(--hud);letter-spacing:.06em;text-transform:uppercase}.gp-tabs a.on,.gp-tabs a:hover{border-color:#ff159a;color:#ff5cb8}
+EXTRA_CSS = """.gp-cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:10px 0 24px}.gc{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:12px 10px;border:1px solid var(--line2,rgba(255,255,255,.14));background:linear-gradient(170deg,rgba(255,255,255,.05),rgba(255,255,255,.01));color:var(--ink,#fff);text-decoration:none}.gc:hover{border-color:#ff159a}.gc img{width:110px;height:86px;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(0,0,0,.5))}.gc i{width:110px;height:86px}.gc b{font:600 .88rem/1.2 var(--hud)}.gc small{color:var(--soft);font-size:.74rem}
+.gp-hero{float:right;margin:-70px 0 10px 20px}.gp-hero img{width:200px;height:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.6))}@media(max-width:700px){.gp-hero{float:none;margin:0 0 12px;text-align:center}.gp-hero img{width:150px}.gp-cases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gp-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}.gp-tabs a{padding:7px 12px;border:1px solid var(--line2,rgba(255,255,255,.18));color:var(--ink,#fff);text-decoration:none;font:600 .78rem/1 var(--hud);letter-spacing:.06em;text-transform:uppercase}.gp-tabs a.on,.gp-tabs a:hover{border-color:#ff159a;color:#ff5cb8}
 .pp-l{display:flex;flex-direction:column;flex:1;color:inherit;text-decoration:none;min-width:0}.pp-l .pr{margin-top:auto;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-size:.82rem;color:var(--soft)}.pp-l .pr em{font:700 1.05rem var(--hud);font-style:normal;color:#ffd36a}
 .pp-btn{display:grid;gap:6px;margin-top:10px}.pp-btn a{display:flex;align-items:center;justify-content:center;min-height:32px;padding:6px 8px;font:600 .72rem/1.1 var(--hud);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;text-align:center}
 .pp-btn .b-csm{background:linear-gradient(90deg,#ff159a,#c40f78);color:#fff;border:1px solid #ff159a}.pp-btn .b-set{background:transparent;color:var(--ink,#fff);border:1px solid var(--line2,rgba(255,255,255,.22))}
 .gp-list{columns:3 260px;gap:18px;list-style:none;padding:0}.gp-list li{break-inside:avoid;padding:5px 0;border-bottom:1px solid var(--line,rgba(255,255,255,.08))}.gp-list a{color:var(--ink,#fff)}.gp-list small{color:var(--soft);margin-left:6px}"""
+
+
+try:
+    CIMG = json.load(open(os.path.join(ROOT, "data/case-img.json"), encoding="utf-8"))
+except Exception:
+    CIMG = {}
+
+
+def cimg(k):
+    u = CIMG.get(k)
+    if u and "economy/image/" in u and not u.rstrip("/").endswith("f"): u = u + "/256fx256f"
+    return u
 
 
 def wurl(lang, slug):
@@ -176,7 +190,8 @@ def collection_pages(lang, cat, date):
                    (f"What is the most expensive skin in {k}?", f"{nm(top[0])}, from {m(max(p for p in top[0]['p'] if p))} in the best wear."),
                    (f"How much do {k} skins cost?", f"From {m(low(cheap[0]))} ({nm(cheap[0])}) up to {m(max(p for p in top[0]['p'] if p))}. Price depends on rarity and wear (FN, MW, FT, WW, BS).")]
             crumbs = [("Home", "/en/"), ("Collections and cases", curl(lang)), (k, url)]
-        body = (f'<div class="pp-grid">{"".join(card(lang, x) for x in guns[:120])}</div>' +
+        hero = f'<div class="gp-hero"><img src="{e(cimg(k))}" alt="{e(k)}" width="200" height="156"></div>' if cimg(k) else ""
+        body = (hero + f'<div class="pp-grid">{"".join(card(lang, x) for x in guns[:120])}</div>' +
                 (f'<h2>{"Редкие предметы (ножи и перчатки)" if lang == "ru" else "Rare special items (knives and gloves)"}</h2><div class="pp-grid">{"".join(card(lang, x) for x in sorted(rare, key=lambda x: -(low(x) or 0))[:60])}</div>' if rare else "") +
                 f'<p><a class="cta" href="{curl(lang)}">{"← Все коллекции и кейсы" if lang == "ru" else "← All collections and cases"}</a></p>')
         made.append(build(lang, url, title, desc, h1, crumbs, lead, body, faq, [nm(x) for x in xs]))
@@ -184,7 +199,7 @@ def collection_pages(lang, cat, date):
     # хаб
     url = curl(lang)
     cases = [r for r in index if "Case" in r[0]]; cols = [r for r in index if "Case" not in r[0]]
-    lst = lambda rows: '<ul class="gp-list">' + "".join(f'<li><a href="{u}">{e(k)}</a><small>{n} {pl(n, "скин", "скина", "скинов") if lang == "ru" else "skins"}</small></li>' for k, u, n, _ in rows) + "</ul>"
+    lst = lambda rows: '<div class="gp-cases">' + "".join(f'<a class="gc" href="{u}">' + (f'<img src="{e(cimg(k))}" alt="{e(k)}" loading="lazy" width="128" height="100">' if cimg(k) else '<i></i>') + f'<b>{e(k)}</b><small>{n} {pl(n, "скин", "скина", "скинов") if lang == "ru" else "skins"}</small></a>' for k, u, n, _ in rows) + "</div>"
     if lang == "ru":
         body = f'<h2>Кейсы CS2</h2>{lst(cases)}<h2>Коллекции CS2</h2>{lst(cols)}'
         faq = [("Чем кейс отличается от коллекции?", "Кейс открывается ключом, и из него может выпасть редкий нож или перчатки. Скины коллекций выпадают после матчей или в сувенирных наборах, ножей в них нет."),

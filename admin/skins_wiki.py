@@ -362,6 +362,13 @@ def minprice(n):
     return (w, v * 90) if w else None
 
 
+def coll_link(lang, coll):
+    if lang not in ("ru", "en"): return e(coll)
+    sl = re.sub(r"[^a-z0-9]+", "-", coll.lower().replace("&", "and")).strip("-")
+    u = ("/kollekcii-i-kejsy-cs2/" if lang == "ru" else "/en/cs2-collections-and-cases/") + sl + "/"
+    return f'<a href="{u}">{e(coll)}</a>' if os.path.exists(os.path.join(ROOT, u.strip("/"), "index.html")) else e(coll)
+
+
 def page(lang, n):
     t = T[lang]; d = WS[n]; a = api(n)
     w, sk = n.split(" | ", 1)
@@ -418,7 +425,7 @@ def page(lang, n):
 <span class="sub">{e(t['sub'].format(**F))}</span>
 <h1>{e(n)}</h1>
 <div class="top"><div class="pic" style="--rc:{RCOL.get(rar_en, '#c4161c')}"><img src="{e(im)}" alt="{e(n)}" width="512" height="384" fetchpriority="high"></div>
-<div><ul class="facts"><li><span>{e(t['typ'])}</span><b>{e(w)}</b></li><li><span>{e(t['rarL'])}</span><b style="color:{RCOL.get(rar_en, '#fff')}">{e(rar)}</b></li>{f'<li><span>{e(t["coll"])}</span><b>{e(coll)}</b></li>' if coll else ''}<li><span>{e(t['colL'])}</span><b><span class="sw">{sw}</span> {e(colsn)}</b></li><li><span>{e(t['tab'][1])}</span><b>{e(lp(lang, cp))}</b></li></ul>
+<div><ul class="facts"><li><span>{e(t['typ'])}</span><b>{e(w)}</b></li><li><span>{e(t['rarL'])}</span><b style="color:{RCOL.get(rar_en, '#fff')}">{e(rar)}</b></li>{f'<li><span>{e(t["coll"])}</span><b>{coll_link(lang, coll)}</b></li>' if coll else ''}<li><span>{e(t['colL'])}</span><b><span class="sw">{sw}</span> {e(colsn)}</b></li><li><span>{e(t['tab'][1])}</span><b>{e(lp(lang, cp))}</b></li></ul>
 <div class="btns" style="margin-top:16px"><a class="btn p" href="{HOME[lang]}{CP[lang][pi]}/?set={setq}">{e(t['cta'])}</a><a class="btn csm" href="{e(csmoney.url(n))}" {csmoney.REL}><img src="/img/csmoney.png" alt="">{e(csmoney.LABEL[lang])}</a></div></div></div>
 <p class="lead2">{e(intro)}</p>{f'<p class="note">{e(ratio)}</p>' if ratio else ''}
 <h2>{e(t['price_h'].format(**F))}</h2>

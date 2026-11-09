@@ -160,8 +160,8 @@ def page(lang, kind, n, cat, date):
         inner = (f'<div class="im"><img src="{e(imgurl(x["i"]))}" alt="{e(nm(r))}" loading="lazy" width="160" height="96"></div>'
                  f'<span class="w">{e(x["w"])}</span><b>{e(x["s"] + (" · " + x["ph"] if x.get("ph") else ""))}</b>'
                  f'<div class="pr"><span title="{e(WEARN[lang][w])}">{w}</span><em>{e(fm(v))}</em></div>')
-        lk = f'<a class="pp-l" href="{wu}">{inner}</a>' if wu else f'<div class="pp-l">{inner}</div>'
         sq = quote(f"★ {x['w']}|{x['s']}" + (f" ({x['ph']})" if x.get("ph") else ""), safe="")
+        lk = f'<a class="pp-l" href="{wu or HOME[lang] + "?set=" + sq}">{inner}</a>'
         btns = (f'<div class="pp-btn"><a class="b-csm" href="{e(csmoney.url(nm(r), w))}" {csmoney.REL}>{e(csmoney.LABEL[lang])}</a>'
                 f'<a class="b-set" href="{HOME[lang]}?set={sq}">{e(SETL[lang])}</a></div>')
         cards.append(f'<div class="pp-c" style="--rc:{RC[min(x.get("r", 6), 7)]}">{lk}{btns}</div>')

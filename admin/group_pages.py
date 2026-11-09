@@ -67,9 +67,9 @@ def card(lang, x):
     inner = (f'<div class="im"><img src="{e(imgurl(x["i"]))}" alt="{e(n)}" loading="lazy" width="160" height="96"></div>'
              f'<span class="w">{e(x["w"])} · {e(RAR[lang][min(x.get("r", 0), 7)])}</span><b>{e(x["s"] + (" · " + x["ph"] if x.get("ph") else ""))}</b>'
              f'<div class="pr"><span title="{e(WEARN[lang].get(w, ""))}">{w or ""}</span><em>{e(money(lang, v * RATE[lang])) if v else "—"}</em></div>')
-    lk = f'<a class="pp-l" href="{wu}">{inner}</a>' if wu else f'<div class="pp-l">{inner}</div>'
     star = "★ " if x["c"] in ("knife", "gloves") else ""
     sq = quote(f"{star}{x['w']}|{x['s']}" + (f" ({x['ph']})" if x.get("ph") else ""), safe="")
+    lk = f'<a class="pp-l" href="{wu or HOME[lang] + "?set=" + sq}">{inner}</a>'
     btn = (f'<div class="pp-btn"><a class="b-csm" href="{e(csmoney.url(n, w))}" {csmoney.REL}>{e(csmoney.LABEL[lang])}</a>'
            f'<a class="b-set" href="{HOME[lang]}?set={sq}">{e(SETL[lang])}</a></div>')
     return f'<div class="pp-c" style="--rc:{RC[min(x.get("r", 0), 7)]}">{lk}{btn}</div>'

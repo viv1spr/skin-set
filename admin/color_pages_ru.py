@@ -61,6 +61,7 @@ C = [
   intro="Чёрно-белый сет — самый универсальный: Printstream на Desert Eagle, M4A1-S и USP-S, Vulcan и Neo-Noir, ножи Stained и Black Laminate. Чёрно-белый инвентарь CS2 никогда не выглядит безвкусно, и его проще всего дополнять по мере роста бюджета.",
   how="Ставь контраст на главные предметы: нож Stained, Damascus Steel или Ultraviolet, перчатки Specialist Fade или Driver Gloves Black Tie. На AK-47 — Vulcan или Neon Rider в светлой гамме, на M4A1-S и Desert Eagle — Printstream, на AWP — Containment Breach или Asiimov с белым. Чёрно-белый проще всего «разбавить» одним цветным акцентом — главное, чтобы акцент был один."),
 ]
+from color_extra_ru import EXTRA_RU  # noqa
 TYPES = {"nozhi": ("Нож", "ножи", "ножа", "knife"), "perchatki": ("Перчатки", "перчатки", "перчаток", "gloves")}
 
 
@@ -121,6 +122,28 @@ def color_links(cur):
     return "".join(f'<li><a href="/{c["stem"]}-skiny-cs2/"{" class=on" if c is cur else ""}>{e(c["Set"].split(" КС")[0])}</a></li>' for c in C)
 
 
+def gallery_ru(picks):
+    out = []
+    for g, (w, sk, _) in picks:
+        im = img(w, sk)
+        if not im: continue
+        n = f"{w.replace('★ ', '')} | {sk}"; p = price(w, sk); wu = wiki_url("ru", n)
+        tag = "a" if wu else "div"; hr = f' href="{wu}"' if wu else ""
+        out.append(f'<{tag} class="sg"{hr}><img src="{e(im)}" alt="{e(n)}" loading="lazy" width="240" height="180"><b>{e(sk)}</b><small>{e(w.replace("★ ", ""))}{" · от " + e(rub(p)) if p else ""}</small></{tag}>')
+    return '<div class="seo-gal">' + "".join(out) + "</div>" if out else ""
+
+
+def extra_ru(p, c, groups):
+    x = EXTRA_RU[p]
+    picks = [(g, parse_items(u)[0]) for g, u in groups if parse_items(u)]
+    nm = c["Set"].split(" КС")[0]
+    return (f'<h2>Лучшие {e(c["pl"])} скины CS2 — коротко</h2><p>Самое точное совпадение по цвету в каждом слоте и текущая минимальная цена. Нажми на скин — там цены по всем качествам, float и история цены.</p>' + gallery_ru(picks) +
+            f'\n<h2>{e(c["pl"].capitalize())} ножи: какой выбрать</h2><p>{e(x["knife"])}</p>'
+            f'\n<h2>{e(c["pl"].capitalize())} перчатки: какие выбрать</h2><p>{e(x["gloves"])}</p>'
+            f'\n<h2>{e(nm)} на маленький бюджет</h2><p>{e(x["budget"])}</p>'
+            f'\n<h2>Частые ошибки в {e(c["m"].replace("ый", "ом").replace("ий", "ем"))} сете</h2><p>{e(x["mist"])}</p>\n')
+
+
 def do_color(p, c):
     f = os.path.join(ROOT, f'{c["stem"]}-skiny-cs2', "index.html"); s = open(f, encoding="utf-8").read()
     i = s.find('<div class="seo-list">'); j = s.find("</div>", i)
@@ -147,7 +170,7 @@ def do_color(p, c):
              f'<p class="seo-lead">{e(c["intro"])}</p>\n'
              f'<h2>Готовые {e(c["pl"])} сеты: 3 бюджета</h2><p>Сеты собраны конструктором Skinset по текущим ценам. «Открыть в конструкторе» загрузит именно этот сет — дальше можно заменить любой слот.</p>\n'
              + "".join(b for b, _, _ in sets) +
-             f'\n<h2>Как собрать {e(c["m"])} сет в CS2</h2><p>{e(c["how"])}</p>\n'
+             f'\n<h2>Как собрать {e(c["m"])} сет в CS2</h2><p>{e(c["how"])}</p>\n' + extra_ru(p, c, groups) +
              f'<div class="seo-list"><h2>{e(c["pl"].capitalize())} скины CS2 по слотам</h2><p>По каждому слоту — скины с самым точным совпадением цвета и минимальная цена на рынке.</p>{lists}</div>\n'
              f'<h2>Ножи и перчатки в этом цвете</h2><ul class="seo-chips"><li><a href="/{c["stem"]}-nozhi-cs2/">{e(c["pl"].capitalize())} ножи CS2</a></li><li><a href="/{c["stem"]}-perchatki-cs2/">{e(c["pl"].capitalize())} перчатки CS2</a></li></ul>\n'
              f'<h2>Вопросы и ответы</h2>' + "".join(f"<h3>{e(q)}</h3><p>{a if '<a ' in a else e(a)}</p>" for q, a in faq) +
@@ -196,14 +219,16 @@ def do_type(p, c, kind):
              f'<h1>{e(pl_title)} (КС 2 и КС ГО): список и цены</h1><div id="seoColor" hidden></div><ul id="seoLinks" hidden></ul>\n'
              f'<p class="seo-lead">{e(intro)}</p>\n'
              f'<h2>Все {e(c["pl"])} {e(Tpl)} CS2 — от дешёвых к дорогим</h2><div class="seo-list"><ul>{"".join(li(*x) for x in items)}</ul></div>\n'
+             f'<h2>{"Какой" if kind == "nozhi" else "Какие"} {e(c["m"] if kind == "nozhi" else c["pl"])} {"нож" if kind == "nozhi" else "перчатки"} выбрать</h2><p>{e(EXTRA_RU[p]["knife" if kind == "nozhi" else "gloves"])}</p>\n' +
              f'<h2>С чем сочетать</h2><p>{e(how)}</p>{b1}{b2}\n'
+             + f'<h2>Частые ошибки</h2><p>{e(EXTRA_RU[p]["mist"])}</p>\n' +
              f'<p><a class="seo-cta" href="/{c["stem"]}-skiny-cs2/">Собрать {e(c["m"])} сет →</a></p>\n'
              f'<h2>Вопросы и ответы</h2>' + "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faq) +
              f'\n<h2>Смотри также</h2><ul class="seo-chips"><li><a href="/{c["stem"]}-{other}-cs2/">{e(c["pl"].capitalize())} {"перчатки" if kind == "nozhi" else "ножи"} CS2</a></li><li><a href="/{c["stem"]}-skiny-cs2/">{e(c["Set"].split(" КС")[0])}</a></li>'
              + "".join(f'<li><a href="{h}">{e(t)}</a></li>' for h, t in bl) + "</ul>\n"
              f'<h2>{e(T1)} других цветов</h2><ul class="seo-chips">' + "".join(f'<li><a href="/{d["stem"]}-{kind}-cs2/"{" class=on" if d is c else ""}>{e(d["pl"].capitalize())}</a></li>' for d in C) + "</ul>")
     s = replace_section(s, inner, faq_ld(faq, [("Главная", "/"), (c["Set"].split(" КС")[0], f'/{c["stem"]}-skiny-cs2/'), (pl_title, f'/{c["stem"]}-{kind}-cs2/')]))
-    s = re.sub(r"<title>.*?</title>", f"<title>{e(pl_title)} и КС ГО: список, цены и с чем сочетать — Skinset</title>", s, count=1)
+    s = re.sub(r"<title>.*?</title>", f"<title>{e(c['pl'].capitalize())} {e(Tpl)} КС 2 (CS2): все модели, цены и с чем сочетать — Skinset</title>", s, count=1)
     if pr:
         d = f"Все {c['pl']} {Tpl} КС 2 (CS2) и КС ГО с ценами от {rub(pr[0][1])}: {', '.join(nm(x) for x, _ in pr[-3:][::-1])} и другие. Готовые сеты и с чем сочетать."
         for pat in [r'<meta name="description" content="[^"]*">', r'<meta property="og:description" content="[^"]*">']:

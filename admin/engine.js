@@ -85,6 +85,10 @@ function buildPost(tpl,p,all,lang){lang=lang||"ru";const q=loc(p,lang);if(!q)ret
   CUR_LANG=lang;USED=[];if(p.coverSkin&&skinImg(p.coverSkin))USED.push(p.coverSkin);const body=md(q.md||"")+priceTable(USED,lang);const url=SITE+c.blog+p.slug+"/";
   const others=all.filter(x=>x.slug!==p.slug&&!x.draft&&hasLang(x,lang)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3).map(x=>card(x,lang)).join("")||'<a class="post-card" href="'+(c.home||"/")+'"><b>Skinset</b><p>'+esc(ui.ctaDef||"")+'</p></a>';
   const ld=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":q.title,"description":q.desc||"","datePublished":p.date,"dateModified":p.updated||p.date,"inLanguage":lang,"author":{"@type":"Person","name":"viv1stop","url":"https://www.twitch.tv/viv1stop"},"publisher":{"@type":"Organization","name":"Skinset","url":SITE},"mainEntityOfPage":url});
+  const faqLd=(()=>{const md=q.md||"";const m=md.match(/^##\s+.*(Вопрос|FAQ|Questions|Fragen|Perguntas|Sorular|Pytania|Часто).*$/mi);if(!m)return null;let sec=md.slice(m.index+m[0].length);const nx=sec.search(/^##\s/m);if(nx>0)sec=sec.slice(0,nx);
+    const qa=[];sec.replace(/^\*\*(.+?)\*\*\s+(.+)$/gm,(x,qq,aa)=>{const cl=t=>t.replace(/\[[a-z]+[^\]]*\]/g,"").replace(/\[([^\]]+)\]\([^)]+\)/g,"$1").replace(/[*_`]/g,"").trim();if(/\?$/.test(qq.trim()))qa.push({"@type":"Question","name":cl(qq),"acceptedAnswer":{"@type":"Answer","text":cl(aa)}})});
+    return qa.length>=2?{"@context":"https://schema.org","@type":"FAQPage","mainEntity":qa}:null})();
+  const ldOut=faqLd?ld.replace(/^/,"[")+","+JSON.stringify(faqLd)+"]":ld;
   let n=0;const toc=[];const body2=body.replace(/<h2>(.*?)<\/h2>/g,(m,t)=>{n++;const id="s"+n;toc.push('<a href="#'+id+'">'+t+'</a>');return '<h2 id="'+id+'">'+t+'</h2>'});
   const cover=coverOf(p);const pc=p.color!==undefined&&PRESETS[+p.color]?PRESETS[+p.color]:null;const cu=ctaUrl(p,lang);
   const side='<div class="side-card"><b>'+esc(ui.toc||"")+'</b>'+(toc.length?'<nav class="toc">'+toc.join("")+'</nav>':'<p>—</p>')+'</div>'
@@ -92,7 +96,7 @@ function buildPost(tpl,p,all,lang){lang=lang||"ru";const q=loc(p,lang);if(!q)ret
     +'<div class="side-card"><b>'+esc(ui.others||"")+'</b><div class="side-list">'+all.filter(x=>x.slug!==p.slug&&!x.draft&&hasLang(x,lang)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(x=>'<a href="'+c.blog+esc(x.slug)+'/">'+esc(loc(x,lang).title)+'</a>').join("")+'</div></div>'
     +'<div class="side-card"><b>'+esc(ui.sections||"")+'</b><div class="side-list"><a href="'+(c.home||"/")+'">'+esc(ui.builder||"")+'</a><a href="'+(c.feed||"/sety/")+'">'+esc(ui.sets||"")+'</a><a href="'+(c.shops||"/gde-kupit/")+'">'+esc(ui.shops||"")+'</a><a href="'+(c.how||"/kak-rabotaet/")+'">'+esc(ui.how||"")+'</a></div></div>';
   return fill(tpl,{SIDE:side,COVER:cover?'<figure class="post-cover"><img src="'+esc(cover)+'" alt="'+esc(q.title)+'"></figure>':"",OG_IMAGE:cover||"https://skin-set.com/img/og-"+lang+".png",OG_TYPE:"article",ALTS:altsFor(p),LANGS:langSwitch(p,lang),
-    TITLE:esc(q.seoTitle||(q.title+" — Skinset")),DESC:esc(q.desc||""),URL:url,LD:ld,H1:esc(q.title),LEAD:esc(q.lead||q.desc||""),DATE_HUMAN:dateHuman(p.date,lang),READ:readMin(q.md||""),BODY:body2,CTA_URL:cu,OTHER:others})}
+    TITLE:esc(q.seoTitle||(q.title+" — Skinset")),DESC:esc(q.desc||""),URL:url,LD:ldOut,H1:esc(q.title),LEAD:esc(q.lead||q.desc||""),DATE_HUMAN:dateHuman(p.date,lang),READ:readMin(q.md||""),BODY:body2,CTA_URL:cu,OTHER:others})}
 function buildIndex(tpl,all,lang){lang=lang||"ru";const c=cfg(lang);const ui=c.ui||{};const posts=all.filter(p=>!p.draft&&hasLang(p,lang)).sort((a,b)=>b.date.localeCompare(a.date));
   const tags=[...new Set(posts.map(p=>p.tag||"guide"))];
   const chips=tags.length>1?'<div class="blog-tags"><button class="on" data-f="">'+esc(ui.all_t||"All")+'</button>'+tags.map(t=>'<button data-f="'+esc(t)+'">'+esc((ui.tags||{})[t]||t)+'</button>').join("")+'</div>':"";

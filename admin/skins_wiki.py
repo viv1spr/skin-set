@@ -148,9 +148,82 @@ GROUPS = [("knife", {"ru": "Ножи", "en": "Knives", "de": "Messer", "pt": "Fa
 WS = json.load(open(os.path.join(ROOT, "data/wiki-sets.json")))
 NAMES = list(WS)
 PR = json.load(open(os.path.join(ROOT, "data/prices.json")))
-API = {}
-for r in json.load(open(os.path.join(ROOT, "admin/skins-api.json"))):
-    API.setdefault((r[0], r[5] or ""), r); API.setdefault((r[0], ""), r)
+# реальные цвета по картинке (admin/img_colors.py) — для «похожих скинов»
+try:
+    IC = json.load(open(os.path.join(ROOT, "data/img-colors.json")))
+except Exception:
+    IC = {}
+
+
+def _hex_feat(cols):
+    """запасной вариант (фазы Doppler без своей картинки): признаки из цветов конструктора"""
+    import colorsys
+    h, n, c = [0.0] * 12, [0.0] * 3, 0
+    for x in cols[:3]:
+        r, g, b = (int(x[i:i + 2], 16) / 255 for i in (1, 3, 5))
+        hh, ll, ss = colorsys.rgb_to_hls(r, g, b)
+        if ss > 0.25 and 0.1 < ll < 0.92:
+            h[int(hh * 12) % 12] += 1; c += 1
+        else:
+            n[0 if ll < .3 else 1 if ll < .6 else 2] += 1
+    sh, sn = sum(h) or 1, sum(n) or 1
+    return {"h": [v / sh for v in h], "c": 0.6 if c else 0.05, "n": [v / sn for v in n]}
+
+
+def feat(n):
+    f = IC.get(n)
+    if isinstance(f, dict) and not re.search(r"\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$", n):
+        return f
+    d = WS.get(n)
+    return _hex_feat(d["c"]) if d else None
+
+
+def _sm(h):
+    return [0.25 * h[i - 1] + 0.5 * h[i] + 0.25 * h[(i + 1) % 12] for i in range(12)]
+
+
+def _vec(F):
+    k = min(1.0, F["c"] ** 0.5 * 1.2)  # мелкие цветные акценты (красная полоса Redline) тоже важны
+    h = _sm(F["h"])
+    return [k * x for x in h] + [(1 - k) * x for x in F["n"]]
+
+
+def img_dist(A, B):
+    va, vb = _vec(A), _vec(B)
+    return sum(abs(x - y) for x, y in zip(va[:12], vb[:12])) * 1.5 + sum(abs(x - y) for x, y in zip(va[12:], vb[12:])) * 0.6
+
+
+def _lab(hx):
+    r, g, b = (int(hx[i:i + 2], 16) / 255 for i in (1, 3, 5))
+    f = lambda c: ((c + 0.055) / 1.055) ** 2.4 if c > 0.04045 else c / 12.92
+    r, g, b = f(r), f(g), f(b)
+    x, y, z = (0.4124 * r + 0.3576 * g + 0.1805 * b) / 0.95047, 0.2126 * r + 0.7152 * g + 0.0722 * b, (0.0193 * r + 0.1192 * g + 0.9505 * b) / 1.08883
+    t = lambda v: v ** (1 / 3) if v > 0.008856 else 7.787 * v + 16 / 116
+    return (116 * t(y) - 16, 500 * (t(x) - t(y)), 200 * (t(y) - t(z)))
+
+
+def pal_dist(ca, cb):
+    """цвета конструктора: главный цвет важнее"""
+    A, B = [_lab(c) for c in ca[:3]], [_lab(c) for c in cb[:3]]
+    W = [1, .6, .4]
+    d = lambda p, q: ((0.6 * (p[0] - q[0])) ** 2 + (p[1] - q[1]) ** 2 + (p[2] - q[2]) ** 2) ** 0.5
+    s1 = sum(W[i] * min(d(a, b) for b in B) for i, a in enumerate(A)) / sum(W[:len(A)])
+    s2 = sum(W[i] * min(d(b, a) for a in A) for i, b in enumerate(B)) / sum(W[:len(B)])
+    return (s1 + s2) / 2 / 40
+
+
+def similar(n, slot):
+    A = feat(n)
+    if not A:
+        return None
+    sc = []
+    for x in WS:
+        if x == n or WS[x]["slot"] != slot:
+            continue
+        B = feat(x)
+        if B:
+            sc.append((img_dist(A, B) + pal_dist(WS[n]["c"], WS[x]["c"]), x))
+    return [x for _, x in sorted(sc)]
 
 
 def api(name):
@@ -404,7 +477,7 @@ def page(lang, n):
     faq = [(t["q1"].format(**F), t["a1"].format(**F, fnq=t["a1fn"].format(p=lp(lang, fnp)) if fnp and cw != "FN" else "")),
            (t["q2"].format(**F), t["a2"].format(**F, pair=pair_s)),
            (t["q3"].format(**F), t["a3"].format(**F))]
-    sim = [x for x in d["sim"] if x in SLUG][:8]
+    sim = [x for x in (similar(n, d["slot"]) or d["sim"]) if x in SLUG][:8]
     more = [x for x in NAMES if x in SLUG and x != n and x.split(" | ")[0] == w and x not in sim][:8]
     canon = SITE + url(lang, n)
     alts = "".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{url(l, n)}">' for l in LANGS) + f'<link rel="alternate" hreflang="x-default" href="{SITE}{url("en", n)}">'

@@ -226,6 +226,11 @@ def similar(n, slot):
     return [x for _, x in sorted(sc)]
 
 
+API = {}
+for r in json.load(open(os.path.join(ROOT, "admin/skins-api.json"))):
+    API.setdefault((r[0], r[5] or ""), r); API.setdefault((r[0], ""), r)
+
+
 def api(name):
     m = re.match(r"(.*?)\s*\((.*)\)$", name)
     b, ph = (m.group(1), m.group(2)) if m else (name, "")

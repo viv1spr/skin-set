@@ -30,6 +30,8 @@ WHERE = {  # абзац «где купить» и ответ FAQ
     "pl": "Skinset pokazuje orientacyjne ceny każdego przedmiotu i całego zestawu, aktualizowane co 4 godziny. Strona nic nie sprzedaje i nie ma nic wspólnego ze skrzynkami: złóż zestaw tutaj, a skiny kup na dowolnym rynku.",
 }
 AD_CSS = """<style id="noshop-css">
+@media(min-width:1360px){html body .cbar{flex-wrap:nowrap!important}html body .cbar>.cb-d{flex:0 1 auto!important;min-width:0}html body .cbar .cb-i{padding:0 10px!important;gap:6px!important;letter-spacing:.04em!important;max-width:100%}.cbar .cb-i span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}.cbar .cb-i em,.cbar .cb-i .chev{flex:none}}
+@media(min-width:1360px) and (max-width:1700px){html body .cbar .cb-i>svg{display:none!important}}
 .grp.wearsel{display:none!important}
 @media(max-width:700px){#colors .sw{flex:1 1 0!important;width:auto!important;height:auto!important;aspect-ratio:1/1!important;max-width:none!important;min-width:0}
 .hero-art{height:230px!important}.hero-art .ring{width:auto!important;height:92%!important}.hero-art .big{width:min(70%,330px)!important}

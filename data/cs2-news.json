@@ -1,5 +1,12 @@
 [
 {
+"gid": "1849192144180746",
+"t": "Counter-Strike 2 Update",
+"d": 1794438200,
+"u": "https://store.steampowered.com/news/app/730/view/687522235410284762",
+"c": "[p]\\[ ANIMATION ][/p][list][*][p]Fixed some cases of popping and glitching when switching weapons and reloading at extreme angles[/p][/*][/list][p]\\[ MISC ][/p][list][*][p]Fixed bot pathing issue in Retakes game mode[/p][/*][*][p]Fixed a rendering hang on DX11[/p][/*][*][p]Improved avx / avx512 instruction set detection[/p][/*][*][p]Miscellaneous stability and performance improvements[/p][/*][/list]"
+},
+{
 "gid": "1848557880481353",
 "t": "Counter-Strike 2 Update",
 "d": 1793840047,

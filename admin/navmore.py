@@ -240,12 +240,12 @@ if __name__ == "__main__":
     main()
 
 
-UPD = {"ru": [("/matchi-cs2/", "Матчи CS2"), ("/rynok-cs2/", "Рынок CS2")],
-       "en": [("/en/cs2-matches/", "CS2 matches"), ("/en/cs2-market/", "CS2 market")],
-       "de": [("/en/cs2-matches/", "CS2-Matches"), ("/en/cs2-market/", "CS2-Markt")],
-       "pt": [("/en/cs2-matches/", "Partidas CS2"), ("/en/cs2-market/", "Mercado CS2")],
-       "tr": [("/en/cs2-matches/", "CS2 maçları"), ("/en/cs2-market/", "CS2 pazarı")],
-       "pl": [("/en/cs2-matches/", "Mecze CS2"), ("/en/cs2-market/", "Rynek CS2")]}
+UPD = {"ru": [("/matchi-cs2/", "Матчи CS2"), ("/rynok-cs2/", "Рынок CS2"), ("/float-kalkulyator-cs2/", "Калькулятор float")],
+       "en": [("/en/cs2-matches/", "CS2 matches"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-float-calculator/", "Float calculator")],
+       "de": [("/en/cs2-matches/", "CS2-Matches"), ("/en/cs2-market/", "CS2-Markt"), ("/en/cs2-float-calculator/", "Float-Rechner")],
+       "pt": [("/en/cs2-matches/", "Partidas CS2"), ("/en/cs2-market/", "Mercado CS2"), ("/en/cs2-float-calculator/", "Calculadora de float")],
+       "tr": [("/en/cs2-matches/", "CS2 maçları"), ("/en/cs2-market/", "CS2 pazarı"), ("/en/cs2-float-calculator/", "Float hesaplayıcı")],
+       "pl": [("/en/cs2-matches/", "Mecze CS2"), ("/en/cs2-market/", "Rynek CS2"), ("/en/cs2-float-calculator/", "Kalkulator float")]}
 
 
 def updlink(s):

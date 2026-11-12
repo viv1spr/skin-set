@@ -223,7 +223,7 @@ T3D_JS = ('<style id="t3d-css">.t3d{display:inline-flex;align-items:center;justi
   'background:linear-gradient(135deg,#2b6cff,#7a3cff);border:1px solid #6d8bff;box-shadow:0 6px 18px rgba(80,110,255,.3);cursor:pointer}'
   '.t3d:hover{filter:brightness(1.15)}.t3d svg{width:16px;height:16px;flex:none}'
   '#t3dBtn.t3d{font:inherit;letter-spacing:inherit;text-transform:inherit;background:linear-gradient(135deg,#2b6cff,#7a3cff)!important;border-color:#6d8bff!important;color:#fff!important}#t3dBtn[hidden]{display:none!important}.btns .t3d{padding:0 18px;min-height:44px}'
-  '.pp-btn .t3d{min-height:32px}.post-skin .t3d{display:flex;margin-top:6px;min-height:30px;font-size:.68rem}</style>'
+  '.pp-btn .t3d{min-height:32px}.post-skin .t3d{display:flex;align-self:stretch;justify-self:stretch;width:100%;box-sizing:border-box;margin-top:0;padding:7px 8px;min-height:0;font-size:.74rem;box-shadow:none}</style>'
   '<script id="t3d-js">(function(){var M=null,P=null,L=(document.documentElement.lang||"ru").slice(0,2),'
   'TX={ru:"Смотреть в 3D",en:"View in 3D",de:"In 3D ansehen",pt:"Ver em 3D",tr:"3D görüntüle",pl:"Zobacz w 3D"}[L]||"View in 3D",'
   'IC=\'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg>\';'

@@ -12,7 +12,7 @@ OUT = os.path.join(ROOT, "data/img-colors.json")
 IMG = json.load(open(os.path.join(ROOT, "data/skin-img.json")))
 old = {}
 if os.path.exists(OUT) and "--all" not in sys.argv:
-    old = json.load(open(OUT))
+    old = {k: v for k, v in json.load(open(OUT)).items() if isinstance(v, dict)}
 
 
 def srgb2lab(rgb):
@@ -51,8 +51,16 @@ def one(row):
                 return name, None
             if len(px) > 6000:
                 px = px[np.random.default_rng(1).choice(len(px), 6000, replace=False)]
-            C, w = kmeans(srgb2lab(px))
-            o = sorted([[round(float(c[0]), 1), round(float(c[1]), 1), round(float(c[2]), 1), round(float(x), 3)] for c, x in zip(C, w) if x > 0.02], key=lambda z: -z[3])
+            L = srgb2lab(px)
+            C = np.hypot(L[:, 1], L[:, 2])
+            chrom = C > 14
+            hue = (np.degrees(np.arctan2(L[:, 2], L[:, 1])) % 360) // 30
+            h = np.bincount(hue[chrom].astype(int), weights=C[chrom], minlength=12)
+            h = h / h.sum() if h.sum() > 0 else h
+            neu = L[~chrom, 0]
+            nb = np.histogram(neu, bins=[0, 30, 60, 101])[0].astype(float)
+            nb = nb / nb.sum() if nb.sum() > 0 else nb
+            o = {"h": [round(float(x), 3) for x in h], "c": round(float(chrom.mean()), 3), "n": [round(float(x), 3) for x in nb]}
             return name, o
         except Exception:
             time.sleep(1 + t)

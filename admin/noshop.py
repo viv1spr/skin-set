@@ -48,7 +48,8 @@ AD_CSS = """<style id="noshop-css">
 body[data-route="feed"] .fs{display:flex!important;flex-direction:column;justify-content:flex-start;align-items:stretch}
 body[data-route]:not([data-route="home"]) footer{padding-bottom:28px!important}
 body[data-route="shops"] h2{margin-top:28px!important}
-@media(max-width:700px){html body .cbar>.cb-d>.cb-m{position:fixed!important;left:12px!important;right:12px!important;top:auto!important;bottom:calc(96px + env(safe-area-inset-bottom,0px))!important;width:auto!important;max-height:min(60vh,430px)!important;overflow-y:auto!important;z-index:1000!important;box-shadow:0 -12px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.12)!important;background:#14141b!important}html body .cbar>.cb-d>.cb-m button{min-height:44px}}
+@media(max-width:700px){html body .cbar>.cb-d.open>.cb-m{display:none!important}}
+#cbSheet{position:fixed;left:12px;right:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:2000;max-height:min(60vh,430px);overflow-y:auto;padding:6px;background:#14141b;border:1px solid rgba(255,255,255,.14);box-shadow:0 -12px 40px rgba(0,0,0,.75)}#cbSheet[hidden]{display:none}#cbSheet button{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:10px 12px;background:transparent;border:0;color:var(--soft,#bbb);font:500 1rem/1 var(--body,inherit);text-align:left}#cbSheet button[aria-pressed="true"]{color:#fff}#cbSheet .ck{width:18px;height:18px;border:1.5px solid rgba(255,255,255,.3);flex:none;position:relative}#cbSheet button[aria-pressed="true"] .ck{background:var(--pick,#c4161c);border-color:var(--pick,#c4161c)}#cbSheet button[aria-pressed="true"] .ck::after{content:"";position:absolute;left:5px;top:1px;width:5px;height:10px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
 .ctrl .grp:has(> #c2),.ctrl .grp:has(> #use2),#c2,#use2{display:none!important}
 .lp-a{color:inherit!important;text-decoration:underline dotted #ff159a!important;text-underline-offset:3px;white-space:nowrap}.lp-a:hover{color:#ff5cb8!important}
 .post-buy{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.post-buy a{display:flex;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(90deg,rgba(255,21,154,.24),#16161d 70%);border:1px solid #ff159a;color:#fff!important;text-decoration:none;box-shadow:0 6px 18px rgba(255,21,154,.22);font:500 .82rem/1.1 var(--hud,sans-serif)}
@@ -278,6 +279,19 @@ def mapbg(s):
     return s
 
 
+CBS_JS = ('<script id="cbs-js">(function(){var g=document.getElementById("pkGroups");if(!g)return;var mq=matchMedia("(max-width:700px)"),sh=document.createElement("div");sh.id="cbSheet";sh.hidden=true;document.body.appendChild(sh);'
+  'function sync(){var d=g.querySelector(".cb-d.open"),m=d&&d.querySelector(".cb-m");if(!mq.matches||!m){sh.hidden=true;return}sh.innerHTML=m.innerHTML;sh.hidden=false}'
+  'sh.addEventListener("click",function(e){e.stopPropagation();var b=e.target.closest("[data-add]");if(!b)return;var o=g.querySelector(\'.cb-d.open [data-add="\'+b.getAttribute("data-add")+\'"]\');if(o)o.click();setTimeout(sync,0)});'
+  'new MutationObserver(function(){sync()}).observe(g,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});addEventListener("resize",sync);sync()})()</script>')
+
+
+def cbsheet(s):
+    s = re.sub(r'<script id="cbs-js">.*?</script>', "", s, flags=re.S)
+    if 'id="pkGroups"' in s and "</body>" in s:
+        i = s.rfind("</body>"); s = s[:i] + CBS_JS + s[i:]
+    return s
+
+
 def clicks(s):
     s = re.sub(r'<script id="clk-js">.*?</script>', "", s, flags=re.S)
     s = s.replace('/dmarket\\.com|lis-skins\\.com/.test(a.href)', '/cs\\.money|dmarket\\.com|lis-skins\\.com/.test(a.href)')
@@ -359,7 +373,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))
+    s = cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))
     return s
 
 

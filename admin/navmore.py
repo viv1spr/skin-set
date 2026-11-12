@@ -240,12 +240,12 @@ if __name__ == "__main__":
     main()
 
 
-UPD = {"ru": [("/matchi-cs2/", "Матчи CS2"), ("/rynok-cs2/", "Рынок CS2"), ("/obnovleniya-cs2/", "Обновления CS2")],
-       "en": [("/en/cs2-matches/", "CS2 matches"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-updates/", "CS2 updates")],
-       "de": [("/en/cs2-matches/", "CS2-Matches"), ("/en/cs2-market/", "CS2-Markt"), ("/de/cs2-updates/", "CS2-Updates")],
-       "pt": [("/en/cs2-matches/", "Partidas CS2"), ("/en/cs2-market/", "Mercado CS2"), ("/pt/atualizacoes-cs2/", "Atualizações CS2")],
-       "tr": [("/en/cs2-matches/", "CS2 maçları"), ("/en/cs2-market/", "CS2 pazarı"), ("/tr/cs2-guncellemeleri/", "CS2 güncellemeleri")],
-       "pl": [("/en/cs2-matches/", "Mecze CS2"), ("/en/cs2-market/", "Rynek CS2"), ("/pl/aktualizacje-cs2/", "Aktualizacje CS2")]}
+UPD = {"ru": [("/matchi-cs2/", "Матчи CS2"), ("/rynok-cs2/", "Рынок CS2")],
+       "en": [("/en/cs2-matches/", "CS2 matches"), ("/en/cs2-market/", "CS2 market")],
+       "de": [("/en/cs2-matches/", "CS2-Matches"), ("/en/cs2-market/", "CS2-Markt")],
+       "pt": [("/en/cs2-matches/", "Partidas CS2"), ("/en/cs2-market/", "Mercado CS2")],
+       "tr": [("/en/cs2-matches/", "CS2 maçları"), ("/en/cs2-market/", "CS2 pazarı")],
+       "pl": [("/en/cs2-matches/", "Mecze CS2"), ("/en/cs2-market/", "Rynek CS2")]}
 
 
 def updlink(s):
@@ -255,7 +255,7 @@ def updlink(s):
     m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     j = s.find(">", i) + 1; k = s.find("</div>", j)
     menu = s[j:k]
-    m2 = re.sub(r'<a href="(?:/ocenka-inventarya/|/en/inventory-value/)"[^>]*>.*?</a>', "", menu)  # раздел удалён
+    m2 = re.sub(r'<a href="(?:/ocenka-inventarya/|/en/inventory-value/|/obnovleniya-cs2/|/(?:en|de)/cs2-updates/|/pt/atualizacoes-cs2/|/tr/cs2-guncellemeleri/|/pl/aktualizacje-cs2/)"[^>]*>.*?</a>', "", menu)  # убраны из меню (страницы обновлений остаются по прямой ссылке)
     if m2 != menu: s = s[:j] + m2 + s[k:]; k = j + len(m2); menu = m2
     add = ""
     for href, lab in UPD[lang]:

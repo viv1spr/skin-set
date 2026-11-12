@@ -222,7 +222,7 @@ CLK_JS = ('<script id="clk-js">(function(){var W="https://auth.skin-set.com";'
 T3D_JS = ('<style id="t3d-css">.t3d{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none!important;font:600 .74rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;color:#fff!important;'
   'background:linear-gradient(135deg,#2b6cff,#7a3cff);border:1px solid #6d8bff;box-shadow:0 6px 18px rgba(80,110,255,.3);cursor:pointer}'
   '.t3d:hover{filter:brightness(1.15)}.t3d svg{width:16px;height:16px;flex:none}'
-  '#t3dBtn.t3d{font:inherit;letter-spacing:inherit;text-transform:inherit;background:linear-gradient(135deg,#2b6cff,#7a3cff)!important;border-color:#6d8bff!important;color:#fff!important}#t3dBtn[hidden]{display:none!important}.btns .t3d{padding:0 18px;min-height:44px}'
+  '#t3dBtn.t3d{background:rgba(80,110,255,.08)!important;border:1px solid #6d8bff!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(122,60,255,.35),0 0 14px rgba(90,110,255,.18)}#t3dBtn.t3d svg{color:#8fa6ff}#t3dBtn.t3d:hover{background:rgba(80,110,255,.2)!important;filter:none}#t3dBtn[hidden]{display:none!important}.btns .t3d{padding:0 18px;min-height:44px}'
   '.pp-btn .t3d{min-height:32px}.post-skin .t3d{display:flex;align-self:stretch;justify-self:stretch;width:100%;box-sizing:border-box;margin-top:0;padding:7px 8px;min-height:0;font-size:.74rem;box-shadow:none}</style>'
   '<script id="t3d-js">(function(){var M=null,P=null,L=(document.documentElement.lang||"ru").slice(0,2),'
   'TX={ru:"Смотреть в 3D",en:"View in 3D",de:"In 3D ansehen",pt:"Ver em 3D",tr:"3D görüntüle",pl:"Zobacz w 3D"}[L]||"View in 3D",'
@@ -241,7 +241,7 @@ T3D_JS = ('<style id="t3d-css">.t3d{display:inline-flex;align-items:center;justi
   'if(b.href!==u)b.href=u});'
   'var sb=document.getElementById("shotBtn");if(sb&&typeof current==="function"&&typeof state!=="undefined"){var c=null;try{c=current(state.sel)}catch(e){}'
   'var id=c?idFor(c.s.weapon+" | "+c.s.skin):null,bb=document.getElementById("t3dBtn");'
-  'if(!bb){bb=document.createElement("a");bb.id="t3dBtn";bb.className="hudbtn t3d";bb.target="_blank";bb.rel="noopener";bb.style.marginRight="8px";bb.innerHTML=IC+"<span>"+TX+"</span>";bb.addEventListener("click",open3d);sb.parentNode.insertBefore(bb,sb)}'
+  'if(!bb){bb=document.createElement("a");bb.id="t3dBtn";bb.className="hudbtn t3d";bb.target="_blank";bb.rel="noopener";bb.style.marginRight="8px";bb.innerHTML=IC+"<span>"+TX+"</span>";bb.addEventListener("click",open3d);var cs=getComputedStyle(sb);["font","letterSpacing","textTransform","padding","height","gap"].forEach(function(p){bb.style[p]=cs[p]});sb.parentNode.insertBefore(bb,sb)}'
   'if(id){var u2="https://3d.cs.money/i/"+id+"/";if(bb.href!==u2)bb.href=u2;bb.hidden=false;bb.title=c.s.weapon+" | "+c.s.skin}else bb.hidden=true}}'
   'function go(){if(!document.querySelector("#shotBtn, .btns > a.btn.csm, .pp-btn > a.b-csm, .post-skin > a.pf-csm"))return;load().then(function(){sync();'
   'var t=0;new MutationObserver(function(){clearTimeout(t);t=setTimeout(sync,120)}).observe(document.body,{childList:true,subtree:true})})}'
@@ -255,13 +255,19 @@ def threed(s):
     return s
 
 
-MAPBG = ('<style id="mapbg-css">#scene .mapbg{position:absolute;inset:-12px;background:#0b0d14 center/cover no-repeat;filter:blur(3px) brightness(.5) saturate(1.05);transform:scale(1.03);opacity:0;transition:opacity .6s}'
-  '#scene .mapbg.on{opacity:1}#scene.has-map .pan,#scene.has-map .dust{display:none}</style>'
-  '<script id="mapbg-js">(function(){var s=document.getElementById("scene");if(!s)return;var M=["dust2","mirage","mirage2","ancient","cache","cache2","train","vertigo"],k;'
-  'try{k=sessionStorage.getItem("ss_map")}catch(e){}if(M.indexOf(k)<0){k=M[Math.floor(Math.random()*M.length)];try{sessionStorage.setItem("ss_map",k)}catch(e){}}'
-  'var u="/img/bg/"+k+(Math.max(innerWidth,innerHeight)<1100?"-m":"")+".jpg",d=document.createElement("div");d.className="mapbg";s.insertBefore(d,s.firstChild);'
-  'var i=new Image();i.onload=function(){d.style.backgroundImage="url("+u+")";s.classList.add("has-map");d.classList.add("on")};i.src=u})()</script>')
-
+MAPBG = ('<style id="mapbg-css">#scene .mapbg{position:absolute;inset:-12px;background:#0b0d14 center/cover no-repeat;filter:blur(3px) brightness(.5) saturate(1.05);transform:scale(1.03);opacity:0;transition:opacity .5s}'
+  '#scene .mapbg.on{opacity:1}#scene.has-map .pan,#scene.has-map .dust{display:none}#mapBtn b{color:#ffd36a;font-weight:600;margin-left:4px}</style>'
+  '<script id="mapbg-js">(function(){var s=document.getElementById("scene");if(!s)return;'
+  'var M=["dust2","mirage","mirage2","ancient","cache","cache2","train","vertigo"],N={dust2:"Dust 2",mirage:"Mirage",mirage2:"Mirage 2",ancient:"Ancient",cache:"Cache",cache2:"Cache 2",train:"Train",vertigo:"Vertigo"},'
+  'L=(document.documentElement.lang||"ru").slice(0,2),TL={ru:"Карта",en:"Map",de:"Karte",pt:"Mapa",tr:"Harita",pl:"Mapa"}[L]||"Map",k,d=document.createElement("div");d.className="mapbg";s.insertBefore(d,s.firstChild);'
+  'function get(st,key){try{return st.getItem(key)}catch(e){return null}}function put(st,key,v){try{st.setItem(key,v)}catch(e){}}'
+  'k=get(localStorage,"ss_map_fix")||get(sessionStorage,"ss_map");if(M.indexOf(k)<0){k=M[Math.floor(Math.random()*M.length)];put(sessionStorage,"ss_map",k)}'
+  'function show(key){var u="/img/bg/"+key+(Math.max(innerWidth,innerHeight)<1100?"-m":"")+".jpg",i=new Image();d.classList.remove("on");'
+  'i.onload=function(){d.style.backgroundImage="url("+u+")";s.classList.add("has-map");d.classList.add("on")};i.src=u;var b=document.getElementById("mapBtn");if(b)b.querySelector("b").textContent=N[key]}'
+  'show(k);function btn(){var sb=document.getElementById("shotBtn");if(!sb||document.getElementById("mapBtn"))return;var b=document.createElement("button");b.type="button";b.id="mapBtn";b.className="hudbtn ghost";b.style.marginRight="8px";'
+  'b.title=TL;b.innerHTML=\'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>\'+TL+":<b>"+N[k]+"</b>";'
+  'b.addEventListener("click",function(){k=M[(M.indexOf(k)+1)%M.length];put(localStorage,"ss_map_fix",k);put(sessionStorage,"ss_map",k);show(k)});sb.parentNode.insertBefore(b,sb)}'
+  'if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",btn);else btn();setTimeout(btn,1500)})()</script>')
 
 def mapbg(s):
     s = re.sub(r'<style id="mapbg-css">.*?</style>\s*<script id="mapbg-js">.*?</script>', "", s, flags=re.S)

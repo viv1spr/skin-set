@@ -25,6 +25,11 @@ PHASES = ["Phase 1", "Phase 2", "Phase 3", "Phase 4", "Ruby", "Sapphire", "Emera
 RAR_ORDER = ["Consumer Grade", "Industrial Grade", "Mil-Spec Grade", "Restricted", "Classified", "Covert", "Extraordinary", "Contraband"]
 
 
+
+def gemc(ph):
+    """камни Doppler — отдельная яркая плашка"""
+    return f" gm gm-{ph.lower().replace(' ', '-')}" if ph in ("Ruby", "Sapphire", "Emerald", "Black Pearl") else ""
+
 def rgb(h): h = h.lstrip("#"); return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
 
 
@@ -209,6 +214,15 @@ CSS = r"""
 .mdb .mh{font:600 .72rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:6px 0 4px}
 .ci .sn{font:600 1.02rem/1.2 var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:2px 0 1px}
 .ci .ph{position:absolute;top:8px;left:8px;padding:3px 6px;background:rgba(0,0,0,.55);border:1px solid var(--line2);font:600 .66rem/1 var(--hud);letter-spacing:.06em;text-transform:uppercase}
+.ci .ph.gm{display:inline-flex;align-items:center;gap:6px;padding:5px 9px 5px 8px;border:1px solid rgba(255,255,255,.35);color:#fff;font-size:.7rem;letter-spacing:.08em;text-shadow:0 1px 2px rgba(0,0,0,.5)}.ci .ph.gm::before{content:"";width:9px;height:9px;transform:rotate(45deg);background:#fff;box-shadow:0 0 6px #fff}
+.ci .gm-ruby{background:linear-gradient(135deg,#ff2a55,#8a0022)!important;box-shadow:0 0 16px rgba(255,30,80,.55)}
+.ci .gm-sapphire{background:linear-gradient(135deg,#3d6bff,#0d1f9a)!important;box-shadow:0 0 16px rgba(60,100,255,.6)}
+.ci .gm-emerald{background:linear-gradient(135deg,#19d47a,#04673a)!important;box-shadow:0 0 16px rgba(25,212,122,.5)}
+.ci .gm-black-pearl{background:linear-gradient(135deg,#5b4f9e,#0c0b1c 70%)!important;border-color:#a99bff!important;box-shadow:0 0 16px rgba(150,130,255,.5)}
+.ci:has(.gm-ruby){box-shadow:inset 0 0 0 1px rgba(255,42,85,.55),inset 0 -40px 60px -40px rgba(255,42,85,.25)}
+.ci:has(.gm-sapphire){box-shadow:inset 0 0 0 1px rgba(61,107,255,.6),inset 0 -40px 60px -40px rgba(61,107,255,.28)}
+.ci:has(.gm-emerald){box-shadow:inset 0 0 0 1px rgba(25,212,122,.5),inset 0 -40px 60px -40px rgba(25,212,122,.22)}
+.ci:has(.gm-black-pearl){box-shadow:inset 0 0 0 1px rgba(169,155,255,.55),inset 0 -40px 60px -40px rgba(150,130,255,.25)}
 .ci .cs{position:absolute;top:9px;right:9px;display:flex;gap:3px}.ci .cs i{width:9px;height:9px;border:1px solid rgba(255,255,255,.3)}
 .ci .pp{margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .ci .pp b{font:600 1.1rem/1 var(--hud);letter-spacing:.02em;white-space:nowrap}
@@ -305,7 +319,7 @@ function chips(){const c=[];
  const n=c.length;$("#fbtn").textContent=L.filters+(n?` (${n})`:"")}
 function card(x){const im=x.i.startsWith("http")?x.i:IMG+x.i+"/256fx256f";
  const href=x.u?L.wiki+x.u+"/":"#";
- return `<a class="ci" href="${href}" data-n="${esc(x.n)}" style="--rc:${L.rcol[x.r]}"><div class="im"><img src="${esc(im)}" alt="${esc(x.n)}" loading="lazy" width="256" height="192"></div>${x.ph?`<span class="ph">${esc(x.ph)}</span>`:""}<span class="sn">${esc(x.s.replace(/\s*\(.*\)$/,""))}</span><span class="wn">${esc(x.w)}</span><span class="mt"><b style="color:${L.rcol[x.r]}">${esc(L.rars[x.r])}</b>${x.k?` · ${esc(x.k)}`:""}</span><span class="cs">${(x.h||[]).slice(0,3).map(h=>`<i style="background:${h}"></i>`).join("")}</span></a>`}
+ return `<a class="ci" href="${href}" data-n="${esc(x.n)}" style="--rc:${L.rcol[x.r]}"><div class="im"><img src="${esc(im)}" alt="${esc(x.n)}" loading="lazy" width="256" height="192"></div>${x.ph?`<span class="ph${/^(Ruby|Sapphire|Emerald|Black Pearl)$/.test(x.ph)?" gm gm-"+x.ph.toLowerCase().replace(" ","-"):""}">${esc(x.ph)}</span>`:""}<span class="sn">${esc(x.s.replace(/\s*\(.*\)$/,""))}</span><span class="wn">${esc(x.w)}</span><span class="mt"><b style="color:${L.rcol[x.r]}">${esc(L.rars[x.r])}</b>${x.k?` · ${esc(x.k)}`:""}</span><span class="cs">${(x.h||[]).slice(0,3).map(h=>`<i style="background:${h}"></i>`).join("")}</span></a>`}
 function list(){let a=D.filter(x=>match(x));
  if(S.sort==="pa")a.sort((x,y)=>price(x)-price(y));else if(S.sort==="pd")a.sort((x,y)=>price(y)-price(x));else if(S.sort==="n")a.sort((x,y)=>x.n.localeCompare(y.n));else if(S.sort==="r")a.sort((x,y)=>y.r-x.r||price(y)-price(x));
  return a}
@@ -364,7 +378,7 @@ def build(lang, data):
         href = f'{WIKI[lang]}{x["u"]}/' if x["u"] else "#"
         sk = re.sub(r"\s*\(.*\)$", "", x["s"])
         return (f'<a class="ci" href="{href}" data-n="{e(x["n"])}" style="--rc:{RCOL[x["r"]]}"><div class="im"><img src="{e(im)}" alt="{e(x["n"])}" loading="lazy" width="256" height="192"></div>'
-                + (f'<span class="ph">{e(x["ph"])}</span>' if x["ph"] else "") + f'<span class="sn">{e(sk)}</span><span class="wn">{e(x["w"])}</span>'
+                + (f'<span class="ph{gemc(x["ph"])}">{e(x["ph"])}</span>' if x["ph"] else "") + f'<span class="sn">{e(sk)}</span><span class="wn">{e(x["w"])}</span>'
                 f'<span class="mt"><b style="color:{RCOL[x["r"]]}">{e(t["rars"][x["r"]])}</b>' + (f' · {e(x["k"])}' if x["k"] else "") + '</span>'
                 '<span class="cs">' + "".join(f'<i style="background:{h}"></i>' for h in (x.get("h") or [])[:3]) + '</span></a>')
     first = "".join(card(x) for x in data[:60])

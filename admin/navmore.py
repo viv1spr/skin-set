@@ -257,9 +257,11 @@ def updlink(s):
     menu = s[j:k]
     m2 = re.sub(r'<a href="(?:/ocenka-inventarya/|/en/inventory-value/|/obnovleniya-cs2/|/(?:en|de)/cs2-updates/|/pt/atualizacoes-cs2/|/tr/cs2-guncellemeleri/|/pl/aktualizacje-cs2/)"[^>]*>.*?</a>', "", menu)  # убраны из меню (страницы обновлений остаются по прямой ссылке)
     if m2 != menu: s = s[:j] + m2 + s[k:]; k = j + len(m2); menu = m2
+    # всегда один порядок: убираем уже вставленные пункты и вставляем заново
+    m3 = re.sub(r'<a href="(?:' + "|".join(re.escape(h) for h, _ in UPD[lang]) + r')"[^>]*>.*?</a>', "", menu)
+    if m3 != menu: s = s[:j] + m3 + s[k:]; k = j + len(m3); menu = m3
     add = ""
     for href, lab in UPD[lang]:
-        if f'href="{href}"' in menu: continue
         cur = ' class="on"' if f'<link rel="canonical" href="https://skin-set.com{href}"' in s else ""
         add += f'<a href="{href}"{cur}>{lab}</a>'
     return s[:j] + add + s[j:] if add else s

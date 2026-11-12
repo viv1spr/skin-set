@@ -211,12 +211,44 @@ def shopsfix(s):
 
 
 CLK_JS = ('<script id="clk-js">(function(){var W="https://auth.skin-set.com";'
-  'document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||!/cs\\.money/.test(a.href))return;'
+  'document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||!/cs\\.money/.test(a.href)||/3d\\.cs\\.money/.test(a.href))return;'
   'var p=location.pathname,s=a.closest(".buy")?"builder":a.closest(".cb")?"card":a.closest(".sp-ad")?"blog-popup":a.closest(".post-body,.post-cta")?"blog":'
   '/\\/(skiny|skins|skinler|skiny)\\//.test(p)?"wiki":/igra-chto-dorozhe|higher-or-lower/.test(p)?"game":/rynok|market|mercado|pazar|rynek/.test(p)?"market":'
   '/\\/blog\\//.test(p)?"blog":/(nozh|perchatki|inventar|knife|gloves|loadout)/.test(p)?"budget":p==="/"||/^\\/(en|de|pt|tr|pl)\\/$/.test(p)?"builder":"pages";'
   'var n="";try{n=(new URL(a.href).searchParams.get("search")||"").slice(0,80)}catch(x){}'
   'var u=W+"/c?s="+encodeURIComponent(s)+"&n="+encodeURIComponent(n);try{if(!(navigator.sendBeacon&&navigator.sendBeacon(u)))fetch(u,{mode:"no-cors",keepalive:true})}catch(x){}},true)})()</script>')
+
+
+T3D_JS = ('<style id="t3d-css">.t3d{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none!important;font:600 .74rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;color:#fff!important;'
+  'background:linear-gradient(135deg,#2b6cff,#7a3cff);border:1px solid #6d8bff;box-shadow:0 6px 18px rgba(80,110,255,.3);cursor:pointer}'
+  '.t3d:hover{filter:brightness(1.15)}.t3d svg{width:16px;height:16px;flex:none}'
+  '.buy .t3d{display:flex;width:100%;min-height:40px;margin-top:8px}.btns .t3d{padding:0 18px;min-height:44px}'
+  '.pp-btn .t3d{min-height:32px}.post-skin .t3d{display:flex;margin-top:6px;min-height:30px;font-size:.68rem}</style>'
+  '<script id="t3d-js">(function(){var M=null,P=null,L=(document.documentElement.lang||"ru").slice(0,2),'
+  'TX={ru:"Смотреть в 3D",en:"View in 3D",de:"In 3D ansehen",pt:"Ver em 3D",tr:"3D görüntüle",pl:"Zobacz w 3D"}[L]||"View in 3D",'
+  'IC=\'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg>\';'
+  'function load(){return P||(P=fetch("/data/3d-ids.json").then(function(r){return r.json()}).then(function(j){M=j;return j}).catch(function(){M={}}))}'
+  'function idFor(n){if(!M||!n)return null;n=n.replace(/^★\\s*/,"").replace(/\\s*\\((Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle-Scarred)\\)$/,"");if(M[n])return M[n];'
+  'for(var k in M){if(k.indexOf(n+" (")===0)return M[k]}return null}'
+  'function nameOf(a){if(a.closest(".buy")&&typeof current==="function"&&typeof state!=="undefined"){try{var c=current(state.sel);if(c)return c.s.weapon+" | "+c.s.skin}catch(e){}}var im=a.closest(".pp-c,.post-skin");im=im&&im.querySelector("img[alt]");if(im&&/ \\| /.test(im.alt))return im.alt;if(a.closest(".btns")){var h=document.querySelector(".wk h1,main h1");if(h&&/ \\| /.test(h.textContent))return h.textContent.trim()}'
+  'try{return new URL(a.href).searchParams.get("search")||""}catch(e){return""}}'
+  'function open3d(e){var u=this.href;var w=Math.min(1280,screen.availWidth-40),h=Math.min(820,screen.availHeight-60);'
+  'var x=window.open(u,"skinset3d","width="+w+",height="+h+",left="+Math.max(0,(screen.availWidth-w)/2)+",top="+Math.max(0,(screen.availHeight-h)/2));if(x){e.preventDefault();try{x.focus()}catch(z){}}'
+  '}'
+  'function sync(){if(!M)return;document.querySelectorAll(".buy > a.csm, .btns > a.btn.csm, .pp-btn > a.b-csm, .post-skin > a.pf-csm").forEach(function(a){'
+  'var id=idFor(nameOf(a)),b=a.parentNode.querySelector(":scope > a.t3d");if(!id){if(b)b.remove();return}var u="https://3d.cs.money/i/"+id+"/";'
+  'if(!b){b=document.createElement("a");b.className="t3d";b.target="_blank";b.rel="noopener";b.innerHTML=IC+"<span>"+TX+"</span>";b.addEventListener("click",open3d);a.insertAdjacentElement("afterend",b)}'
+  'if(b.href!==u)b.href=u})}'
+  'function go(){if(!document.querySelector(".buy > a.csm, .btns > a.btn.csm, .pp-btn > a.b-csm, .post-skin > a.pf-csm"))return;load().then(function(){sync();'
+  'var t=0;new MutationObserver(function(){clearTimeout(t);t=setTimeout(sync,120)}).observe(document.body,{childList:true,subtree:true})})}'
+  'if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go()})()</script>')
+
+
+def threed(s):
+    s = re.sub(r'<style id="t3d-css">.*?</style>\s*<script id="t3d-js">.*?</script>', "", s, flags=re.S)
+    if "</body>" in s and ("cs.money" in s):
+        i = s.rfind("</body>"); s = s[:i] + T3D_JS + s[i:]
+    return s
 
 
 def clicks(s):
@@ -300,7 +332,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))
+    s = threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))
     return s
 
 

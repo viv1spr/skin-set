@@ -223,9 +223,9 @@ CLK_JS = ('<script id="clk-js">(function(){var W="https://auth.skin-set.com";'
 
 
 T3D_JS = ('<style id="t3d-css">.t3d{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none!important;font:600 .74rem/1 var(--hud,sans-serif);letter-spacing:.08em;text-transform:uppercase;color:#fff!important;'
-  'background:linear-gradient(135deg,#2b6cff,#7a3cff);border:1px solid #6d8bff;box-shadow:0 6px 18px rgba(80,110,255,.3);cursor:pointer}'
-  '.t3d:hover{filter:brightness(1.15)}.t3d svg{width:16px;height:16px;flex:none}'
-  '#t3dBtn.t3d{background:rgba(80,110,255,.08)!important;border:1px solid #6d8bff!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(122,60,255,.35),0 0 14px rgba(90,110,255,.18)}#t3dBtn.t3d svg{color:#8fa6ff}#t3dBtn.t3d:hover{background:rgba(80,110,255,.2)!important;filter:none}#t3dBtn[hidden]{display:none!important}.btns .t3d{padding:0 18px;min-height:44px}'
+  'background:#16161d;border:1px solid #4f7bff;box-shadow:0 10px 26px rgba(79,123,255,.15);clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);cursor:pointer}'
+  '.t3d:hover{background:#1b1f33}.t3d svg{width:18px;height:18px;flex:none;color:#7d9bff}'
+  '#t3dBtn.t3d{background:rgba(80,110,255,.08)!important;border:1px solid #6d8bff!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(122,60,255,.35),0 0 14px rgba(90,110,255,.18)}#t3dBtn.t3d svg{color:#8fa6ff}#t3dBtn.t3d:hover{background:rgba(80,110,255,.2)!important;filter:none}#t3dBtn[hidden]{display:none!important}.btns .t3d{font:600 16px/16px Oswald,"Arial Narrow",Impact,sans-serif;letter-spacing:1.6px;padding:0 26px;height:52px;gap:10px}'
   '.pp-btn .t3d{min-height:32px}.post-skin .t3d{display:flex;align-self:stretch;justify-self:stretch;width:100%;box-sizing:border-box;margin-top:0;padding:7px 8px;min-height:0;font-size:.74rem;box-shadow:none}</style>'
   '<script id="t3d-js">(function(){var M=null,P=null,L=(document.documentElement.lang||"ru").slice(0,2),'
   'TX={ru:"Смотреть в 3D",en:"View in 3D",de:"In 3D ansehen",pt:"Ver em 3D",tr:"3D görüntüle",pl:"Zobacz w 3D"}[L]||"View in 3D",'

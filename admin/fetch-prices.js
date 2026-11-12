@@ -9,11 +9,14 @@ const names=[...new Set([...base,...extra])];
 const META={started:new Date().toISOString()};const UA={"User-Agent":"Mozilla/5.0 (compatible; skin-set.com price bot)","Accept":"application/json"};
 const WEAR={"Factory New":"FN","Minimal Wear":"MW","Field-Tested":"FT","Well-Worn":"WW","Battle-Scarred":"BS"};
 function parseName(raw){let n=(raw||"").replace("★ ","").trim();if(/StatTrak|Souvenir/.test(n))return null;let w=null;const m=n.match(/\s*\((Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle-Scarred)\)$/);if(m){w=WEAR[m[1]];n=n.slice(0,m.index)}return {n,w}}
+// StatTrak: отдельная карта, только минимальная цена по всем качествам (для статьи «StatTrak или обычный»)
+const ST=new Map();function parseST(raw){let n=(raw||"").replace("★ ","").trim();if(!/^StatTrak™ /.test(n))return null;n=n.replace(/^StatTrak™ /,"");let w=null;const m=n.match(/\s*\((Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle-Scarred)\)$/);if(m){w=WEAR[m[1]];n=n.slice(0,m.index)}return {n,w}}
+function addST(n,w,v){if(!(v>0))return;const r=ST.get(n)||{min:Infinity,w:{}};r.min=Math.min(r.min,v);if(w)r.w[w]=Math.min(r.w[w]||Infinity,v);ST.set(n,r)}
 function add(map,n,w,v){if(!(v>0))return;const r=map.get(n)||{min:Infinity,w:{}};r.min=Math.min(r.min,v);if(w)r.w[w]=Math.min(r.w[w]||Infinity,v);map.set(n,r)}
 async function lis(){const m=new Map();for(const u of["https://lis-skins.com/market_export_json/csgo.json","https://lis-skins.ru/market_export_json/csgo.json"]){
-  try{const r=await fetch(u,{headers:UA});if(!r.ok){META["ls_"+u]=r.status;continue}const list=await r.json();for(const it of list){const p=parseName(it.name);if(p)add(m,p.n,p.w,+it.price)}META.ls={url:u,items:list.length,names:m.size};if(m.size)return m}catch(e){META["ls_err"]=String(e)}}return m}
+  try{const r=await fetch(u,{headers:UA});if(!r.ok){META["ls_"+u]=r.status;continue}const list=await r.json();for(const it of list){const p=parseName(it.name);if(p)add(m,p.n,p.w,+it.price);else{const q=parseST(it.name);if(q)addST(q.n,q.w,+it.price)}}META.ls={url:u,items:list.length,names:m.size};if(m.size)return m}catch(e){META["ls_err"]=String(e)}}return m}
 async function skinport(){const m=new Map();try{const r=await fetch("https://api.skinport.com/v1/items?app_id=730&currency=USD&tradable=0",{headers:{...UA,"Accept-Encoding":"br"}});if(!r.ok){META.sp_status=r.status;return m}
-  const list=await r.json();for(const it of list){const p=parseName(it.market_hash_name);if(p)add(m,p.n,p.w,+it.min_price)}META.sp={items:list.length,names:m.size}}catch(e){META.sp_err=String(e)}return m}
+  const list=await r.json();for(const it of list){const p=parseName(it.market_hash_name);if(p)add(m,p.n,p.w,+it.min_price);else if(!ST.size||!ST.has((parseST(it.market_hash_name)||{}).n)){const q=parseST(it.market_hash_name);if(q)addST(q.n,q.w,+it.min_price)}}META.sp={items:list.length,names:m.size}}catch(e){META.sp_err=String(e)}return m}
 // обычные фазы Doppler/Gamma Doppler стоят примерно одинаково — берём общую цену; «камни» (Ruby, Sapphire, Emerald, Black Pearl) стоят в разы дороже, площадки их не различают в выгрузке — цену не подставляем
 const GEM={"Ruby":5,"Sapphire":6,"Emerald":6,"Black Pearl":3};
 const stripPhase=n=>n.replace(/\s*\((Phase \d)\)$/,"");
@@ -23,7 +26,7 @@ const stripPhase=n=>n.replace(/\s*\((Phase \d)\)$/,"");
     if(gm){/* камни: площадки не отличают их от обычного Doppler — оцениваем как множитель к цене обычной фазы (примерно по рынку) */const m=GEM[gm[1]];const a=L.get(base),b=S.get(base);if(!a&&!b)continue;
       const rec={t:now,est:1};const w={};for(const k of["FN","MW","FT","WW","BS"]){const v=(a&&a.w[k])||(b&&b.w[k])||Infinity;if(isFinite(v))w[k]=+(v*m).toFixed(2)}if(!Object.keys(w).length)continue;rec.w=w;rec.ls=Math.min(...Object.values(w));out[n]=rec;continue}
     const a=L.get(n)||L.get(stripPhase(n)),b=S.get(n)||S.get(stripPhase(n));if(!a&&!b)continue;
-    const rec={t:now};if(a)rec.ls=+a.min.toFixed(2);if(b)rec.sp=+b.min.toFixed(2);const w={};for(const k of["FN","MW","FT","WW","BS"]){/* Lis-Skins в приоритете, Skinport только если на Lis нет этого износа */const v=(a&&a.w[k])||(b&&b.w[k])||Infinity;if(isFinite(v))w[k]=+v.toFixed(2)}if(Object.keys(w).length)rec.w=w;out[n]=rec}
+    const rec={t:now};if(a)rec.ls=+a.min.toFixed(2);if(b)rec.sp=+b.min.toFixed(2);const w={};for(const k of["FN","MW","FT","WW","BS"]){/* Lis-Skins в приоритете, Skinport только если на Lis нет этого износа */const v=(a&&a.w[k])||(b&&b.w[k])||Infinity;if(isFinite(v))w[k]=+v.toFixed(2)}if(Object.keys(w).length)rec.w=w;const st=ST.get(n)||ST.get(stripPhase(n));if(st&&isFinite(st.min)){rec.st=+st.min.toFixed(2);const sw={};for(const k of["FN","MW","FT","WW","BS"])if(st.w[k])sw[k]=+st.w[k].toFixed(2);if(Object.keys(sw).length)rec.stw=sw}out[n]=rec}
   fs.writeFileSync(path.join(root,"data/prices.json"),JSON.stringify(out));
-  META.finished=new Date().toISOString();META.names=names.length;META.priced=Object.keys(out).length;fs.writeFileSync(path.join(root,"data/prices-meta.json"),JSON.stringify(META,null,1));
+  META.st=ST.size;META.finished=new Date().toISOString();META.names=names.length;META.priced=Object.keys(out).length;fs.writeFileSync(path.join(root,"data/prices-meta.json"),JSON.stringify(META,null,1));
   console.log(JSON.stringify(META))})();

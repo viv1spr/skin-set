@@ -23,7 +23,7 @@
 .fc-bar i{position:absolute;top:-7px;bottom:-7px;width:4px;margin-left:-1px;background:#fff;box-shadow:0 0 0 2px #0d0d12;pointer-events:none}.fc-bar i::after{content:"";position:absolute;left:50%;top:-6px;width:14px;height:14px;margin-left:-7px;background:#fff;border:2px solid #0d0d12;border-radius:50%}
 .fc-near{display:flex;gap:10px;margin-top:12px;font-size:.85rem;color:var(--soft,#aaa)}.fc-near b{color:#fff}
 .fc-t{width:100%;border-collapse:collapse;margin-top:14px}.fc-t th,.fc-t td{padding:9px 8px;border-bottom:1px solid var(--line,#26262f);text-align:left;font-size:.92rem}.fc-t th{font:600 .68rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:var(--soft,#aaa)}
-.fc-t td{white-space:nowrap}.fc-t td.n{white-space:nowrap}.fc-box{align-items:start}.fc-t tr.best td:first-child{box-shadow:inset 3px 0 0 #2ecc71}.fc-t em{font-style:normal;font-size:.75rem;color:#2ecc71;margin-left:6px}.fc-t .up{font-size:.78rem;color:var(--soft,#aaa)}.fc-t a{color:#ff5cb0}
+.fc-t td{white-space:nowrap}.fc-t td.n{white-space:nowrap}.fc-box{align-items:start}.fc-t tr.cur td{background:rgba(255,255,255,.06);color:#fff}.fc-t tr.cur td:first-child{box-shadow:inset 3px 0 0 var(--pick,#c4161c)}.fc-t em{font-style:normal;font-size:.68rem;color:#2ecc71;margin-left:6px;letter-spacing:.02em}.fc-t .up{font-size:.78rem;color:var(--soft,#aaa)}.fc-t a{color:#ff5cb0}
 .fc-sk{display:flex;align-items:center;gap:12px;margin-top:14px}.fc-sk img{width:110px;height:82px;object-fit:contain}.fc-sk b{display:block;font-size:1.05rem}.fc-sk a{font-size:.85rem}
 .fc-src{margin-top:10px;font-size:.78rem;color:var(--soft,#888)}
 @media(max-width:760px){.fc-box{grid-template-columns:1fr}.fc-box>*{min-width:0}.fc-card{padding:14px}.fc-near{flex-direction:column;gap:4px}.fc-t th,.fc-t td{padding:8px 3px;font-size:.8rem}.fc-t th{font-size:.58rem;letter-spacing:.04em}}
@@ -115,10 +115,10 @@
 var RATE=window.FCRATE,CUR=window.FCCUR,P=null;function fmt(usd){var v=usd*RATE;return CUR==="₽"?Math.round(v).toLocaleString("ru-RU")+" ₽":"$"+(v<10?v.toFixed(2):Math.round(v).toLocaleString("en-US"))}
 var fi=document.getElementById("fcF"),wo=document.getElementById("fcW"),bar=document.getElementById("fcBar"),nr=document.getElementById("fcNear");
 function wearOf(f){for(var i=0;i<5;i++)if(f<B[i+1]||i===4)return i}
-function onF(){var s=fi.value.replace(",",".").trim(),f=parseFloat(s);var sp=bar.querySelectorAll("span");sp.forEach(function(x){x.classList.remove("on")});
- if(!s){wo.innerHTML=L.none;nr.innerHTML="";bar.querySelector("i").style.display="none";return}
+var CURW=null;function onF(){var s=fi.value.replace(",",".").trim(),f=parseFloat(s);var pw=CURW;CURW=null;var sp=bar.querySelectorAll("span");sp.forEach(function(x){x.classList.remove("on")});
+ if(!s){if(pw&&P)show();wo.innerHTML=L.none;nr.innerHTML="";bar.querySelector("i").style.display="none";return}
  if(isNaN(f)||f<0||f>1){wo.innerHTML='<small>'+L.bad+'</small>';nr.innerHTML="";bar.querySelector("i").style.display="none";return}
- var i=wearOf(f);wo.innerHTML=W[i]+'<small>'+L.names[W[i]]+'</small>';sp[i].classList.add("on");var m=bar.querySelector("i");m.style.display="";m.style.left="calc("+(f*100)+"% - 1px)";
+ var i=wearOf(f);CURW=W[i];if(pw!==CURW&&typeof show==="function"&&P)show();wo.innerHTML=W[i]+'<small>'+L.names[W[i]]+'</small>';sp[i].classList.add("on");var m=bar.querySelector("i");m.style.display="";m.style.left="calc("+(f*100)+"% - 1px)";
  var a=i>0?(f-B[i]).toFixed(4):null,b=i<4?(B[i+1]-f).toFixed(4):null;nr.innerHTML=(a!==null?'<span>'+L.next_up+': <b>−'+a+'</b></span>':'')+(b!==null?'<span>'+L.next_dn+': <b>+'+b+'</b></span>':'')}
 fi.addEventListener("input",onF);
 var drag=false;function setX(ev){var r=bar.getBoundingClientRect(),f=Math.min(1,Math.max(0,(ev.clientX-r.left)/r.width));fi.value=f.toFixed(4);onF()}
@@ -130,7 +130,7 @@ function show(){var n=si.value.trim();var c=CAT.find(function(x){return x[0].toL
  var r=P[c[0]]||{},w=r.w||{},sw=r.stw||{};var best=null;W.forEach(function(k){if(w[k]&&(best===null||w[k]<w[best]))best=k});
  var rows=W.map(function(k,i){var v=w[k],s=sw[k];var up="";if(v&&i>0){for(var j=i-1;j>=0;j--)if(w[W[j]]){up='<span class="up">×'+(w[W[j]]/v).toFixed(1).replace(".",CUR==="₽"?",":".")+'</span>';break}}
   var q=encodeURIComponent(c[0].replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,"")+" ("+({FN:"Factory New",MW:"Minimal Wear",FT:"Field-Tested",WW:"Well-Worn",BS:"Battle-Scarred"})[k]+")");
-  return '<tr'+(k===best?' class="best"':'')+'><td class="n"><b>'+k+'</b></td><td>'+(v?fmt(v)+(k===best?'<em>✓</em>':''):L.na)+'</td><td>'+(s?fmt(s):'—')+'</td><td>'+up+'</td><td>'+(v?'<a href="https://cs.money/market/buy/?search='+q+'&utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=link" target="_blank" rel="noopener sponsored">CS.MONEY</a>':'')+'</td></tr>'}).join("");
+  return '<tr'+(k===CURW?' class="cur"':'')+'><td class="n"><b>'+k+'</b></td><td>'+(v?fmt(v)+(k===best?'<em title="'+L.cheap+'">'+L.cheap+'</em>':''):L.na)+'</td><td>'+(s?fmt(s):'—')+'</td><td>'+up+'</td><td>'+(v?'<a href="https://cs.money/market/buy/?search='+q+'&utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=link" target="_blank" rel="noopener sponsored">CS.MONEY</a>':'')+'</td></tr>'}).join("");
  var im=IMG&&IMG[c[0]];out.innerHTML='<div class="fc-sk">'+(im?'<img src="https://community.akamai.steamstatic.com/economy/image/'+im+'/256fx192f" alt="'+c[0].replace(/"/g,"&quot;")+'">':'')+'<div><b>'+c[0]+'</b>'+(c[1]?'<a href="'+c[1]+'">'+L.open+'</a>':'')+'</div></div><table class="fc-t"><thead><tr><th>'+L.wear+'</th><th>'+L.reg+'</th><th>'+L.st+'</th><th>'+L.step+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table><p class="fc-src">'+L.src+'</p>'}
 si.addEventListener("change",show);si.addEventListener("input",function(){if(CAT.some(function(x){return x[0].toLowerCase()===si.value.trim().toLowerCase()}))show()});
 var IMG=null;fetch("/data/skin-img.json").then(function(r){return r.json()}).then(function(a){IMG={};a.forEach(function(x){IMG[x[0].replace(/^★\s*/,"")]=x[1]});if(P)show()}).catch(function(){});

@@ -279,11 +279,52 @@ def srv_results(lang, D):
     return f'<h2>{e(L["res_h"])}</h2><div class="mx-res">{out}</div>' if out else ""
 
 
+MON = {"ru": ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"],
+       "en": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]}
+
+
+def _today_s(lang):
+    d = datetime.datetime.now(_tz(lang)[0]).date()
+    return f"{d.day} {MON[lang][d.month - 1]}" if lang == "ru" else f"{MON[lang][d.month - 1]} {d.day}"
+
+
+def events_ld(lang, D):
+    """разметка schema.org/SportsEvent для идущих, ближайших и сыгранных матчей"""
+    out = []
+    for kind, lst, n in (("live", D.get("live", []), 10), ("up", D.get("up", []), 20), ("past", D.get("past", []), 10)):
+        for m in lst[:n]:
+            tm = [x for x in (m.get("t") or []) if x]
+            if len(tm) < 2 or not m.get("b"):
+                continue
+            lg = (m.get("l") or {}).get("n") or "CS2"
+            ev = {"@context": "https://schema.org", "@type": "SportsEvent", "name": f'{tm[0]["n"]} vs {tm[1]["n"]} — {lg}' + (f' {m["se"]}' if m.get("se") else ""),
+                  "sport": "Counter-Strike 2", "startDate": m["b"], "eventStatus": "https://schema.org/EventScheduled",
+                  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+                  "location": {"@type": "VirtualLocation", "url": ((m.get("tv") or [{}])[0].get("u")) or SITE + URL[lang]},
+                  "competitor": [{"@type": "SportsTeam", "name": x["n"], **({"logo": x["i"]} if x.get("i") else {})} for x in tm[:2]],
+                  "organizer": {"@type": "Organization", "name": lg}, "url": SITE + URL[lang] + "#m" + str(m.get("id", ""))}
+            if m.get("e"): ev["endDate"] = m["e"]
+            if m.get("bo"): ev["description"] = f'BO{m["bo"]}' + (f' · {m["tu"]}' if m.get("tu") else "")
+            out.append(ev)
+    return out
+
+
 def build(lang, D=None):
     D = D or {"live": [], "up": [], "past": []}
-    t = T[lang]; url = URL[lang]; L = t["L"]
-    ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": t["h1"], "url": SITE + url, "description": t["desc"]},
-          {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}]
+    t = dict(T[lang]); url = URL[lang]; L = t["L"]
+    # дата в заголовке — страница пересобирается каждый час, поисковик видит свежесть под запрос «матчи сегодня»
+    ds = _today_s(lang)
+    t["title"] = (f"Матчи КС 2 сегодня, {ds}: расписание, результаты и трансляции CS2 — Skinset" if lang == "ru"
+                  else f"CS2 matches today, {ds}: schedule, live scores, results and streams — Skinset")
+    tops = []
+    for m in D.get("live", []) + D.get("up", []):
+        for x in (m.get("t") or []):
+            if x and x["n"] not in tops: tops.append(x["n"])
+    if tops:
+        t["desc"] = (f"Матчи КС 2 сегодня, {ds}: {', '.join(tops[:5])} и другие. Расписание, live-счёт, результаты и трансляции CS2." if lang == "ru"
+                     else f"CS2 matches today, {ds}: {', '.join(tops[:5])} and more. Schedule, live scores, results and streams.")
+    ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": t["h1"], "url": SITE + url, "description": t["desc"], "dateModified": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")},
+          {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}] + events_ld(lang, D)
     alts = "".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{URL[l]}">' for l in URL) + f'<link rel="alternate" hreflang="x-default" href="{SITE}{URL["en"]}">'
     body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="mt-kick pg-eb"><i></i>{e(t["kick"])}</span><h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead"])}</p>'
             + srv_top(lang, D) + f'<h2 id="schedH">{e(L["sched_h"])}</h2><div class="mt-bar"><div class="mt-tabs" id="mtTabs"><button data-t="live"><span class="lv"><i></i></span>{e(L["live"])} <b id="mtN"></b></button><button data-t="up" class="on">{e(L["up"])}</button><button data-t="past">{e(L["past"])}</button></div>'
@@ -389,6 +430,9 @@ def main():
     sm = os.path.join(ROOT, "sitemap.xml"); xml = open(sm, encoding="utf-8").read()
     for u in URL.values():
         if f"<loc>{SITE}{u}</loc>" not in xml: xml = xml.replace("</urlset>", f"  <url><loc>{SITE}{u}</loc><lastmod>{datetime.date.today().isoformat()}</lastmod></url>\n</urlset>")
+        else:  # свежая дата обновления — страница меняется каждый час
+            import re as _re
+            xml = _re.sub(r"(<loc>" + _re.escape(SITE + u) + r"</loc>\s*<lastmod>)[^<]*", lambda m: m.group(1) + datetime.date.today().isoformat(), xml)
     open(sm, "w", encoding="utf-8").write(xml)
     print("ok")
 

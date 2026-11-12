@@ -30,6 +30,15 @@ WHERE = {  # абзац «где купить» и ответ FAQ
     "pl": "Skinset pokazuje orientacyjne ceny każdego przedmiotu i całego zestawu, aktualizowane co 4 godziny. Strona nic nie sprzedaje i nie ma nic wspólnego ze skrzynkami: złóż zestaw tutaj, a skiny kup na dowolnym rynku.",
 }
 AD_CSS = """<style id="noshop-css">
+.grp.wearsel{display:none!important}
+@media(max-width:700px){.bquick{display:none!important}.budget-row{display:grid!important;grid-template-columns:auto 1fr!important;align-items:center!important;gap:8px!important;padding-bottom:8px!important}.budget-row>*{margin:0!important}.budget-row>:not(#curSel):not(.binput){grid-column:1/-1}.budget-row #curSel{height:40px}.budget-row .binput{height:40px;box-sizing:border-box}
+.lo-head .btns{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}.lo-head .btns>*{width:auto!important;margin:0!important;min-width:0;font-size:.68rem!important;letter-spacing:.05em!important;padding:0 6px!important;white-space:nowrap}
+.setsum{padding:8px 12px!important}.setsum b{font-size:1.25rem!important}
+.stage .info{padding:12px 14px!important}.info .slotname{font-size:.68rem!important}.info .h1{font-size:1.3rem!important;line-height:1.1!important;margin:4px 0 2px!important}.info .wp{font-size:.8rem!important}.info .bar{display:none!important}
+.info .kv{margin-top:8px!important;gap:6px!important}.info .kv>div{padding:6px 10px!important}.info .kv small{font-size:.62rem!important}.info .kv b{font-size:.95rem!important}
+.info .wears{margin-top:10px!important}.info .wears>small{font-size:.62rem!important}.wears>div{grid-template-columns:repeat(6,1fr)!important;gap:3px!important}.wears button{padding:5px 1px!important;gap:2px!important;min-width:0}.wears button b{font-size:.68rem!important}.wears button small{font-size:.54rem!important;white-space:nowrap}
+.info .buy{margin-top:10px!important}.info .buy a.csm{min-height:40px!important;height:40px!important;padding-top:0!important;padding-bottom:0!important}
+.info .acts{flex-wrap:nowrap!important;gap:6px!important;margin-top:8px!important}.info .acts button{height:34px!important;font-size:.64rem!important;letter-spacing:.04em!important;padding:0 4px!important;gap:5px!important;min-width:0}}
 .cb a.ad,.cb a.csm{grid-column:1/-1;width:100%;background:linear-gradient(90deg,rgba(255,21,154,.22),#16161d 70%)!important;color:#fff!important;border:1px solid #ff159a!important;font-size:.62rem!important;letter-spacing:.06em;box-shadow:0 4px 14px rgba(255,21,154,.15)}
 .buy a.ad,.buy a.csm{background:linear-gradient(90deg,rgba(255,21,154,.28),rgba(255,21,154,.08) 55%,#16161d)!important;color:#fff!important;border:2px solid #ff159a!important;box-shadow:0 0 0 1px rgba(255,21,154,.25),0 8px 26px rgba(255,21,154,.38)!important}
 .buy a.ad .tx small,.buy a.csm .tx small{color:rgba(255,255,255,.85)!important;opacity:1}.buy a.ad .tx b,.buy a.csm .tx b{color:#fff!important;font-size:.98rem}
@@ -291,6 +300,9 @@ CBS_JS = ('<script id="cbs-js">(function(){var g=document.getElementById("pkGrou
 
 def cbsheet(s):
     s = re.sub(r'<script id="cbs-js">.*?</script>', "", s, flags=re.S)
+    s = re.sub(r'<script id="wany-js">.*?</script>', "", s, flags=re.S)
+    if 'id="wearSel"' in s and "</body>" in s:  # общий выбор качества скрыт — всегда «Любое», качество меняется у каждого предмета
+        i = s.rfind("</body>"); s = s[:i] + '<script id="wany-js">try{if(typeof state!=="undefined"&&state.wear!=="any"){state.wear="any";render();save()}}catch(e){}</script>' + s[i:]
     if 'id="pkGroups"' in s and "</body>" in s:
         i = s.rfind("</body>"); s = s[:i] + CBS_JS + s[i:]
     return s

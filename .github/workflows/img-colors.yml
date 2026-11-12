@@ -1,0 +1,23 @@
+name: Skin image colors
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  colors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow numpy
+      - run: python3 admin/img_colors.py
+      - name: Commit
+        run: |
+          git config user.name "price-bot"
+          git config user.email "bot@skin-set.com"
+          git add data/img-colors.json
+          git diff --cached --quiet || git commit -m "Skin image colors $(date -u +%F)"
+          git pull --rebase -X theirs || true
+          git push

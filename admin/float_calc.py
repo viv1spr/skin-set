@@ -55,8 +55,8 @@ CSS = """.fc{max-width:980px}.fc-box{display:grid;grid-template-columns:1fr 1fr;
 .fc-card{background:var(--panel,#14141b);border:1px solid var(--line,#26262f);padding:18px}.fc-card label{display:block;font:600 .72rem/1 var(--hud);letter-spacing:.12em;text-transform:uppercase;color:var(--soft,#aaa);margin-bottom:10px}
 .fc-card input{width:100%;box-sizing:border-box;height:48px;padding:0 14px;background:#0d0d12;border:1px solid var(--line2,#33333d);color:#fff;font:600 1.2rem/1 var(--body,inherit)}.fc-card input:focus{outline:none;border-color:var(--pick,#c4161c)}
 .fc-w{margin-top:14px;font:700 1.5rem/1.1 var(--hud);text-transform:uppercase}.fc-w small{display:block;margin-top:6px;font:500 .85rem/1.3 var(--body,inherit);text-transform:none;color:var(--soft,#aaa)}
-.fc-bar{position:relative;display:flex;height:26px;margin-top:16px}.fc-bar span{display:flex;align-items:center;justify-content:center;font:600 .66rem/1 var(--hud);color:#fff;border-right:1px solid #0d0d12;opacity:.5}.fc-bar span.on{opacity:1}
-.fc-bar i{position:absolute;top:-6px;bottom:-6px;width:3px;background:#fff;box-shadow:0 0 0 2px #0d0d12;transition:left .2s}
+.fc-bar{position:relative;display:flex;height:30px;margin-top:16px;cursor:ew-resize;touch-action:none;user-select:none}.fc-bar span{box-sizing:border-box;pointer-events:none}.fc-bar span{display:flex;align-items:center;justify-content:center;font:600 .66rem/1 var(--hud);color:#fff;border-right:1px solid #0d0d12;opacity:.5}.fc-bar span.on{opacity:1}
+.fc-bar i{position:absolute;top:-7px;bottom:-7px;width:4px;margin-left:-1px;background:#fff;box-shadow:0 0 0 2px #0d0d12;pointer-events:none}.fc-bar i::after{content:"";position:absolute;left:50%;top:-6px;width:14px;height:14px;margin-left:-7px;background:#fff;border:2px solid #0d0d12;border-radius:50%}
 .fc-near{display:flex;gap:10px;margin-top:12px;font-size:.85rem;color:var(--soft,#aaa)}.fc-near b{color:#fff}
 .fc-t{width:100%;border-collapse:collapse;margin-top:14px}.fc-t th,.fc-t td{padding:9px 8px;border-bottom:1px solid var(--line,#26262f);text-align:left;font-size:.92rem}.fc-t th{font:600 .68rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:var(--soft,#aaa)}
 .fc-t td{white-space:nowrap}.fc-t td.n{white-space:nowrap}.fc-box{align-items:start}.fc-t tr.best td:first-child{box-shadow:inset 3px 0 0 #2ecc71}.fc-t em{font-style:normal;font-size:.75rem;color:#2ecc71;margin-left:6px}.fc-t .up{font-size:.78rem;color:var(--soft,#aaa)}.fc-t a{color:#ff5cb0}
@@ -74,6 +74,10 @@ function onF(){var s=fi.value.replace(",",".").trim(),f=parseFloat(s);var sp=bar
  var i=wearOf(f);wo.innerHTML=W[i]+'<small>'+L.names[W[i]]+'</small>';sp[i].classList.add("on");var m=bar.querySelector("i");m.style.display="";m.style.left="calc("+(f*100)+"% - 1px)";
  var a=i>0?(f-B[i]).toFixed(4):null,b=i<4?(B[i+1]-f).toFixed(4):null;nr.innerHTML=(a!==null?'<span>'+L.next_up+': <b>−'+a+'</b></span>':'')+(b!==null?'<span>'+L.next_dn+': <b>+'+b+'</b></span>':'')}
 fi.addEventListener("input",onF);
+var drag=false;function setX(ev){var r=bar.getBoundingClientRect(),f=Math.min(1,Math.max(0,(ev.clientX-r.left)/r.width));fi.value=f.toFixed(4);onF()}
+bar.addEventListener("pointerdown",function(ev){drag=true;try{bar.setPointerCapture(ev.pointerId)}catch(x){}setX(ev);ev.preventDefault()});
+bar.addEventListener("pointermove",function(ev){if(drag)setX(ev)});["pointerup","pointercancel"].forEach(function(t){bar.addEventListener(t,function(){drag=false})});
+bar.addEventListener("keydown",function(ev){var f=parseFloat(fi.value.replace(",","."))||0,d=ev.shiftKey?.05:.005;if(ev.key==="ArrowRight"){fi.value=Math.min(1,f+d).toFixed(4);onF();ev.preventDefault()}if(ev.key==="ArrowLeft"){fi.value=Math.max(0,f-d).toFixed(4);onF();ev.preventDefault()}});
 var si=document.getElementById("fcS"),out=document.getElementById("fcOut");
 function show(){var n=si.value.trim();var c=CAT.find(function(x){return x[0].toLowerCase()===n.toLowerCase()});if(!c||!P){out.innerHTML='<p class="fc-src">'+L.empty+'</p>';return}
  var r=P[c[0]]||{},w=r.w||{},sw=r.stw||{};var best=null;W.forEach(function(k){if(w[k]&&(best===null||w[k]<w[best]))best=k});
@@ -110,7 +114,7 @@ def build(lang):
     secs = "".join(f"<h2>{e(h)}</h2><p>{mdlinks(p)}</p>" for h, p in t["sec"])
     body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="pg-eb"><i></i>{e(t["kick"])}</span><h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead"])}</p>'
             f'<div class="fc-box"><div class="fc-card"><label for="fcF">{e(L["fl"])}</label><input id="fcF" inputmode="decimal" autocomplete="off" placeholder="{e(L["flph"])}">'
-            f'<div class="fc-w" id="fcW">{e(L["none"])}</div><div class="fc-bar" id="fcBar">{bar}</div><div class="fc-near" id="fcNear"></div></div>'
+            f'<div class="fc-w" id="fcW">{e(L["none"])}</div><div class="fc-bar" id="fcBar" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="1">{bar}</div><div class="fc-near" id="fcNear"></div></div>'
             f'<div class="fc-card"><label for="fcS">{e(L["sk"])}</label><input id="fcS" list="fcList" autocomplete="off" placeholder="{e(L["skph"])}"><datalist id="fcList">'
             + "".join(f'<option value="{e(c[0])}">' for c in cat) + f'</datalist><div id="fcOut"><p class="fc-src">{e(L["empty"])}</p></div></div></div>'
             + secs + f'<h2>{e(t["faq_h"])}</h2><div class="faq">{"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in t["faq"])}</div><p class="note">{e(t["note"])}</p>'

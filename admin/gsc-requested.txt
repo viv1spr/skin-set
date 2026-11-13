@@ -507,3 +507,4 @@
 2026-11-12 https://skin-set.com/skiny/karambit-blue-steel/
 2026-11-12 https://skin-set.com/skiny/m9-bayonet-gamma-doppler-phase-2/
 2026-11-12 https://skin-set.com/skiny/ak-47-autoexec/
+2026-11-13 https://skin-set.com/blog/redkost-skinov-cs2/

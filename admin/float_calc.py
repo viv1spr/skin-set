@@ -20,7 +20,7 @@ T = {
    h1="Калькулятор float CS2", kick="Float · качество · цена", home="Главная",
    lead="Введи float, чтобы узнать качество скина, или выбери скин — покажем живые цены по всем качествам, StatTrak-версию и сколько стоит каждый шаг вверх по качеству.",
    L=dict(fl="Float скина", flph="например 0,1534", wear="Качество", next_up="До лучшего качества", next_dn="До худшего качества", none="—",
-          sk="Скин", skph="Начни вводить: карамбит допплер, AK Redline",nf="Ничего не нашли — попробуй по-английски",frm="от", reg="Обычный", st="StatTrak", na="нет", cheap="дешевле всего", step="Шаг вверх", buy="Купить",
+          sk="Скин", skph="Начни вводить: карамбит допплер, AK Redline",range="У этого скина float только от {a} до {b} — такого экземпляра не бывает",rgl="Float у скина:",nf="Ничего не нашли — попробуй по-английски",frm="от", reg="Обычный", st="StatTrak", na="нет", cheap="дешевле всего", step="Шаг вверх", buy="Купить",
           src="Цены живые, обновляются несколько раз в день. Минимальная цена на площадках, без наклеек.", open="Страница скина →", empty="Выбери скин, чтобы увидеть цены",
           names={"FN": "Factory New · Прямо с завода", "MW": "Minimal Wear · Немного поношенное", "FT": "Field-Tested · После полевых испытаний", "WW": "Well-Worn · Поношенное", "BS": "Battle-Scarred · Закалённое в боях"},
           bad="Float — число от 0 до 1"),
@@ -37,7 +37,7 @@ T = {
    h1="CS2 float calculator", kick="Float · wear · price", home="Home",
    lead="Enter a float to get the skin's wear, or pick a skin to see live prices for every wear, the StatTrak version, and what each step up in wear costs.",
    L=dict(fl="Skin float", flph="e.g. 0.1534", wear="Wear", next_up="To better wear", next_dn="To worse wear", none="—",
-          sk="Skin", skph="Start typing: Karambit Doppler, AK Redline",nf="Nothing found",frm="from", reg="Regular", st="StatTrak", na="none", cheap="cheapest", step="Step up", buy="Buy",
+          sk="Skin", skph="Start typing: Karambit Doppler, AK Redline",range="This skin's float only goes from {a} to {b}, so no such copy exists",rgl="Float range:",nf="Nothing found",frm="from", reg="Regular", st="StatTrak", na="none", cheap="cheapest", step="Step up", buy="Buy",
           src="Live prices, refreshed several times a day. Lowest marketplace price, no stickers.", open="Skin page →", empty="Pick a skin to see prices",
           names={"FN": "Factory New", "MW": "Minimal Wear", "FT": "Field-Tested", "WW": "Well-Worn", "BS": "Battle-Scarred"},
           bad="Float is a number from 0 to 1"),
@@ -65,30 +65,34 @@ CSS = """.fc{max-width:980px}.fc-box{display:grid;grid-template-columns:1fr 1fr;
 .fc-ac button{display:flex;align-items:center;gap:12px;width:100%;padding:7px 12px;background:none;border:0;border-bottom:1px solid rgba(255,255,255,.05);color:#fff;text-align:left;cursor:pointer;font:inherit}.fc-ac button.on,.fc-ac button:hover{background:rgba(255,255,255,.07)}
 .fc-ac img,.fc-ac .ph{width:64px;height:48px;object-fit:contain;flex:none}.fc-ac .nm{flex:1;min-width:0}.fc-ac .nm b{display:block;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fc-ac .nm small{color:var(--soft,#999);font-size:.78rem}
 .fc-ac em{font-style:normal;font-size:.82rem;color:#2ecc71;white-space:nowrap}.fc-ac-none{padding:12px;color:var(--soft,#999);font-size:.88rem}
+.fc-bar .off{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,rgba(13,13,18,.88) 0 6px,rgba(13,13,18,.7) 6px 12px);pointer-events:none}.fc-bar .off-l{left:0}.fc-bar .off-r{right:0}.fc-w small.warn{color:#ff8a80}.fc-sk small.rg{display:block;color:var(--soft,#aaa);font-size:.8rem;margin:2px 0 4px}
 .fc-src{margin-top:10px;font-size:.78rem;color:var(--soft,#888)}
-@media(max-width:760px){.fc-box{grid-template-columns:1fr}.fc-box>*{min-width:0}.fc-card{padding:14px}.fc-near{flex-direction:column;gap:4px}.fc-t th,.fc-t td{padding:8px 3px;font-size:.8rem}.fc-t th{font-size:.58rem;letter-spacing:.04em}}"""
+@media(max-width:760px){.fc-box{grid-template-columns:1fr}.fc-box>*{min-width:0}.fc-card{padding:14px}.fc-near{flex-direction:column;gap:4px}.fc-t th,.fc-t td{padding:8px 3px;font-size:.8rem}.fc-t th{font-size:.58rem;letter-spacing:.04em}.fc-t em{display:block;margin:2px 0 0}.fc-t .fc-wrap{overflow-x:auto}}"""
 
 JS = r"""(function(){var L=window.FCL,CAT=window.FCCAT,W=["FN","MW","FT","WW","BS"],B=[0,.07,.15,.38,.45,1],COL=["#2ecc71","#7bc96f","#e3b341","#e67e22","#c0392b"];
 var RATE=window.FCRATE,CUR=window.FCCUR,P=null;function fmt(usd){var v=usd*RATE;return CUR==="₽"?Math.round(v).toLocaleString("ru-RU")+" ₽":"$"+(v<10?v.toFixed(2):Math.round(v).toLocaleString("en-US"))}
 var fi=document.getElementById("fcF"),wo=document.getElementById("fcW"),bar=document.getElementById("fcBar"),nr=document.getElementById("fcNear");
 function wearOf(f){for(var i=0;i<5;i++)if(f<B[i+1]||i===4)return i}
-var CURW=null;function onF(){var s=fi.value.replace(",",".").trim(),f=parseFloat(s);var pw=CURW;CURW=null;var sp=bar.querySelectorAll("span");sp.forEach(function(x){x.classList.remove("on")});
+var CURW=null,RG=[0,1];function rgBar(){var o=bar.querySelector(".off-l"),q=bar.querySelector(".off-r");if(!o){o=document.createElement("b");o.className="off off-l";q=document.createElement("b");q.className="off off-r";bar.appendChild(o);bar.appendChild(q)}o.style.width=(RG[0]*100)+"%";q.style.width=((1-RG[1])*100)+"%"}
+function onF(){var s=fi.value.replace(",",".").trim(),f=parseFloat(s);var pw=CURW;CURW=null;var sp=bar.querySelectorAll("span");sp.forEach(function(x){x.classList.remove("on")});
  if(!s){if(pw&&P)show();wo.innerHTML=L.none;nr.innerHTML="";bar.querySelector("i").style.display="none";return}
  if(isNaN(f)||f<0||f>1){wo.innerHTML='<small>'+L.bad+'</small>';nr.innerHTML="";bar.querySelector("i").style.display="none";return}
  var i=wearOf(f);CURW=W[i];if(pw!==CURW&&typeof show==="function"&&P)show();wo.innerHTML=W[i]+'<small>'+L.names[W[i]]+'</small>';sp[i].classList.add("on");var m=bar.querySelector("i");m.style.display="";m.style.left="calc("+(f*100)+"% - 1px)";
- var a=i>0?(f-B[i]).toFixed(4):null,b=i<4?(B[i+1]-f).toFixed(4):null;nr.innerHTML=(a!==null?'<span>'+L.next_up+': <b>−'+a+'</b></span>':'')+(b!==null?'<span>'+L.next_dn+': <b>+'+b+'</b></span>':'')}
+ if(f<RG[0]-1e-9||f>RG[1]+1e-9){wo.innerHTML+='<small class="warn">'+L.range.replace("{a}",fmtF(RG[0])).replace("{b}",fmtF(RG[1]))+'</small>'}
+ var a=i>0&&RG[0]<B[i]?(f-B[i]).toFixed(4):null,b=i<4&&RG[1]>B[i+1]?(B[i+1]-f).toFixed(4):null;nr.innerHTML=(a!==null?'<span>'+L.next_up+': <b>−'+a+'</b></span>':'')+(b!==null?'<span>'+L.next_dn+': <b>+'+b+'</b></span>':'')}
 fi.addEventListener("input",onF);
-var drag=false;function setX(ev){var r=bar.getBoundingClientRect(),f=Math.min(1,Math.max(0,(ev.clientX-r.left)/r.width));fi.value=f.toFixed(4);onF()}
+function fmtF(v){return CUR==="₽"?v.toFixed(2).replace(".",","):v.toFixed(2)}
+var drag=false;function setX(ev){var r=bar.getBoundingClientRect(),f=Math.min(RG[1],Math.max(RG[0],(ev.clientX-r.left)/r.width));fi.value=f.toFixed(4);onF()}
 bar.addEventListener("pointerdown",function(ev){drag=true;try{bar.setPointerCapture(ev.pointerId)}catch(x){}setX(ev);ev.preventDefault()});
 bar.addEventListener("pointermove",function(ev){if(drag)setX(ev)});["pointerup","pointercancel"].forEach(function(t){bar.addEventListener(t,function(){drag=false})});
 bar.addEventListener("keydown",function(ev){var f=parseFloat(fi.value.replace(",","."))||0,d=ev.shiftKey?.05:.005;if(ev.key==="ArrowRight"){fi.value=Math.min(1,f+d).toFixed(4);onF();ev.preventDefault()}if(ev.key==="ArrowLeft"){fi.value=Math.max(0,f-d).toFixed(4);onF();ev.preventDefault()}});
 var si=document.getElementById("fcS"),out=document.getElementById("fcOut");
-function show(){var n=si.value.trim();var c=CAT.find(function(x){return x[0].toLowerCase()===n.toLowerCase()});if(!c||!P){out.innerHTML='<p class="fc-src">'+L.empty+'</p>';return}
+function show(){var n=si.value.trim();var c=CAT.find(function(x){return x[0].toLowerCase()===n.toLowerCase()});var nr2=c&&c[2]?c[2]:[0,1];if(nr2[0]!==RG[0]||nr2[1]!==RG[1]){RG=nr2;rgBar();var fv=parseFloat(fi.value.replace(",","."));if(!isNaN(fv)){setTimeout(onF,0)}}if(!c||!P){out.innerHTML='<p class="fc-src">'+L.empty+'</p>';return}
  var r=P[c[0]]||{},w=r.w||{},sw=r.stw||{};var best=null;W.forEach(function(k){if(w[k]&&(best===null||w[k]<w[best]))best=k});
  var rows=W.map(function(k,i){var v=w[k],s=sw[k];var up="";if(v&&i>0){for(var j=i-1;j>=0;j--)if(w[W[j]]){up='<span class="up">×'+(w[W[j]]/v).toFixed(1).replace(".",CUR==="₽"?",":".")+'</span>';break}}
   var q=encodeURIComponent(c[0].replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,"")+" ("+({FN:"Factory New",MW:"Minimal Wear",FT:"Field-Tested",WW:"Well-Worn",BS:"Battle-Scarred"})[k]+")");
   return '<tr'+(k===CURW?' class="cur"':'')+'><td class="n"><b>'+k+'</b></td><td>'+(v?fmt(v)+(k===best?'<em title="'+L.cheap+'">'+L.cheap+'</em>':''):L.na)+'</td><td>'+(s?fmt(s):'—')+'</td><td>'+up+'</td><td>'+(v?'<a href="https://cs.money/market/buy/?search='+q+'&utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=link" target="_blank" rel="noopener sponsored">CS.MONEY</a>':'')+'</td></tr>'}).join("");
- var im=IMG&&IMG[c[0]];out.innerHTML='<div class="fc-sk">'+(im?'<img src="https://community.akamai.steamstatic.com/economy/image/'+im+'/256fx192f" alt="'+c[0].replace(/"/g,"&quot;")+'">':'')+'<div><b>'+c[0]+'</b>'+(c[1]?'<a href="'+c[1]+'">'+L.open+'</a>':'')+'</div></div><table class="fc-t"><thead><tr><th>'+L.wear+'</th><th>'+L.reg+'</th><th>'+L.st+'</th><th>'+L.step+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table><p class="fc-src">'+L.src+'</p>'}
+ var im=IMG&&IMG[c[0]];out.innerHTML='<div class="fc-sk">'+(im?'<img src="https://community.akamai.steamstatic.com/economy/image/'+im+'/256fx192f" alt="'+c[0].replace(/"/g,"&quot;")+'">':'')+'<div><b>'+c[0]+'</b><small class="rg">'+L.rgl+' '+fmtF(RG[0])+'–'+fmtF(RG[1])+'</small>'+(c[1]?'<a href="'+c[1]+'">'+L.open+'</a>':'')+'</div></div><table class="fc-t"><thead><tr><th>'+L.wear+'</th><th>'+L.reg+'</th><th>'+L.st+'</th><th>'+L.step+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table><p class="fc-src">'+L.src+'</p>'}
 /* поиск скина: свой выпадающий список с картинками и ценами, понимает русские названия */
 var AL={"калаш":"ak-47","ак47":"ak-47","ак":"ak-47","авп":"awp","эвп":"awp","м4а4":"m4a4","м4а1":"m4a1-s","м4":"m4","дигл":"desert eagle","дигл":"desert eagle","юсп":"usp-s","усп":"usp-s","глок":"glock-18","карамбит":"karambit","керамбит":"karambit","бабочка":"butterfly","баттерфляй":"butterfly","байонет":"bayonet","штык":"bayonet","м9":"m9 bayonet","талон":"talon","флип":"flip","фальшион":"falchion","кукри":"kukri","скелет":"skeleton","нож":"knife","перчатки":"gloves","перчи":"gloves","спорт":"sport","драйвер":"driver","спец":"specialist","мото":"moto","гидра":"hydra",
  "допплер":"doppler","доплер":"doppler","гамма":"gamma","фейд":"fade","азимов":"asiimov","редлайн":"redline","вулкан":"vulcan","лор":"lore","драгон":"dragon","сапфир":"sapphire","рубин":"ruby","изумруд":"emerald","жемчуг":"black pearl","паутина":"crimson web","кейс":"case hardened","тигр":"tiger tooth","мрамор":"marble fade","гунгнир":"gungnir","хоул":"howl","вой":"howl","нео":"neon","принтстрим":"printstream","слотер":"slaughter","хайпер":"hyper beast","огненный":"fire serpent","пандора":"pandora","вайс":"vice","кримсон":"crimson","кимоно":"kimono","хедж":"hedge maze","неон":"neon","эмеральд":"emerald","сапфировый":"sapphire","рубиновый":"ruby","фаза":"phase","атомик":"atomic","бокс":"box"};
@@ -115,7 +119,11 @@ var qf=new URLSearchParams(location.search).get("float");if(qf){fi.value=qf}onF(
 def catalog(lang):
     d = json.load(open(os.path.join(ROOT, "data/catalog.json")))
     base = WIKI[lang]
-    return [[x["n"], (base + x["u"] + "/") if x.get("u") else ""] for x in d]
+    try:
+        FR = json.load(open(os.path.join(ROOT, "data/float-ranges.json")))
+    except Exception:
+        FR = {}
+    return [[x["n"], (base + x["u"] + "/") if x.get("u") else ""] + ([FR[x["n"]]] if x["n"] in FR else []) for x in d]
 
 
 def build(lang):

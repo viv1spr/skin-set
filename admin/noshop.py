@@ -302,6 +302,24 @@ CBS_JS = ('<script id="cbs-js">(function(){var g=document.getElementById("pkGrou
   'new MutationObserver(function(){sync()}).observe(g,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});addEventListener("resize",sync);addEventListener("scroll",place,true);sync()})()</script>')
 
 
+
+# ---- безопасность ленты: чистим данные из Firestore перед выводом (XSS через цвета/ID) и прячем мат в никах ----
+FEED_OLD = 'return (j.documents||[]).map(d=>({...fr({mapValue:{fields:d.fields}}),_id:d.name.split("/").pop()}))}'
+FEED_NEW = ('return (j.documents||[]).map(d=>({...fr({mapValue:{fields:d.fields}}),_id:d.name.split("/").pop()})).map(safeDoc).filter(Boolean)}'
+            'function badNick(n){return /(ху[йияеёю]|hu[iy]|пизд|pizd|п[иі]д[оа]?р|pid[oa]?r|[её]б[аеиоуы]|eb[ae]t|бля|bly[aа]|сук[аи]|suk[ai]|залуп|zalup|муд[аи]|гандон|шлюх|fuck|cunt|nigg|faggot|whore)/i.test(String(n||"").replace(/[\\s._\\-*0-9]+/g,""))}'
+            'function safeDoc(d){if(!d||!/^[A-Za-z0-9_-]{1,64}$/.test(d._id||""))return null;const hx=c=>/^#[0-9a-fA-F]{3,8}$/.test(String(c));'
+            'd.colors=(Array.isArray(d.colors)?d.colors:[]).filter(hx).slice(0,2);if(!d.colors.length)d.colors=["#888888"];'
+            'd.items=(Array.isArray(d.items)?d.items:[]).filter(it=>it&&typeof it.slot==="string"&&/^[a-z0-9]{1,12}$/.test(it.slot)).map(it=>({slot:it.slot,i:+it.i||0,n:typeof it.n==="string"?it.n.slice(0,80):undefined})).slice(0,24);'
+            'd.name=String(d.name||"").replace(/[<>"\'&`]/g,"").trim().slice(0,24);if(badNick(d.name))d.name="";d.preset=String(d.preset||"").slice(0,40);d.createdAt=+d.createdAt||0;d.likes=Math.max(0,+d.likes||0);return d}')
+PUB_OLD = 'const name=cleanName($("#nickIn").value)||"Игрок";'
+PUB_NEW = 'const name=(typeof badNick==="function"&&badNick($("#nickIn").value)?"":cleanName($("#nickIn").value))||"Игрок";'
+
+
+def feedsafe(s):
+    if FEED_OLD in s:
+        s = s.replace(FEED_OLD, FEED_NEW)
+    return s.replace(PUB_OLD, PUB_NEW)
+
 def cbsheet(s):
     s = re.sub(r'<script id="cbs-js">.*?</script>', "", s, flags=re.S)
     s = re.sub(r'<script id="wany-js">.*?</script>', "", s, flags=re.S)
@@ -393,7 +411,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))
+    s = feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))
     return s
 
 

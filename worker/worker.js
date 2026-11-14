@@ -128,7 +128,24 @@ async function gwEntries(env, id) {
   return out;
 }
 
-const isAdmin = (req, env) => env.ADMIN_KEY && (req.headers.get("Authorization") || "") === "Bearer " + env.ADMIN_KEY;
+/* ---------- защита: лимиты запросов по IP (Cache API, без записей в KV) ---------- */
+const ipOf = req => req.headers.get("CF-Connecting-IP") || "0";
+function rlKey(req, bucket, win) { return new Request("https://rl.skin-set.com/" + bucket + "/" + encodeURIComponent(ipOf(req)) + "/" + Math.floor(Date.now() / 1000 / win)) }
+async function rlPeek(req, bucket, win) { try { const r = await caches.default.match(rlKey(req, bucket, win)); return r ? (+(await r.text()) || 0) : 0 } catch (e) { return 0 } }
+async function rlAdd(req, bucket, win) { try { const n = (await rlPeek(req, bucket, win)) + 1; await caches.default.put(rlKey(req, bucket, win), new Response(String(n), { headers: { "Cache-Control": "max-age=" + win } })); return n } catch (e) { return 0 } }
+/* true — лимит превышен: не больше max запросов за win секунд с одного IP */
+async function limited(req, bucket, max, win) { const n = await rlPeek(req, bucket, win); if (n >= max) return true; await rlAdd(req, bucket, win); return false }
+const fromSite = req => { const r = req.headers.get("Referer") || req.headers.get("Origin") || ""; return !r || ALLOWED.some(x => x.test(r)) };
+const tooMany = () => json({ error: "Слишком много запросов, попробуй позже" }, 429);
+
+/* сравнение ключа админки за постоянное время + блок после 10 неверных попыток за 15 минут */
+function sameStr(a, b) { const x = new TextEncoder().encode(a), y = new TextEncoder().encode(b); if (x.length !== y.length) return false; try { return crypto.subtle.timingSafeEqual(x, y) } catch (e) { let d = 0; for (let i = 0; i < x.length; i++) d |= x[i] ^ y[i]; return d === 0 } }
+const isAdmin = (req, env) => !!env.ADMIN_KEY && sameStr(req.headers.get("Authorization") || "", "Bearer " + env.ADMIN_KEY);
+async function adminGate(req, env) {
+  if ((await rlPeek(req, "admfail", 900)) >= 10) return tooMany();
+  if (isAdmin(req, env)) return null;
+  await rlAdd(req, "admfail", 900); return json({ error: "Неверный ключ админки" }, 401);
+}
 
 export default {
   async fetch(req, env) {
@@ -138,6 +155,7 @@ export default {
     if (p === "/" || p === "/health") return json({ ok: true, kv: !!env.KV, secret: !!env.SECRET, admin: !!env.ADMIN_KEY });
 
     /* вход: /login?r=https://skin-set.com/... */
+    if ((p === "/login" || p === "/callback") && await limited(req, "login", 30, 600)) return new Response("Too many requests", { status: 429 });
     if (p === "/login") {
       const r = u.searchParams.get("r") || SITE + "/";
       if (!okReturn(r)) return new Response("bad return url", { status: 400 });
@@ -245,6 +263,7 @@ export default {
       return r;
     }
     /* публичный инвентарь любого профиля: /invp?id=<steamid64|vanity|ссылка> */
+    if ((p === "/invp" || p === "/inv") && await limited(req, "inv", 20, 600)) return tooMany();
     if (p === "/invp") {
       const sid = await resolveSid(u.searchParams.get("id")); if (!sid) return json({ error: "profile" }, 404);
       const [inv, pr] = await Promise.all([inventory(env, sid), steamProfile(sid)]);
@@ -260,11 +279,11 @@ export default {
     if (p === "/c") {
       const place = (u.searchParams.get("s") || "other").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 24) || "other";
       const name = (u.searchParams.get("n") || "").replace(/[\u0000-\u001f<>"]/g, "").slice(0, 80);
-      if (env.KV) { try { await clk(env, place, name) } catch (e) {} }
+      if (env.KV && fromSite(req) && !(await limited(req, "clk", 20, 60))) { try { await clk(env, place, name) } catch (e) {} }
       return new Response(null, { status: 204, headers: cors });
     }
     if (p === "/api/clicks") {
-      if (!isAdmin(req, env)) return json({ error: "unauthorized" }, 401);
+      { const g = await adminGate(req, env); if (g) return g }
       const out = {}; for (let i = 0; i < 30; i++) { const d = new Date(Date.now() + 3 * 3600e3 - i * 864e5).toISOString().slice(0, 10); const v = env.KV ? await env.KV.get("clk:" + d, "json") : null; if (v) out[d] = v }
       return json({ days: out });
     }
@@ -272,7 +291,7 @@ export default {
     /* счётчик: /hit?l=CODE&e=v|b|p */
     if (p === "/hit") {
       const code = cleanCode(u.searchParams.get("l")), e = u.searchParams.get("e");
-      if (env.KV && code && ["v", "b", "p"].includes(e)) await hit(env, code, e);
+      if (env.KV && code && ["v", "b", "p"].includes(e) && fromSite(req) && !(await limited(req, "hit", 20, 60))) await hit(env, code, e);
       return new Response(null, { status: 204, headers: cors });
     }
 
@@ -299,6 +318,7 @@ export default {
     }
     /* участвовать: POST {t,id,trade,code} */
     if (p === "/gw/enter" && req.method === "POST") {
+      if (await limited(req, "gwe", 10, 600)) return tooMany();
       const b = await req.json().catch(() => ({}));
       const t = await readToken(env, b.t); if (!t) return json({ error: "auth" }, 401);
       const list = await gwAll(env); const g = list.find(x => x.id === b.id);
@@ -319,7 +339,7 @@ export default {
     }
     /* админка: розыгрыши */
     if (p === "/api/gw") {
-      if (!isAdmin(req, env)) return json({ error: "Неверный ключ админки" }, 401);
+      { const g = await adminGate(req, env); if (g) return g }
       if (req.method === "GET") {
         const list = await gwAll(env); const out = [];
         for (const g of list) { const es = await gwEntries(env, g.id); out.push({ ...g, count: es.length, entries: es.sort((a, b) => a.t - b.t) }) }
@@ -337,7 +357,7 @@ export default {
       }
     }
     if (p === "/api/gw/draw" && req.method === "POST") {
-      if (!isAdmin(req, env)) return json({ error: "Неверный ключ админки" }, 401);
+      { const g = await adminGate(req, env); if (g) return g }
       const b = await req.json().catch(() => ({})); const list = await gwAll(env); const g = list.find(x => x.id === b.id);
       if (!g) return json({ error: "nogw" }, 404);
       const item = +b.item || 0; g.winners = (g.winners || []).filter(w => w.i !== item);
@@ -354,7 +374,7 @@ export default {
 
     /* админка: статистика входов через Steam */
     if (p === "/api/users") {
-      if (!isAdmin(req, env)) return json({ error: "Неверный ключ админки" }, 401);
+      { const g = await adminGate(req, env); if (g) return g }
       const users = []; let cursor;
       do { const r = await env.KV.list({ prefix: "user:", cursor }); for (const k of r.keys) { const v = await env.KV.get(k.name, "json"); if (v) users.push(v) } cursor = r.list_complete ? null : r.cursor } while (cursor);
       const days = {}; for (let i = 0; i < 30; i++) { const d = new Date(Date.now() + 3 * 3600e3 - i * 864e5).toISOString().slice(0, 10); days[d] = +((await env.KV.get("logins:" + d)) || 0) }
@@ -363,7 +383,7 @@ export default {
 
     /* админка */
     if (p === "/api/links") {
-      if (!isAdmin(req, env)) return json({ error: "Неверный ключ админки" }, 401);
+      { const g = await adminGate(req, env); if (g) return g }
       if (!env.KV) return json({ error: "KV не подключён" }, 500);
       if (req.method === "GET") return json({ links: await listLinks(env) });
       if (req.method === "POST") {

@@ -20,7 +20,7 @@ T = {
    h1="Калькулятор float CS2", kick="Float · качество · цена", home="Главная",
    lead="Введи float, чтобы узнать качество скина, или выбери скин — покажем живые цены по всем качествам, StatTrak-версию и сколько стоит каждый шаг вверх по качеству.",
    L=dict(fl="Float скина", flph="например 0,1534", wear="Качество", next_up="До лучшего качества", next_dn="До худшего качества", none="—",
-          sk="Скин", skph="Начни вводить: AK-47 Redline", reg="Обычный", st="StatTrak", na="нет", cheap="дешевле всего", step="Шаг вверх", buy="Купить",
+          sk="Скин", skph="Начни вводить: карамбит допплер, AK Redline",nf="Ничего не нашли — попробуй по-английски",frm="от", reg="Обычный", st="StatTrak", na="нет", cheap="дешевле всего", step="Шаг вверх", buy="Купить",
           src="Цены живые, обновляются несколько раз в день. Минимальная цена на площадках, без наклеек.", open="Страница скина →", empty="Выбери скин, чтобы увидеть цены",
           names={"FN": "Factory New · Прямо с завода", "MW": "Minimal Wear · Немного поношенное", "FT": "Field-Tested · После полевых испытаний", "WW": "Well-Worn · Поношенное", "BS": "Battle-Scarred · Закалённое в боях"},
           bad="Float — число от 0 до 1"),
@@ -37,7 +37,7 @@ T = {
    h1="CS2 float calculator", kick="Float · wear · price", home="Home",
    lead="Enter a float to get the skin's wear, or pick a skin to see live prices for every wear, the StatTrak version, and what each step up in wear costs.",
    L=dict(fl="Skin float", flph="e.g. 0.1534", wear="Wear", next_up="To better wear", next_dn="To worse wear", none="—",
-          sk="Skin", skph="Start typing: AK-47 Redline", reg="Regular", st="StatTrak", na="none", cheap="cheapest", step="Step up", buy="Buy",
+          sk="Skin", skph="Start typing: Karambit Doppler, AK Redline",nf="Nothing found",frm="from", reg="Regular", st="StatTrak", na="none", cheap="cheapest", step="Step up", buy="Buy",
           src="Live prices, refreshed several times a day. Lowest marketplace price, no stickers.", open="Skin page →", empty="Pick a skin to see prices",
           names={"FN": "Factory New", "MW": "Minimal Wear", "FT": "Field-Tested", "WW": "Well-Worn", "BS": "Battle-Scarred"},
           bad="Float is a number from 0 to 1"),
@@ -61,6 +61,10 @@ CSS = """.fc{max-width:980px}.fc-box{display:grid;grid-template-columns:1fr 1fr;
 .fc-t{width:100%;border-collapse:collapse;margin-top:14px}.fc-t th,.fc-t td{padding:9px 8px;border-bottom:1px solid var(--line,#26262f);text-align:left;font-size:.92rem}.fc-t th{font:600 .68rem/1 var(--hud);letter-spacing:.1em;text-transform:uppercase;color:var(--soft,#aaa)}
 .fc-t td{white-space:nowrap}.fc-t td.n{white-space:nowrap}.fc-box{align-items:start}.fc-t tr.cur td{background:rgba(255,255,255,.06);color:#fff}.fc-t tr.cur td:first-child{box-shadow:inset 3px 0 0 var(--pick,#c4161c)}.fc-t em{font-style:normal;font-size:.68rem;color:#2ecc71;margin-left:6px;letter-spacing:.02em}.fc-t .up{font-size:.78rem;color:var(--soft,#aaa)}.fc-t a{color:#ff5cb0}
 .fc-sk{display:flex;align-items:center;gap:12px;margin-top:14px}.fc-sk img{width:110px;height:82px;object-fit:contain}.fc-sk b{display:block;font-size:1.05rem}.fc-sk a{font-size:.85rem}
+.fc-ac{position:absolute;left:18px;right:18px;top:84px;z-index:30;max-height:420px;overflow-y:auto;background:#14141b;border:1px solid var(--line2,#33333d);box-shadow:0 18px 40px rgba(0,0,0,.6)}.fc-ac[hidden]{display:none}
+.fc-ac button{display:flex;align-items:center;gap:12px;width:100%;padding:7px 12px;background:none;border:0;border-bottom:1px solid rgba(255,255,255,.05);color:#fff;text-align:left;cursor:pointer;font:inherit}.fc-ac button.on,.fc-ac button:hover{background:rgba(255,255,255,.07)}
+.fc-ac img,.fc-ac .ph{width:64px;height:48px;object-fit:contain;flex:none}.fc-ac .nm{flex:1;min-width:0}.fc-ac .nm b{display:block;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fc-ac .nm small{color:var(--soft,#999);font-size:.78rem}
+.fc-ac em{font-style:normal;font-size:.82rem;color:#2ecc71;white-space:nowrap}.fc-ac-none{padding:12px;color:var(--soft,#999);font-size:.88rem}
 .fc-src{margin-top:10px;font-size:.78rem;color:var(--soft,#888)}
 @media(max-width:760px){.fc-box{grid-template-columns:1fr}.fc-box>*{min-width:0}.fc-card{padding:14px}.fc-near{flex-direction:column;gap:4px}.fc-t th,.fc-t td{padding:8px 3px;font-size:.8rem}.fc-t th{font-size:.58rem;letter-spacing:.04em}}"""
 
@@ -85,7 +89,23 @@ function show(){var n=si.value.trim();var c=CAT.find(function(x){return x[0].toL
   var q=encodeURIComponent(c[0].replace(/\s*\((Phase \d|Ruby|Sapphire|Emerald|Black Pearl)\)$/,"")+" ("+({FN:"Factory New",MW:"Minimal Wear",FT:"Field-Tested",WW:"Well-Worn",BS:"Battle-Scarred"})[k]+")");
   return '<tr'+(k===CURW?' class="cur"':'')+'><td class="n"><b>'+k+'</b></td><td>'+(v?fmt(v)+(k===best?'<em title="'+L.cheap+'">'+L.cheap+'</em>':''):L.na)+'</td><td>'+(s?fmt(s):'—')+'</td><td>'+up+'</td><td>'+(v?'<a href="https://cs.money/market/buy/?search='+q+'&utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=link" target="_blank" rel="noopener sponsored">CS.MONEY</a>':'')+'</td></tr>'}).join("");
  var im=IMG&&IMG[c[0]];out.innerHTML='<div class="fc-sk">'+(im?'<img src="https://community.akamai.steamstatic.com/economy/image/'+im+'/256fx192f" alt="'+c[0].replace(/"/g,"&quot;")+'">':'')+'<div><b>'+c[0]+'</b>'+(c[1]?'<a href="'+c[1]+'">'+L.open+'</a>':'')+'</div></div><table class="fc-t"><thead><tr><th>'+L.wear+'</th><th>'+L.reg+'</th><th>'+L.st+'</th><th>'+L.step+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table><p class="fc-src">'+L.src+'</p>'}
-si.addEventListener("change",show);si.addEventListener("input",function(){if(CAT.some(function(x){return x[0].toLowerCase()===si.value.trim().toLowerCase()}))show()});
+/* поиск скина: свой выпадающий список с картинками и ценами, понимает русские названия */
+var AL={"калаш":"ak-47","ак47":"ak-47","ак":"ak-47","авп":"awp","эвп":"awp","м4а4":"m4a4","м4а1":"m4a1-s","м4":"m4","дигл":"desert eagle","дигл":"desert eagle","юсп":"usp-s","усп":"usp-s","глок":"glock-18","карамбит":"karambit","керамбит":"karambit","бабочка":"butterfly","баттерфляй":"butterfly","байонет":"bayonet","штык":"bayonet","м9":"m9 bayonet","талон":"talon","флип":"flip","фальшион":"falchion","кукри":"kukri","скелет":"skeleton","нож":"knife","перчатки":"gloves","перчи":"gloves","спорт":"sport","драйвер":"driver","спец":"specialist","мото":"moto","гидра":"hydra",
+ "допплер":"doppler","доплер":"doppler","гамма":"gamma","фейд":"fade","азимов":"asiimov","редлайн":"redline","вулкан":"vulcan","лор":"lore","драгон":"dragon","сапфир":"sapphire","рубин":"ruby","изумруд":"emerald","жемчуг":"black pearl","паутина":"crimson web","кейс":"case hardened","тигр":"tiger tooth","мрамор":"marble fade","гунгнир":"gungnir","хоул":"howl","вой":"howl","нео":"neon","принтстрим":"printstream","слотер":"slaughter","хайпер":"hyper beast","огненный":"fire serpent","пандора":"pandora","вайс":"vice","кримсон":"crimson","кимоно":"kimono","хедж":"hedge maze","неон":"neon","эмеральд":"emerald","сапфировый":"sapphire","рубиновый":"ruby","фаза":"phase","атомик":"atomic","бокс":"box"};
+var ALK=Object.keys(AL);var norm=function(t){t=String(t).toLowerCase().replace(/ё/g,"е").replace(/[★|()]/g," ");t=t.replace(/[а-я][а-я0-9]*/g,function(w){if(AL[w])return AL[w];if(w.length>=2){for(var i=0;i<ALK.length;i++)if(ALK[i].indexOf(w)===0)return AL[ALK[i]]}return w});return t.replace(/-/g," ").replace(/\s+/g," ").trim()};
+var IDX=CAT.map(function(c,i){return{c:c,i:i,t:norm(c[0]),w:norm(c[0].split(" | ")[0])}});
+var box=document.createElement("div");box.className="fc-ac";box.hidden=true;si.parentNode.style.position="relative";si.insertAdjacentElement("afterend",box);var res=[],hi=0;
+function minP(n){var r=P&&P[n];if(!r||!r.w)return null;var v=null;W.forEach(function(k){if(r.w[k]&&(v===null||r.w[k]<v))v=r.w[k]});return v}
+function search(q){var qn=norm(q);if(!qn)return[];var tk=qn.split(" ");var out=[];IDX.forEach(function(x){var ok=true,sc=0;for(var j=0;j<tk.length;j++){var k=tk[j],p=x.t.indexOf(k);if(p<0){ok=false;break}sc+=p===0?0:(x.t.charAt(p-1)===" "?1:3)}if(!ok)return;if(x.w.indexOf(qn)===0)sc-=2;if(x.t===qn)sc-=10;out.push([sc,x.i,x.c])});out.sort(function(a,b){return a[0]-b[0]||a[1]-b[1]});return out.slice(0,12).map(function(z){return z[2]})}
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
+function draw(){if(!res.length){box.innerHTML='<div class="fc-ac-none">'+L.nf+'</div>';box.hidden=!si.value.trim();return}
+ box.innerHTML=res.map(function(c,i){var im=IMG&&IMG[c[0]],pp=minP(c[0]),parts=c[0].split(" | ");return '<button type="button" data-i="'+i+'"'+(i===hi?' class="on"':'')+'>'+(im?'<img src="https://community.akamai.steamstatic.com/economy/image/'+im+'/96fx72f" alt="" loading="lazy">':'<span class="ph"></span>')+'<span class="nm"><b>'+esc(parts[1]||parts[0])+'</b><small>'+esc(parts[1]?parts[0]:"")+'</small></span>'+(pp?'<em>'+L.frm+' '+fmt(pp)+'</em>':'')+'</button>'}).join("");box.hidden=false}
+function pick(c){si.value=c[0];box.hidden=true;show();try{history.replaceState(null,"","?skin="+encodeURIComponent(c[0])+(fi.value?"&float="+encodeURIComponent(fi.value):""))}catch(e){}}
+si.addEventListener("input",function(){res=search(si.value);hi=0;draw()});
+si.addEventListener("focus",function(){si.select();if(si.value.trim()){res=search(si.value);hi=0;draw()}});
+si.addEventListener("keydown",function(e){if(box.hidden||!res.length)return;if(e.key==="ArrowDown"){hi=(hi+1)%res.length;draw();e.preventDefault()}else if(e.key==="ArrowUp"){hi=(hi-1+res.length)%res.length;draw();e.preventDefault()}else if(e.key==="Enter"){pick(res[hi]);e.preventDefault()}else if(e.key==="Escape"){box.hidden=true}});
+box.addEventListener("mousedown",function(e){var b=e.target.closest("[data-i]");if(b){e.preventDefault();pick(res[+b.dataset.i])}});
+document.addEventListener("click",function(e){if(e.target!==si&&!box.contains(e.target))box.hidden=true});
 var IMG=null;fetch("/data/skin-img.json").then(function(r){return r.json()}).then(function(a){IMG={};a.forEach(function(x){IMG[x[0].replace(/^★\s*/,"")]=x[1]});if(P)show()}).catch(function(){});
 function load(){var t=Math.floor(Date.now()/60000);return fetch("https://raw.githubusercontent.com/viv1spr/skin-set/prices/prices.json?t="+t).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return fetch("/data/prices.json").then(function(r){return r.json()})})}
 load().then(function(p){P=p;var q=new URLSearchParams(location.search).get("skin");if(q)si.value=q;else if(!si.value)si.value=CAT.some(function(x){return x[0]==="AK-47 | Redline"})?"AK-47 | Redline":"";show()});
@@ -115,8 +135,7 @@ def build(lang):
     body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav><span class="pg-eb"><i></i>{e(t["kick"])}</span><h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead"])}</p>'
             f'<div class="fc-box"><div class="fc-card"><label for="fcF">{e(L["fl"])}</label><input id="fcF" inputmode="decimal" autocomplete="off" placeholder="{e(L["flph"])}">'
             f'<div class="fc-w" id="fcW">{e(L["none"])}</div><div class="fc-bar" id="fcBar" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="1">{bar}</div><div class="fc-near" id="fcNear"></div></div>'
-            f'<div class="fc-card"><label for="fcS">{e(L["sk"])}</label><input id="fcS" list="fcList" autocomplete="off" placeholder="{e(L["skph"])}"><datalist id="fcList">'
-            + "".join(f'<option value="{e(c[0])}">' for c in cat) + f'</datalist><div id="fcOut"><p class="fc-src">{e(L["empty"])}</p></div></div></div>'
+            f'<div class="fc-card"><label for="fcS">{e(L["sk"])}</label><input id="fcS" autocomplete="off" spellcheck="false" placeholder="{e(L["skph"])}"><div id="fcOut"><p class="fc-src">{e(L["empty"])}</p></div></div></div>'
             + secs + f'<h2>{e(t["faq_h"])}</h2><div class="faq">{"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in t["faq"])}</div><p class="note">{e(t["note"])}</p>'
             f'<script>window.FCL={json.dumps(L, ensure_ascii=False)};window.FCCAT={json.dumps(cat, ensure_ascii=False, separators=(",", ":"))};window.FCRATE={rate};window.FCCUR={json.dumps(cur)};</script><script>{JS}</script>')
     h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}{GRID_CSS}</style></head>")

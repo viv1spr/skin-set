@@ -320,6 +320,40 @@ def feedsafe(s):
         s = s.replace(FEED_OLD, FEED_NEW)
     return s.replace(PUB_OLD, PUB_NEW)
 
+
+# ---- ссылка на опубликованный сет: skin-set.com/?s=ID открывает сет; после публикации и в режиме просмотра — «Поделиться» ----
+SHARE_JS = ('<style id="share-css">#shareDlg{position:fixed;inset:0;z-index:3000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}#shareDlg[hidden]{display:none}'
+ '#shareDlg .box{width:min(460px,calc(100vw - 32px));background:#14141b;border:1px solid rgba(255,255,255,.14);padding:20px}#shareDlg h3{margin:0 0 6px;font:700 1.1rem/1.2 var(--hud,inherit);text-transform:uppercase;letter-spacing:.06em}'
+ '#shareDlg p{margin:0 0 12px;color:var(--soft,#aaa);font-size:.9rem}#shareDlg .row{display:flex;gap:8px}#shareDlg input{flex:1;min-width:0;height:42px;padding:0 10px;background:#0d0d12;border:1px solid rgba(255,255,255,.18);color:#fff;font:500 .9rem/1 var(--body,inherit)}'
+ '#shareDlg .x{margin-top:12px;background:none;border:0;color:var(--soft,#aaa);cursor:pointer;padding:0}#shareSet[hidden]{display:none}</style>'
+ '<script id="share-js">(function(){var vb=document.getElementById("viewbar");if(!vb||typeof fbAdd!=="function")return;var RU=(document.documentElement.lang||"ru").slice(0,2)==="ru";'
+ 'var T=RU?{t:"Ссылка на сет",p:"Отправь её другу — по ней откроется именно этот сет.",c:"Копировать",ok:"Скопировано",x:"Закрыть",sh:"Поделиться",nf:"Сет не найден — возможно, его удалили",ld:"Сет загружен"}:{t:"Set link",p:"Send it to a friend: it opens exactly this set.",c:"Copy",ok:"Copied",x:"Close",sh:"Share",nf:"Set not found, it may have been removed",ld:"Set loaded"};'
+ 'function link(id){return location.origin+"/?s="+id}'
+ 'var d=document.createElement("div");d.id="shareDlg";d.hidden=true;d.innerHTML=\'<div class="box"><h3></h3><p></p><div class="row"><input readonly><button class="hudbtn" type="button"></button></div><button class="x" type="button"></button></div>\';document.body.appendChild(d);'
+ 'd.querySelector("h3").textContent=T.t;d.querySelector("p").textContent=T.p;var inp=d.querySelector("input"),cb=d.querySelector(".row button");cb.textContent=T.c;d.querySelector(".x").textContent=T.x;'
+ 'd.addEventListener("click",function(e){if(e.target===d||e.target.classList.contains("x"))d.hidden=true});'
+ 'cb.addEventListener("click",function(){inp.select();var done=function(){cb.textContent=T.ok;setTimeout(function(){cb.textContent=T.c},1500)};try{navigator.clipboard.writeText(inp.value).then(done,function(){document.execCommand("copy");done()})}catch(e){document.execCommand("copy");done()}});'
+ 'window.showShare=function(id){inp.value=link(id);d.hidden=false;setTimeout(function(){inp.select()},30)};'
+ '/* после публикации */'
+ 'var orig=fbAdd;fbAdd=async function(doc){var r=await orig(doc);try{var id=(r.name||"").split("/").pop();if(id)setTimeout(function(){showShare(id)},300)}catch(e){}return r};'
+ '/* кнопка в панели просмотра чужого сета */'
+ 'var bb=vb.querySelector(".vb-btns")||vb,sb=document.createElement("button");sb.id="shareSet";sb.type="button";sb.className="hudbtn ghost";sb.textContent=T.sh;bb.insertBefore(sb,bb.firstChild);'
+ 'sb.addEventListener("click",function(){if(typeof VIEWING!=="undefined"&&VIEWING&&VIEWING._id)showShare(VIEWING._id)});'
+ 'var upd=function(){sb.hidden=!(typeof VIEWING!=="undefined"&&VIEWING&&VIEWING._id&&!VIEWING._demo)};new MutationObserver(upd).observe(vb,{attributes:true,attributeFilter:["hidden"]});upd();'
+ '/* открыть сет по ?s=ID */'
+ 'var q;try{q=new URLSearchParams(location.search).get("s")}catch(e){}if(!q||!/^[A-Za-z0-9]{10,40}$/.test(q))return;'
+ 'fetch(FB_URL+"/"+q+"?key="+FB_KEY).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){var f=typeof safeDoc==="function"?safeDoc(Object.assign(fr({mapValue:{fields:j.fields}}),{_id:q})):Object.assign(fr({mapValue:{fields:j.fields}}),{_id:q});if(!f)throw 0;'
+ 'var t0=Date.now();(function go(){var ready=typeof SKINS!=="undefined"&&SKINS.length&&typeof feedEl!=="undefined"&&feedEl&&feedEl.children.length;if(!ready&&Date.now()-t0<10000)return setTimeout(go,200);'
+ 'REAL=[f].concat(REAL.filter(function(x){return x._id!==q}));applyFeed();var i=FEED.findIndex(function(x){return x._id===q});var el=i>=0&&feedEl.querySelector(\'[data-idx="\'+i+\'"]\');if(el){el.click();el.scrollIntoView({block:"nearest"})}'
+ 'try{history.replaceState(null,"",location.pathname+location.hash)}catch(e){}})()}).catch(function(){if(typeof toast==="function")toast(T.nf)})})()</script>')
+
+
+def sharelinks(s):
+    s = re.sub(r'<style id="share-css">.*?</style>\s*<script id="share-js">.*?</script>', "", s, flags=re.S)
+    if 'id="viewbar"' in s and "</body>" in s:
+        i = s.rfind("</body>"); s = s[:i] + SHARE_JS + s[i:]
+    return s
+
 def cbsheet(s):
     s = re.sub(r'<script id="cbs-js">.*?</script>', "", s, flags=re.S)
     s = re.sub(r'<script id="wany-js">.*?</script>', "", s, flags=re.S)
@@ -411,7 +445,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))
+    s = sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))))
     return s
 
 

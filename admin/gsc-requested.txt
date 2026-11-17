@@ -535,3 +535,33 @@
 2026-11-15 https://skin-set.com/skiny/m4a4-daybreak/
 2026-11-15 https://skin-set.com/skiny/driver-gloves-lunar-weave/
 2026-11-16 https://skin-set.com/skiny/shadow-daggers-doppler-ruby/
+2026-11-17 https://skin-set.com/en/cs2-updates/2026-11-11/
+2026-11-17 https://skin-set.com/en/cs2-updates/2026-11-05/
+2026-11-17 https://skin-set.com/skiny/shadow-daggers-doppler-black-pearl/
+2026-11-17 https://skin-set.com/skiny/shadow-daggers-crimson-web/ indexed
+2026-11-17 https://skin-set.com/skiny/huntsman-knife-case-hardened/ indexed
+2026-11-17 https://skin-set.com/skiny/bloodhound-gloves-bronzed/ indexed
+2026-11-17 https://skin-set.com/skiny/flip-knife-ultraviolet/ indexed
+2026-11-17 https://skin-set.com/skiny/hydra-gloves-case-hardened/ indexed
+2026-11-17 https://skin-set.com/skiny/nomad-knife-doppler-phase-4/
+2026-11-17 https://skin-set.com/skiny/driver-gloves-overtake/ indexed
+2026-11-17 https://skin-set.com/skiny/flip-knife-case-hardened/ indexed
+2026-11-17 https://skin-set.com/skiny/nova-baroque-orange/
+2026-11-17 https://skin-set.com/skiny/aug-hot-rod/ indexed
+2026-11-17 https://skin-set.com/skiny/usp-s-whiteout/ indexed
+2026-11-17 https://skin-set.com/skiny/nomad-knife-fade/ indexed
+2026-11-17 https://skin-set.com/skiny/huntsman-knife-gamma-doppler-phase-2/
+2026-11-17 https://skin-set.com/skiny/huntsman-knife-gamma-doppler-phase-1/ indexed
+2026-11-17 https://skin-set.com/skiny/falchion-knife-case-hardened/ indexed
+2026-11-17 https://skin-set.com/skiny/flip-knife-marble-fade/ indexed
+2026-11-17 https://skin-set.com/skiny/bayonet-slaughter/ indexed
+2026-11-17 https://skin-set.com/skiny/bayonet-doppler-phase-4/ indexed
+2026-11-17 https://skin-set.com/skiny/sg-553-bulldozer/ indexed
+2026-11-17 https://skin-set.com/skiny/ssg-08-death-strike/ indexed
+2026-11-17 https://skin-set.com/skiny/specialist-gloves-forest-ddpat/ indexed
+2026-11-17 https://skin-set.com/skiny/broken-fang-gloves-unhinged/ indexed
+2026-11-17 https://skin-set.com/skiny/classic-knife-fade/ indexed
+2026-11-17 https://skin-set.com/skiny/ssg-08-dragonfire/ indexed
+2026-11-17 https://skin-set.com/skiny/huntsman-knife-slaughter/ indexed
+2026-11-17 https://skin-set.com/skiny/falchion-knife-ultraviolet/ indexed
+2026-11-17 https://skin-set.com/skiny/paracord-knife-ultraviolet/ indexed

@@ -14,10 +14,12 @@ const ST=new Map();function parseST(raw){let n=(raw||"").replace("★ ","").trim
 function addST(n,w,v){if(!(v>0))return;const r=ST.get(n)||{min:Infinity,w:{}};r.min=Math.min(r.min,v);if(w)r.w[w]=Math.min(r.w[w]||Infinity,v);ST.set(n,r)}
 function add(map,n,w,v){if(!(v>0))return;const r=map.get(n)||{min:Infinity,w:{}};r.min=Math.min(r.min,v);if(w)r.w[w]=Math.min(r.w[w]||Infinity,v);map.set(n,r)}
 async function lis(){const m=new Map();for(const u of["https://lis-skins.com/market_export_json/csgo.json","https://lis-skins.ru/market_export_json/csgo.json"]){
-  try{const r=await fetch(u,{headers:UA});if(!r.ok){META["ls_"+u]=r.status;continue}const list=await r.json();for(const it of list){const p=parseName(it.name);if(p)add(m,p.n,p.w,+it.price);else{const q=parseST(it.name);if(q)addST(q.n,q.w,+it.price)}}META.ls={url:u,items:list.length,names:m.size};if(m.size)return m}catch(e){META["ls_err"]=String(e)}}return m}
+  try{const r=await fetch(u,{headers:UA});if(!r.ok){META["ls_"+u]=r.status;continue}const list=await r.json();for(const it of list){addAll(it.name,+it.price,"ls");const p=parseName(it.name);if(p)add(m,p.n,p.w,+it.price);else{const q=parseST(it.name);if(q)addST(q.n,q.w,+it.price)}}META.ls={url:u,items:list.length,names:m.size};if(m.size)return m}catch(e){META["ls_err"]=String(e)}}return m}
 async function skinport(){const m=new Map();try{const r=await fetch("https://api.skinport.com/v1/items?app_id=730&currency=USD&tradable=0",{headers:{...UA,"Accept-Encoding":"br"}});if(!r.ok){META.sp_status=r.status;return m}
-  const list=await r.json();for(const it of list){const p=parseName(it.market_hash_name);if(p)add(m,p.n,p.w,+it.min_price);else if(!ST.size||!ST.has((parseST(it.market_hash_name)||{}).n)){const q=parseST(it.market_hash_name);if(q)addST(q.n,q.w,+it.min_price)}}META.sp={items:list.length,names:m.size}}catch(e){META.sp_err=String(e)}return m}
+  const list=await r.json();for(const it of list){addAll(it.market_hash_name,+it.min_price,"sp");const p=parseName(it.market_hash_name);if(p)add(m,p.n,p.w,+it.min_price);else if(!ST.size||!ST.has((parseST(it.market_hash_name)||{}).n)){const q=parseST(it.market_hash_name);if(q)addST(q.n,q.w,+it.min_price)}}META.sp={items:list.length,names:m.size}}catch(e){META.sp_err=String(e)}return m}
 // обычные фазы Doppler/Gamma Doppler стоят примерно одинаково — берём общую цену; «камни» (Ruby, Sapphire, Emerald, Black Pearl) стоят в разы дороже, площадки их не различают в выгрузке — цену не подставляем
+// все предметы (кейсы, наклейки, агенты, StatTrak, сувениры) по market_hash_name — для оценки инвентаря
+const ALL=new Map();function addAll(n,v,src){if(!(v>0)||!n)return;n=n.replace(/^★ /,"").trim();const o=ALL.get(n);if(!o||(src==="ls"&&o[1]!=="ls")||(src===o[1]&&v<o[0]))ALL.set(n,[v,src])}
 const GEM={"Ruby":5,"Sapphire":6,"Emerald":6,"Black Pearl":3};
 const stripPhase=n=>n.replace(/\s*\((Phase \d)\)$/,"");
 (async()=>{
@@ -28,5 +30,6 @@ const stripPhase=n=>n.replace(/\s*\((Phase \d)\)$/,"");
     const a=L.get(n)||L.get(stripPhase(n)),b=S.get(n)||S.get(stripPhase(n));if(!a&&!b)continue;
     const rec={t:now};if(a)rec.ls=+a.min.toFixed(2);if(b)rec.sp=+b.min.toFixed(2);const w={};for(const k of["FN","MW","FT","WW","BS"]){/* Lis-Skins в приоритете, Skinport только если на Lis нет этого износа */const v=(a&&a.w[k])||(b&&b.w[k])||Infinity;if(isFinite(v))w[k]=+v.toFixed(2)}if(Object.keys(w).length)rec.w=w;const st=ST.get(n)||ST.get(stripPhase(n));if(st&&isFinite(st.min)){rec.st=+st.min.toFixed(2);const sw={};for(const k of["FN","MW","FT","WW","BS"])if(st.w[k])sw[k]=+st.w[k].toFixed(2);if(Object.keys(sw).length)rec.stw=sw}out[n]=rec}
   fs.writeFileSync(path.join(root,"data/prices.json"),JSON.stringify(out));
+  {const all={};for(const [n,[v]] of ALL)all[n]=+v.toFixed(2);fs.writeFileSync(path.join(root,"data/prices-all.json"),JSON.stringify(all));META.all=ALL.size}
   META.st=ST.size;META.finished=new Date().toISOString();META.names=names.length;META.priced=Object.keys(out).length;fs.writeFileSync(path.join(root,"data/prices-meta.json"),JSON.stringify(META,null,1));
   console.log(JSON.stringify(META))})();

@@ -240,12 +240,12 @@ if __name__ == "__main__":
     main()
 
 
-UPD = {"ru": [("/matchi-cs2/", "Матчи CS2"), ("/rynok-cs2/", "Рынок CS2"), ("/float-kalkulyator-cs2/", "Калькулятор float")],
-       "en": [("/en/cs2-matches/", "CS2 matches"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-float-calculator/", "Float calculator")],
-       "de": [("/en/cs2-matches/", "CS2-Matches"), ("/en/cs2-market/", "CS2-Markt"), ("/en/cs2-float-calculator/", "Float-Rechner")],
-       "pt": [("/en/cs2-matches/", "Partidas CS2"), ("/en/cs2-market/", "Mercado CS2"), ("/en/cs2-float-calculator/", "Calculadora de float")],
-       "tr": [("/en/cs2-matches/", "CS2 maçları"), ("/en/cs2-market/", "CS2 pazarı"), ("/en/cs2-float-calculator/", "Float hesaplayıcı")],
-       "pl": [("/en/cs2-matches/", "Mecze CS2"), ("/en/cs2-market/", "Rynek CS2"), ("/en/cs2-float-calculator/", "Kalkulator float")]}
+UPD = {"ru": [("/ocenka-inventarya/", "Оценка инвентаря"), ("/matchi-cs2/", "Матчи CS2"), ("/rynok-cs2/", "Рынок CS2"), ("/float-kalkulyator-cs2/", "Калькулятор float")],
+       "en": [("/en/inventory-value/", "Inventory value"), ("/en/cs2-matches/", "CS2 matches"), ("/en/cs2-market/", "CS2 market"), ("/en/cs2-float-calculator/", "Float calculator")],
+       "de": [("/en/inventory-value/", "Inventarwert"), ("/en/cs2-matches/", "CS2-Matches"), ("/en/cs2-market/", "CS2-Markt"), ("/en/cs2-float-calculator/", "Float-Rechner")],
+       "pt": [("/en/inventory-value/", "Valor do inventário"), ("/en/cs2-matches/", "Partidas CS2"), ("/en/cs2-market/", "Mercado CS2"), ("/en/cs2-float-calculator/", "Calculadora de float")],
+       "tr": [("/en/inventory-value/", "Envanter değeri"), ("/en/cs2-matches/", "CS2 maçları"), ("/en/cs2-market/", "CS2 pazarı"), ("/en/cs2-float-calculator/", "Float hesaplayıcı")],
+       "pl": [("/en/inventory-value/", "Wartość ekwipunku"), ("/en/cs2-matches/", "Mecze CS2"), ("/en/cs2-market/", "Rynek CS2"), ("/en/cs2-float-calculator/", "Kalkulator float")]}
 
 
 def updlink(s):
@@ -255,7 +255,7 @@ def updlink(s):
     m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     j = s.find(">", i) + 1; k = s.find("</div>", j)
     menu = s[j:k]
-    m2 = re.sub(r'<a href="(?:/ocenka-inventarya/|/en/inventory-value/|/obnovleniya-cs2/|/(?:en|de)/cs2-updates/|/pt/atualizacoes-cs2/|/tr/cs2-guncellemeleri/|/pl/aktualizacje-cs2/)"[^>]*>.*?</a>', "", menu)  # убраны из меню (страницы обновлений остаются по прямой ссылке)
+    m2 = re.sub(r'<a href="(?:/obnovleniya-cs2/|/(?:en|de)/cs2-updates/|/pt/atualizacoes-cs2/|/tr/cs2-guncellemeleri/|/pl/aktualizacje-cs2/)"[^>]*>.*?</a>', "", menu)  # убраны из меню (страницы обновлений остаются по прямой ссылке)
     if m2 != menu: s = s[:j] + m2 + s[k:]; k = j + len(m2); menu = m2
     # всегда один порядок: убираем уже вставленные пункты и вставляем заново
     m3 = re.sub(r'<a href="(?:' + "|".join(re.escape(h) for h, _ in UPD[lang]) + r')"[^>]*>.*?</a>', "", menu)

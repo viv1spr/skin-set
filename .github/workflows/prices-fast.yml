@@ -20,7 +20,7 @@ jobs:
       - run: node admin/fetch-prices.js
       - name: Publish to "prices" branch (does not trigger site rebuild)
         run: |
-          mkdir -p /tmp/out && cp data/prices.json data/prices-meta.json /tmp/out/
+          mkdir -p /tmp/out && cp data/prices.json data/prices-meta.json data/prices-all.json /tmp/out/
           cd /tmp/out && git init -q && git checkout -q -b prices
           git config user.name "price-bot" && git config user.email "bot@skin-set.com"
           git add . && git commit -q -m "prices $(date -u +%FT%TZ)"

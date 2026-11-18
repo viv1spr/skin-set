@@ -97,11 +97,19 @@ CSS = """.iv{max-width:1120px}.iv-hero{display:grid;grid-template-columns:minmax
 .iv-form input:focus{outline:none;border-color:var(--pick,#c4161c)}.iv-form button{height:48px;padding:0 22px;background:var(--pick,#c4161c);border:0;color:#fff;font:700 .92rem/1 var(--hud);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;clip-path:polygon(9px 0,100% 0,calc(100% - 9px) 100%,0 100%)}
 .iv-form button:disabled{opacity:.6;cursor:wait}.iv-trust{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:.78rem;color:var(--soft,#999)}.iv-trust span::before{content:"✓";color:#2ecc71;margin-right:6px}
 .iv-msg{min-height:0;font-size:.9rem;color:var(--soft,#aaa);margin-top:10px}.iv-msg:empty{display:none}.iv-msg.bad{color:#ff8a80}
-.iv-pv{position:relative;background:linear-gradient(180deg,#17171f,#111117);border:1px solid var(--line,#26262f);padding:20px 22px;box-shadow:0 30px 60px rgba(0,0,0,.45)}
-.iv-pv .hd{display:flex;justify-content:space-between;align-items:center;font:600 .66rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:var(--soft,#999)}.iv-pv .hd span{color:#2ecc71;letter-spacing:.06em}
-.iv-pv .tot{font:700 2.5rem/1 var(--hud);color:#fff;margin:12px 0 14px}.iv-pv .bar{display:flex;height:6px;gap:2px}.iv-pv .bar i{display:block;height:100%}
-.iv-pv .lg{display:flex;flex-wrap:wrap;gap:4px 14px;margin:9px 0 14px;font-size:.74rem;color:var(--soft,#aaa)}.iv-pv .lg span::before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;background:var(--c)}
-.iv-pv .row{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line,#26262f)}.iv-pv .row img{width:76px;height:57px;object-fit:contain;flex:none;font-size:0}.iv-pv .row div{flex:1;min-width:0}.iv-pv .row b{display:block;font-size:.9rem;color:#fff}.iv-pv .row small{font-size:.74rem;color:var(--soft,#999)}.iv-pv .row em{font-style:normal;font-weight:700;color:#2ecc71;font-size:.95rem;white-space:nowrap}
+.iv-hero{align-items:stretch}.iv-pvw{position:relative;min-height:440px}
+.iv-pv{position:absolute;inset:0;display:flex;flex-direction:column;background:linear-gradient(180deg,#17171f,#111117);border:1px solid var(--line,#26262f);padding:20px 22px 16px;box-shadow:0 30px 60px rgba(0,0,0,.45)}
+.iv-pv::before{content:"";position:absolute;left:0;top:0;width:44px;height:3px;background:var(--pick,#c4161c)}
+.iv-pv .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;font:600 .66rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:var(--soft,#999)}
+.iv-pv .who{display:flex;align-items:center;gap:8px;font:600 .82rem/1.2 var(--body,inherit);letter-spacing:0;text-transform:none;color:#fff;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.iv-pv .who img{width:26px;height:26px;border:1px solid var(--line2,#33333d)}.iv-pv .cn{letter-spacing:.06em;white-space:nowrap}
+.iv-pv .tot{font:700 2.5rem/1 var(--hud);color:#fff;margin:12px 0 14px}.iv-pv .bar{display:flex;height:6px;gap:2px;flex:none}.iv-pv .bar i{display:block;height:100%;min-width:3px}
+.iv-pv .lg{display:flex;flex-wrap:wrap;gap:4px 14px;margin:9px 0 10px;font-size:.74rem;color:var(--soft,#aaa)}.iv-pv .lg b{color:#fff;font-weight:600}.iv-pv .lg span::before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;background:var(--c)}
+.iv-pv .rows{flex:1;min-height:0;overflow-y:auto;margin:0 -10px;padding:0 10px;scrollbar-width:thin;scrollbar-color:#33333d transparent}
+.iv-pv .row{display:flex;align-items:center;gap:12px;padding:7px 0;border-top:1px solid var(--line,#26262f)}.iv-pv .row img,.iv-pv .row .ph{width:72px;height:54px;object-fit:contain;flex:none;font-size:0}.iv-pv .row .ph{background:#101017}
+.iv-pv .row div{flex:1;min-width:0}.iv-pv .row b{display:block;font-size:.88rem;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.iv-pv .row small{display:block;font-size:.73rem;color:var(--soft,#999);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iv-pv .pr{text-align:right;flex:none}.iv-pv .pr em{display:block;font-style:normal;font-weight:700;color:#2ecc71;font-size:.92rem;white-space:nowrap}.iv-pv .pr i{font-style:normal;color:var(--soft,#777)}.iv-pv .pr a{font-size:.72rem;color:#ff5cb0}
+.iv-pv .iv-cta{margin-top:10px;flex:none;padding:12px 16px}.iv-pv .iv-cta b{font-size:.9rem}.iv-pv .iv-src{margin:10px 0 4px;font-size:.7rem;line-height:1.4}
+.iv-pv.busy .tot,.iv-pv.busy .rows,.iv-pv.busy .bar{opacity:.35;transition:opacity .2s}.iv-pv.busy .hd{color:#fff}
 .iv-res{margin:0 0 30px;scroll-margin-top:80px}.iv-res[hidden]{display:none}.iv-sum{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;background:var(--panel,#14141b);border:1px solid var(--line,#26262f);padding:18px}
 .iv-sum img{width:64px;height:64px;border:1px solid var(--line2,#33333d)}.iv-sum .nm{font-size:.9rem;color:var(--soft,#aaa)}.iv-sum .tt{font:700 2.4rem/1.05 var(--hud);color:#fff;margin:4px 0}.iv-sum .tt small{font-size:.86rem;color:var(--soft,#aaa);font-family:var(--body,inherit);font-weight:500;margin-left:8px}
 .iv-sum .ag{background:none;border:1px solid var(--line2,#33333d);color:#fff;padding:9px 14px;cursor:pointer;font:600 .74rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase}
@@ -117,14 +125,14 @@ CSS = """.iv{max-width:1120px}.iv-hero{display:grid;grid-template-columns:minmax
 .iv-acc summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1.3rem;color:var(--soft,#888)}.iv-acc details[open] summary::after{content:"−"}
 .iv-acc summary h2,.iv-acc summary h3{margin:0!important;padding:0!important;font:600 .98rem/1.3 var(--body,inherit)!important;letter-spacing:0!important;text-transform:none!important;color:#fff}.iv-acc summary h2::before,.iv-acc summary h2::after{display:none!important}
 .iv-acc .bd{padding:0 16px 14px;font-size:.9rem;line-height:1.6;color:var(--soft,#bbb)}.iv-acc .bd p{margin:0}.iv-acc .bd ol{margin:0;padding-left:20px}.iv-acc .bd li{margin:3px 0}
-@media(max-width:900px){.iv-hero{grid-template-columns:1fr;gap:6px}.iv-pv{display:none}.iv-how{grid-template-columns:1fr}.iv-acc{grid-template-columns:1fr}}
+@media(max-width:900px){.iv-hero{grid-template-columns:1fr;gap:16px}.iv-pvw{min-height:0;display:none}.iv-pvw:has(.has){display:block}.iv-pv{position:relative;inset:auto;height:72vh;scroll-margin-top:70px}.iv-how{grid-template-columns:1fr}.iv-acc{grid-template-columns:1fr}}
 @media(max-width:760px){.iv-tool{padding:14px}.iv-form{flex-direction:column}.iv-form input{flex:none}.iv-form button{width:100%}.iv-sum{grid-template-columns:auto 1fr;gap:12px}.iv-sum .ag{grid-column:1/-1}.iv-sum img{width:48px;height:48px}.iv-sum .tt{font-size:1.9rem}.iv-cats{grid-template-columns:1fr 1fr}.iv-l{grid-template-columns:1fr}.iv-cta{padding:12px 14px}}"""
 
 JS = r"""(function(){var L=window.IVL,RATE=window.IVRATE,CUR=window.IVCUR,API="https://auth.skin-set.com/invp?id=";
 var W={"Factory New":"FN","Minimal Wear":"MW","Field-Tested":"FT","Well-Worn":"WW","Battle-Scarred":"BS"};
 function fmt(usd){var v=usd*RATE;return CUR==="₽"?Math.round(v).toLocaleString("ru-RU")+" ₽":"$"+(v<100?v.toFixed(2):Math.round(v).toLocaleString("en-US"))}
 function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
-var f=document.getElementById("ivF"),inp=document.getElementById("ivI"),btn=f.querySelector("button"),msg=document.getElementById("ivM"),res=document.getElementById("ivR");
+var f=document.getElementById("ivF"),inp=document.getElementById("ivI"),btn=f.querySelector("button"),msg=document.getElementById("ivM");
 var ALL=null,P=null,IMG=null,t5=Math.floor(Date.now()/300000);
 function j(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}
 var RAW="https://raw.githubusercontent.com/viv1spr/skin-set/prices/";
@@ -138,23 +146,28 @@ function img(n){var b=base(n);return IMG&&(IMG[b]||IMG[b+" (Phase 2)"])}
 function card(x){var im=img(x.n),parts=x.n.replace(/^★\s*/,"").split(" | "),wm=x.n.match(/\(([^)]+)\)$/);var q=encodeURIComponent(x.n.replace(/^★\s*/,""));
  return '<div class="iv-it'+(x.c==="knife"||x.c==="gloves"?" k":"")+'">'+(im?'<img src="https://community.akamai.steamstatic.com/economy/image/'+im+'/96fx72f" alt="'+esc(x.n)+'" loading="lazy">':'<span class="ph"></span>')+'<div><b>'+esc(parts[1]?parts[1].replace(/ \([^)]*\)$/,""):parts[0])+'</b><small>'+esc([parts[1]?parts[0]:"",wm&&W[wm[1]]?W[wm[1]]:"",x.q>1?x.q+" "+L.qty:""].filter(Boolean).join(" · "))+'</small>'+(x.p?'<em>'+fmt(x.p*x.q)+'</em>':'<small>—</small>')+(x.p&&(x.c==="knife"||x.c==="gloves"||x.c==="skin")?'<a href="https://cs.money/market/buy/?search='+q+'&utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=inventory" target="_blank" rel="noopener sponsored">'+L.buy+'</a>':'')+'</div></div>'}
 function say(t,bad){msg.textContent=t||"";msg.className="iv-msg"+(bad?" bad":"")}
-function run(id){id=norm(id);if(!id||id.length<2){say(L.bad,1);return}btn.disabled=true;say(L.wait);res.hidden=true;
- Promise.all([fetch(API+encodeURIComponent(id)).then(function(r){return r.json().catch(function(){return{}}).then(function(d){d._s=r.status;return d})}),prices]).then(function(a){var d=a[0];btn.disabled=false;
-  if(d._s===429){say(L.many,1);return}if(d._s===404||d.error==="profile"){say(L.nf,1);return}if(d.private){say(L.priv,1);return}if(d.error){say(L.err,1);return}
-  var it=(d.items||[]).map(function(z){var n=z[0],q=z[1]||1;return{n:n,q:q,p:price(n),c:cat(n)}});if(!it.length){say(L.empty,1);return}
-  it.sort(function(x,y){return y.p*y.q-x.p*x.q});var tot=0,cnt=0,vc=0,un=0,C={};it.forEach(function(x){cnt+=x.q;if(x.p){tot+=x.p*x.q;vc+=x.q;C[x.c]=C[x.c]||[0,0];C[x.c][0]+=x.p*x.q;C[x.c][1]+=x.q}else un+=x.q});
-  say("");var cats=Object.keys(L.cats).filter(function(k){return C[k]}).map(function(k){return '<div><b>'+fmt(C[k][0])+'</b><span>'+L.cats[k]+' · '+C[k][1]+'</span></div>'}).join("");
+var pv=document.getElementById("ivPv"),COL={knife:"#e4ae39",skin:"#c4161c",gloves:"#4f7bff",case:"#2ecc71",sticker:"#b05cff",agent:"#ff8a3d",other:"#6b6b78"};
+function row(x){var im=img(x.n),parts=x.n.replace(/^★\s*/,"").split(" | "),wm=x.n.match(/\(([^)]+)\)$/),q=encodeURIComponent(x.n.replace(/^★\s*/,""));
+ var nm=parts[1]?parts[1].replace(/ \([^)]*\)$/,""):parts[0],sub=[parts[1]?parts[0]:"",wm&&W[wm[1]]?W[wm[1]]:"",x.q>1?x.q+" "+L.qty:""].filter(Boolean).join(" · ");
+ var buy=x.p&&(x.c==="knife"||x.c==="gloves"||x.c==="skin");
+ return '<div class="row">'+(im?'<img src="https://community.akamai.steamstatic.com/economy/image/'+im+'/152fx114f" alt="" loading="lazy">':'<span class="ph"></span>')+'<div><b>'+esc(nm)+'</b><small>'+esc(sub)+'</small></div><span class="pr">'+(x.p?'<em>'+fmt(x.p*x.q)+'</em>':'<i>—</i>')+(buy?'<a href="https://cs.money/market/buy/?search='+q+'&utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=inventory" target="_blank" rel="noopener sponsored">'+L.buy+'</a>':'')+'</span></div>'}
+function run(id){id=norm(id);if(!id||id.length<2){say(L.bad,1);return}btn.disabled=true;say("");pv.classList.add("busy");pv.querySelector(".hd").firstChild.textContent=L.wait;
+ Promise.all([fetch(API+encodeURIComponent(id)).then(function(r){return r.json().catch(function(){return{}}).then(function(d){d._s=r.status;return d})}),prices]).then(function(a){var d=a[0];btn.disabled=false;pv.classList.remove("busy");
+  function fail(t){say(t,1);pv.querySelector(".hd").firstChild.textContent=pv.classList.contains("has")?L.total:L.ex}
+  if(d._s===429)return fail(L.many);if(d._s===404||d.error==="profile")return fail(L.nf);if(d.private)return fail(L.priv);if(d.error)return fail(L.err);
+  var it=(d.items||[]).map(function(z){var n=z[0],q=z[1]||1;return{n:n,q:q,p:price(n),c:cat(n)}});if(!it.length)return fail(L.empty);
+  it.sort(function(x,y){return y.p*y.q-x.p*x.q});var tot=0,cnt=0,vc=0,un=0,C={};it.forEach(function(x){cnt+=x.q;if(x.p){tot+=x.p*x.q;vc+=x.q;C[x.c]=(C[x.c]||0)+x.p*x.q}else un+=x.q});
+  var ks=Object.keys(L.cats).filter(function(k){return C[k]}).sort(function(a,b){return C[b]-C[a]});
+  var bar=ks.map(function(k){return '<i style="width:'+(C[k]/tot*100).toFixed(1)+'%;background:'+COL[k]+'" title="'+L.cats[k]+'"></i>'}).join("");
+  var lg=ks.map(function(k){return '<span style="--c:'+COL[k]+'">'+L.cats[k]+' <b>'+fmt(C[k])+'</b></span>'}).join("");
   var kn=it.filter(function(x){return x.c==="knife"&&x.p})[0],gl=it.filter(function(x){return x.c==="gloves"&&x.p})[0];var setq=[kn,gl].filter(Boolean).map(function(x){return base(x.n).replace(" | ","|")}).join(";");
-  var top=it.filter(function(x){return x.p}).slice(0,12),rest=it.slice(top.length);
-  res.innerHTML='<div class="iv-sum">'+(d.a?'<img src="'+esc(d.a)+'" alt="">':'<span></span>')+'<div><div class="nm">'+esc(d.n||d.sid||"")+'</div><div class="tt">'+fmt(tot)+'<small>'+cnt+' '+L.items+' · '+vc+' '+L.valued+'</small></div>'+(un?'<div class="nm">'+L.unv.replace("{n}",un)+'</div>':'')+'</div><button class="ag" type="button" id="ivAg">'+L.other+'</button></div>'
-   +'<div class="iv-cats">'+cats+'</div>'
-   +'<a class="iv-cta" href="'+window.IVB+(setq?'?set='+encodeURIComponent(setq):'')+'"><span><b>'+L.cta+'</b><small>'+L.cta2+'</small></span><i>→</i></a>'
-   +'<h3>'+L.top+'</h3><div class="iv-l">'+top.map(card).join("")+'</div>'
-   +(rest.length?'<h3>'+L.all+'</h3><div class="iv-l" id="ivRest">'+rest.slice(0,24).map(card).join("")+'</div>'+(rest.length>24?'<button class="iv-more" type="button" id="ivMore">'+L.show.replace("{n}",rest.length)+'</button>':''):'')
-   +'<p class="iv-src">'+L.src+'</p>';
-  res.hidden=false;document.getElementById("ivAg").onclick=function(){inp.value="";inp.focus();window.scrollTo({top:f.getBoundingClientRect().top+scrollY-120,behavior:"smooth"})};try{res.scrollIntoView({behavior:"smooth",block:"start"})}catch(e){}var mb=document.getElementById("ivMore");if(mb)mb.onclick=function(){document.getElementById("ivRest").innerHTML=rest.map(card).join("");mb.remove()};
+  pv.innerHTML='<div class="hd"><span class="who">'+(d.a?'<img src="'+esc(d.a)+'" alt="">':'')+esc(d.n||d.sid||"")+'</span><span class="cn">'+cnt+' '+L.items+(un?' · '+vc+' '+L.valued:'')+'</span></div>'
+   +'<div class="tot">'+fmt(tot)+'</div><div class="bar">'+bar+'</div><div class="lg">'+lg+'</div>'
+   +'<div class="rows">'+it.map(row).join("")+'<p class="iv-src">'+L.src+'</p></div>'
+   +'<a class="iv-cta" href="'+window.IVB+(setq?'?set='+encodeURIComponent(setq):'')+'"><b>'+L.cta+'</b><i>→</i></a>';
+  pv.classList.add("has");say("");if(innerWidth<900){try{pv.scrollIntoView({behavior:"smooth",block:"start"})}catch(e){}}
   try{if(!ME||ME.sid!==d.sid)history.replaceState(null,"","?id="+encodeURIComponent(d.sid||id))}catch(e){}
- }).catch(function(){btn.disabled=false;say(L.err,1)})}
+ }).catch(function(){btn.disabled=false;pv.classList.remove("busy");say(L.err,1)})}
 f.addEventListener("submit",function(ev){ev.preventDefault();run(inp.value)});
 /* вход через Steam: токен кладёт общий скрипт шапки в localStorage skinset_steam */
 var stb=document.getElementById("ivSt"),ME=null,tok=null;try{tok=localStorage.getItem("skinset_steam")}catch(e){}
@@ -200,11 +213,11 @@ def build(lang):
         v = v * rate
         return f"{round(v):,}".replace(",", " ") + " ₽" if cur == "₽" else f"${round(v):,}"
     tot = sum(x[2] for x in EXI)
-    rows = "".join(f'<div class="row"><img src="{I.format(IMGS[n])}" alt="" width="76" height="57"><div><b>{e(n.split(" | ")[1])}</b><small>{e(n.split(" | ")[0])} · {w}</small></div><em>{money(v)}</em></div>' for n, w, v in EXI if n in IMGS)
+    rows = "".join(f'<div class="row"><img src="{I.format(IMGS[n])}" alt="" width="76" height="57"><div><b>{e(n.split(" | ")[1])}</b><small>{e(n.split(" | ")[0])} · {w}</small></div><span class="pr"><em>{money(v)}</em></span></div>' for n, w, v in EXI if n in IMGS)
     cats = [(L["cats"]["knife"], 1403.96, "#e4ae39"), (L["cats"]["skin"], 615.34, "#c4161c"), (L["cats"]["gloves"], 311.86, "#4f7bff")]
     bar = "".join(f'<i style="width:{v/tot*100:.1f}%;background:{c}"></i>' for _, v, c in cats)
     lg = "".join(f'<span style="--c:{c}">{e(k)}</span>' for k, _, c in cats)
-    pv = f'<div class="hd">{e(L["ex"])}</div><div class="tot">{money(tot)}</div><div class="bar">{bar}</div><div class="lg">{lg}</div>{rows}'
+    pv = f'<div class="hd">{e(L["ex"])}<span class="cn">{e(L["exi"])}</span></div><div class="tot">{money(tot)}</div><div class="bar">{bar}</div><div class="lg">{lg}</div><div class="rows">{rows}</div>'
     SV = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.17l5.35 2.21a2.8 2.8 0 0 1 1.6-.5h.16l2.38-3.45v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.13a2.83 2.83 0 0 1-5.62.47L2.4 14.7A10 10 0 1 0 12 2Zm-4.72 15.2-1.23-.51a2.13 2.13 0 1 0 1.17-2.92l1.27.53a1.57 1.57 0 1 1-1.2 2.9Zm9.5-7.3a2.51 2.51 0 1 0-2.5 2.52 2.52 2.52 0 0 0 2.5-2.52Zm-4.39 0a1.89 1.89 0 1 1 1.89 1.89 1.89 1.89 0 0 1-1.89-1.89Z"/></svg>'
     body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav>'
             f'<section class="iv-hero"><div><span class="pg-eb"><i></i>{e(t["kick"])}</span><h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead_s"])}</p>'
@@ -212,9 +225,8 @@ def build(lang):
             f'<div class="iv-or">{e(L["or_"])}</div>'
             f'<form class="iv-form" id="ivF" autocomplete="off"><input id="ivI" name="id" type="text" inputmode="url" spellcheck="false" placeholder="{e(L["ph"])}" aria-label="{e(L["ph"])}"><button type="submit">{e(L["go"])}</button></form>'
             f'<div class="iv-msg" id="ivM" role="status"></div><div class="iv-trust">{"".join(f"<span>{e(x)}</span>" for x in L["trust"])}</div></div></div>'
-            f'<div class="iv-pv" aria-hidden="true">{pv}</div></section>'
-            f'<div class="iv-res" id="ivR" hidden></div>'
-            f'<h2 class="iv-sh">{e(L["steps_h"])}</h2><div class="iv-how">{"".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in L["steps"])}</div>'
+            f'<div class="iv-pvw"><div class="iv-pv" id="ivPv" aria-live="polite">{pv}</div></div></section>'
+                        f'<h2 class="iv-sh">{e(L["steps_h"])}</h2><div class="iv-how">{"".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in L["steps"])}</div>'
             f'<p class="iv-sh">{e(L["more_h"])}</p><div class="iv-acc">{secs}</div>'
             f'<h2 class="iv-sh">{e(t["faq_h"])}</h2><div class="iv-acc">{faqs}</div><p class="note">{e(t["note"])}</p>'
             f'<script>window.IVL={json.dumps(L, ensure_ascii=False)};window.IVRATE={rate};window.IVCUR={json.dumps(cur)};window.IVB={json.dumps(BUILDER[lang])};</script><script>{JS}</script>')

@@ -97,9 +97,11 @@ CSS = """.iv{max-width:1120px}.iv-hero{display:grid;grid-template-columns:minmax
 .iv-form input:focus{outline:none;border-color:var(--pick,#c4161c)}.iv-form button{height:48px;padding:0 22px;background:var(--pick,#c4161c);border:0;color:#fff;font:700 .92rem/1 var(--hud);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;clip-path:polygon(9px 0,100% 0,calc(100% - 9px) 100%,0 100%)}
 .iv-form button:disabled{opacity:.6;cursor:wait}.iv-trust{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:.78rem;color:var(--soft,#999)}.iv-trust span::before{content:"✓";color:#2ecc71;margin-right:6px}
 .iv-msg{min-height:0;font-size:.9rem;color:var(--soft,#aaa);margin-top:10px}.iv-msg:empty{display:none}.iv-msg.bad{color:#ff8a80}
-.iv-pv{position:relative;height:380px}.iv-pv::before{content:"";position:absolute;inset:8% 6%;background:radial-gradient(closest-side,rgba(196,22,28,.35),transparent 70%);filter:blur(10px)}
-.iv-pv img{position:absolute;width:62%;filter:drop-shadow(0 18px 26px rgba(0,0,0,.7))}.iv-pv .a{left:2%;top:4%;transform:rotate(-14deg)}.iv-pv .b{right:0;top:20%;transform:rotate(10deg);width:56%}.iv-pv .c{left:14%;top:44%;transform:rotate(-4deg);width:66%}
-.iv-pv .tag{position:absolute;right:4%;bottom:6%;background:rgba(14,14,20,.92);border:1px solid var(--line2,#33333d);padding:12px 16px;backdrop-filter:blur(6px)}.iv-pv .tag small{display:block;font:600 .64rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:var(--soft,#999)}.iv-pv .tag b{display:block;font:700 1.9rem/1.1 var(--hud);color:#fff;margin-top:6px}.iv-pv .tag span{font-size:.75rem;color:#2ecc71}
+.iv-pv{position:relative;background:linear-gradient(180deg,#17171f,#111117);border:1px solid var(--line,#26262f);padding:20px 22px;box-shadow:0 30px 60px rgba(0,0,0,.45)}
+.iv-pv .hd{display:flex;justify-content:space-between;align-items:center;font:600 .66rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase;color:var(--soft,#999)}.iv-pv .hd span{color:#2ecc71;letter-spacing:.06em}
+.iv-pv .tot{font:700 2.5rem/1 var(--hud);color:#fff;margin:12px 0 14px}.iv-pv .bar{display:flex;height:6px;gap:2px}.iv-pv .bar i{display:block;height:100%}
+.iv-pv .lg{display:flex;flex-wrap:wrap;gap:4px 14px;margin:9px 0 14px;font-size:.74rem;color:var(--soft,#aaa)}.iv-pv .lg span::before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;background:var(--c)}
+.iv-pv .row{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line,#26262f)}.iv-pv .row img{width:76px;height:57px;object-fit:contain;flex:none;font-size:0}.iv-pv .row div{flex:1;min-width:0}.iv-pv .row b{display:block;font-size:.9rem;color:#fff}.iv-pv .row small{font-size:.74rem;color:var(--soft,#999)}.iv-pv .row em{font-style:normal;font-weight:700;color:#2ecc71;font-size:.95rem;white-space:nowrap}
 .iv-res{margin:0 0 30px;scroll-margin-top:80px}.iv-res[hidden]{display:none}.iv-sum{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;background:var(--panel,#14141b);border:1px solid var(--line,#26262f);padding:18px}
 .iv-sum img{width:64px;height:64px;border:1px solid var(--line2,#33333d)}.iv-sum .nm{font-size:.9rem;color:var(--soft,#aaa)}.iv-sum .tt{font:700 2.4rem/1.05 var(--hud);color:#fff;margin:4px 0}.iv-sum .tt small{font-size:.86rem;color:var(--soft,#aaa);font-family:var(--body,inherit);font-weight:500;margin-left:8px}
 .iv-sum .ag{background:none;border:1px solid var(--line2,#33333d);color:#fff;padding:9px 14px;cursor:pointer;font:600 .74rem/1 var(--hud);letter-spacing:.08em;text-transform:uppercase}
@@ -192,10 +194,17 @@ def build(lang):
         return f'<details><summary><h2>{e(h)}</h2></summary><div class="bd">{inner}</div></details>'
     secs = "".join(para(h, p) for h, p in t["sec"])
     faqs = "".join(f'<details><summary><h3>{e(q)}</h3></summary><div class="bd"><p>{e(a)}</p></div></details>' for q, a in t["faq"])
-    I = "https://community.akamai.steamstatic.com/economy/image/{}/360fx270f"
-    pv = "".join(f'<img class="{c}" src="{I.format(IMGS[n])}" alt="{e(n)}" loading="eager" width="360" height="270">' for c, n in (("a", "Karambit | Fade"), ("b", "Sport Gloves | Vice"), ("c", "AK-47 | Fire Serpent")) if n in IMGS)
-    ex = (1403.96 + 311.86 + 615.34) * rate
-    exs = f"{round(ex):,}".replace(",", " ") + " ₽" if cur == "₽" else f"${round(ex):,}"
+    I = "https://community.akamai.steamstatic.com/economy/image/{}/152fx114f"
+    EXI = [("Karambit | Fade", "FN", 1403.96), ("Sport Gloves | Vice", "FT", 311.86), ("AK-47 | Fire Serpent", "FT", 615.34)]
+    def money(v):
+        v = v * rate
+        return f"{round(v):,}".replace(",", " ") + " ₽" if cur == "₽" else f"${round(v):,}"
+    tot = sum(x[2] for x in EXI)
+    rows = "".join(f'<div class="row"><img src="{I.format(IMGS[n])}" alt="" width="76" height="57"><div><b>{e(n.split(" | ")[1])}</b><small>{e(n.split(" | ")[0])} · {w}</small></div><em>{money(v)}</em></div>' for n, w, v in EXI if n in IMGS)
+    cats = [(L["cats"]["knife"], 1403.96, "#e4ae39"), (L["cats"]["skin"], 615.34, "#c4161c"), (L["cats"]["gloves"], 311.86, "#4f7bff")]
+    bar = "".join(f'<i style="width:{v/tot*100:.1f}%;background:{c}"></i>' for _, v, c in cats)
+    lg = "".join(f'<span style="--c:{c}">{e(k)}</span>' for k, _, c in cats)
+    pv = f'<div class="hd">{e(L["ex"])}</div><div class="tot">{money(tot)}</div><div class="bar">{bar}</div><div class="lg">{lg}</div>{rows}'
     SV = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.17l5.35 2.21a2.8 2.8 0 0 1 1.6-.5h.16l2.38-3.45v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.13a2.83 2.83 0 0 1-5.62.47L2.4 14.7A10 10 0 1 0 12 2Zm-4.72 15.2-1.23-.51a2.13 2.13 0 1 0 1.17-2.92l1.27.53a1.57 1.57 0 1 1-1.2 2.9Zm9.5-7.3a2.51 2.51 0 1 0-2.5 2.52 2.52 2.52 0 0 0 2.5-2.52Zm-4.39 0a1.89 1.89 0 1 1 1.89 1.89 1.89 1.89 0 0 1-1.89-1.89Z"/></svg>'
     body = (f'<nav class="crumbs"><a href="{HOME[lang]}">{e(t["home"])}</a> › {e(t["h1"])}</nav>'
             f'<section class="iv-hero"><div><span class="pg-eb"><i></i>{e(t["kick"])}</span><h1 class="pg-h">{e(t["h1"])}</h1><p class="lead pg-l">{e(t["lead_s"])}</p>'
@@ -203,7 +212,7 @@ def build(lang):
             f'<div class="iv-or">{e(L["or_"])}</div>'
             f'<form class="iv-form" id="ivF" autocomplete="off"><input id="ivI" name="id" type="text" inputmode="url" spellcheck="false" placeholder="{e(L["ph"])}" aria-label="{e(L["ph"])}"><button type="submit">{e(L["go"])}</button></form>'
             f'<div class="iv-msg" id="ivM" role="status"></div><div class="iv-trust">{"".join(f"<span>{e(x)}</span>" for x in L["trust"])}</div></div></div>'
-            f'<div class="iv-pv" aria-hidden="true">{pv}<div class="tag"><small>{e(L["ex"])}</small><b>{exs}</b><span>{e(L["exi"])}</span></div></div></section>'
+            f'<div class="iv-pv" aria-hidden="true">{pv}</div></section>'
             f'<div class="iv-res" id="ivR" hidden></div>'
             f'<h2 class="iv-sh">{e(L["steps_h"])}</h2><div class="iv-how">{"".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in L["steps"])}</div>'
             f'<p class="iv-sh">{e(L["more_h"])}</p><div class="iv-acc">{secs}</div>'

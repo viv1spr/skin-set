@@ -18,10 +18,10 @@ module.exports = async (req, res) => {
     if (st !== 429) break;
     await new Promise(x => setTimeout(x, 700 * (k + 1)));
   }
-  if (st === 403 || st === 401) return res.status(200).json({ items: [], private: true, error: null });
+  if (st === 403 || st === 401) { const t = await r.text().catch(() => ""); return res.status(200).json({ items: [], private: true, error: null, dbg: { st, body: t.slice(0, 160) } }) }
   if (!r.ok) return res.status(200).json({ items: [], private: false, error: "steam " + st });
-  const j = await r.json().catch(() => null);
-  if (!j || j.success === false) return res.status(200).json({ items: [], private: true, error: null });
+  const txt = await r.text(); let j = null; try { j = JSON.parse(txt) } catch (e) {}
+  if (!j || j.success === false) return res.status(200).json({ items: [], private: true, error: null, dbg: { st, body: txt.slice(0, 160) } });
   const cnt = {}; for (const a of (j.assets || [])) { const k = a.classid + "_" + a.instanceid; cnt[k] = (cnt[k] || 0) + 1 }
   const m = new Map();
   for (const d of (j.descriptions || [])) {

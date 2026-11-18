@@ -53,18 +53,19 @@ async function resolveSid(id) {
 }
 
 async function inventory(env, sid) {
-  const key = "inv2:" + sid;
-  if (env.KV) { const c = await env.KV.get(key, "json"); if (c && c.items) return c }
-  let names = [], items = [], priv = false, err = null;
+  const key = "inv3:" + sid;
+  if (env.KV) { const c = await env.KV.get(key, "json"); if (c && c.items && c.items.length) return c }
+  let names = [], items = [], priv = false, err = null; const dbg = {};
   try {
     const H = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130 Safari/537.36", "Accept": "application/json", "Referer": `https://steamcommunity.com/profiles/${sid}/inventory` };
     let r = await fetch(`https://steamcommunity.com/inventory/${sid}/730/2?l=english&count=2000`, { headers: H });
     for (let k = 0; k < 2 && r.status === 429; k++) { await new Promise(x => setTimeout(x, 800 * (k + 1))); r = await fetch(`https://steamcommunity.com/inventory/${sid}/730/2?l=english&count=${k ? 500 : 1000}`, { headers: H }) }
-    let j = null;
+    let j = null; dbg.sc = r.status;
     /* steamcommunity режет запросы с IP Cloudflare (429) — запасной путь через официальный Web API (нужен секрет STEAM_KEY) */
     if ((r.status === 429 || r.status >= 500) && env.STEAM_KEY) {
       const a = await fetch(`https://api.steampowered.com/IEconService/GetInventoryItemsWithDescriptions/v1/?key=${env.STEAM_KEY}&steamid=${sid}&appid=730&contextid=2&get_descriptions=1&count=2000&language=english`, { headers: { "User-Agent": H["User-Agent"] } });
-      if (a.ok) { const x = await a.json(); if (x && x.response) { j = x.response; r = { ok: true, status: 200 } } }
+      dbg.api = a.status;
+      if (a.ok) { const x = await a.json(); dbg.keys = Object.keys((x && x.response) || {}).join(","); if (x && x.response) { j = x.response; r = { ok: true, status: 200 } } }
     }
     if (r.status === 403 || r.status === 401) priv = true;
     else if (!r.ok) err = "steam " + r.status;
@@ -79,8 +80,8 @@ async function inventory(env, sid) {
       }
     }
   } catch (e) { err = String(e) }
-  const out = { names, items, private: priv, error: err, t: Date.now() };
-  if (env.KV && !err) await env.KV.put(key, JSON.stringify(out), { expirationTtl: 900 });
+  const out = { names, items, private: priv, error: err, t: Date.now(), dbg };
+  if (env.KV && !err && items.length) await env.KV.put(key, JSON.stringify(out), { expirationTtl: 900 }); /* пустой ответ не кэшируем — Steam иногда отдаёт пусто при лимитах */
   return out;
 }
 

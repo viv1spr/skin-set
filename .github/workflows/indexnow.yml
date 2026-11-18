@@ -1,0 +1,11 @@
+name: IndexNow ping (Yandex, Bing)
+on:
+  schedule:
+    - cron: "23 6 * * 2,5"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sleep 60 && python3 admin/indexnow.py

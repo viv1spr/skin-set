@@ -16,7 +16,7 @@ from pagegrid import GRID_CSS  # noqa
 e = lambda s: html.escape(str(s), quote=True)
 URL = {"ru": "/ocenka-inventarya/", "en": "/en/inventory-value/"}
 BUILDER = {"ru": "/", "en": "/en/"}
-PROXY = ""  # адрес прокси инвентаря на Vercel, например https://skin-set-inv.vercel.app
+PROXY = "https://skin-set-vercel-inv.vercel.app"  # адрес прокси инвентаря на Vercel, например https://skin-set-inv.vercel.app
 FLOAT = {"ru": "/float-kalkulyator-cs2/", "en": "/en/cs2-float-calculator/"}
 
 T = {

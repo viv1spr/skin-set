@@ -16,6 +16,7 @@ from pagegrid import GRID_CSS  # noqa
 e = lambda s: html.escape(str(s), quote=True)
 URL = {"ru": "/ocenka-inventarya/", "en": "/en/inventory-value/"}
 BUILDER = {"ru": "/", "en": "/en/"}
+PROXY = ""  # адрес прокси инвентаря на Vercel, например https://skin-set-inv.vercel.app
 FLOAT = {"ru": "/float-kalkulyator-cs2/", "en": "/en/cs2-float-calculator/"}
 
 T = {
@@ -128,7 +129,7 @@ CSS = """.iv{max-width:1120px}.iv-hero{display:grid;grid-template-columns:minmax
 @media(max-width:900px){.iv-hero{grid-template-columns:1fr;gap:16px}.iv-pvw{min-height:0;display:none}.iv-pvw:has(.has){display:block}.iv-pv{position:relative;inset:auto;height:72vh;scroll-margin-top:70px}.iv-how{grid-template-columns:1fr}.iv-acc{grid-template-columns:1fr}}
 @media(max-width:760px){.iv-tool{padding:14px}.iv-form{flex-direction:column}.iv-form input{flex:none}.iv-form button{width:100%}.iv-sum{grid-template-columns:auto 1fr;gap:12px}.iv-sum .ag{grid-column:1/-1}.iv-sum img{width:48px;height:48px}.iv-sum .tt{font-size:1.9rem}.iv-cats{grid-template-columns:1fr 1fr}.iv-l{grid-template-columns:1fr}.iv-cta{padding:12px 14px}}"""
 
-JS = r"""(function(){var L=window.IVL,RATE=window.IVRATE,CUR=window.IVCUR,API="https://auth.skin-set.com/invp?id=";
+JS = r"""(function(){var PX=window.IVPX||"",L=window.IVL,RATE=window.IVRATE,CUR=window.IVCUR,API="https://auth.skin-set.com/invp?id=";
 var W={"Factory New":"FN","Minimal Wear":"MW","Field-Tested":"FT","Well-Worn":"WW","Battle-Scarred":"BS"};
 function fmt(usd){var v=usd*RATE;return CUR==="₽"?Math.round(v).toLocaleString("ru-RU")+" ₽":"$"+(v<100?v.toFixed(2):Math.round(v).toLocaleString("en-US"))}
 function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
@@ -152,7 +153,9 @@ function row(x){var im=img(x.n),parts=x.n.replace(/^★\s*/,"").split(" | "),wm=
  var buy=x.p&&(x.c==="knife"||x.c==="gloves"||x.c==="skin");
  return '<div class="row">'+(im?'<img src="https://community.akamai.steamstatic.com/economy/image/'+im+'/152fx114f" alt="" loading="lazy">':'<span class="ph"></span>')+'<div><b>'+esc(nm)+'</b><small>'+esc(sub)+'</small></div><span class="pr">'+(x.p?'<em>'+fmt(x.p*x.q)+'</em>':'<i>—</i>')+(buy?'<a href="https://cs.money/market/buy/?search='+q+'&utm_source=mediabuy&utm_medium=skin-set&utm_campaign=market&utm_content=inventory" target="_blank" rel="noopener sponsored">'+L.buy+'</a>':'')+'</span></div>'}
 function run(id){id=norm(id);if(!id||id.length<2){say(L.bad,1);return}btn.disabled=true;say("");pv.classList.add("busy");pv.querySelector(".hd").firstChild.textContent=L.wait;
- Promise.all([fetch(API+encodeURIComponent(id)).then(function(r){return r.json().catch(function(){return{}}).then(function(d){d._s=r.status;return d})}),prices]).then(function(a){var d=a[0];btn.disabled=false;pv.classList.remove("busy");
+ Promise.all([fetch(API+encodeURIComponent(id)).then(function(r){return r.json().catch(function(){return{}}).then(function(d){d._s=r.status;return d})}).then(function(d){
+  /* воркер на Cloudflare часто получает от Steam 429 — тогда берём инвентарь через прокси на Vercel */
+  if(PX&&d.sid&&!d.private&&(d.error||!(d.items||[]).length))return fetch(PX+"/api/inv?sid="+d.sid).then(function(r){return r.json()}).then(function(x){d.items=x.items||[];d.private=x.private;d.error=x.error;return d}).catch(function(){return d});return d}),prices]).then(function(a){var d=a[0];btn.disabled=false;pv.classList.remove("busy");
   function fail(t){say(t,1);pv.querySelector(".hd").firstChild.textContent=pv.classList.contains("has")?L.total:L.ex}
   if(d._s===429)return fail(L.many);if(d._s===404||d.error==="profile")return fail(L.nf);if(d.private)return fail(L.priv);if(d.error)return fail(L.err);
   var it=(d.items||[]).map(function(z){var n=z[0],q=z[1]||1;return{n:n,q:q,p:price(n),c:cat(n)}});if(!it.length)return fail(L.empty);
@@ -229,7 +232,7 @@ def build(lang):
                         f'<h2 class="iv-sh">{e(L["steps_h"])}</h2><div class="iv-how">{"".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in L["steps"])}</div>'
             f'<p class="iv-sh">{e(L["more_h"])}</p><div class="iv-acc">{secs}</div>'
             f'<h2 class="iv-sh">{e(t["faq_h"])}</h2><div class="iv-acc">{faqs}</div><p class="note">{e(t["note"])}</p>'
-            f'<script>window.IVL={json.dumps(L, ensure_ascii=False)};window.IVRATE={rate};window.IVCUR={json.dumps(cur)};window.IVB={json.dumps(BUILDER[lang])};</script><script>{JS}</script>')
+            f'<script>window.IVL={json.dumps(L, ensure_ascii=False)};window.IVRATE={rate};window.IVCUR={json.dumps(cur)};window.IVB={json.dumps(BUILDER[lang])};window.IVPX={json.dumps(PROXY)};</script><script>{JS}</script>')
     h = head(lang, t["title"], t["desc"], SITE + url, alts, ld).replace("</head>", f"<style>{CSS}{GRID_CSS}</style></head>")
     p = h + f'\n<body>\n{header(lang, {l: URL.get(l, URL["en"]) for l in HOME})}\n<main class="iv pg">\n{body}\n</main>\n<footer><p>{e(FOOT[lang])}</p></footer>\n</body>\n</html>\n'
     p = p.replace(f'<a href="{WIKI[lang]}" class=on>', f'<a href="{WIKI[lang]}">', 1)

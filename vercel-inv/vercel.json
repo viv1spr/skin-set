@@ -1,0 +1,4 @@
+{
+  "git": { "deploymentEnabled": { "main": true, "prices": false, "history": false } },
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ."
+}

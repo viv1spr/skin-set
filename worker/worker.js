@@ -60,10 +60,16 @@ async function inventory(env, sid) {
     const H = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130 Safari/537.36", "Accept": "application/json", "Referer": `https://steamcommunity.com/profiles/${sid}/inventory` };
     let r = await fetch(`https://steamcommunity.com/inventory/${sid}/730/2?l=english&count=2000`, { headers: H });
     for (let k = 0; k < 2 && r.status === 429; k++) { await new Promise(x => setTimeout(x, 800 * (k + 1))); r = await fetch(`https://steamcommunity.com/inventory/${sid}/730/2?l=english&count=${k ? 500 : 1000}`, { headers: H }) }
+    let j = null;
+    /* steamcommunity режет запросы с IP Cloudflare (429) — запасной путь через официальный Web API (нужен секрет STEAM_KEY) */
+    if ((r.status === 429 || r.status >= 500) && env.STEAM_KEY) {
+      const a = await fetch(`https://api.steampowered.com/IEconService/GetInventoryItemsWithDescriptions/v1/?key=${env.STEAM_KEY}&steamid=${sid}&appid=730&contextid=2&get_descriptions=1&count=2000&language=english`, { headers: { "User-Agent": H["User-Agent"] } });
+      if (a.ok) { const x = await a.json(); if (x && x.response) { j = x.response; r = { ok: true, status: 200 } } }
+    }
     if (r.status === 403 || r.status === 401) priv = true;
     else if (!r.ok) err = "steam " + r.status;
     else {
-      const j = await r.json();
+      if (!j) j = await r.json();
       if (!j || j.success === false) priv = true;
       else {
         const cnt = {}; for (const a of (j.assets || [])) cnt[a.classid + "_" + a.instanceid] = (cnt[a.classid + "_" + a.instanceid] || 0) + 1;

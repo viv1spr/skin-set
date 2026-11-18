@@ -1883,7 +1883,7 @@ fetch("/data/prices.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(P
     
     el.querySelector("#stmOut").onclick=()=>{LS("skinset_steam",null);ME=null;INV=null;open=false;window.STEAM_INV=null;SKINS.forEach(s=>s.owned=false);rr();draw()}}
   document.addEventListener("click",()=>{if(open){open=false;draw()}});
-  async function loadInv(){try{const r=await fetch(W+"/inv?t="+encodeURIComponent(tok));if(r.status===401){LS("skinset_steam",null);ME=null;draw();return}INV=await r.json()}catch(e){INV={error:"net"}}mark();draw()}
+  async function loadInv(){try{const r=await fetch(W+"/inv?t="+encodeURIComponent(tok));if(r.status===401){LS("skinset_steam",null);ME=null;draw();return}INV=await r.json();if(INV&&!INV.private&&(INV.error||!(INV.names||[]).length)&&ME&&ME.sid){try{const x=await (await fetch("https://skin-set-vercel-inv.vercel.app/api/inv?sid="+ME.sid)).json();if(x&&(x.items||x.private)){INV={items:x.items||[],names:(x.items||[]).map(z=>z[0]),private:!!x.private,error:x.error||null,t:Date.now()}}}catch(e){}}}catch(e){INV={error:"net"}}mark();draw()}
   async function start(){if(!tok){draw();return}
     try{const r=await fetch(W+"/me?t="+encodeURIComponent(tok));if(!r.ok){LS("skinset_steam",null);draw();return}ME=await r.json()}catch(e){draw();return}
     state.useInv=LS("skinset_useinv")!=="0";if(!LS("skinset_nick")&&ME.n)LS("skinset_nick",ME.n);draw();loadInv()}

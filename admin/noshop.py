@@ -348,6 +348,19 @@ SHARE_JS = ('<style id="share-css">#shareDlg{position:fixed;inset:0;z-index:3000
  'try{history.replaceState(null,"",location.pathname+location.hash)}catch(e){}})()}).catch(function(){if(typeof toast==="function")toast(T.nf)})})()</script>')
 
 
+INVPX = "https://skin-set-vercel-inv.vercel.app"
+
+
+def invproxy(s):
+    """Инвентарь после входа через Steam: воркер на Cloudflare получает от Steam 429 — тогда берём через прокси на Vercel"""
+    old = 'INV=await r.json()}catch(e){INV={error:"net"}}'
+    if old not in s or "/api/inv?sid=" in s:
+        return s
+    new = ('INV=await r.json();if(INV&&!INV.private&&(INV.error||!(INV.names||[]).length)&&ME&&ME.sid){try{const x=await (await fetch("' + INVPX +
+           '/api/inv?sid="+ME.sid)).json();if(x&&(x.items||x.private)){INV={items:x.items||[],names:(x.items||[]).map(z=>z[0]),private:!!x.private,error:x.error||null,t:Date.now()}}}catch(e){}}}catch(e){INV={error:"net"}}')
+    return s.replace(old, new)
+
+
 def sharelinks(s):
     s = re.sub(r'<style id="share-css">.*?</style>\s*<script id="share-js">.*?</script>', "", s, flags=re.S)
     if 'id="viewbar"' in s and "</body>" in s:
@@ -445,7 +458,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))))
+    s = invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))))
     return s
 
 

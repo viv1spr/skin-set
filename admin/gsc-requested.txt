@@ -565,3 +565,60 @@
 2026-11-17 https://skin-set.com/skiny/huntsman-knife-slaughter/ indexed
 2026-11-17 https://skin-set.com/skiny/falchion-knife-ultraviolet/ indexed
 2026-11-17 https://skin-set.com/skiny/paracord-knife-ultraviolet/ indexed
+2026-11-18 https://skin-set.com/obnovleniya-cs2/2026-11-17-2/
+2026-11-18 https://skin-set.com/obnovleniya-cs2/2026-11-17/
+2026-11-18 https://skin-set.com/en/cs2-updates/2026-11-17-2/
+2026-11-18 https://skin-set.com/en/cs2-updates/2026-11-17/
+2026-11-18 https://skin-set.com/skiny/shadow-daggers-fade/ indexed
+2026-11-18 https://skin-set.com/skiny/glock-18-sand-dune/ indexed
+2026-11-18 https://skin-set.com/skiny/five-seven-fall-hazard/ indexed
+2026-11-18 https://skin-set.com/skiny/broken-fang-gloves-yellow-banded/ indexed
+2026-11-18 https://skin-set.com/skiny/flip-knife-tiger-tooth/ indexed
+2026-11-18 https://skin-set.com/skiny/usp-s-target-acquired/ indexed
+2026-11-18 https://skin-set.com/skiny/nomad-knife-blue-steel/ indexed
+2026-11-18 https://skin-set.com/skiny/bowie-knife-ultraviolet/ indexed
+2026-11-18 https://skin-set.com/skiny/moto-gloves-transport/ indexed
+2026-11-18 https://skin-set.com/skiny/m4a4-hellfire/
+2026-11-18 https://skin-set.com/skiny/gut-knife-case-hardened/ indexed
+2026-11-18 https://skin-set.com/skiny/p250-whiteout/ indexed
+2026-11-18 https://skin-set.com/skiny/specialist-gloves-buckshot/ indexed
+2026-11-18 https://skin-set.com/skiny/falchion-knife-marble-fade/ indexed
+2026-11-18 https://skin-set.com/skiny/ump-45-fade/
+2026-11-18 https://skin-set.com/skiny/usp-s-kill-confirmed/ indexed
+2026-11-18 https://skin-set.com/skiny/hand-wraps-constrictor/ indexed
+2026-11-18 https://skin-set.com/skiny/p90-run-and-hide/ indexed
+2026-11-18 https://skin-set.com/skiny/p90-asiimov/ indexed
+2026-11-18 https://skin-set.com/skiny/nomad-knife-slaughter/ indexed
+2026-11-18 https://skin-set.com/skiny/falchion-knife-slaughter/ indexed
+2026-11-18 https://skin-set.com/skiny/m4a4-asiimov/ indexed
+2026-11-18 https://skin-set.com/skiny/five-seven-fairy-tale/ indexed
+2026-11-18 https://skin-set.com/skiny/skeleton-knife-damascus-steel/
+2026-11-18 https://skin-set.com/skiny/m4a4-falak/ indexed
+2026-11-18 https://skin-set.com/skiny/mp9-hot-rod/ indexed
+2026-11-18 https://skin-set.com/skiny/hand-wraps-desert-shamagh/ indexed
+2026-11-18 https://skin-set.com/skiny/mp5-sd-oxide-oasis/ indexed
+2026-11-18 https://skin-set.com/skiny/gut-knife-marble-fade/ indexed
+2026-11-18 https://skin-set.com/skiny/moto-gloves-3rd-commando-company/ indexed
+2026-11-18 https://skin-set.com/skiny/hand-wraps-giraffe/ indexed
+2026-11-18 https://skin-set.com/skiny/scar-20-brass/ indexed
+2026-11-18 https://skin-set.com/skiny/mag-7-bulldozer/ indexed
+2026-11-18 https://skin-set.com/skiny/m4a4-bullet-rain/ indexed
+2026-11-18 https://skin-set.com/skiny/hydra-gloves-emerald/ indexed
+2026-11-18 https://skin-set.com/skiny/m4a4-royal-paladin/ indexed
+2026-11-18 https://skin-set.com/skiny/p2000-fire-elemental/ indexed
+2026-11-18 https://skin-set.com/skiny/hand-wraps-duct-tape/ indexed
+2026-11-18 https://skin-set.com/skiny/hand-wraps-arboreal/ indexed
+2026-11-18 https://skin-set.com/skiny/navaja-knife-boreal-forest/ indexed
+2026-11-18 https://skin-set.com/skiny/bayonet-bright-water/ indexed
+2026-11-18 https://skin-set.com/skiny/m4a4-the-emperor/ indexed
+2026-11-18 https://skin-set.com/en/cs2-updates/2026-09-25/ indexed
+2026-11-18 https://skin-set.com/en/cs2-updates/2026-09-24/ indexed
+2026-11-18 https://skin-set.com/en/cs2-updates/2026-09-23/ indexed
+2026-11-18 https://skin-set.com/skiny/kukri-knife-case-hardened/ indexed
+2026-11-18 https://skin-set.com/skiny/broken-fang-gloves-needle-point/ indexed
+2026-11-18 https://skin-set.com/skiny/glock-18-fully-tuned/ indexed
+2026-11-18 https://skin-set.com/skiny/driver-gloves-racing-green/ indexed
+2026-11-18 https://skin-set.com/skiny/huntsman-knife-tiger-tooth/ indexed
+2026-11-18 https://skin-set.com/skiny/ursus-knife-tiger-tooth/ indexed
+2026-11-18 https://skin-set.com/skiny/navaja-knife-case-hardened/ indexed
+2026-11-18 https://skin-set.com/skiny/famas-styx/ indexed

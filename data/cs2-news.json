@@ -1,5 +1,12 @@
 [
 {
+"gid": "1849827110426557",
+"t": "Counter-Strike 2 Update",
+"d": 1795049879,
+"u": "https://store.steampowered.com/news/app/730/view/687522235410286588",
+"c": "[p]\\[ MAPS ][/p][p]Cobblestone[/p][list][*][p]Fixed some walkable ledges in long A[/p][/*][*][p]Fixed map issue that was loading an empty skybox[/p][/*][*][p]Fixed an audio blocker issue by mid/A[/p][/*][*][p]Added a grenade clip to assault van bumper[/p][/*][*][p]Fixed various gaps in the world[/p][/*][/list][p]Inferno[/p][list][*][p]Fixed grenade and Molotov exploit spot from church to dark on bombsite B.[/p][/*][/list][p]\\[ MISC ][/p][list][*][p]Updated slow reload animation for the AWP[/p][/*][*][p]Optimized ground burn decals under smoke on very high graphics settings[/p][/*][/list][p]\\[ X-RAY SCANNER ][/p][list][*][p]Players in Switzerland will have an X-Ray Scanner tab in their Inventory. For those players, containers can only be opened via X-Ray Scanner. The X-Ray Scanner will come preloaded with a one-time exclusive non-tradable \"Genuine P250 | X-Ray\", which must be claimed before using the X-Ray Scanner to reveal items in other containers.[/p][/*][/list]"
+},
+{
 "gid": "1849827110421976",
 "t": "Counter-Strike 2 Update",
 "d": 1794958807,

@@ -645,3 +645,24 @@
 2026-11-19 https://skin-set.com/skiny/hydra-gloves-mangrove/ indexed
 2026-11-19 https://skin-set.com/skiny/gut-knife-tiger-tooth/ indexed
 2026-11-19 https://skin-set.com/skiny/paracord-knife-boreal-forest/ indexed
+2026-11-20 https://skin-set.com/skiny/usp-s-road-rash/
+2026-11-20 https://skin-set.com/skiny/navaja-knife-fade/ indexed
+2026-11-20 https://skin-set.com/skiny/famas-roll-cage/ indexed
+2026-11-20 https://skin-set.com/skiny/shadow-daggers-marble-fade/ indexed
+2026-11-20 https://skin-set.com/skiny/galil-ar-aqua-terrace/ indexed
+2026-11-20 https://skin-set.com/skiny/sawed-off-the-kraken/ indexed
+2026-11-20 https://skin-set.com/skiny/ssg-08-blood-in-the-water/ indexed
+2026-11-20 https://skin-set.com/skiny/ssg-08-bloodshot/ indexed
+2026-11-20 https://skin-set.com/skiny/gut-knife-lore/ indexed
+2026-11-20 https://skin-set.com/skiny/famas-mecha-industries/ indexed
+2026-11-20 https://skin-set.com/skiny/hydra-gloves-rattler/ indexed
+2026-11-20 https://skin-set.com/skiny/galil-ar-cerberus/ indexed
+2026-11-20 https://skin-set.com/skiny/pp-bizon-judgement-of-anubis/ indexed
+2026-11-20 https://skin-set.com/skiny/glock-18-dragon-tattoo/ indexed
+2026-11-20 https://skin-set.com/skiny/kukri-knife-slaughter/ indexed
+2026-11-20 https://skin-set.com/skiny/gut-knife-slaughter/ indexed
+2026-11-20 https://skin-set.com/skiny/mac-10-neon-rider/ indexed
+2026-11-20 https://skin-set.com/skiny/glock-18-gamma-doppler/ indexed
+2026-11-20 https://skin-set.com/skiny/paracord-knife-safari-mesh/ indexed
+2026-11-20 https://skin-set.com/skiny/p250-see-ya-later/ indexed
+2026-11-20 https://skin-set.com/skiny/navaja-knife-marble-fade/ indexed

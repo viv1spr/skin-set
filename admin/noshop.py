@@ -351,6 +351,23 @@ SHARE_JS = ('<style id="share-css">#shareDlg{position:fixed;inset:0;z-index:3000
 INVPX = "https://skin-set-vercel-inv.vercel.app"
 
 
+def blogseo(s):
+    """Статьи блога: убираем скрытый SEO-текст главной (≈2 тыс. знаков, одинаковый на всех статьях и стоящий в HTML до H1).
+    Оставляем пустую заглушку с теми же id, чтобы скрипт конструктора не падал."""
+    m = re.search(r'<link rel="canonical" href="https://skin-set\.com(/[^"]*)"', s)
+    if not m or "/blog/" not in m.group(1):
+        return s
+    a = s.find('<section class="seo collapsed" id="seo"')
+    if a < 0:
+        return s
+    b = s.find('</section>', a)
+    if b < 0:
+        return s
+    stub = ('<section class="seo collapsed" id="seo" hidden><button class="seo-tg" id="seoTg" type="button" aria-expanded="false" data-o="" data-c=""><span></span><i></i></button>'
+            '<div class="seo-in"><div id="seoH2"></div><div id="seoColor" class="seo-dyn"></div><ul id="seoLinks"></ul></div></section>')
+    return s[:a] + stub + s[b + len('</section>'):]
+
+
 def invproxy(s):
     """Инвентарь после входа через Steam: воркер на Cloudflare получает от Steam 429 — тогда берём через прокси на Vercel"""
     old = 'INV=await r.json()}catch(e){INV={error:"net"}}'
@@ -458,7 +475,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))))
+    s = blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))))))
     return s
 
 

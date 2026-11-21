@@ -357,14 +357,22 @@ def nolimft(s):
 
 
 def feedcache(s):
-    """Лента сетов читает снимок с ветки prices (обновляется раз в 10 мин), а Firestore только если снимка нет.
-    Иначе каждый просмотр страницы тратил 40-80 чтений и бесплатная квота Firestore кончалась (429 Quota exceeded)."""
-    old = 'const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);const j=await r.json();'
-    if old not in s:
-        return s
-    new = ('let j=null;try{const q=await fetch("https://raw.githubusercontent.com/viv1spr/skin-set/prices/feed-"+(order||"createdAt")+".json?t="+Math.floor(Date.now()/120000));if(q.ok){const x=await q.json();if(x&&x.documents)j=x}}catch(e){}'
-           'if(!j){const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);j=await r.json();}')
-    return s.replace(old, new)
+    """Лента сетов: Firestore (бесплатно 50k чтений/день) кончался из-за опроса каждые 90 с на каждой открытой вкладке.
+    Теперь: кэш в sessionStorage на 5 мин -> Firestore -> снимок с ветки prices (если Firestore недоступен);
+    фоновое обновление раз в 10 мин и только когда вкладка видна."""
+    orig = 'const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);const j=await r.json();'
+    v1 = ('let j=null;try{const q=await fetch("https://raw.githubusercontent.com/viv1spr/skin-set/prices/feed-"+(order||"createdAt")+".json?t="+Math.floor(Date.now()/120000));if(q.ok){const x=await q.json();if(x&&x.documents)j=x}}catch(e){}'
+          'if(!j){const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);j=await r.json();}')
+    v2 = ('const ck="fbc_"+(order||"createdAt");let j=null;try{const c=JSON.parse(sessionStorage.getItem(ck)||"null");if(c&&Date.now()-c.t<300000)j=c.j}catch(e){}'
+          'if(!j){try{const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);j=await r.json();try{sessionStorage.setItem(ck,JSON.stringify({t:Date.now(),j:j}))}catch(e){}}'
+          'catch(err){try{const q=await fetch("https://raw.githubusercontent.com/viv1spr/skin-set/prices/feed-"+(order||"createdAt")+".json?t="+Math.floor(Date.now()/600000));if(q.ok){const x=await q.json();if(x&&x.documents)j=x}}catch(e){}if(!j)throw err}}')
+    if orig in s:
+        s = s.replace(orig, v2)
+    elif v1 in s:
+        s = s.replace(v1, v2)
+    s = s.replace('setInterval(async()=>{try{const d=await fbList();', 'setInterval(async()=>{if(document.hidden)return;try{sessionStorage.removeItem("fbc_createdAt")}catch(e){}try{const d=await fbList();')
+    s = s.replace('applyFeed()}catch(e){}},90000);', 'applyFeed()}catch(e){}},600000);')
+    return s
 
 
 def blogseo(s):

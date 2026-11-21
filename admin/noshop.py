@@ -351,6 +351,17 @@ SHARE_JS = ('<style id="share-css">#shareDlg{position:fixed;inset:0;z-index:3000
 INVPX = "https://skin-set-vercel-inv.vercel.app"
 
 
+def feedcache(s):
+    """Лента сетов читает снимок с ветки prices (обновляется раз в 10 мин), а Firestore только если снимка нет.
+    Иначе каждый просмотр страницы тратил 40-80 чтений и бесплатная квота Firestore кончалась (429 Quota exceeded)."""
+    old = 'const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);const j=await r.json();'
+    if old not in s:
+        return s
+    new = ('let j=null;try{const q=await fetch("https://raw.githubusercontent.com/viv1spr/skin-set/prices/feed-"+(order||"createdAt")+".json?t="+Math.floor(Date.now()/120000));if(q.ok){const x=await q.json();if(x&&x.documents)j=x}}catch(e){}'
+           'if(!j){const r=await fetch(FB_URL+"?pageSize=40&orderBy="+encodeURIComponent((order||"createdAt")+" desc")+"&key="+FB_KEY);if(!r.ok)throw new Error("fb "+r.status);j=await r.json();}')
+    return s.replace(old, new)
+
+
 def blogseo(s):
     """Статьи блога: убираем скрытый SEO-текст главной (≈2 тыс. знаков, одинаковый на всех статьях и стоящий в HTML до H1).
     Оставляем пустую заглушку с теми же id, чтобы скрипт конструктора не падал."""
@@ -475,7 +486,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))))))
+    s = feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))))))
     return s
 
 

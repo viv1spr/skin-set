@@ -21,6 +21,17 @@ jobs:
       - name: Publish to "prices" branch (does not trigger site rebuild)
         run: |
           mkdir -p /tmp/out && cp data/prices.json data/prices-meta.json data/prices-all.json /tmp/out/
+          # лента сетов: снимок Firestore раз в 10 минут (бесплатная квота чтений 50k/день), в остальные запуски переносим прошлый снимок
+          FB="https://firestore.googleapis.com/v1/projects/skinset-e5ac2/databases/(default)/documents/sets"
+          RAW="https://raw.githubusercontent.com/${{ github.repository }}/prices"
+          M=$(date -u +%M)
+          for o in createdAt likes; do
+            ok=0
+            if [ $((10#$M % 10)) -lt 5 ]; then
+              curl -sf "$FB?pageSize=40&orderBy=$o%20desc&key=AIzaSyBCA4TCgmc4PD_lOarkvOHtf1f27_mSr6E" -o /tmp/out/feed-$o.json && grep -q documents /tmp/out/feed-$o.json && ok=1
+            fi
+            [ $ok = 1 ] || curl -sf "$RAW/feed-$o.json" -o /tmp/out/feed-$o.json || rm -f /tmp/out/feed-$o.json
+          done
           cd /tmp/out && git init -q && git checkout -q -b prices
           git config user.name "price-bot" && git config user.email "bot@skin-set.com"
           git add . && git commit -q -m "prices $(date -u +%FT%TZ)"

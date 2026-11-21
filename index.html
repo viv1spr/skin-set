@@ -1323,7 +1323,7 @@ const WI18N={"ru":{"any":"Любое","anyT":"Самое дешёвое каче
 "pl":{"any":"Dowolne","anyT":"Najtańsze zużycie","fb":"brak w tym zużyciu — pokazano najbliższe","cheap":"najtaniej","wear":"Zużycie tego przedmiotu"}};const WT=WI18N[(document.documentElement.lang||"ru").slice(0,2)]||WI18N.en;
 const effWear=slot=>(state.wearBy&&state.wearBy[slot])||state.wear||"any";
 /* большой бюджет и «Любое» качество: берём качество получше, а не самое дешёвое BS */
-const autoWear=slot=>{if((state.wearBy&&state.wearBy[slot])||(state.wear&&state.wear!=="any"))return null;const B=state.budgetRub;if(B==null)return "FN";return B>=800000?"FN":B>=300000?"MW":B>=150000?"FT":null};
+const autoWear=slot=>{if((state.wearBy&&state.wearBy[slot])||(state.wear&&state.wear!=="any"))return null;const B=state.budgetRub;if(B==null)return "FT";return B>=800000?"FN":B>=300000?"MW":B>=150000?"FT":null};
 function priceFor(s,wear){const P=window.PRICES;if(!P)return null;const rec=P[s.weapon.replace("★ ","")+" | "+s.skin];if(!rec)return null;const W=rec.w||{};const ks=WEARS.filter(k=>W[k]>0);
   if(!ks.length){const v=Math.min(...[rec.dm,rec.ls,rec.sp].filter(x=>x>0));return isFinite(v)?{usd:v,wear:null}:null}
   if(wear==="any"||!wear){let b=ks[0];for(const k of ks)if(W[k]<W[b])b=k;return {usd:W[b],wear:b}}

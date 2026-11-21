@@ -351,6 +351,11 @@ SHARE_JS = ('<style id="share-css">#shareDlg{position:fixed;inset:0;z-index:3000
 INVPX = "https://skin-set-vercel-inv.vercel.app"
 
 
+def nolimft(s):
+    """«Без лимита»: по умолчанию Field-Tested, а не Factory New (если FT нет — ближайшее качество)"""
+    return s.replace('if(B==null)return "FN";', 'if(B==null)return "FT";')
+
+
 def feedcache(s):
     """Лента сетов читает снимок с ветки prices (обновляется раз в 10 мин), а Firestore только если снимка нет.
     Иначе каждый просмотр страницы тратил 40-80 чтений и бесплатная квота Firestore кончалась (429 Quota exceeded)."""
@@ -486,7 +491,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))))))
+    s = nolimft(feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))))))))
     return s
 
 

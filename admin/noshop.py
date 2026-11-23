@@ -134,8 +134,7 @@ def brand(s):
              "alternateName": ["Skinset", "Skin Set CS2", "skin-set.com"], "inLanguage": lang,
              "publisher": {"@id": "https://skin-set.com/#org"}},
             {"@type": "Organization", "@id": "https://skin-set.com/#org", "name": "Skinset CS2", "alternateName": "skin-set.com",
-             "url": "https://skin-set.com/", "logo": "https://skin-set.com/img/apple-touch-icon.png",
-             "sameAs": ["https://www.twitch.tv/viv1stop"]}]}
+             "url": "https://skin-set.com/", "logo": "https://skin-set.com/img/apple-touch-icon.png"}]}
         import json, html as _j
         s = s.replace("</head>", '<script type="application/ld+json" id="ld-site">' + _j.dumps(ld, ensure_ascii=False) + "</script></head>", 1)
     return s
@@ -351,6 +350,17 @@ SHARE_JS = ('<style id="share-css">#shareDlg{position:fixed;inset:0;z-index:3000
 INVPX = "https://skin-set-vercel-inv.vercel.app"
 
 
+def notwitch(s):
+    """Упоминания Twitch автора убраны с сайта: кнопка в меню, карточка «Стрим автора», ссылка в подвале, sameAs в разметке"""
+    s = re.sub(r'<a class="twitch" href="https://www\.twitch\.tv/viv1stop"[^>]*>.*?</a>', '', s, flags=re.S)
+    s = re.sub(r'<div class="twitch-card"[^>]*>.*?</a></div>', '', s, flags=re.S)
+    s = re.sub(r'\s*·\s*<a class="tw" href="https://www\.twitch\.tv/viv1stop"[^>]*>[^<]*</a>', '', s)
+    s = re.sub(r',\s*"sameAs":\s*\["https://www\.twitch\.tv/viv1stop"\]', '', s)
+    s = s.replace('"author":{"@type":"Person","name":"viv1stop","url":"https://www.twitch.tv/viv1stop"}', '"author":{"@type":"Organization","name":"Skinset","url":"https://skin-set.com/"}')
+    s = s.replace('"author": {"@type": "Person", "name": "viv1stop", "url": "https://www.twitch.tv/viv1stop"}', '"author": {"@type": "Organization", "name": "Skinset", "url": "https://skin-set.com/"}')
+    return s
+
+
 def nolimft(s):
     """«Без лимита»: по умолчанию Field-Tested, а не Factory New (если FT нет — ближайшее качество)"""
     return s.replace('if(B==null)return "FN";', 'if(B==null)return "FT";')
@@ -499,7 +509,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = nolimft(feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))))))))
+    s = notwitch(nolimft(feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))))))))
     return s
 
 

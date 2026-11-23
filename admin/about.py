@@ -40,8 +40,8 @@ ABOUT_LABEL = {"ru": "О проекте", "en": "About", "de": "Über uns", "pt"
 
 T = {
 "ru": dict(
- title="Skinset — подбор скинов CS2 по цвету | О проекте и авторе viv1stop",
- desc="Skinset — бесплатный конструктор инвентаря CS2 в одном цвете: нож, перчатки и оружие под цвет и бюджет, живые цены, вход через Steam. Проект стримера viv1stop.",
+ title="Skinset — подбор скинов CS2 по цвету | О проекте",
+ desc="Skinset — бесплатный конструктор инвентаря CS2 в одном цвете: нож, перчатки и оружие под цвет и бюджет, живые цены, вход через Steam.",
  kicker="Бесплатный конструктор для CS2", h1="Собери инвентарь CS2<br><em>в одном цвете</em>",
  lead="Skinset за секунды подбирает нож, перчатки и всё оружие под выбранный цвет и твой бюджет. С живыми ценами, качеством и кнопкой покупки у каждого скина.",
  cta="Открыть конструктор", cta2="Смотреть стрим",
@@ -51,12 +51,12 @@ T = {
  me_h="Автор — стример viv1stop", me_p="Привет! Я Вова, стримлю Counter-Strike на Twitch. Skinset появился из стримов: зрители постоянно просили собрать им красивый инвентарь в одной гамме и под их деньги. Теперь это может сделать каждый — за пару кликов и бесплатно.",
  me_stats=[("≈370", "зрителей в среднем"), ("17 000+", "фолловеров"), ("60 ч", "эфира в месяц")], me_cta="Перейти на Twitch",
  p_h="Для маркетплейсов и брендов", p_p="Skinset приводит игроков, которые уже выбрали конкретные скины и готовы их купить. Открыт к партнёрствам:",
- p_list=["Кнопка покупки и цены вашей площадки в карточках скинов", "Интеграция на стримах: сборка сетов с вашими лотами в прямом эфире", "Статьи и подборки в блоге на 6 языках", "Розыгрыши и промокоды для аудитории"], p_cta="Написать в Telegram",
+ p_list=["Кнопка покупки и цены вашей площадки в карточках скинов", "Статьи и подборки в блоге на 6 языках", "Розыгрыши и промокоды для аудитории"], p_cta="Написать в Telegram",
  faq_h="Частые вопросы", faq=[("Skinset бесплатный?", "Да, полностью. Мы зарабатываем на партнёрских ссылках маркетов — для тебя цена не меняется."), ("Откуда цены?", "С крупных маркетплейсов, обновляются каждые 5 минут. Точная цена и наличие — на площадке."), ("Зачем входить через Steam?", "Чтобы сайт видел твой открытый инвентарь CS2 и собирал сет вокруг скинов, которые у тебя уже есть. Пароль вводится только на сайте Steam."), ("Это официальный сайт Valve?", "Нет, это фанатский проект, не связанный с Valve.")],
  foot="Skinset — фанатский проект, не связан с Valve. Counter-Strike и названия предметов принадлежат их правообладателям."),
 "en": dict(
- title="Skinset — CS2 skins by color | About the project and streamer viv1stop",
- desc="Skinset is a free CS2 loadout builder: knife, gloves and weapons matched to one color and your budget, with live prices and Steam login. Made by streamer viv1stop.",
+ title="Skinset — CS2 skins by color | About the project",
+ desc="Skinset is a free CS2 loadout builder: knife, gloves and weapons matched to one color and your budget, with live prices and Steam login.",
  kicker="Free CS2 loadout builder", h1="Build a CS2 loadout<br><em>in one color</em>",
  lead="Skinset picks a knife, gloves and every weapon to match your color and budget in seconds — with live prices, wear and a buy button for every skin.",
  cta="Open the builder", cta2="Watch the stream",
@@ -66,12 +66,12 @@ T = {
  me_h="Made by streamer viv1stop", me_p="Hi! I'm Vova and I stream Counter-Strike on Twitch. Skinset was born on stream: viewers kept asking me to build them a good-looking one-color loadout that fits their budget. Now anyone can do it in a couple of clicks, for free.",
  me_stats=[("≈370", "average viewers"), ("17,000+", "followers"), ("60 h", "live per month")], me_cta="Go to Twitch",
  p_h="For marketplaces and brands", p_p="Skinset brings players who have already picked specific skins and are ready to buy them. Open to partnerships:",
- p_list=["Your buy button and prices on skin cards", "Stream integrations: building sets with your listings live", "Articles and guides in the blog in 6 languages", "Giveaways and promo codes for the audience"], p_cta="Message on Telegram",
+ p_list=["Your buy button and prices on skin cards", "Articles and guides in the blog in 6 languages", "Giveaways and promo codes for the audience"], p_cta="Message on Telegram",
  faq_h="FAQ", faq=[("Is Skinset free?", "Yes, completely. We earn from marketplace affiliate links — your price doesn't change."), ("Where do prices come from?", "From major marketplaces, updated every 5 minutes. Exact price and availability are on the marketplace."), ("Why sign in with Steam?", "So the site can see your public CS2 inventory and build a set around skins you already own. You only enter your password on Steam."), ("Is this an official Valve site?", "No, it's a fan project not affiliated with Valve.")],
  foot="Skinset is a fan project, not affiliated with Valve. Counter-Strike and item names belong to their respective owners."),
 "de": dict(
- title="Skinset — CS2-Skins nach Farbe | Über das Projekt und Streamer viv1stop",
- desc="Skinset ist ein kostenloser CS2-Loadout-Builder: Messer, Handschuhe und Waffen in einer Farbe und passend zum Budget, mit Live-Preisen und Steam-Login. Vom Streamer viv1stop.",
+ title="Skinset — CS2-Skins nach Farbe | Über das Projekt",
+ desc="Skinset ist ein kostenloser CS2-Loadout-Builder: Messer, Handschuhe und Waffen in einer Farbe und passend zum Budget, mit Live-Preisen und Steam-Login.",
  kicker="Kostenloser CS2-Loadout-Builder", h1="Dein CS2-Loadout<br><em>in einer Farbe</em>",
  lead="Skinset wählt in Sekunden Messer, Handschuhe und alle Waffen passend zu deiner Farbe und deinem Budget — mit Live-Preisen, Zustand und Kauf-Button für jeden Skin.",
  cta="Builder öffnen", cta2="Stream ansehen",
@@ -81,12 +81,12 @@ T = {
  me_h="Vom Streamer viv1stop", me_p="Hi! Ich bin Vova und streame Counter-Strike auf Twitch. Skinset ist im Stream entstanden: Zuschauer wollten ständig ein schönes Loadout in einer Farbe passend zu ihrem Budget. Jetzt kann das jeder — mit ein paar Klicks und kostenlos.",
  me_stats=[("≈370", "Zuschauer im Schnitt"), ("17.000+", "Follower"), ("60 Std", "live pro Monat")], me_cta="Zu Twitch",
  p_h="Für Marktplätze und Marken", p_p="Skinset bringt Spieler, die bereits konkrete Skins ausgewählt haben und kaufbereit sind. Offen für Partnerschaften:",
- p_list=["Euer Kauf-Button und eure Preise auf den Skin-Karten", "Stream-Integrationen: Sets live mit euren Angeboten bauen", "Artikel und Guides im Blog in 6 Sprachen", "Gewinnspiele und Promocodes"], p_cta="Auf Telegram schreiben",
+ p_list=["Euer Kauf-Button und eure Preise auf den Skin-Karten", "Artikel und Guides im Blog in 6 Sprachen", "Gewinnspiele und Promocodes"], p_cta="Auf Telegram schreiben",
  faq_h="Häufige Fragen", faq=[("Ist Skinset kostenlos?", "Ja. Wir verdienen an Partnerlinks der Marktplätze — dein Preis ändert sich nicht."), ("Woher kommen die Preise?", "Von großen Marktplätzen, alle 5 Minuten aktualisiert. Genaue Preise und Verfügbarkeit auf dem Marktplatz."), ("Warum mit Steam anmelden?", "Damit die Seite dein öffentliches CS2-Inventar sieht und Sets um deine Skins baut. Das Passwort gibst du nur bei Steam ein."), ("Ist das eine offizielle Valve-Seite?", "Nein, ein Fanprojekt ohne Verbindung zu Valve.")],
  foot="Skinset ist ein Fanprojekt und nicht mit Valve verbunden. Counter-Strike und Itemnamen gehören ihren Rechteinhabern."),
 "pt": dict(
- title="Skinset — skins de CS2 por cor | Sobre o projeto e o streamer viv1stop",
- desc="Skinset é um montador gratuito de inventário de CS2: faca, luvas e armas em uma cor e no seu orçamento, com preços ao vivo e login Steam. Criado pelo streamer viv1stop.",
+ title="Skinset — skins de CS2 por cor | Sobre o projeto",
+ desc="Skinset é um montador gratuito de inventário de CS2: faca, luvas e armas em uma cor e no seu orçamento, com preços ao vivo e login Steam.",
  kicker="Montador grátis de inventário CS2", h1="Monte seu inventário CS2<br><em>em uma cor</em>",
  lead="O Skinset escolhe faca, luvas e todas as armas na cor e no orçamento que você quiser em segundos — com preços ao vivo, desgaste e botão de compra em cada skin.",
  cta="Abrir o montador", cta2="Ver a live",
@@ -96,12 +96,12 @@ T = {
  me_h="Criado pelo streamer viv1stop", me_p="Oi! Eu sou o Vova e faço live de Counter-Strike na Twitch. O Skinset nasceu na live: os viewers sempre pediam um inventário bonito em uma cor e no orçamento deles. Agora qualquer um faz isso em poucos cliques, de graça.",
  me_stats=[("≈370", "viewers em média"), ("17.000+", "seguidores"), ("60 h", "de live por mês")], me_cta="Ir para a Twitch",
  p_h="Para marketplaces e marcas", p_p="O Skinset traz jogadores que já escolheram skins específicas e estão prontos para comprar. Aberto a parcerias:",
- p_list=["Seu botão de compra e preços nos cards das skins", "Integrações na live: montar sets com seus anúncios ao vivo", "Artigos e guias no blog em 6 idiomas", "Sorteios e cupons para o público"], p_cta="Falar no Telegram",
+ p_list=["Seu botão de compra e preços nos cards das skins", "Artigos e guias no blog em 6 idiomas", "Sorteios e cupons para o público"], p_cta="Falar no Telegram",
  faq_h="Perguntas frequentes", faq=[("O Skinset é grátis?", "Sim. Ganhamos com links de afiliado dos marketplaces — o seu preço não muda."), ("De onde vêm os preços?", "De grandes marketplaces, atualizados a cada 5 minutos. Preço exato e disponibilidade no marketplace."), ("Por que entrar com a Steam?", "Para o site ver seu inventário público de CS2 e montar o set ao redor das suas skins. A senha é digitada só na Steam."), ("É um site oficial da Valve?", "Não, é um projeto de fã sem ligação com a Valve.")],
  foot="Skinset é um projeto de fã, sem ligação com a Valve. Counter-Strike e nomes de itens pertencem aos seus donos."),
 "tr": dict(
- title="Skinset — renge göre CS2 skinleri | Proje ve yayıncı viv1stop hakkında",
- desc="Skinset ücretsiz bir CS2 envanter oluşturucu: bıçak, eldiven ve silahlar tek renkte ve bütçene göre, canlı fiyatlar ve Steam girişi ile. Yayıncı viv1stop'un projesi.",
+ title="Skinset — renge göre CS2 skinleri | Proje hakkında",
+ desc="Skinset ücretsiz bir CS2 envanter oluşturucu: bıçak, eldiven ve silahlar tek renkte ve bütçene göre, canlı fiyatlar ve Steam girişi ile.",
  kicker="Ücretsiz CS2 envanter oluşturucu", h1="CS2 envanterini<br><em>tek renkte kur</em>",
  lead="Skinset seçtiğin renk ve bütçeye göre bıçak, eldiven ve tüm silahları saniyeler içinde seçer — canlı fiyatlar, aşınma ve her skin için satın al butonu ile.",
  cta="Oluşturucuyu aç", cta2="Yayını izle",
@@ -111,12 +111,12 @@ T = {
  me_h="Yayıncı viv1stop'un projesi", me_p="Selam! Ben Vova, Twitch'te Counter-Strike yayını yapıyorum. Skinset yayında doğdu: izleyiciler sürekli bütçelerine uygun, tek renkte güzel bir envanter istiyordu. Artık herkes birkaç tıkla ve ücretsiz yapabiliyor.",
  me_stats=[("≈370", "ortalama izleyici"), ("17.000+", "takipçi"), ("60 sa", "aylık yayın")], me_cta="Twitch'e git",
  p_h="Pazar yerleri ve markalar için", p_p="Skinset, belirli skinleri seçmiş ve almaya hazır oyuncular getirir. İş birliklerine açığız:",
- p_list=["Skin kartlarında sizin satın al butonunuz ve fiyatlarınız", "Yayın entegrasyonları: ilanlarınızla canlı set kurma", "Blogda 6 dilde makaleler ve rehberler", "İzleyicilere çekilişler ve promosyon kodları"], p_cta="Telegram'dan yaz",
+ p_list=["Skin kartlarında sizin satın al butonunuz ve fiyatlarınız", "Blogda 6 dilde makaleler ve rehberler", "İzleyicilere çekilişler ve promosyon kodları"], p_cta="Telegram'dan yaz",
  faq_h="Sık sorulan sorular", faq=[("Skinset ücretsiz mi?", "Evet. Pazar yerlerinin ortaklık linklerinden kazanırız — senin fiyatın değişmez."), ("Fiyatlar nereden geliyor?", "Büyük pazar yerlerinden, 5 dakikada bir güncellenir. Kesin fiyat ve stok pazar yerinde."), ("Neden Steam ile giriş?", "Site açık CS2 envanterini görüp seti sahip olduğun skinlerin etrafında kursun diye. Şifreni sadece Steam'de girersin."), ("Bu resmi bir Valve sitesi mi?", "Hayır, Valve ile bağlantısı olmayan bir hayran projesi.")],
  foot="Skinset bir hayran projesidir, Valve ile bağlantılı değildir. Counter-Strike ve eşya adları sahiplerine aittir."),
 "pl": dict(
- title="Skinset — skiny CS2 według koloru | O projekcie i streamerze viv1stop",
- desc="Skinset to darmowy kreator ekwipunku CS2: nóż, rękawice i broń w jednym kolorze i w Twoim budżecie, z cenami na żywo i logowaniem przez Steam. Projekt streamera viv1stop.",
+ title="Skinset — skiny CS2 według koloru | O projekcie",
+ desc="Skinset to darmowy kreator ekwipunku CS2: nóż, rękawice i broń w jednym kolorze i w Twoim budżecie, z cenami na żywo i logowaniem przez Steam.",
  kicker="Darmowy kreator ekwipunku CS2", h1="Zbuduj ekwipunek CS2<br><em>w jednym kolorze</em>",
  lead="Skinset w kilka sekund dobiera nóż, rękawice i całą broń do wybranego koloru i budżetu — z cenami na żywo, stanem i przyciskiem zakupu przy każdym skinie.",
  cta="Otwórz kreator", cta2="Zobacz stream",
@@ -126,7 +126,7 @@ T = {
  me_h="Autor — streamer viv1stop", me_p="Cześć! Jestem Vova i streamuję Counter-Strike na Twitchu. Skinset powstał na streamach: widzowie ciągle prosili o ładny ekwipunek w jednym kolorze i w ich budżecie. Teraz każdy zrobi to w kilka kliknięć, za darmo.",
  me_stats=[("≈370", "widzów średnio"), ("17 000+", "obserwujących"), ("60 h", "na żywo miesięcznie")], me_cta="Przejdź na Twitch",
  p_h="Dla rynków i marek", p_p="Skinset przyprowadza graczy, którzy wybrali już konkretne skiny i są gotowi je kupić. Jesteśmy otwarci na współpracę:",
- p_list=["Wasz przycisk zakupu i ceny na kartach skinów", "Integracje na streamach: budowanie zestawów z Waszymi ofertami na żywo", "Artykuły i poradniki na blogu w 6 językach", "Konkursy i kody promocyjne dla widzów"], p_cta="Napisz na Telegramie",
+ p_list=["Wasz przycisk zakupu i ceny na kartach skinów", "Artykuły i poradniki na blogu w 6 językach", "Konkursy i kody promocyjne dla widzów"], p_cta="Napisz na Telegramie",
  faq_h="Częste pytania", faq=[("Czy Skinset jest darmowy?", "Tak. Zarabiamy na linkach partnerskich rynków — Twoja cena się nie zmienia."), ("Skąd są ceny?", "Z dużych rynków, aktualizowane co 5 minut. Dokładna cena i dostępność na rynku."), ("Po co logować się przez Steam?", "Żeby strona widziała Twój publiczny ekwipunek CS2 i budowała zestaw wokół Twoich skinów. Hasło wpisujesz tylko na Steam."), ("Czy to oficjalna strona Valve?", "Nie, to projekt fanowski niezwiązany z Valve.")],
  foot="Skinset to projekt fanowski, niezwiązany z Valve. Counter-Strike i nazwy przedmiotów należą do ich właścicieli."),
 }
@@ -247,7 +247,7 @@ def build(lang, items):
     def bgc(c): return c[0] if len(c)==1 else f'linear-gradient(135deg,{c[0]} 50%,{c[1]} 50%)'
     swatches = ''.join(f'<a href="{HOME[lang]}{CP[lang][i]}/" title="{e(PNAMES[lang][i])}" aria-label="{e(PNAMES[lang][i])}" style="background:{bgc(c)}"></a>' for i, c in enumerate(PCOL))
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}
-    org_ld = {"@context": "https://schema.org", "@type": "WebApplication", "name": "Skinset", "url": "https://skin-set.com" + HOME[lang], "applicationCategory": "GameApplication", "operatingSystem": "Web", "inLanguage": HREFLANG[lang], "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": t["desc"], "author": {"@type": "Person", "name": "viv1stop", "url": TW, "sameAs": [TW, TG]}}
+    org_ld = {"@context": "https://schema.org", "@type": "WebApplication", "name": "Skinset", "url": "https://skin-set.com" + HOME[lang], "applicationCategory": "GameApplication", "operatingSystem": "Web", "inLanguage": HREFLANG[lang], "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": t["desc"], "author": {"@type": "Person", "name": "viv1stop", "sameAs": [TG]}}
     og = f"https://skin-set.com/img/og-{lang}.png"
     return f"""<!doctype html>
 <html lang="{HREFLANG[lang]}">
@@ -280,7 +280,7 @@ def build(lang, items):
       <span class="kick">{e(t['kicker'])}</span>
       <h1>{t['h1']}</h1>
       <p class="lead">{e(t['lead'])}</p>
-      <div class="btns"><a class="btn p" href="{HOME[lang]}">{e(t['cta'])} →</a><a class="btn s" href="{TW}" target="_blank" rel="noopener">{tw_svg}{e(t['cta2'])}</a></div>
+      <div class="btns"><a class="btn p" href="{HOME[lang]}">{e(t['cta'])} →</a></div>
       <div class="pick"><small>{e(PICK[lang])}</small><div class="sws">{swatches}</div></div>
     </div>
     <a class="setwrap" href="{HOME[lang]}{CP[lang][0]}/?set={setq}"><div class="set">{sets}</div><span class="take">{e(TAKE[lang])}</span></a>
@@ -288,12 +288,12 @@ def build(lang, items):
   <div class="stats">{''.join(f'<div><b>{e(a)}</b><span>{e(b)}</span></div>' for a, b in t['stats'])}</div>
   <section><h2>{e(t['how_h'])}</h2><div class="steps">{''.join(f'<div class="card"><h3>{e(a)}</h3><p>{e(b)}</p></div>' for a, b in t['how'])}</div></section>
   <section style="padding-top:0"><h2>{e(t['feat_h'])}</h2><div class="feats">{''.join(f'<div class="card">{icon(i)}<h3>{e(a)}</h3><p>{e(b)}</p></div>' for i, (a, b) in enumerate(t['feat']))}</div></section>
-  <section style="padding-top:0"><div class="me"><div><h2>{e(t['me_h'])}</h2><p>{e(t['me_p'])}</p><a class="btn s" href="{TW}" target="_blank" rel="noopener">{tw_svg}{e(t['me_cta'])}</a></div><div class="ms">{''.join(f'<div><b>{e(a)}</b><span>{e(b)}</span></div>' for a, b in t['me_stats'])}</div></div></section>
+  
   <section style="padding-top:0" id="partners"><div class="part"><div><h2>{e(t['p_h'])}</h2><p>{e(t['p_p'])}</p><a class="btn tg" href="{TG}" target="_blank" rel="noopener">{tg_svg}{e(t['p_cta'])}</a></div><ul>{''.join(f'<li>{e(x)}</li>' for x in t['p_list'])}</ul></div></section>
   <section style="padding-top:0"><h2>{e(t['faq_h'])}</h2>{''.join(f'<details><summary>{e(q)}</summary><p>{e(a)}</p></details>' for q, a in t['faq'])}</section>
   <section class="final"><h2>{t['h1']}</h2><div class="btns" style="justify-content:center"><a class="btn p" href="{HOME[lang]}">{e(t['cta'])} →</a></div></section>
 </main>
-<footer><p>{e(t['foot'])}</p><p><a href="{TG}" target="_blank" rel="noopener">Telegram @Vivistop</a> · <a href="{TW}" target="_blank" rel="noopener">Twitch viv1stop</a></p></footer>
+<footer><p>{e(t['foot'])}</p><p><a href="{TG}" target="_blank" rel="noopener">Telegram @Vivistop</a></p></footer>
 {LANG_JS}
 </body>
 </html>

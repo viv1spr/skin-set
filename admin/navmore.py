@@ -226,7 +226,7 @@ def unify(s):
     m = re.search(r'<html lang="([^"]+)"', s); lang = LANGOF.get(m.group(1) if m else "ru", "ru")
     nm = re.search(r'<nav class="tabs">.*?</nav>', s, re.S)
     nav = nm.group(0)
-    if 'class="twitch"' not in nav: nav = nav.replace("</nav>", TW + "</nav>")
+    pass  # кнопка Twitch убрана из меню
     s = s[:nm.start()] + nav + s[nm.end():]
     stm = '<div class="stm2" id="stm2"></div>'
     if '<button class="burger"' in s: s = s.replace('<button class="burger"', stm + '<button class="burger"', 1)

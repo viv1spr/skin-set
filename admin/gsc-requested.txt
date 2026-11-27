@@ -833,3 +833,17 @@
 2026-11-26 https://skin-set.com/en/skins/awp-dragon-lore/ indexed
 2026-11-26 https://skin-set.com/en/skins/ak-47-wild-lotus/ indexed
 2026-11-26 https://skin-set.com/skiny/glock-18-night/ indexed
+2026-11-27 https://skin-set.com/blog/smeshnye-krafty-so-stikerami-cs2/ indexed
+2026-11-27 https://skin-set.com/en/blog/smeshnye-krafty-so-stikerami-cs2/
+2026-11-27 https://skin-set.com/skiny/usp-s-para-green/ indexed
+2026-11-27 https://skin-set.com/skiny/p250-undertow/ indexed
+2026-11-27 https://skin-set.com/skiny/glock-18-ironwork/ indexed
+2026-11-27 https://skin-set.com/skiny/ump-45-blaze/ indexed
+2026-11-27 https://skin-set.com/skiny/glock-18-nuclear-garden/ indexed
+2026-11-27 https://skin-set.com/skiny/ssg-08-turbo-peek/ indexed
+2026-11-27 https://skin-set.com/skiny/famas-afterimage/ indexed
+2026-11-27 https://skin-set.com/skiny/m4a4-urban-ddpat/ indexed
+2026-11-27 https://skin-set.com/skiny/usp-s-cortex/ indexed
+2026-11-27 https://skin-set.com/skiny/usp-s-cyrex/ indexed
+2026-11-27 https://skin-set.com/skiny/sg-553-ultraviolet/ indexed
+2026-11-27 https://skin-set.com/skiny/mp9-hydra/ indexed

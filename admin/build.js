@@ -1,7 +1,7 @@
 // Node: node admin/build.js  — rebuilds blog pages (all languages), indexes, rss, sitemap from blog/posts.json
 const fs=require("fs"),path=require("path");const E=require("./engine.js");
 const root=path.join(__dirname,"..");E.setSkins(JSON.parse(fs.readFileSync(path.join(__dirname,"skins-api.json"),"utf8")));
-const LANGS=JSON.parse(fs.readFileSync(path.join(root,"blog/_langs.json"),"utf8"));E.setLangs(LANGS);try{E.setPrices(JSON.parse(fs.readFileSync(path.join(root,"data/prices.json"),"utf8")))}catch(e){}
+const LANGS=JSON.parse(fs.readFileSync(path.join(root,"blog/_langs.json"),"utf8"));E.setLangs(LANGS);try{E.setStickers(JSON.parse(fs.readFileSync(path.join(root,"data/sticker-img.json"),"utf8")))}catch(e){}try{E.setPrices(JSON.parse(fs.readFileSync(path.join(root,"data/prices.json"),"utf8")))}catch(e){}
 const posts=JSON.parse(fs.readFileSync(path.join(root,"blog/posts.json"),"utf8"));
 let n=0;
 for(const lang of Object.keys(LANGS)){const suf=lang==="ru"?"":"."+lang;const dir=path.join(root,LANGS[lang].blog.replace(/^\//,""));

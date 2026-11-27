@@ -3,7 +3,7 @@
 (function(root,factory){if(typeof module==="object"&&module.exports)module.exports=factory();else root.Engine=factory();})(this,function(){
 const SITE="https://skin-set.com";
 const PRESETS=[["Красный с чёрным","krasnye-skiny-cs2","#c4161c"],["Синий","sinie-skiny-cs2","#1f4fd6"],["Розовый","rozovye-skiny-cs2","#ff5fa8"],["Фиолетовый","fioletovye-skiny-cs2","#8a5cf6"],["Зелёный","zelenye-skiny-cs2","#1fbf5a"],["Золото","zolotye-skiny-cs2","#d4a63a"],["Оранжевый с белым","oranzhevye-skiny-cs2","#ff6a1f"],["Бирюза","biryuzovye-skiny-cs2","#19c3c3"],["Чёрно-белый","cherno-belye-skiny-cs2","#e8e8e8"]];
-let SKINS={};let PRICES={};let CUR_LANG="ru";let USED=[];function setPrices(p){PRICES=p||{}}
+let SKINS={};let STK={};function setStickers(m){STK=m||{}}let PRICES={};let CUR_LANG="ru";let USED=[];function setPrices(p){PRICES=p||{}}
 const RATES={rub:90,usd:1,eur:1,brl:5.5,pln:4};
 function fmtPrice(usd,cur){if(!(usd>0))return null;const v=usd*(RATES[cur]||1);const r=v>=100?Math.round(v):Math.round(v*10)/10;const n=cur==="usd"?r.toLocaleString("en-US"):r.toLocaleString("de-DE");return cur==="rub"?n.replace(/\./g," ")+" ₽":cur==="usd"?"$"+n:cur==="eur"?n+" €":cur==="brl"?"R$ "+n:n+" zł"}
 function priceOf(name){const r=PRICES[name]||PRICES[name.replace("★ ","")];if(!r)return null;const v=[r.dm,r.ls].filter(x=>x>0);const w=v.length?v:[r.sp].filter(x=>x>0);return w.length?{min:Math.min(...w),dm:r.dm||null,ls:r.ls||null}:null}
@@ -28,6 +28,7 @@ function shortcode(line){
   let m;
   if((m=line.match(/^\[skin\s+([^\]]*)\]$/))){const a=attrs(m[1]);return skinFig(a.name||"",a.caption,false)||'<p><i>[картинка не найдена: '+esc(a.name||"")+']</i></p>'}
   if((m=line.match(/^\[skins\s+([^\]]*)\]$/))){const a=attrs(m[1]);const names=(a.names||"").split(";").map(x=>x.trim()).filter(Boolean);return '<div class="post-skins">'+names.map(n=>skinFig(n,null,true)).join("")+'</div>'}
+  if((m=line.match(/^\[craft\s+([^\]]*)\]$/))){const a=attrs(m[1]);const st=(a.stickers||"").split(";").map(x=>x.trim()).filter(Boolean);return '<div class="post-skins">'+(a.skin?skinFig(a.skin,null,true):"")+st.map(n=>STK[n]?'<figure class="post-skin sm"><img src="'+esc(STK[n])+'/256fx192f" alt="'+esc(n)+'" loading="lazy"><figcaption>'+esc(n.replace(/^Sticker \| /,""))+'</figcaption></figure>':"").join("")+'</div>'}
   if((m=line.match(/^\[buy\s+([^\]]*)\]$/))){const a=attrs(m[1]);const names=(a.names||a.name||"").split(";").map(x=>x.trim()).filter(Boolean);const w=a.wear||"";return '<div class="post-buy">'+names.map(n=>{USED.push(n);return '<a href="'+csm(n,w)+'" target="_blank" rel="noopener sponsored"><img src="/img/csmoney.png" alt="" width="20" height="20"><span>'+esc(buyLbl())+' CS.MONEY</span><b>'+esc(n.replace(/^★\s*/,""))+(w?' · '+esc(w):'')+'</b></a>'}).join("")+'</div>'}
   // [cta color=3 budget=10000 text="..."]  [cta url=/... text="..."]
   m=line.match(/^\[cta\s+([^\]]*)\]$/);if(!m)return null;
@@ -47,7 +48,7 @@ function md(src){
     if(!l.trim()){flush();continue}
     let m;
     if((m=l.match(/^(#{1,4})\s+(.*)$/))){flush();const n=Math.min(4,Math.max(2,m[1].length));out.push("<h"+n+">"+inline(m[2])+"</h"+n+">");continue}
-    if(/^\[(cta|skin|skins|buy)\s/.test(l)){flush();const h=shortcode(l.trim());if(h!==null){out.push(h);continue}}
+    if(/^\[(cta|skin|skins|buy|craft)\s/.test(l)){flush();const h=shortcode(l.trim());if(h!==null){out.push(h);continue}}
     if((m=l.match(/^>\s?(.*)$/))){flushP();flushL();quote.push(m[1]);continue}
     if((m=l.match(/^[-*]\s+(.*)$/))){flushP();flushQ();if(!list||list.t!=="ul"){flushL();list={t:"ul",items:[]}}list.items.push(m[1]);continue}
     if((m=l.match(/^\d+[.)]\s+(.*)$/))){flushP();flushQ();if(!list||list.t!=="ol"){flushL();list={t:"ol",items:[]}}list.items.push(m[1]);continue}
@@ -109,5 +110,5 @@ function buildSitemap(oldXml,all){const today=new Date().toISOString().slice(0,1
   const keep=(oldXml.match(/<url>.*?<\/url>/gs)||[]).filter(u=>!/\/blog\//.test(u));
   const blog=[];for(const lang of Object.keys(LANGS||{ru:1})){const c=cfg(lang);blog.push('  <url><loc>'+SITE+c.blog+'</loc><lastmod>'+today+'</lastmod></url>');all.filter(p=>!p.draft&&hasLang(p,lang)).forEach(p=>blog.push('  <url><loc>'+SITE+c.blog+p.slug+'/</loc><lastmod>'+(p.updated||p.date).slice(0,10)+'</lastmod></url>'))}
   return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+keep.map(u=>"  "+u).join("\n")+"\n"+blog.join("\n")+"\n</urlset>\n"}
-return {PRESETS,esc,translit,md,buildPost,buildIndex,buildRss,buildSitemap,readMin,dateHuman,setSkins,skinImg,setLangs,hasLang,loc,coverOf,setPrices,fmtPrice};
+return {PRESETS,esc,translit,md,buildPost,buildIndex,buildRss,buildSitemap,readMin,dateHuman,setSkins,setStickers,skinImg,setLangs,hasLang,loc,coverOf,setPrices,fmtPrice};
 });

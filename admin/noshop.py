@@ -350,6 +350,68 @@ SHARE_JS = ('<style id="share-css">#shareDlg{position:fixed;inset:0;z-index:3000
 INVPX = "https://skin-set-vercel-inv.vercel.app"
 
 
+def _div_end(s, a):
+    """индекс сразу после </div>, закрывающего <div ...>, который начинается в a"""
+    depth = 0
+    for m in re.finditer(r'<(/?)div\b', s[a:]):
+        depth += -1 if m.group(1) else 1
+        if depth == 0:
+            return s.find('>', a + m.start()) + 1
+    return -1
+
+
+TOOLS = {"ru": ("Калькулятор float", "/float-kalkulyator-cs2/", "Сколько стоит инвентарь", "/ocenka-inventarya/", "Проверить float и цены"),
+         "en": ("Float calculator", "/en/cs2-float-calculator/", "Inventory value", "/en/inventory-value/", "Check float and prices"),
+         "de": ("Float-Rechner", "/en/cs2-float-calculator/", "Inventarwert", "/en/inventory-value/", "Float und Preise je Zustand prüfen"),
+         "pt": ("Calculadora de float", "/en/cs2-float-calculator/", "Valor do inventário", "/en/inventory-value/", "Ver float e preços por desgaste"),
+         "tr": ("Float hesaplayıcı", "/en/cs2-float-calculator/", "Envanter değeri", "/en/inventory-value/", "Float ve aşınmaya göre fiyatlar"),
+         "pl": ("Kalkulator float", "/en/cs2-float-calculator/", "Wartość ekwipunku", "/en/inventory-value/", "Sprawdź float i ceny według zużycia")}
+
+
+def toollinks(s):
+    """Внутренние ссылки на калькулятор float и оценку инвентаря: строка в подвале каждой страницы
+    и кнопка «Проверить float» на каждой вики-странице скина (с выбранным скином)."""
+    lm = re.search(r'<html lang="([a-z]{2})', s)
+    lang = lm.group(1) if lm and lm.group(1) in TOOLS else "ru"
+    t = TOOLS[lang]
+    if 'class="tools-ln"' not in s and '</footer>' in s:
+        s = s.replace('</footer>', f'<p class="tools-ln"><a href="{t[1]}">{t[0]}</a> · <a href="{t[3]}">{t[2]}</a></p></footer>', 1)
+    if 'id="tools-css"' not in s and '</head>' in s:
+        s = s.replace('</head>', '<style id="tools-css">.btns .btn.fl{background:#16161d;border:1px solid var(--line2,#3a3a46);color:#fff;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}.btns .btn.fl:hover{border-color:#fff}.tools-ln{margin-top:8px}</style></head>', 1)
+    if 'class="btn fl"' not in s:
+        m = re.search(r'(<div class="btns" style="margin-top:16px"><a class="btn p" href="[^"]*\?set=([^"&]+)">[^<]*</a>)', s)
+        h1 = re.search(r'<h1>([^<]+)</h1>', s)
+        if m and h1:
+            import urllib.parse as _u
+            name = h1.group(1).replace("&amp;", "&").replace("&#x27;", "'")
+            href = t[1] + "?skin=" + _u.quote(name)
+            s = s.replace(m.group(1), m.group(1) + f'<a class="btn fl" href="{href}">{t[4]}</a>', 1)
+    else:
+        s = re.sub(r'(<a class="btn fl" href="[^"]+">)[^<]*(</a>)', lambda mm: mm.group(1) + t[4] + mm.group(2), s, count=1)
+    return s
+
+
+def spadocs(s):
+    """Скрытые страницы SPA «Как это работает» и «Где покупать» (~500 слов) повторялись в HTML каждой из ~5000 страниц.
+    Оставляем их только на своих адресах; на остальных пустые обёртки (с теми же id для скриптов), а ссылки ведут на настоящие страницы."""
+    m = re.search(r'<link rel="canonical" href="https://skin-set\.com(/[^"]*)"', s)
+    if not m:
+        return s
+    me = m.group(1)
+    for route in ("how", "shops"):
+        hm = re.search(r'<a href="([^"]+)" data-route="' + route + '"', s)
+        if hm and hm.group(1) == me:
+            continue
+        a = s.find('<div class="page doc" data-page="' + route + '">')
+        if a >= 0:
+            e = _div_end(s, a)
+            if e > a:
+                ids = "".join(f'<div id="{i}" hidden></div>' for i in re.findall(r'id="([^"]+)"', s[a:e]))
+                s = s[:a] + '<div class="page doc" data-page="' + route + '">' + ids + '</div>' + s[e:]
+        s = re.sub(r'(<a href="[^"]+") data-route="' + route + '"', r'\1', s)
+    return s
+
+
 def notwitch(s):
     """Упоминания Twitch автора убраны с сайта: кнопка в меню, карточка «Стрим автора», ссылка в подвале, sameAs в разметке"""
     s = re.sub(r'<a class="twitch" href="https://www\.twitch\.tv/viv1stop"[^>]*>.*?</a>', '', s, flags=re.S)
@@ -509,7 +571,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = notwitch(nolimft(feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))))))))
+    s = toollinks(spadocs(notwitch(nolimft(feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))))))))))
     return s
 
 

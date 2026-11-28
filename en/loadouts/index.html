@@ -697,7 +697,7 @@ body[data-route="shops"] h2{margin-top:28px!important}
 .stm-gx{top:10px!important;right:12px!important}
 @keyframes stmIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
 </style><link rel="preconnect" href="https://community.akamai.steamstatic.com"><link rel="dns-prefetch" href="https://community.akamai.steamstatic.com">
-</head>
+<style id="tools-css">.btns .btn.fl{background:#16161d;border:1px solid var(--line2,#3a3a46);color:#fff;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}.btns .btn.fl:hover{border-color:#fff}.tools-ln{margin-top:8px}</style></head>
 <body>
 <div class="scene night" id="scene" aria-hidden="true">
   <div class="pan" data-par="14"><svg class="panorama" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -805,47 +805,15 @@ body[data-route="shops"] h2{margin-top:28px!important}
     </section>
     </div><!-- /home -->
 
-    <div class="page doc" data-page="how">
-      <div class="eyebrow">Page 02</div>
-      <h2>How it works</h2>
-      <p class="lead">Skinset doesn't sell skins or open cases. It's a builder: you set a color and a budget, it assembles items that look like one set and sends you to a marketplace to buy them.</p>
-      <div class="steps">
-        <div class="step"><div class="n">01</div><b>Pick a color</b><p>A preset palette or your own shade via the picker. A second color helps build combos like red & black or white & orange.</p></div>
-        <div class="step"><div class="n">02</div><b>We compare shades</b><p>Each skin in the database has two or three main colors. We convert them into a perceptual color space, where distance matches how the eye sees it, and find the nearest. Skins with stray colors are penalized.</p></div>
-        <div class="step"><div class="n">03</div><b>Buy piece by piece</b><p>Click a slot, inspect the item up close and jump to the marketplace with one button. Lock the items you like and shuffle the rest until the loadout clicks.</p></div>
-      </div>
-      <h2 style="margin:0 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">FAQ</h2>
-      <div class="faq">
-        <details open><summary>Why are prices shown as tiers, not exact?</summary><p>The price of the same skin depends on wear, float, stickers and the marketplace, and changes daily. Tiers from “under $4” to “$1,700+” show the ballpark; the exact price is on the marketplace at checkout.</p></details>
-        <details><summary>What do “Spot on”, “Great” and “Close” mean?</summary><p>How close the skin's main colors are to yours. “Spot on” is a near-perfect match, “Close” fits the overall scheme, “Nearest” is the best available in the budget but not ideal.</p></details>
-        <details><summary>How is the budget split?</summary><p>You set one amount for the whole loadout. Each slot gets a minimum first, then tiers are raised while money lasts: knife and gloves first, weapons follow. If a knife doesn't fit even at minimum, the slot is marked “over budget”.</p></details>
-        <details><summary>Can I buy the whole loadout in one click?</summary><p>Not yet. Every skin is a unique listing, so we link to the marketplace search for each item. A one-cart checkout needs a direct marketplace integration — we're working on it.</p></details>
-        <details><summary>Where do the images and names come from?</summary><p>Item images and names belong to Valve and are used as in any fan catalog. Skinset is not affiliated with Valve and is not an official Counter-Strike service.</p></details>
-      </div>
-      <div class="cta-row" style="margin-top:28px"><a class="hudbtn" href="/en/">Build a loadout</a><a class="hudbtn ghost" href="/en/where-to-buy/">See marketplaces</a></div>
-    </div>
+    <div class="page doc" data-page="how"></div>
 
-    <div class="page doc" data-page="shops">
-      <div class="eyebrow">Page 03</div>
-      <h2>Where to buy</h2>
-      <p class="lead">The buttons under each item lead to CS.MONEY. Links are affiliate links: if you buy through them Skinset earns a commission from the marketplace, and your price doesn't change.</p>
-      <div class="markets" id="markets"></div>
-      <h2 style="margin:0 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Before you buy</h2>
-      <div class="faq">
-        <details open><summary>Check wear and float</summary><p>The same skin in Factory New and Battle-Scarred looks different and the price differs several times over. Filter by wear in the marketplace search, and check float and screenshots on expensive items.</p></details>
-        <details><summary>Steam trade hold</summary><p>After buying on a third-party marketplace the item arrives via a Steam trade. You need the mobile authenticator enabled, otherwise there may be a hold of up to a week.</p></details>
-        <details><summary>No cases or gambling</summary><p>Skinset doesn't promote case-opening or betting sites. Only marketplaces where you buy a specific item at a fixed price.</p></details>
-      </div>
-      <h2 style="margin:28px 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Partnerships</h2>
-      <p style="color:var(--soft);margin:0 0 12px">Marketplaces, streamers and creators: integrations, promo codes, collab loadouts. Message me on Telegram.</p>
-      <div class="cta-row"><a class="hudbtn" href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a><a class="hudbtn ghost" href="/en/">Build a loadout</a></div>
-    </div>
+    <div class="page doc" data-page="shops"><div id="markets" hidden></div></div>
 
     <footer>
       <p>Skinset is a fan project, not affiliated with Valve. Counter-Strike and item names belong to their respective owners. Background and item art are illustrative.</p>
       <p>Prices are shown as tiers; the exact price and availability are on the marketplace. Links are affiliate links: we earn a commission, your price stays the same.</p>
       <p class="contact">Partnerships and advertising: <a href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a></p>
-    </footer>
+    <p class="tools-ln"><a href="/en/cs2-float-calculator/">Float calculator</a> · <a href="/en/inventory-value/">Inventory value</a></p></footer>
   </main>
 </div>
 </div>
@@ -1800,7 +1768,7 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
     state.frozen=null;try{render()}catch(e){}
     try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
   go()})();</script>
-<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/inventory-value/">Inventory value</a><a href="/en/cs2-matches/">CS2 matches</a><a href="/en/cs2-market/">CS2 market</a><a href="/en/cs2-float-calculator/">Float calculator</a><a href="/en/how-it-works/" data-route="how">How it works</a><a href="/en/where-to-buy/" data-route="shops">Marketplaces</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
+<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/inventory-value/">Inventory value</a><a href="/en/cs2-matches/">CS2 matches</a><a href="/en/cs2-market/">CS2 market</a><a href="/en/cs2-float-calculator/">Float calculator</a><a href="/en/how-it-works/">How it works</a><a href="/en/where-to-buy/">Marketplaces</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
 const p=location.pathname;let on=false;m.querySelectorAll("a").forEach(a=>{if(p.startsWith(a.getAttribute("href"))){a.classList.add("on");on=true}});if(on)b.classList.add("on");
 const place=()=>{const r=b.getBoundingClientRect();const w=m.offsetWidth;m.style.top=(r.bottom+4)+"px";m.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+"px"};
 const close=()=>{m.hidden=true;b.classList.remove("open");b.setAttribute("aria-expanded","false")};

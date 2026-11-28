@@ -717,7 +717,7 @@ body[data-route="shops"] h2{margin-top:28px!important}
 .stm-gx{top:10px!important;right:12px!important}
 @keyframes stmIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
 </style><link rel="preconnect" href="https://community.akamai.steamstatic.com"><link rel="dns-prefetch" href="https://community.akamai.steamstatic.com">
-</head>
+<style id="tools-css">.btns .btn.fl{background:#16161d;border:1px solid var(--line2,#3a3a46);color:#fff;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}.btns .btn.fl:hover{border-color:#fff}.tools-ln{margin-top:8px}</style></head>
 <body>
 <div class="scene night" id="scene" aria-hidden="true">
   <div class="pan" data-par="14"><svg class="panorama" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -826,47 +826,15 @@ body[data-route="shops"] h2{margin-top:28px!important}
     </section>
     </div><!-- /home -->
 
-    <div class="page doc" data-page="how">
-      <div class="eyebrow">Página 02</div>
-      <h2>Como funciona</h2>
-      <p class="lead">O Skinset não vende skins nem abre caixas. É um montador: você define cor e orçamento, ele junta itens que parecem um conjunto e leva você à loja.</p>
-      <div class="steps">
-        <div class="step"><div class="n">01</div><b>Escolha a cor</b><p>Uma paleta pronta ou seu próprio tom. A segunda cor ajuda em combos como vermelho e preto ou branco e laranja.</p></div>
-        <div class="step"><div class="n">02</div><b>Comparamos os tons</b><p>Cada skin tem duas ou três cores principais. Convertemos para um espaço de cor perceptual e buscamos as mais próximas. Skins com cores fora da paleta perdem pontos.</p></div>
-        <div class="step"><div class="n">03</div><b>Compre item por item</b><p>Clique em um slot, veja o item de perto e vá à loja com um botão. Fixe o que gostar e embaralhe o resto.</p></div>
-      </div>
-      <h2 style="margin:0 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Perguntas</h2>
-      <div class="faq">
-        <details open><summary>Por que os preços aparecem em faixas?</summary><p>O preço depende de desgaste, float, adesivos e loja, e muda todo dia. As faixas mostram a ordem de grandeza; o preço exato está na loja.</p></details>
-        <details><summary>O que significam “Perfeito”, “Ótimo” e “No tom”?</summary><p>É o quanto as cores da skin se aproximam das suas. “Perfeito” é quase idêntico, “No tom” combina no geral, “Mais próximo” é o melhor dentro do orçamento, mas não ideal.</p></details>
-        <details><summary>Como o orçamento é dividido?</summary><p>Você define um valor para tudo. Cada slot recebe um mínimo e depois sobe de faixa enquanto houver dinheiro: faca e luvas primeiro, armas depois. Se a faca não cabe nem no mínimo, o slot fica “fora do orçamento”.</p></details>
-        <details><summary>Dá para comprar tudo com um clique?</summary><p>Ainda não. Cada skin é um anúncio único, então linkamos a busca de cada item. Um carrinho único exige integração direta com a loja — estamos trabalhando nisso.</p></details>
-        <details><summary>De onde vêm imagens e nomes?</summary><p>Imagens e nomes pertencem à Valve e são usados como em qualquer catálogo de fãs. O Skinset não tem ligação com a Valve.</p></details>
-      </div>
-      <div class="cta-row" style="margin-top:28px"><a class="hudbtn" href="/pt/">Montar set</a><a class="hudbtn ghost" href="/pt/onde-comprar/">Ver lojas</a></div>
-    </div>
+    <div class="page doc" data-page="how"></div>
 
-    <div class="page doc" data-page="shops">
-      <div class="eyebrow">Página 03</div>
-      <h2>Onde comprar</h2>
-      <p class="lead">Os botões levam à CS.MONEY. São links de afiliado: se você comprar por eles, o Skinset ganha comissão da loja e seu preço não muda.</p>
-      <div class="markets" id="markets"></div>
-      <h2 style="margin:0 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Antes de comprar</h2>
-      <div class="faq">
-        <details open><summary>Confira desgaste e float</summary><p>A mesma skin em Factory New e Battle-Scarred é diferente e o preço muda várias vezes. Filtre por desgaste e, em itens caros, veja float e prints.</p></details>
-        <details><summary>Bloqueio de troca da Steam</summary><p>Depois da compra, o item chega por troca na Steam. É preciso ter o autenticador móvel ativo, senão pode haver espera de até uma semana.</p></details>
-        <details><summary>Sem caixas nem apostas</summary><p>O Skinset não divulga sites de caixas ou apostas. Só lojas onde você compra um item específico por preço fixo.</p></details>
-      </div>
-      <h2 style="margin:28px 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Parcerias</h2>
-      <p style="color:var(--soft);margin:0 0 12px">Lojas, streamers e criadores: integrações, cupons, sets em parceria. Me chame no Telegram.</p>
-      <div class="cta-row"><a class="hudbtn" href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a><a class="hudbtn ghost" href="/pt/">Montar set</a></div>
-    </div>
+    <div class="page doc" data-page="shops"><div id="markets" hidden></div></div>
 
     <footer>
       <p>O Skinset é um projeto de fãs, sem ligação com a Valve. Counter-Strike e nomes de itens pertencem aos seus donos. Fundo e artes dos itens são ilustrativos.</p>
       <p>Preços em faixas; preço exato e disponibilidade na loja. Links de afiliado: ganhamos comissão, seu preço não muda.</p>
       <p class="contact">Parcerias e publicidade: <a href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a></p>
-    </footer>
+    <p class="tools-ln"><a href="/en/cs2-float-calculator/">Calculadora de float</a> · <a href="/en/inventory-value/">Valor do inventário</a></p></footer>
   </main>
 </div>
 </div>
@@ -1821,7 +1789,7 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
     state.frozen=null;try{render()}catch(e){}
     try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
   go()})();</script>
-<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/inventory-value/">Valor do inventário</a><a href="/en/cs2-matches/">Partidas CS2</a><a href="/en/cs2-market/">Mercado CS2</a><a href="/en/cs2-float-calculator/">Calculadora de float</a><a href="/pt/como-funciona/" data-route="how">Como funciona</a><a href="/pt/onde-comprar/" data-route="shops">Lojas</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
+<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/inventory-value/">Valor do inventário</a><a href="/en/cs2-matches/">Partidas CS2</a><a href="/en/cs2-market/">Mercado CS2</a><a href="/en/cs2-float-calculator/">Calculadora de float</a><a href="/pt/como-funciona/">Como funciona</a><a href="/pt/onde-comprar/">Lojas</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
 const p=location.pathname;let on=false;m.querySelectorAll("a").forEach(a=>{if(p.startsWith(a.getAttribute("href"))){a.classList.add("on");on=true}});if(on)b.classList.add("on");
 const place=()=>{const r=b.getBoundingClientRect();const w=m.offsetWidth;m.style.top=(r.bottom+4)+"px";m.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+"px"};
 const close=()=>{m.hidden=true;b.classList.remove("open");b.setAttribute("aria-expanded","false")};

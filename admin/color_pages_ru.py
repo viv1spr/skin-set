@@ -228,7 +228,9 @@ def do_type(p, c, kind):
              + "".join(f'<li><a href="{h}">{e(t)}</a></li>' for h, t in bl) + "</ul>\n"
              f'<h2>{e(T1)} других цветов</h2><ul class="seo-chips">' + "".join(f'<li><a href="/{d["stem"]}-{kind}-cs2/"{" class=on" if d is c else ""}>{e(d["pl"].capitalize())}</a></li>' for d in C) + "</ul>")
     s = replace_section(s, inner, faq_ld(faq, [("Главная", "/"), (c["Set"].split(" КС")[0], f'/{c["stem"]}-skiny-cs2/'), (pl_title, f'/{c["stem"]}-{kind}-cs2/')]))
-    s = re.sub(r"<title>.*?</title>", f"<title>{e(c['pl'].capitalize())} {e(Tpl)} КС 2 (CS2): все модели, цены и с чем сочетать — Skinset</title>", s, count=1)
+    _n = len(items); _w = "вариант" if _n % 10 == 1 and _n % 100 != 11 else ("варианта" if _n % 10 in (2, 3, 4) and _n % 100 not in (12, 13, 14) else "вариантов")
+    _ttl = f"{c['pl'].capitalize()} {Tpl} КС 2: " + (f"{_n} {_w}" if _n >= 8 else "все варианты") + (f" от {rub(pr[0][1])}" if pr else "") + " и с чем сочетать"
+    s = re.sub(r"<title>.*?</title>", lambda _m: f"<title>{e(_ttl)}</title>", s, count=1)
     if pr:
         d = f"Все {c['pl']} {Tpl} КС 2 (CS2) и КС ГО с ценами от {rub(pr[0][1])}: {', '.join(nm(x) for x, _ in pr[-3:][::-1])} и другие. Готовые сеты и с чем сочетать."
         for pat in [r'<meta name="description" content="[^"]*">', r'<meta property="og:description" content="[^"]*">']:

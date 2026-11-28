@@ -697,7 +697,7 @@ body[data-route="shops"] h2{margin-top:28px!important}
 .stm-gx{top:10px!important;right:12px!important}
 @keyframes stmIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
 </style><link rel="preconnect" href="https://community.akamai.steamstatic.com"><link rel="dns-prefetch" href="https://community.akamai.steamstatic.com">
-</head>
+<style id="tools-css">.btns .btn.fl{background:#16161d;border:1px solid var(--line2,#3a3a46);color:#fff;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}.btns .btn.fl:hover{border-color:#fff}.tools-ln{margin-top:8px}</style></head>
 <body>
 <div class="scene night" id="scene" aria-hidden="true">
   <div class="pan" data-par="14"><svg class="panorama" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -805,47 +805,15 @@ body[data-route="shops"] h2{margin-top:28px!important}
     </section>
     </div><!-- /home -->
 
-    <div class="page doc" data-page="how">
-      <div class="eyebrow">Seite 02</div>
-      <h2>So funktioniert's</h2>
-      <p class="lead">Skinset verkauft keine Skins und öffnet keine Kisten. Es ist ein Builder: Du gibst Farbe und Budget vor, er stellt Items zusammen, die wie ein Set wirken, und leitet dich zum Marktplatz.</p>
-      <div class="steps">
-        <div class="step"><div class="n">01</div><b>Farbe wählen</b><p>Eine Vorlage oder dein eigener Ton per Picker. Eine zweite Farbe hilft bei Kombis wie Rot & Schwarz oder Weiß & Orange.</p></div>
-        <div class="step"><div class="n">02</div><b>Wir vergleichen Farbtöne</b><p>Jeder Skin hat zwei bis drei Hauptfarben. Wir rechnen sie in einen wahrnehmungsgerechten Farbraum um und suchen die nächsten. Skins mit Fremdfarben werden abgewertet.</p></div>
-        <div class="step"><div class="n">03</div><b>Stück für Stück kaufen</b><p>Klicke einen Slot, sieh dir das Item groß an und springe per Button zum Marktplatz. Fixiere, was dir gefällt, und mische den Rest.</p></div>
-      </div>
-      <h2 style="margin:0 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">FAQ</h2>
-      <div class="faq">
-        <details open><summary>Warum Preisstufen statt genauer Preise?</summary><p>Der Preis hängt von Abnutzung, Float, Stickern und Marktplatz ab und ändert sich täglich. Die Stufen zeigen die Größenordnung; den genauen Preis zeigt der Marktplatz.</p></details>
-        <details><summary>Was bedeuten „Volltreffer“, „Sehr gut“ und „Passend“?</summary><p>Wie nah die Hauptfarben des Skins an deinen liegen. „Volltreffer“ ist fast identisch, „Passend“ passt ins Schema, „Am nächsten“ ist das Beste im Budget, aber nicht ideal.</p></details>
-        <details><summary>Wie wird das Budget verteilt?</summary><p>Du gibst einen Betrag für alles vor. Jeder Slot bekommt erst ein Minimum, dann werden Stufen erhöht, solange Geld reicht: zuerst Messer und Handschuhe, dann Waffen. Passt kein Messer, wird der Slot als „über Budget“ markiert.</p></details>
-        <details><summary>Kann ich alles mit einem Klick kaufen?</summary><p>Noch nicht. Jeder Skin ist ein eigenes Angebot, deshalb verlinken wir die Suche pro Item. Ein Warenkorb für alles braucht eine direkte Integration — daran arbeiten wir.</p></details>
-        <details><summary>Woher stammen Bilder und Namen?</summary><p>Bilder und Namen gehören Valve und werden wie in jedem Fan-Katalog genutzt. Skinset ist nicht mit Valve verbunden.</p></details>
-      </div>
-      <div class="cta-row" style="margin-top:28px"><a class="hudbtn" href="/de/">Loadout bauen</a><a class="hudbtn ghost" href="/de/wo-kaufen/">Marktplätze ansehen</a></div>
-    </div>
+    <div class="page doc" data-page="how"></div>
 
-    <div class="page doc" data-page="shops">
-      <div class="eyebrow">Seite 03</div>
-      <h2>Wo kaufen</h2>
-      <p class="lead">Die Buttons führen zu CS.MONEY. Es sind Affiliate-Links: Kaufst du darüber, erhält Skinset eine Provision — dein Preis bleibt gleich.</p>
-      <div class="markets" id="markets"></div>
-      <h2 style="margin:0 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Vor dem Kauf</h2>
-      <div class="faq">
-        <details open><summary>Abnutzung und Float prüfen</summary><p>Derselbe Skin sieht in Factory New und Battle-Scarred anders aus und kostet ein Vielfaches. Filtere nach Abnutzung und prüfe bei teuren Items Float und Screenshots.</p></details>
-        <details><summary>Steam-Handelssperre</summary><p>Nach dem Kauf kommt das Item per Steam-Trade. Der mobile Authenticator muss aktiv sein, sonst droht eine Sperre bis zu einer Woche.</p></details>
-        <details><summary>Keine Kisten, kein Glücksspiel</summary><p>Skinset bewirbt keine Case-Opening- oder Wettseiten. Nur Marktplätze mit Festpreisen.</p></details>
-      </div>
-      <h2 style="margin:28px 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Kooperation</h2>
-      <p style="color:var(--soft);margin:0 0 12px">Marktplätze, Streamer und Creator: Integrationen, Promocodes, gemeinsame Loadouts. Schreib mir auf Telegram.</p>
-      <div class="cta-row"><a class="hudbtn" href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a><a class="hudbtn ghost" href="/de/">Loadout bauen</a></div>
-    </div>
+    <div class="page doc" data-page="shops"><div id="markets" hidden></div></div>
 
     <footer>
       <p>Skinset ist ein Fan-Projekt und nicht mit Valve verbunden. Counter-Strike und Item-Namen gehören ihren Inhabern. Hintergrund und Item-Grafiken sind illustrativ.</p>
       <p>Preise sind Stufen; genauer Preis und Verfügbarkeit auf dem Marktplatz. Affiliate-Links: Wir erhalten eine Provision, dein Preis bleibt gleich.</p>
       <p class="contact">Kooperationen und Werbung: <a href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a></p>
-    </footer>
+    <p class="tools-ln"><a href="/en/cs2-float-calculator/">Float-Rechner</a> · <a href="/en/inventory-value/">Inventarwert</a></p></footer>
   </main>
 </div>
 </div>
@@ -1800,7 +1768,7 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
     state.frozen=null;try{render()}catch(e){}
     try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
   go()})();</script>
-<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/inventory-value/">Inventarwert</a><a href="/en/cs2-matches/">CS2-Matches</a><a href="/en/cs2-market/">CS2-Markt</a><a href="/en/cs2-float-calculator/">Float-Rechner</a><a href="/de/so-funktionierts/" data-route="how">So funktioniert's</a><a href="/de/wo-kaufen/" data-route="shops">Marktplätze</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
+<div class="tmenu" id="tmenu" role="menu" hidden><a href="/en/inventory-value/">Inventarwert</a><a href="/en/cs2-matches/">CS2-Matches</a><a href="/en/cs2-market/">CS2-Markt</a><a href="/en/cs2-float-calculator/">Float-Rechner</a><a href="/de/so-funktionierts/">So funktioniert's</a><a href="/de/wo-kaufen/">Marktplätze</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
 const p=location.pathname;let on=false;m.querySelectorAll("a").forEach(a=>{if(p.startsWith(a.getAttribute("href"))){a.classList.add("on");on=true}});if(on)b.classList.add("on");
 const place=()=>{const r=b.getBoundingClientRect();const w=m.offsetWidth;m.style.top=(r.bottom+4)+"px";m.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+"px"};
 const close=()=>{m.hidden=true;b.classList.remove("open");b.setAttribute("aria-expanded","false")};

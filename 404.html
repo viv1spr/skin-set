@@ -698,7 +698,7 @@ body[data-route="shops"] h2{margin-top:28px!important}
 .stm-gx{top:10px!important;right:12px!important}
 @keyframes stmIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
 </style><link rel="preconnect" href="https://community.akamai.steamstatic.com"><link rel="dns-prefetch" href="https://community.akamai.steamstatic.com">
-</head>
+<style id="tools-css">.btns .btn.fl{background:#16161d;border:1px solid var(--line2,#3a3a46);color:#fff;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}.btns .btn.fl:hover{border-color:#fff}.tools-ln{margin-top:8px}</style></head>
 <body>
 <div class="scene night" id="scene" aria-hidden="true">
   <div class="pan" data-par="14"><svg class="panorama" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -807,47 +807,15 @@ body[data-route="shops"] h2{margin-top:28px!important}
     </section>
     </div><!-- /home -->
 
-    <div class="page doc" data-page="how">
-      <div class="eyebrow">Страница 02</div>
-      <h2>Как это работает</h2>
-      <p class="lead">Skinset не продаёт скины и не открывает кейсы. Это конструктор: ты задаёшь цвет и бюджет, а он собирает из базы предметы, которые смотрятся как один комплект, и ведёт на площадку, где их можно купить.</p>
-      <div class="steps">
-        <div class="step"><div class="n">01</div><b>Выбираешь цвет</b><p>Готовую палитру или свой оттенок через пипетку. Второй цвет помогает собрать сочетания вроде красного с чёрным или белого с оранжевым.</p></div>
-        <div class="step"><div class="n">02</div><b>Сравниваем оттенки</b><p>У каждого скина в базе записаны два-три основных цвета. Мы переводим их в цветовое пространство, где расстояние между цветами совпадает с тем, как их видит глаз, и ищем ближайшие. Скины с лишними цветами получают штраф.</p></div>
-        <div class="step"><div class="n">03</div><b>Покупаешь по частям</b><p>Кликай по слоту, смотри предмет крупно и переходи на площадку по кнопке. Удачные предметы закрепляй, остальное перемешивай, пока сет не соберётся.</p></div>
-      </div>
-      <h2 style="margin:0 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Вопросы</h2>
-      <div class="faq">
-        <details open><summary>Почему цены показаны уровнями, а не точно?</summary><p>Цена одного и того же скина зависит от износа, float, наклеек и площадки и меняется каждый день. Уровень от «до 300 ₽» до «от 30 тыс. ₽» помогает понять порядок суммы, а точную цену покажет площадка в момент покупки.</p></details>
-        <details><summary>Что значит «В точку», «Отлично», «В тон»?</summary><p>Это насколько основные цвета скина близки к выбранным. «В точку» почти полное совпадение, «В тон» подходит по общей гамме, «Ближайший» лучший из того, что есть в бюджете, но не идеал.</p></details>
-        <details><summary>Как распределяется бюджет?</summary><p>Ты задаёшь сумму на весь сет. Сначала каждому слоту достаётся минимум, затем уровни повышаются, пока хватает денег: нож и перчатки в приоритете, оружие подтягивается следом. Если на нож не хватает даже минимума, слот помечается «нет в бюджете».</p></details>
-        <details><summary>Можно ли купить весь сет одной кнопкой?</summary><p>Пока нет. Каждый скин уникален и продаётся отдельно, поэтому мы ведём на страницу поиска нужного предмета на площадке. Корзина на весь сет возможна только через прямую интеграцию с маркетплейсом, мы над этим работаем.</p></details>
-        <details><summary>Откуда картинки и названия?</summary><p>Изображения и названия предметов принадлежат Valve и используются как в любом фанатском каталоге. Skinset не связан с Valve и не является официальным сервисом Counter-Strike.</p></details>
-      </div>
-      <div class="cta-row" style="margin-top:28px"><a class="hudbtn" href="/">Собрать сет</a><a class="hudbtn ghost" href="/gde-kupit/">Посмотреть площадки</a></div>
-    </div>
+    <div class="page doc" data-page="how"></div>
 
-    <div class="page doc" data-page="shops">
-      <div class="eyebrow">Страница 03</div>
-      <h2>Где покупать</h2>
-      <p class="lead">Кнопки под предметами ведут на CS.MONEY. Ссылки партнёрские: если ты купишь по ним, Skinset получит комиссию от площадки, а цена для тебя не изменится.</p>
-      <div class="markets" id="markets"></div>
-      <h2 style="margin:0 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Перед покупкой</h2>
-      <div class="faq">
-        <details open><summary>Проверь износ и float</summary><p>Один скин в состоянии Factory New и Battle-Scarred выглядит по-разному и отличается в цене в разы. В поиске на площадке отфильтруй нужный износ, а у дорогих предметов смотри float и скриншот.</p></details>
-        <details><summary>Торговая блокировка Steam</summary><p>После покупки на сторонней площадке предмет приходит через обмен в Steam. Для обмена нужен включённый мобильный аутентификатор, иначе возможна задержка до недели.</p></details>
-        <details><summary>Никаких кейсов и рулеток</summary><p>Skinset не рекламирует сайты с открытием кейсов и ставками. Только маркетплейсы, где ты покупаешь конкретный предмет по фиксированной цене.</p></details>
-      </div>
-      <h2 style="margin:28px 0 12px;font:600 1.2rem/1 var(--hud);letter-spacing:.14em;text-transform:uppercase">Сотрудничество</h2>
-      <p style="color:var(--soft);margin:0 0 12px">Площадкам, стримерам и авторам контента: интеграции, промокоды, совместные сеты. Пиши в Telegram.</p>
-      <div class="cta-row"><a class="hudbtn" href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a><a class="hudbtn ghost" href="/">Собрать сет</a></div>
-    </div>
+    <div class="page doc" data-page="shops"><div id="markets" hidden></div></div>
 
     <footer>
       <p>Skinset — фанатский проект, не связан с Valve. Counter-Strike и названия предметов принадлежат их правообладателям. Фон и изображения предметов условные.</p>
       <p>Цены показаны ориентиром по уровням, точная цена и наличие на площадке. Ссылки партнёрские: мы получаем комиссию, для тебя цена не меняется.</p>
       <p class="contact">По вопросам сотрудничества и рекламы: <a href="https://t.me/Vivistop" target="_blank" rel="noopener">Telegram @Vivistop</a></p>
-    </footer>
+    <p class="tools-ln"><a href="/float-kalkulyator-cs2/">Калькулятор float</a> · <a href="/ocenka-inventarya/">Сколько стоит инвентарь</a></p></footer>
   </main>
 </div>
 </div>
@@ -1812,7 +1780,7 @@ fetch("/config.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if
     state.frozen=null;try{render()}catch(e){}
     try{const u=new URL(location.href);u.searchParams.delete("set");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}};
   go()})();</script>
-<div class="tmenu" id="tmenu" role="menu" hidden><a href="/ocenka-inventarya/">Оценка инвентаря</a><a href="/matchi-cs2/">Матчи CS2</a><a href="/rynok-cs2/">Рынок CS2</a><a href="/float-kalkulyator-cs2/">Калькулятор float</a><a href="/kak-rabotaet/" data-route="how">Как работает</a><a href="/gde-kupit/" data-route="shops">Площадки</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
+<div class="tmenu" id="tmenu" role="menu" hidden><a href="/ocenka-inventarya/">Оценка инвентаря</a><a href="/matchi-cs2/">Матчи CS2</a><a href="/rynok-cs2/">Рынок CS2</a><a href="/float-kalkulyator-cs2/">Калькулятор float</a><a href="/kak-rabotaet/">Как работает</a><a href="/gde-kupit/">Площадки</a></div><script id="tmore-js">(()=>{const b=document.getElementById("tmore"),m=document.getElementById("tmenu");if(!b||!m)return;
 const p=location.pathname;let on=false;m.querySelectorAll("a").forEach(a=>{if(p.startsWith(a.getAttribute("href"))){a.classList.add("on");on=true}});if(on)b.classList.add("on");
 const place=()=>{const r=b.getBoundingClientRect();const w=m.offsetWidth;m.style.top=(r.bottom+4)+"px";m.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+"px"};
 const close=()=>{m.hidden=true;b.classList.remove("open");b.setAttribute("aria-expanded","false")};

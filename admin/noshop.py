@@ -401,6 +401,7 @@ TGB = {"ru": ("Наш Telegram", "Сеты, скидки и новые кейс�
 
 def tgbanner(s):
     """Мини-баннер Telegram-канала в левом нижнем углу; крестик прячет его на 14 дней."""
+    s = s.replace("querySelectorAll('a[href*=\"t.me\"]')", "querySelectorAll('a[href*=\"t.me\"]:not(#tgb)')")
     if 'id="tgb"' in s or '</body>' not in s:
         return s
     lm = re.search(r'<html lang="([a-z]{2})', s)

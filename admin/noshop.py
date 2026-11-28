@@ -391,6 +391,42 @@ def toollinks(s):
     return s
 
 
+TGB = {"ru": ("Наш Telegram", "Сеты, скидки и новые кейсы"),
+       "en": ("Our Telegram", "Sets, price drops, new cases"),
+       "de": ("Unser Telegram", "Sets, Preisstürze, neue Kisten"),
+       "pt": ("Nosso Telegram", "Sets, quedas de preço, caixas novas"),
+       "tr": ("Telegram kanalımız", "Setler, fiyat düşüşleri, yeni kasalar"),
+       "pl": ("Nasz Telegram", "Zestawy, spadki cen, nowe skrzynie")}
+
+
+def tgbanner(s):
+    """Мини-баннер Telegram-канала в левом нижнем углу; крестик прячет его на 14 дней."""
+    if 'id="tgb"' in s or '</body>' not in s:
+        return s
+    lm = re.search(r'<html lang="([a-z]{2})', s)
+    t = TGB.get(lm.group(1) if lm else "ru", TGB["en"])
+    ico = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M9.8 15.6 9.6 19c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.3.2 1.5-.7l2.7-12.6c.3-1.1-.4-1.6-1.1-1.3L3.6 10.8c-1.1.4-1 1-.2 1.3l4.1 1.3 9.5-6c.4-.3.9-.1.5.2z"/></svg>'
+    html = ('<style id="tgb-css">#tgb{position:fixed;left:16px;bottom:16px;z-index:40;display:flex;align-items:center;gap:10px;'
+            'padding:9px 34px 9px 10px;background:rgba(17,19,24,.94);border:1px solid rgba(255,255,255,.14);border-left:3px solid #2aabee;'
+            'box-shadow:0 12px 30px rgba(0,0,0,.5);color:#fff;text-decoration:none;font-family:inherit;max-width:280px;'
+            'transform:translateY(140%);opacity:0;transition:transform .35s ease,opacity .35s ease}'
+            '#tgb.on{transform:none;opacity:1}#tgb:hover{border-color:#2aabee}'
+            '#tgb .ti{width:34px;height:34px;flex:none;border-radius:50%;background:#2aabee;display:grid;place-items:center}#tgb .ti svg{width:20px;height:20px}'
+            '#tgb b{display:block;font-size:.86rem;line-height:1.15}#tgb small{display:block;font-size:.74rem;color:#aab0bd;line-height:1.2;margin-top:2px}'
+            '#tgb .tx{position:absolute;top:2px;right:4px;width:26px;height:26px;background:none;border:0;color:#8a90a0;font-size:18px;line-height:1;cursor:pointer}'
+            '#tgb .tx:hover{color:#fff}#tgb.in{position:absolute;left:28px;top:22px;bottom:auto;transform:translateY(-12px)}#tgb.in.on{transform:none}'
+            '@media(max-width:700px){#tgb{left:10px;bottom:calc(10px + var(--dockH,0px) + env(safe-area-inset-bottom,0px));padding:7px 30px 7px 8px}#tgb small{display:none}#tgb .ti{width:28px;height:28px}#tgb .ti svg{width:16px;height:16px}}'
+            '</style>'
+            f'<a id="tgb" href="https://t.me/sayskinset" target="_blank" rel="noopener"><span class="ti">{ico}</span>'
+            f'<span><b>{t[0]}</b><small>{t[1]}</small></span><button class="tx" type="button" aria-label="close">×</button></a>'
+            '<script>(()=>{const b=document.getElementById("tgb");if(!b)return;let h=0;try{h=+localStorage.getItem("tgb_hide")||0}catch(e){}'
+            'if(Date.now()<h){b.remove();return}const st=document.querySelector(".stage");if(st&&innerWidth>700&&st.offsetParent&&st.getBoundingClientRect().height>200){if(getComputedStyle(st).position==="static")st.style.position="relative";b.classList.add("in");st.appendChild(b)}setTimeout(()=>b.classList.add("on"),3500);'
+            'b.querySelector(".tx").addEventListener("click",e=>{e.preventDefault();e.stopPropagation();b.classList.remove("on");'
+            'try{localStorage.setItem("tgb_hide",Date.now()+14*864e5)}catch(e){}setTimeout(()=>b.remove(),400)})})();</script>')
+    i = s.rfind('</body>')
+    return s[:i] + html + s[i:]
+
+
 def spadocs(s):
     """Скрытые страницы SPA «Как это работает» и «Где покупать» (~500 слов) повторялись в HTML каждой из ~5000 страниц.
     Оставляем их только на своих адресах; на остальных пустые обёртки (с теми же id для скриптов), а ссылки ведут на настоящие страницы."""
@@ -571,7 +607,7 @@ def fix(s):
         s = s.replace("</head>", AD_CSS + "</head>", 1)
     import navmore
     s = navmore.nogw(navmore.gametab(navmore.setsmain(navmore.hideabout(navmore.updlink(navmore.gwfirst(s))))))
-    s = toollinks(spadocs(notwitch(nolimft(feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang))))))))))))))
+    s = tgbanner(toollinks(spadocs(notwitch(nolimft(feedcache(blogseo(invproxy(sharelinks(feedsafe(cbsheet(mapbg(threed(clicks(blogbud(halloween(shopsfix(gate(perf(brand(s))))), lang)))))))))))))))
     return s
 
 

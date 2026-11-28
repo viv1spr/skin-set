@@ -1,0 +1,5772 @@
+{
+  "documents": [
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/mN0d1rtIszySubPGXpVN",
+      "fields": {
+        "name": {
+          "stringValue": "Forsaken"
+        },
+        "likes": {
+          "integerValue": "3"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#c4161c"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Красный с чёрным"
+        },
+        "createdAt": {
+          "integerValue": "1793795985936"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1325"
+                    },
+                    "n": {
+                      "stringValue": "Stiletto Knife | Marble Fade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "211"
+                    },
+                    "n": {
+                      "stringValue": "Driver Gloves | Imperial Plaid"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "34"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1469"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Bullet Rain"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "87"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "112"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Crimson Web"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "2092"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Business Class"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "133"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Neo-Noir"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-11-04T12:39:47.166663Z",
+      "updateTime": "2026-11-04T17:57:25.123006Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/w7lqhgkGFtKPDKS0Gn8O",
+      "fields": {
+        "likes": {
+          "integerValue": "2"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#c4161c"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Red & black"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1122"
+                    },
+                    "n": {
+                      "stringValue": "Falchion Knife | Autotronic"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "205"
+                    },
+                    "n": {
+                      "stringValue": "Driver Gloves | Rezan the Red"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "34"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "87"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "112"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Crimson Web"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "130"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Water Elemental"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mp7"
+                    },
+                    "i": {
+                      "integerValue": "1618"
+                    },
+                    "n": {
+                      "stringValue": "MP7 | Urban Hazard"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ump"
+                    },
+                    "i": {
+                      "integerValue": "2031"
+                    },
+                    "n": {
+                      "stringValue": "UMP-45 | Fallout Warning"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p90"
+                    },
+                    "i": {
+                      "integerValue": "362"
+                    },
+                    "n": {
+                      "stringValue": "P90 | Trigon"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "nova"
+                    },
+                    "i": {
+                      "integerValue": "440"
+                    },
+                    "n": {
+                      "stringValue": "Nova | Bloomstick"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "galil"
+                    },
+                    "i": {
+                      "integerValue": "386"
+                    },
+                    "n": {
+                      "stringValue": "Galil AR | Firefight"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "sg553"
+                    },
+                    "i": {
+                      "integerValue": "1922"
+                    },
+                    "n": {
+                      "stringValue": "SG 553 | Candy Apple"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ssg"
+                    },
+                    "i": {
+                      "integerValue": "1937"
+                    },
+                    "n": {
+                      "stringValue": "SSG 08 | Slashed"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mac10"
+                    },
+                    "i": {
+                      "integerValue": "1542"
+                    },
+                    "n": {
+                      "stringValue": "MAC-10 | Tatter"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p250"
+                    },
+                    "i": {
+                      "integerValue": "258"
+                    },
+                    "n": {
+                      "stringValue": "P250 | Muertos"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "1970"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Isaac"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "duals"
+                    },
+                    "i": {
+                      "integerValue": "300"
+                    },
+                    "n": {
+                      "stringValue": "Dual Berettas | Hemoglobin"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "createdAt": {
+          "integerValue": "1794495554575"
+        },
+        "name": {
+          "stringValue": "Toxuki"
+        }
+      },
+      "createTime": "2026-11-12T14:59:15.608199Z",
+      "updateTime": "2026-11-12T18:06:08.912207Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/59MAnnM9Vg2PAULy2Dbg",
+      "fields": {
+        "createdAt": {
+          "integerValue": "1793384747561"
+        },
+        "name": {
+          "stringValue": "zzpoll"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1177"
+                    },
+                    "n": {
+                      "stringValue": "Gut Knife | Urban Masked"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "496"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Rat Rod"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1516"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Dark Blossom"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "519"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Black Nile"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "788"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Urban Rubble"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "536"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Purple DDPAT"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "966"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Catacombs"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "81"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Black Lotus"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "galil"
+                    },
+                    "i": {
+                      "integerValue": "389"
+                    },
+                    "n": {
+                      "stringValue": "Galil AR | Stone Cold"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mp7"
+                    },
+                    "i": {
+                      "integerValue": "1635"
+                    },
+                    "n": {
+                      "stringValue": "MP7 | Smoking Kills"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#1d9b5a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Зелёный"
+        },
+        "likes": {
+          "integerValue": "2"
+        }
+      },
+      "createTime": "2026-10-30T18:25:47.475444Z",
+      "updateTime": "2026-11-02T09:36:31.822169Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/1SZcZnCpRUs621O0lBmg",
+      "fields": {
+        "likes": {
+          "integerValue": "2"
+        },
+        "createdAt": {
+          "integerValue": "1794495428355"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1122"
+                    },
+                    "n": {
+                      "stringValue": "Falchion Knife | Autotronic"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "205"
+                    },
+                    "n": {
+                      "stringValue": "Driver Gloves | Rezan the Red"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "34"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "87"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "112"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Crimson Web"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "130"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Water Elemental"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mp7"
+                    },
+                    "i": {
+                      "integerValue": "1618"
+                    },
+                    "n": {
+                      "stringValue": "MP7 | Urban Hazard"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ump"
+                    },
+                    "i": {
+                      "integerValue": "2031"
+                    },
+                    "n": {
+                      "stringValue": "UMP-45 | Fallout Warning"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p90"
+                    },
+                    "i": {
+                      "integerValue": "362"
+                    },
+                    "n": {
+                      "stringValue": "P90 | Trigon"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "nova"
+                    },
+                    "i": {
+                      "integerValue": "440"
+                    },
+                    "n": {
+                      "stringValue": "Nova | Bloomstick"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "galil"
+                    },
+                    "i": {
+                      "integerValue": "386"
+                    },
+                    "n": {
+                      "stringValue": "Galil AR | Firefight"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "sg553"
+                    },
+                    "i": {
+                      "integerValue": "1922"
+                    },
+                    "n": {
+                      "stringValue": "SG 553 | Candy Apple"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ssg"
+                    },
+                    "i": {
+                      "integerValue": "1937"
+                    },
+                    "n": {
+                      "stringValue": "SSG 08 | Slashed"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mac10"
+                    },
+                    "i": {
+                      "integerValue": "1542"
+                    },
+                    "n": {
+                      "stringValue": "MAC-10 | Tatter"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p250"
+                    },
+                    "i": {
+                      "integerValue": "258"
+                    },
+                    "n": {
+                      "stringValue": "P250 | Muertos"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "1970"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Isaac"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "duals"
+                    },
+                    "i": {
+                      "integerValue": "300"
+                    },
+                    "n": {
+                      "stringValue": "Dual Berettas | Hemoglobin"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Red & black"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#c4161c"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "name": {
+          "stringValue": "Toxuki"
+        }
+      },
+      "createTime": "2026-11-12T14:57:09.522500Z",
+      "updateTime": "2026-11-12T18:06:08.207848Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/1PcklM8XKxhY75bYJ0r1",
+      "fields": {
+        "createdAt": {
+          "integerValue": "1793738536463"
+        },
+        "name": {
+          "stringValue": "Игрок"
+        },
+        "likes": {
+          "integerValue": "2"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1115"
+                    },
+                    "n": {
+                      "stringValue": "Falchion Knife | Black Laminate"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "210"
+                    },
+                    "n": {
+                      "stringValue": "Driver Gloves | Black Tie"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "599"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Cartel"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1485"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Falak"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "683"
+                    },
+                    "n": {
+                      "stringValue": "AWP | The End"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "104"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Printstream"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "123"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Cyrex"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "978"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Trace Lock"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "72"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Decimator"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Чёрно-белый"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#f4f4f4"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-11-03T20:42:16.806146Z",
+      "updateTime": "2026-11-04T16:01:48.626983Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/rZX2jYxDnNCPNTevKfv9",
+      "fields": {
+        "name": {
+          "stringValue": "VIV1S"
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#d4af37"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Золото"
+        },
+        "createdAt": {
+          "integerValue": "1792218677963"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "4"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Lore"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "238"
+                    },
+                    "n": {
+                      "stringValue": "Specialist Gloves | Foundation"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "46"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Gold Arabesque"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "54"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Howl"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "100"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Desert Hydra"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "113"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Emerald Jörmungandr"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "535"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Ancient Visions"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "129"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Fade"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-10-17T06:29:12.297905Z",
+      "updateTime": "2026-10-17T06:29:16.097858Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/peSrXfYMk6PId7qe2mfC",
+      "fields": {
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "174"
+                    },
+                    "n": {
+                      "stringValue": "Flip Knife | Doppler (Phase 2)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "20"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Vice"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "45"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Nightwish"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "64"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Temukau"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "512"
+                    },
+                    "n": {
+                      "stringValue": "AWP | POP AWP"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "523"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Starcade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "120"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Cortex"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "547"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Shinobu"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#ff5cb0"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Розовый"
+        },
+        "createdAt": {
+          "integerValue": "1792219018041"
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "name": {
+          "stringValue": "RICH"
+        }
+      },
+      "createTime": "2026-10-17T06:34:52.344331Z",
+      "updateTime": "2026-11-10T04:44:04.168659Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/ngV23xq7t58McpqV21v3",
+      "fields": {
+        "name": {
+          "stringValue": "Игрок"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1115"
+                    },
+                    "n": {
+                      "stringValue": "Falchion Knife | Black Laminate"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "210"
+                    },
+                    "n": {
+                      "stringValue": "Driver Gloves | Black Tie"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "599"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Cartel"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1466"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Griffin"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "508"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Exoskeleton"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "109"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Mecha Industries"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "123"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Cyrex"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "978"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Trace Lock"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "72"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Decimator"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "createdAt": {
+          "integerValue": "1793781046171"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#f4f4f4"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Чёрно-белый"
+        },
+        "likes": {
+          "integerValue": "1"
+        }
+      },
+      "createTime": "2026-11-04T08:30:46.823447Z",
+      "updateTime": "2026-11-05T18:10:43.567629Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/ijT6fOewl7Sls0fLehRU",
+      "fields": {
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "3"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Gamma Doppler (Emerald)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "21"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Hedge Maze"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "47"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Wild Lotus"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "504"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Welcome to the Jungle"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "675"
+                    },
+                    "n": {
+                      "stringValue": "AWP | The Prince"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "113"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Emerald Jörmungandr"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "537"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Overgrowth"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "543"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Franklin"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "createdAt": {
+          "integerValue": "1792218782911"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#1d9b5a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Зелёный"
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "name": {
+          "stringValue": "VIV1S"
+        }
+      },
+      "createTime": "2026-10-17T06:30:57.323676Z",
+      "updateTime": "2026-11-21T20:16:32.969430Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/hh1cPMkzvIIqzPq7ZZZq",
+      "fields": {
+        "name": {
+          "stringValue": "VIV1S"
+        },
+        "preset": {
+          "stringValue": "Фиолетовый"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#6a2bb5"
+              }
+            ]
+          }
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1304"
+                    },
+                    "n": {
+                      "stringValue": "Skeleton Knife | Doppler (Sapphire)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "19"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Pandora's Box"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "35"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Vulcan"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "74"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Blue Phosphor"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "86"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Lightning Strike"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "528"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Night Heist"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "536"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Purple DDPAT"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "129"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Fade"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "createdAt": {
+          "integerValue": "1792218857806"
+        },
+        "likes": {
+          "integerValue": "1"
+        }
+      },
+      "createTime": "2026-10-17T06:32:12.125699Z",
+      "updateTime": "2026-11-10T04:44:05.778462Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/eGlPOQ9MpKeAWsyzNWGC",
+      "fields": {
+        "name": {
+          "stringValue": "iq"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "31"
+                    },
+                    "n": {
+                      "stringValue": "Hydra Gloves | Emerald"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "620"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Breakthrough"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1514"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Tornado"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "517"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Mortis"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "527"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Serpent Strike"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "120"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Cortex"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "968"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Oxide Blaze"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Бирюза"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#00c2c7"
+              }
+            ]
+          }
+        },
+        "createdAt": {
+          "integerValue": "1792219681042"
+        },
+        "likes": {
+          "integerValue": "1"
+        }
+      },
+      "createTime": "2026-10-17T06:45:55.546658Z",
+      "updateTime": "2026-11-10T04:44:02.284156Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/XaoHzrQgeFN4YHbKcYKz",
+      "fields": {
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#c10606"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "custom"
+        },
+        "name": {
+          "stringValue": "red"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1244"
+                    },
+                    "n": {
+                      "stringValue": "M9 Bayonet | Autotronic"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "240"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Scarlet Shamagh"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "38"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Bloodsport"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "515"
+                    },
+                    "n": {
+                      "stringValue": "AWP | BOOM"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "105"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Code Red"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "541"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Candy Apple"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "createdAt": {
+          "integerValue": "1794444138129"
+        }
+      },
+      "createTime": "2026-11-12T00:42:19.520167Z",
+      "updateTime": "2026-11-12T04:59:37.332742Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/WDGZVsvenZLxI6B0bOln",
+      "fields": {
+        "name": {
+          "stringValue": "12"
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "createdAt": {
+          "integerValue": "1791572692210"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#00c2c7"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Бирюза"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "4"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "230"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "494"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "65"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "95"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "113"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "121"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "543"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-10-09T19:03:04.568101Z",
+      "updateTime": "2026-10-09T19:03:11.526663Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/VdFmXCPd4nBOtl9EB1QH",
+      "fields": {
+        "name": {
+          "stringValue": "wattoha"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#6a2bb5"
+              },
+              {
+                "stringValue": "#000000"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "custom"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1424"
+                    },
+                    "n": {
+                      "stringValue": "Ursus Knife | Urban Masked"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "229"
+                    },
+                    "n": {
+                      "stringValue": "Moto Gloves | Smoke Out"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "createdAt": {
+          "integerValue": "1794067751294"
+        },
+        "likes": {
+          "integerValue": "1"
+        }
+      },
+      "createTime": "2026-11-07T16:09:12.070072Z",
+      "updateTime": "2026-11-07T17:15:06.210938Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/QItDUaIhf3E4Ssigk4x0",
+      "fields": {
+        "name": {
+          "stringValue": "faf"
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "createdAt": {
+          "integerValue": "1795722565843"
+        },
+        "preset": {
+          "stringValue": "Green"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#1d9b5a"
+              }
+            ]
+          }
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1276"
+                    },
+                    "n": {
+                      "stringValue": "Shadow Daggers | Gamma Doppler (Phase 2)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "253"
+                    },
+                    "n": {
+                      "stringValue": "Broken Fang Gloves | Jade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "49"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Aquamarine Revenge"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "98"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Pit Viper"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "794"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Tilted"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "2059"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Para Green"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "545"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Nuclear Garden"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "1510"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Fatal Glitch"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "galil"
+                    },
+                    "i": {
+                      "integerValue": "930"
+                    },
+                    "n": {
+                      "stringValue": "Galil AR | Galigator"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ssg"
+                    },
+                    "i": {
+                      "integerValue": "1967"
+                    },
+                    "n": {
+                      "stringValue": "SSG 08 | Spring Twilly"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "famas"
+                    },
+                    "i": {
+                      "integerValue": "841"
+                    },
+                    "n": {
+                      "stringValue": "FAMAS | Meow 36"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "fiveseven"
+                    },
+                    "i": {
+                      "integerValue": "900"
+                    },
+                    "n": {
+                      "stringValue": "Five-SeveN | Jungle"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "279"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Toxic"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-11-26T19:49:26.092154Z",
+      "updateTime": "2026-11-27T17:15:27.727746Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/QG1Afr4x0v0eXvnvy3ue",
+      "fields": {
+        "likes": {
+          "integerValue": "1"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "12"
+                    },
+                    "n": {
+                      "stringValue": "Flip Knife | Ultraviolet"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "228"
+                    },
+                    "n": {
+                      "stringValue": "Moto Gloves | Finish Line"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "name": {
+          "stringValue": "Игрок"
+        },
+        "createdAt": {
+          "integerValue": "1794067615645"
+        },
+        "preset": {
+          "stringValue": "custom"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#6a2bb5"
+              },
+              {
+                "stringValue": "#000000"
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-11-07T16:06:56.635656Z",
+      "updateTime": "2026-11-07T17:15:05.538269Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/OJmK9euBMiKPclMQXB6g",
+      "fields": {
+        "createdAt": {
+          "integerValue": "1792218949727"
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "name": {
+          "stringValue": "БЛЯДО"
+        },
+        "preset": {
+          "stringValue": "Розовый"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#ff5cb0"
+              }
+            ]
+          }
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "0"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Fade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "20"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Vice"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "39"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Neon Rider"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "64"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Temukau"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "88"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Fade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "523"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Starcade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "120"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Cortex"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "129"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Fade"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-10-17T06:33:44.056689Z",
+      "updateTime": "2026-11-10T04:44:04.859597Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/JSJwagYzsRqXSmJR9IYO",
+      "fields": {
+        "likes": {
+          "integerValue": "1"
+        },
+        "createdAt": {
+          "integerValue": "1795205050899"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1121"
+                    },
+                    "n": {
+                      "stringValue": "Falchion Knife | Night"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "43"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Slate"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "519"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Black Nile"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "795"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Night"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "119"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Orion"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "983"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Night"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "name": {
+          "stringValue": "swa100n black set?"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#f4f4f4"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Чёрно-белый"
+        }
+      },
+      "createTime": "2026-11-20T20:04:11.461262Z",
+      "updateTime": "2026-11-23T06:02:59.516281Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/EL5Bscsa61BB6qchLq1H",
+      "fields": {
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "3"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Gamma Doppler (Emerald)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "234"
+                    },
+                    "n": {
+                      "stringValue": "Specialist Gloves | Emerald Web"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "629"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | AUTOEXEC"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1483"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Modern Hunter"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "691"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Snake Camo"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "113"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Emerald Jörmungandr"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "537"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Overgrowth"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "543"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Franklin"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "69"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Hyper Beast"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "279"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Toxic"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "nova"
+                    },
+                    "i": {
+                      "integerValue": "438"
+                    },
+                    "n": {
+                      "stringValue": "Nova | Hyper Beast"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "sg553"
+                    },
+                    "i": {
+                      "integerValue": "1931"
+                    },
+                    "n": {
+                      "stringValue": "SG 553 | Gator Mesh"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#1d9b5a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Зелёный"
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "name": {
+          "stringValue": "EVELONE"
+        },
+        "createdAt": {
+          "integerValue": "1794285868354"
+        }
+      },
+      "createTime": "2026-11-10T04:44:28.453202Z",
+      "updateTime": "2026-11-10T04:44:30.006484Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/4DKUIRiLDQjgQgZOQsWf",
+      "fields": {
+        "name": {
+          "stringValue": "VIV1S"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1195"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Gamma Doppler (Phase 4)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "210"
+                    },
+                    "n": {
+                      "stringValue": "Driver Gloves | Black Tie"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "497"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Leet Museo"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1495"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Knight"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "97"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Printstream"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "782"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Hand Cannon"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "116"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Neo-Noir"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "133"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Neo-Noir"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "createdAt": {
+          "integerValue": "1792218414656"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#f4f4f4"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Чёрно-белый"
+        },
+        "likes": {
+          "integerValue": "1"
+        }
+      },
+      "createTime": "2026-10-17T06:24:49.113798Z",
+      "updateTime": "2026-10-17T06:29:15.716223Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/2X4IG2sydQ5WVDSV5U5o",
+      "fields": {
+        "name": {
+          "stringValue": "rudine"
+        },
+        "createdAt": {
+          "integerValue": "1794971386013"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "559"
+                    },
+                    "n": {
+                      "stringValue": "Butterfly Knife | Doppler (Phase 2)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "20"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Vice"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "497"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Leet Museo"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "64"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Temukau"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "88"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Fade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "523"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Starcade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "120"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Cortex"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "136"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Snack Attack"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "503"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Flashback"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "276"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Remote Control"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "nova"
+                    },
+                    "i": {
+                      "integerValue": "440"
+                    },
+                    "n": {
+                      "stringValue": "Nova | Bloomstick"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "sg553"
+                    },
+                    "i": {
+                      "integerValue": "1929"
+                    },
+                    "n": {
+                      "stringValue": "SG 553 | Tornado"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#ff5cb0"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "custom"
+        },
+        "likes": {
+          "integerValue": "1"
+        }
+      },
+      "createTime": "2026-11-18T03:09:47.723060Z",
+      "updateTime": "2026-11-18T19:54:22.184815Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/2Ey4EjqfR7h4RomFcVu1",
+      "fields": {
+        "name": {
+          "stringValue": "вф"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1305"
+                    },
+                    "n": {
+                      "stringValue": "Skeleton Knife | Doppler (Ruby)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "22"
+                    },
+                    "n": {
+                      "stringValue": "Specialist Gloves | Crimson Kimono"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "609"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | X-Ray"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "54"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Howl"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "514"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Oni Taiji"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "103"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Blaze"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "534"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Target Acquired"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "970"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Ghost Protocol"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mp7"
+                    },
+                    "i": {
+                      "integerValue": "331"
+                    },
+                    "n": {
+                      "stringValue": "MP7 | Bloodsport"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ump"
+                    },
+                    "i": {
+                      "integerValue": "349"
+                    },
+                    "n": {
+                      "stringValue": "UMP-45 | Blaze"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p90"
+                    },
+                    "i": {
+                      "integerValue": "357"
+                    },
+                    "n": {
+                      "stringValue": "P90 | Death by Kitty"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "nova"
+                    },
+                    "i": {
+                      "integerValue": "1728"
+                    },
+                    "n": {
+                      "stringValue": "Nova | Candy Apple"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "galil"
+                    },
+                    "i": {
+                      "integerValue": "384"
+                    },
+                    "n": {
+                      "stringValue": "Galil AR | Cerberus"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "sg553"
+                    },
+                    "i": {
+                      "integerValue": "392"
+                    },
+                    "n": {
+                      "stringValue": "SG 553 | Integrale"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ssg"
+                    },
+                    "i": {
+                      "integerValue": "413"
+                    },
+                    "n": {
+                      "stringValue": "SSG 08 | Death Strike"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mac10"
+                    },
+                    "i": {
+                      "integerValue": "320"
+                    },
+                    "n": {
+                      "stringValue": "MAC-10 | Allure"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p250"
+                    },
+                    "i": {
+                      "integerValue": "1752"
+                    },
+                    "n": {
+                      "stringValue": "P250 | Mehndi"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "1970"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Isaac"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "duals"
+                    },
+                    "i": {
+                      "integerValue": "297"
+                    },
+                    "n": {
+                      "stringValue": "Dual Berettas | Cobra Strike"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "custom"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#fa0000"
+              }
+            ]
+          }
+        },
+        "likes": {
+          "integerValue": "1"
+        },
+        "createdAt": {
+          "integerValue": "1795795793525"
+        }
+      },
+      "createTime": "2026-11-27T16:09:55.892297Z",
+      "updateTime": "2026-11-27T17:15:27.336236Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/0Hi7CstpTMBTHW22ptXa",
+      "fields": {
+        "likes": {
+          "integerValue": "1"
+        },
+        "createdAt": {
+          "integerValue": "1792359996953"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "2"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Doppler (Sapphire)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "28"
+                    },
+                    "n": {
+                      "stringValue": "Hand Wraps | Cobalt Skulls"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "491"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Blue Laminate"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "498"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | X-Ray"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "509"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Capillary"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "111"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Cobalt Disruption"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "529"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Royal Blue"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "138"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Twilight Galaxy"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "fiveseven"
+                    },
+                    "i": {
+                      "integerValue": "272"
+                    },
+                    "n": {
+                      "stringValue": "Five-SeveN | Berries And Cherries"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "1974"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Ice Cap"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Синий"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#1f4fd6"
+              }
+            ]
+          }
+        },
+        "name": {
+          "stringValue": "12"
+        }
+      },
+      "createTime": "2026-10-18T21:46:37.116456Z",
+      "updateTime": "2026-11-21T20:16:34.089304Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/rFz4eqgR7RJu9ooIZuTZ",
+      "fields": {
+        "preset": {
+          "stringValue": "Красный с чёрным"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#c4161c"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1325"
+                    },
+                    "n": {
+                      "stringValue": "Stiletto Knife | Marble Fade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "211"
+                    },
+                    "n": {
+                      "stringValue": "Driver Gloves | Imperial Plaid"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "34"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1469"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Bullet Rain"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "87"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "112"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Crimson Web"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "2092"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Business Class"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "133"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Neo-Noir"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "createdAt": {
+          "integerValue": "1792219186404"
+        },
+        "likes": {
+          "integerValue": "0"
+        },
+        "name": {
+          "stringValue": "DEN"
+        }
+      },
+      "createTime": "2026-10-17T06:37:40.807093Z",
+      "updateTime": "2026-10-17T06:37:40.807093Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/gIXYghqy0Zvg3LKKZ425",
+      "fields": {
+        "likes": {
+          "integerValue": "0"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#6a2bb5"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Фиолетовый"
+        },
+        "createdAt": {
+          "integerValue": "1794786692376"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "560"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Doppler (Phase 2)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "580"
+                    },
+                    "n": {
+                      "stringValue": "Specialist Gloves | Cloud Chaser"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "45"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Nightwish"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "96"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Chromatic Aberration"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "528"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Night Heist"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "529"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Royal Blue"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "132"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Vogue"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "69"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Hyper Beast"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "fiveseven"
+                    },
+                    "i": {
+                      "integerValue": "269"
+                    },
+                    "n": {
+                      "stringValue": "Five-SeveN | Fairy Tale"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "name": {
+          "stringValue": "123"
+        }
+      },
+      "createTime": "2026-11-15T23:51:18.918988Z",
+      "updateTime": "2026-11-15T23:51:18.918988Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/HidI9H7nDiDun0qoPPYo",
+      "fields": {
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#00c2c7"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Бирюза"
+        },
+        "name": {
+          "stringValue": "full"
+        },
+        "likes": {
+          "integerValue": "0"
+        },
+        "createdAt": {
+          "integerValue": "1794786969125"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1194"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Gamma Doppler (Phase 2)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "230"
+                    },
+                    "n": {
+                      "stringValue": "Moto Gloves | Spearmint"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "49"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Aquamarine Revenge"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "65"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Poseidon"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "99"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Medusa"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "108"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Ocean Drive"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "125"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Whiteout"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "540"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Bunsen Burner"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mp7"
+                    },
+                    "i": {
+                      "integerValue": "333"
+                    },
+                    "n": {
+                      "stringValue": "MP7 | Whiteout"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ump"
+                    },
+                    "i": {
+                      "integerValue": "354"
+                    },
+                    "n": {
+                      "stringValue": "UMP-45 | Plastique"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p90"
+                    },
+                    "i": {
+                      "integerValue": "358"
+                    },
+                    "n": {
+                      "stringValue": "P90 | Emerald Dragon"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "nova"
+                    },
+                    "i": {
+                      "integerValue": "438"
+                    },
+                    "n": {
+                      "stringValue": "Nova | Hyper Beast"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "galil"
+                    },
+                    "i": {
+                      "integerValue": "391"
+                    },
+                    "n": {
+                      "stringValue": "Galil AR | Aqua Terrace"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "sg553"
+                    },
+                    "i": {
+                      "integerValue": "397"
+                    },
+                    "n": {
+                      "stringValue": "SG 553 | Pulse"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ssg"
+                    },
+                    "i": {
+                      "integerValue": "1956"
+                    },
+                    "n": {
+                      "stringValue": "SSG 08 | Sand Dune"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mac10"
+                    },
+                    "i": {
+                      "integerValue": "1562"
+                    },
+                    "n": {
+                      "stringValue": "MAC-10 | Tornado"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p250"
+                    },
+                    "i": {
+                      "integerValue": "257"
+                    },
+                    "n": {
+                      "stringValue": "P250 | See Ya Later"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "276"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Remote Control"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "duals"
+                    },
+                    "i": {
+                      "integerValue": "303"
+                    },
+                    "n": {
+                      "stringValue": "Dual Berettas | Marina"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-11-15T23:55:55.655141Z",
+      "updateTime": "2026-11-15T23:55:55.655141Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/DradhOC13Tyh61NPg6ny",
+      "fields": {
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "178"
+                    },
+                    "n": {
+                      "stringValue": "Bayonet | Doppler (Phase 4)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "28"
+                    },
+                    "n": {
+                      "stringValue": "Hand Wraps | Cobalt Skulls"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "491"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Blue Laminate"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "498"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | X-Ray"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "509"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Capillary"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "520"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Blue Ply"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "529"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Royal Blue"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "548"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Ramese's Reach"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Синий"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#1f4fd6"
+              }
+            ]
+          }
+        },
+        "likes": {
+          "integerValue": "0"
+        },
+        "name": {
+          "stringValue": "FUJY"
+        },
+        "createdAt": {
+          "integerValue": "1792219086060"
+        }
+      },
+      "createTime": "2026-10-17T06:36:00.590131Z",
+      "updateTime": "2026-10-17T06:36:00.590131Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/Di0XMWPzMXGwXrkSe0tv",
+      "fields": {
+        "createdAt": {
+          "integerValue": "1794285936465"
+        },
+        "name": {
+          "stringValue": "DEKO"
+        },
+        "likes": {
+          "integerValue": "0"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#ff5cb0"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Розовый"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "559"
+                    },
+                    "n": {
+                      "stringValue": "Butterfly Knife | Doppler (Phase 2)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "20"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Vice"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "497"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Leet Museo"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "64"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Temukau"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "88"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Fade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "523"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Starcade"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "120"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Cortex"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "136"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Snack Attack"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "503"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Flashback"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "276"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Remote Control"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "nova"
+                    },
+                    "i": {
+                      "integerValue": "440"
+                    },
+                    "n": {
+                      "stringValue": "Nova | Bloomstick"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "sg553"
+                    },
+                    "i": {
+                      "integerValue": "1929"
+                    },
+                    "n": {
+                      "stringValue": "SG 553 | Tornado"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "createTime": "2026-11-10T04:45:36.635631Z",
+      "updateTime": "2026-11-10T04:45:36.635631Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/BUNCYhi6fo29AIKa5SH7",
+      "fields": {
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1121"
+                    },
+                    "n": {
+                      "stringValue": "Falchion Knife | Night"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "43"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Slate"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "519"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Black Nile"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "795"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Night"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "119"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Orion"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "983"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Night"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "502"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Basilisk"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "galil"
+                    },
+                    "i": {
+                      "integerValue": "950"
+                    },
+                    "n": {
+                      "stringValue": "Galil AR | Grey Smoke"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "famas"
+                    },
+                    "i": {
+                      "integerValue": "839"
+                    },
+                    "n": {
+                      "stringValue": "FAMAS | Corp Defense"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ssg"
+                    },
+                    "i": {
+                      "integerValue": "1930"
+                    },
+                    "n": {
+                      "stringValue": "SSG 08 | Carbon Fiber"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "p90"
+                    },
+                    "i": {
+                      "integerValue": "1817"
+                    },
+                    "n": {
+                      "stringValue": "P90 | Straight Dimes"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mp7"
+                    },
+                    "i": {
+                      "integerValue": "1617"
+                    },
+                    "n": {
+                      "stringValue": "MP7 | Armor Core"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mp9"
+                    },
+                    "i": {
+                      "integerValue": "1689"
+                    },
+                    "n": {
+                      "stringValue": "MP9 | Dizzy"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "mac10"
+                    },
+                    "i": {
+                      "integerValue": "1536"
+                    },
+                    "n": {
+                      "stringValue": "MAC-10 | Curse"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "xm"
+                    },
+                    "i": {
+                      "integerValue": "2091"
+                    },
+                    "n": {
+                      "stringValue": "XM1014 | Black Site"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#f4f4f4"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Чёрно-белый"
+        },
+        "likes": {
+          "integerValue": "0"
+        },
+        "createdAt": {
+          "integerValue": "1795206140855"
+        },
+        "name": {
+          "stringValue": "swa100n black set? 2.0"
+        }
+      },
+      "createTime": "2026-11-20T20:22:22.320170Z",
+      "updateTime": "2026-11-20T20:22:22.320170Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/BCesRdUhlfFTnDss3n0p",
+      "fields": {
+        "createdAt": {
+          "integerValue": "1794286023158"
+        },
+        "likes": {
+          "integerValue": "0"
+        },
+        "preset": {
+          "stringValue": "Красный с чёрным"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#c4161c"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "182"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Crimson Web"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "241"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Nocts"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "627"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Red Laminate"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "1526"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Radiation Hazard"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "87"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Redline"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "112"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Crimson Web"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "115"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Kill Confirmed"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "137"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Dragon Tattoo"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4s"
+                    },
+                    "i": {
+                      "integerValue": "505"
+                    },
+                    "n": {
+                      "stringValue": "M4A1-S | Cyrex"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "tec9"
+                    },
+                    "i": {
+                      "integerValue": "273"
+                    },
+                    "n": {
+                      "stringValue": "Tec-9 | Fuel Injector"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "nova"
+                    },
+                    "i": {
+                      "integerValue": "444"
+                    },
+                    "n": {
+                      "stringValue": "Nova | Baroque Orange"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "sg553"
+                    },
+                    "i": {
+                      "integerValue": "392"
+                    },
+                    "n": {
+                      "stringValue": "SG 553 | Integrale"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "name": {
+          "stringValue": "S_CHILLA"
+        }
+      },
+      "createTime": "2026-11-10T04:47:03.282682Z",
+      "updateTime": "2026-11-10T04:47:03.282682Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/5mBKOQWNLp3Gyb6jkES3",
+      "fields": {
+        "createdAt": {
+          "integerValue": "1794890420140"
+        },
+        "name": {
+          "stringValue": "red"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "174"
+                    },
+                    "n": {
+                      "stringValue": "Flip Knife | Doppler (Phase 2)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "gloves"
+                    },
+                    "i": {
+                      "integerValue": "20"
+                    },
+                    "n": {
+                      "stringValue": "Sport Gloves | Vice"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "601"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Neon Revolution"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "684"
+                    },
+                    "n": {
+                      "stringValue": "AWP | Crakow!"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "809"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Mulberry"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "132"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Vogue"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Фиолетовый"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#6a2bb5"
+              }
+            ]
+          }
+        },
+        "likes": {
+          "integerValue": "0"
+        }
+      },
+      "createTime": "2026-11-17T04:40:21.737337Z",
+      "updateTime": "2026-11-17T04:40:21.737337Z"
+    },
+    {
+      "name": "projects/skinset-e5ac2/databases/(default)/documents/sets/0CqTPyAYdHxjj70hwlKF",
+      "fields": {
+        "likes": {
+          "integerValue": "0"
+        },
+        "colors": {
+          "arrayValue": {
+            "values": [
+              {
+                "stringValue": "#f4f4f4"
+              },
+              {
+                "stringValue": "#1a1a1a"
+              }
+            ]
+          }
+        },
+        "preset": {
+          "stringValue": "Чёрно-белый"
+        },
+        "items": {
+          "arrayValue": {
+            "values": [
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "knife"
+                    },
+                    "i": {
+                      "integerValue": "1191"
+                    },
+                    "n": {
+                      "stringValue": "Karambit | Doppler (Black Pearl)"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "ak"
+                    },
+                    "i": {
+                      "integerValue": "53"
+                    },
+                    "n": {
+                      "stringValue": "AK-47 | Jet Set"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "m4"
+                    },
+                    "i": {
+                      "integerValue": "55"
+                    },
+                    "n": {
+                      "stringValue": "M4A4 | Asiimov"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "awp"
+                    },
+                    "i": {
+                      "integerValue": "677"
+                    },
+                    "n": {
+                      "stringValue": "AWP | CMYK"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "deagle"
+                    },
+                    "i": {
+                      "integerValue": "795"
+                    },
+                    "n": {
+                      "stringValue": "Desert Eagle | Night"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "usp"
+                    },
+                    "i": {
+                      "integerValue": "125"
+                    },
+                    "n": {
+                      "stringValue": "USP-S | Whiteout"
+                    }
+                  }
+                }
+              },
+              {
+                "mapValue": {
+                  "fields": {
+                    "slot": {
+                      "stringValue": "glock"
+                    },
+                    "i": {
+                      "integerValue": "133"
+                    },
+                    "n": {
+                      "stringValue": "Glock-18 | Neo-Noir"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "name": {
+          "stringValue": "swa100n"
+        },
+        "createdAt": {
+          "integerValue": "1795204248376"
+        }
+      },
+      "createTime": "2026-11-20T19:50:48.917583Z",
+      "updateTime": "2026-11-20T19:50:48.917583Z"
+    }
+  ]
+}
